@@ -65,6 +65,7 @@ def main() -> None:
     statsbomb_verify = load_json(reports / "ci_verify_statsbomb_sample_pack.json")
     synth = load_json(reports / "v13_synthetic_event_pipeline.json")
     statsbomb = load_json(reports / "v14_statsbomb_public_sample.json")
+    event_compare = load_json(reports / "ci_event_aware_compare.json")
     rust_compare = load_json(reports / "ci_rust_compare.json")
     rust_value = load_json(reports / "ci_rust_value_report.json")
 
@@ -72,12 +73,8 @@ def main() -> None:
     selections = value_report.get("selections", []) if isinstance(value_report, dict) else []
     tickets = value_report.get("tickets", []) if isinstance(value_report, dict) else []
 
-    paper_only_selections = all(
-        str(x.get("decision", "")).startswith("PAPER ONLY") for x in selections
-    ) if selections else False
-    paper_only_tickets = all(
-        str(x.get("decision", "")).startswith("PAPER ONLY") for x in tickets
-    ) if tickets else False
+    paper_only_selections = all(str(x.get("decision", "")).startswith("PAPER ONLY") for x in selections) if selections else False
+    paper_only_tickets = all(str(x.get("decision", "")).startswith("PAPER ONLY") for x in tickets) if tickets else False
 
     comparison = rust_compare.get("comparison", {}) if isinstance(rust_compare, dict) else {}
     baseline = comparison.get("baseline", {}) if isinstance(comparison, dict) else {}
@@ -85,6 +82,15 @@ def main() -> None:
 
     synthetic_counts = counts_from_v13(synth)
     statsbomb_counts = counts_from_statsbomb(statsbomb)
+
+    event_compare_summary = {
+        "ok": bool(event_compare.get("ok")),
+        "gold_rows": event_compare.get("gold_rows"),
+        "event_history_rows": event_compare.get("event_history_rows"),
+        "match_only_log_loss": event_compare.get("match_only_on_event_rows", {}).get("log_loss"),
+        "event_aware_log_loss": event_compare.get("event_aware_on_event_rows", {}).get("log_loss"),
+        "event_minus_match_log_loss": event_compare.get("event_minus_match_log_loss"),
+    }
 
     summary = {
         "ok": True,
@@ -95,6 +101,7 @@ def main() -> None:
         "event_demo_counts": synthetic_counts,
         "statsbomb_public_sample_counts": statsbomb_counts,
         "statsbomb_selected_match_ids": statsbomb.get("sample", {}).get("selected_match_ids"),
+        "event_aware_compare": event_compare_summary,
         "model_compare": {
             "aligned_test_window": comparison.get("aligned_test_window"),
             "baseline_matches_tested": baseline.get("matches_tested"),
@@ -119,6 +126,8 @@ def main() -> None:
         and summary["statsbomb_sample_pack_ok"]
         and all_positive(summary["event_demo_counts"])
         and all_positive(summary["statsbomb_public_sample_counts"])
+        and summary["event_aware_compare"]["ok"]
+        and int(summary["event_aware_compare"]["event_history_rows"] or 0) > 0
         and summary["model_compare"]["aligned_test_window"] is True
         and summary["value_gate"]["paper_only_selections"]
         and summary["value_gate"]["paper_only_tickets"]
