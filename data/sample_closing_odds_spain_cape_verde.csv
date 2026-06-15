@@ -1,0 +1,15 @@
+market_id,selection,closing_odds,bookmaker,captured_at
+football.1x2,home,1.70,ClosingBook,2026-06-15T22:00:00Z
+football.1x2,draw,3.75,ClosingBook,2026-06-15T22:00:00Z
+football.1x2,away,5.20,ClosingBook,2026-06-15T22:00:00Z
+football.double_chance,1X,1.17,ClosingBook,2026-06-15T22:00:00Z
+football.double_chance,12,1.24,ClosingBook,2026-06-15T22:00:00Z
+football.double_chance,X2,2.12,ClosingBook,2026-06-15T22:00:00Z
+football.total_goals,over_1.5,1.29,ClosingBook,2026-06-15T22:00:00Z
+football.total_goals,over_2.5,1.76,ClosingBook,2026-06-15T22:00:00Z
+football.total_goals,under_2.5,2.05,ClosingBook,2026-06-15T22:00:00Z
+football.total_goals,under_3.5,1.43,ClosingBook,2026-06-15T22:00:00Z
+football.btts,yes,1.82,ClosingBook,2026-06-15T22:00:00Z
+football.btts,no,2.00,ClosingBook,2026-06-15T22:00:00Z
+football.team_goals,home_over_0.5,1.20,ClosingBook,2026-06-15T22:00:00Z
+football.team_goals,home_over_1.5,1.82,ClosingBook,2026-06-15T22:00:00Z
