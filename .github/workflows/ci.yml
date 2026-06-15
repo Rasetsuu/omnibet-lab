@@ -1,0 +1,43 @@
+name: OmniBet CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Python + Rust test harness
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Show tool versions
+        run: |
+          python --version
+          cargo --version
+          rustc --version
+
+      - name: Run OmniBet full local test harness
+        run: bash tools/run_all_local_tests.sh
+
+      - name: Upload CI reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-ci-reports
+          path: |
+            reports/ci_*.json
+            reports/v13_synthetic_event_pipeline.json
+          if-no-files-found: warn
