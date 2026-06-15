@@ -25,6 +25,32 @@ def git_rev(root: Path) -> str | None:
         return None
 
 
+def counts_from_v13(synth: Dict[str, Any]) -> Dict[str, Any]:
+    return {
+        "matches_norm": synth.get("counts_final", {}).get("matches_norm"),
+        "match_events": synth.get("counts_final", {}).get("match_events"),
+        "lineups": synth.get("counts_final", {}).get("lineups"),
+        "players": synth.get("counts_final", {}).get("players"),
+        "gold_goal_timing_features": synth.get("gold", {}).get("counts", {}).get("gold_goal_timing_features"),
+        "gold_player_snapshots": synth.get("player_score", {}).get("snapshots_written"),
+    }
+
+
+def counts_from_statsbomb(report: Dict[str, Any]) -> Dict[str, Any]:
+    return {
+        "matches_norm": report.get("after_counts", {}).get("matches_norm"),
+        "match_events": report.get("after_counts", {}).get("match_events"),
+        "lineups": report.get("after_counts", {}).get("lineups"),
+        "players": report.get("after_counts", {}).get("players"),
+        "gold_goal_timing_features": report.get("gold", {}).get("counts", {}).get("gold_goal_timing_features"),
+        "gold_player_snapshots": report.get("player_score", {}).get("snapshots_written"),
+    }
+
+
+def all_positive(d: Dict[str, Any]) -> bool:
+    return all(int(v or 0) > 0 for v in d.values())
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
@@ -36,7 +62,9 @@ def main() -> None:
 
     core_verify = load_json(reports / "ci_verify_core_pack.json")
     event_verify = load_json(reports / "ci_verify_event_demo_pack.json")
+    statsbomb_verify = load_json(reports / "ci_verify_statsbomb_sample_pack.json")
     synth = load_json(reports / "v13_synthetic_event_pipeline.json")
+    statsbomb = load_json(reports / "v14_statsbomb_public_sample.json")
     rust_compare = load_json(reports / "ci_rust_compare.json")
     rust_value = load_json(reports / "ci_rust_value_report.json")
 
@@ -55,19 +83,18 @@ def main() -> None:
     baseline = comparison.get("baseline", {}) if isinstance(comparison, dict) else {}
     gold = comparison.get("gold_feature_heuristic", {}) if isinstance(comparison, dict) else {}
 
+    synthetic_counts = counts_from_v13(synth)
+    statsbomb_counts = counts_from_statsbomb(statsbomb)
+
     summary = {
         "ok": True,
         "git_sha": git_rev(root),
         "core_pack_ok": bool(core_verify.get("ok")),
         "event_demo_pack_ok": bool(event_verify.get("ok")),
-        "event_demo_counts": {
-            "matches_norm": synth.get("counts_final", {}).get("matches_norm"),
-            "match_events": synth.get("counts_final", {}).get("match_events"),
-            "lineups": synth.get("counts_final", {}).get("lineups"),
-            "players": synth.get("counts_final", {}).get("players"),
-            "gold_goal_timing_features": synth.get("gold", {}).get("counts", {}).get("gold_goal_timing_features"),
-            "gold_player_snapshots": synth.get("player_score", {}).get("snapshots_written"),
-        },
+        "statsbomb_sample_pack_ok": bool(statsbomb_verify.get("ok")),
+        "event_demo_counts": synthetic_counts,
+        "statsbomb_public_sample_counts": statsbomb_counts,
+        "statsbomb_selected_match_ids": statsbomb.get("sample", {}).get("selected_match_ids"),
         "model_compare": {
             "aligned_test_window": comparison.get("aligned_test_window"),
             "baseline_matches_tested": baseline.get("matches_tested"),
@@ -89,9 +116,9 @@ def main() -> None:
     summary["ok"] = bool(
         summary["core_pack_ok"]
         and summary["event_demo_pack_ok"]
-        and summary["event_demo_counts"]["match_events"]
-        and summary["event_demo_counts"]["gold_goal_timing_features"]
-        and summary["event_demo_counts"]["gold_player_snapshots"]
+        and summary["statsbomb_sample_pack_ok"]
+        and all_positive(summary["event_demo_counts"])
+        and all_positive(summary["statsbomb_public_sample_counts"])
         and summary["model_compare"]["aligned_test_window"] is True
         and summary["value_gate"]["paper_only_selections"]
         and summary["value_gate"]["paper_only_tickets"]
