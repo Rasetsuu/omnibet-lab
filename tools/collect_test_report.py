@@ -60,6 +60,7 @@ def main() -> None:
     root = Path(args.root).resolve()
     reports = root / "reports"
 
+    ui = load_json(reports / "ci_ui_wiring.json")
     core_verify = load_json(reports / "ci_verify_core_pack.json")
     event_verify = load_json(reports / "ci_verify_event_demo_pack.json")
     statsbomb_verify = load_json(reports / "ci_verify_statsbomb_sample_pack.json")
@@ -120,6 +121,7 @@ def main() -> None:
     summary = {
         "ok": True,
         "git_sha": git_rev(root),
+        "ui_wiring": ui,
         "core_pack_ok": bool(core_verify.get("ok")),
         "event_demo_pack_ok": bool(event_verify.get("ok")),
         "statsbomb_sample_pack_ok": bool(statsbomb_verify.get("ok")),
@@ -148,7 +150,8 @@ def main() -> None:
     }
 
     summary["ok"] = bool(
-        summary["core_pack_ok"]
+        summary["ui_wiring"].get("ok")
+        and summary["core_pack_ok"]
         and summary["event_demo_pack_ok"]
         and summary["statsbomb_sample_pack_ok"]
         and all_positive(summary["event_demo_counts"])
