@@ -21,6 +21,9 @@ log "python compile"
   python -m py_compile *.py adapters/*.py
 )
 
+log "UI wiring check"
+python tools/check_ui_wiring.py --root "$ROOT" --out reports/ci_ui_wiring.json
+
 log "rebuild clean sqlite warehouse"
 rm -f build/omnibet.sqlite build/omnibet.sqlite-wal build/omnibet.sqlite-shm
 (
