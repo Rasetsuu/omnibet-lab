@@ -90,6 +90,11 @@ log "rust model/runtime smoke"
   cargo run --bin omnibet-infer -- backtest ../data_packs/football_core_v1 80 | tee ../reports/ci_rust_backtest.json
   cargo run --bin omnibet-infer -- backtest-gold ../data_packs/football_core_v1 80 | tee ../reports/ci_rust_backtest_gold.json
   cargo run --bin omnibet-infer -- compare ../data_packs/football_core_v1 80 | tee ../reports/ci_rust_compare.json
+  cargo run --bin omnibet-model -- backtest \
+    ../data_packs/football_statsbomb_sample_v1 \
+    ../models/football_event_linear_v1.json \
+    1 \
+    | tee ../reports/ci_rust_event_linear_model.json
   cargo run --bin omnibet-value -- report \
     ../data_packs/football_core_v1 \
     Spain \
