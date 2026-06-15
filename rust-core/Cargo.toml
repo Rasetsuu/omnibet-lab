@@ -1,6 +1,6 @@
 [package]
 name = "omnibet_lab_core"
-version = "0.13.0"
+version = "0.16.0"
 edition = "2021"
 
 [lib]
@@ -15,15 +15,17 @@ path = "src/main.rs"
 name = "omnibet-pack"
 path = "src/bin/omnibet-pack.rs"
 
-
 [[bin]]
 name = "omnibet-infer"
 path = "src/bin/omnibet-infer.rs"
 
-
 [[bin]]
 name = "omnibet-value"
 path = "src/bin/omnibet-value.rs"
+
+[[bin]]
+name = "omnibet-model"
+path = "src/bin/omnibet-model.rs"
 
 [dependencies]
 flate2 = "1"
