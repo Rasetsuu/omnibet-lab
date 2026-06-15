@@ -1,0 +1,93 @@
+{
+  "ok": true,
+  "warning": "Synthetic/public-safe event demo only. Not predictive real-world data.",
+  "base_db": "../build/omnibet.sqlite",
+  "demo_db": "../build/omnibet_v13_event_demo.sqlite",
+  "pack_dir": "../data_packs/football_event_demo_v1",
+  "inserted": {
+    "source_id": "synthetic_event_demo_v13",
+    "matches_added": 4,
+    "events_added": 35,
+    "lineups_added": 18,
+    "players": 9,
+    "teams": 4
+  },
+  "counts_after_insert": {
+    "source_registry": 7,
+    "update_runs": 6,
+    "adapter_watermarks": 0,
+    "raw_source_blobs": 0,
+    "bronze_blobs": 301,
+    "competitions": 0,
+    "seasons": 0,
+    "teams": 4,
+    "players": 9,
+    "matches_norm": 305,
+    "match_events": 35,
+    "lineups": 18,
+    "odds_snapshots": 0
+  },
+  "gold": {
+    "db": "../build/omnibet_v13_event_demo.sqlite",
+    "matches_seen": 305,
+    "gold_match_features_written": 305,
+    "event_matches_seen": 4,
+    "gold_market_features_written": 0,
+    "counts": {
+      "gold_team_snapshots": 610,
+      "gold_match_features": 305,
+      "gold_goal_timing_features": 4,
+      "gold_player_snapshots": 0,
+      "gold_market_features": 0
+    },
+    "note": "Event/player features activate when match_events/lineups/player data exist in the warehouse."
+  },
+  "goal_timing": {
+    "ok": true,
+    "matches": 4,
+    "matches_with_first_goal": 4,
+    "avg_first_goal_minute": 19.5,
+    "first_goal_by_team_side": {
+      "home": 3,
+      "away": 1
+    },
+    "goal_bucket_counts": {
+      "0-15": 2,
+      "16-30": 1,
+      "31-45": 2,
+      "46-60": 1,
+      "61-75": 2,
+      "76-90": 4
+    },
+    "first_half_goals": 5,
+    "second_half_goals": 7,
+    "second_half_goal_share": 0.5833333333333334
+  },
+  "player_score": {
+    "ok": true,
+    "lineup_rows": 18,
+    "event_rows": 35,
+    "snapshots_written": 9
+  },
+  "pack_summary": {
+    "pack_name": "football_event_demo_v1",
+    "total_rows": 1299,
+    "total_compressed_bytes": 81963,
+    "overall_compression_ratio": 0.0479
+  },
+  "counts_final": {
+    "source_registry": 7,
+    "update_runs": 6,
+    "adapter_watermarks": 0,
+    "raw_source_blobs": 0,
+    "bronze_blobs": 301,
+    "competitions": 0,
+    "seasons": 0,
+    "teams": 4,
+    "players": 9,
+    "matches_norm": 305,
+    "match_events": 35,
+    "lineups": 18,
+    "odds_snapshots": 0
+  }
+}

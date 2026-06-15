@@ -1,0 +1,35 @@
+target/
+*.exe
+*.o
+*.pyc
+__pycache__/
+.DS_Store
+
+# secrets
+.env
+*.env
+.env.*
+THESTATSAPI_KEY*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Rust build output
+target/
+rust-core/target/
+
+# Node/Tauri
+node_modules/
+tauri-app/node_modules/
+tauri-app/src-tauri/target/
+
+# local temp/report noise
+*.log
+.DS_Store
+
+# local DBs can be regenerated
+build/*.sqlite-wal
+build/*.sqlite-shm

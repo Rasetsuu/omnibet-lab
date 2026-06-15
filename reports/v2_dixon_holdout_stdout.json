@@ -1,0 +1,15 @@
+{
+  "matches": 76,
+  "1x2_accuracy": 0.39473684210526316,
+  "over25_accuracy": 0.5394736842105263,
+  "log_loss": 1.2947678372184086,
+  "brier_1x2": 0.7377923751004358,
+  "avg_home_prob": 0.39298921981275525,
+  "avg_draw_prob": 0.2860830212833909,
+  "avg_away_prob": 0.32092775890385383,
+  "mode": "holdout",
+  "train_matches": 225,
+  "test_matches": 76,
+  "fit_success": true,
+  "rho": -0.1
+}

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OmniBet Lab v1</title>
+  <style>
+    body{font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;margin:0;background:#0f1117;color:#f3f5f8}.wrap{max-width:1100px;margin:0 auto;padding:28px}.card{background:#171b24;border:1px solid #2a3140;border-radius:18px;padding:20px;margin:18px 0;box-shadow:0 10px 35px #0005}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}input,button,select{width:100%;box-sizing:border-box;border-radius:12px;border:1px solid #394256;background:#0f1117;color:#fff;padding:12px;font-size:15px}button{background:#4f7cff;border:none;font-weight:700;cursor:pointer}button:hover{filter:brightness(1.08)}.big{font-size:34px;font-weight:800}.muted{color:#9ba7bd}.pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#263045;margin:4px}.ok{color:#7ee787}.warn{color:#ffd166}.bad{color:#ff7b72}table{width:100%;border-collapse:collapse}td,th{padding:10px;border-bottom:1px solid #2a3140;text-align:left}.bar{height:10px;background:#283246;border-radius:999px;overflow:hidden}.bar>span{display:block;height:100%;background:#4f7cff}</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>OmniBet Lab v1</h1>
+  <p class="muted">Cross-sport betting/prediction workbench. v1 runs fully in the browser after you load a CSV. It includes model probabilities, edge and quarter-Kelly for entered odds.</p>
+  <div class="card">
+    <h2>1) Load data</h2>
+    <p class="muted">Use <code>data/unified_intl_matches.csv</code> from this package.</p>
+    <input type="file" id="csv" accept=".csv" />
+    <div id="dataStatus" class="muted">No data loaded.</div>
+  </div>
+  <div class="card">
+    <h2>2) Predict match</h2>
+    <div class="grid">
+      <label>Home team<input id="home" value="Spain" /></label>
+      <label>Away team<input id="away" value="Cape Verde" /></label>
+      <label>Home odds<input id="oddsHome" type="number" step="0.01" placeholder="e.g. 1.20" /></label>
+      <label>Over 2.5 odds<input id="oddsOver25" type="number" step="0.01" placeholder="e.g. 1.55" /></label>
+      <label>BTTS odds<input id="oddsBtts" type="number" step="0.01" placeholder="e.g. 2.25" /></label>
+      <label>O9.5 corners odds<input id="oddsCorners" type="number" step="0.01" placeholder="e.g. 1.80" /></label>
+    </div>
+    <p><button onclick="runPrediction()">Predict</button></p>
+  </div>
+  <div class="card" id="result" style="display:none"></div>
+  <div class="card">
+    <h2>Model honesty</h2>
+    <p class="muted">This v1 is still a transparent baseline, but now the core package includes overround-aware odds logic and walk-forward validation. It is not a guaranteed edge. The next real accuracy jump is Dixon-Coles/Bivariate Poisson + point-in-time feature store + bookmaker odds history.</p>
+  </div>
+</div>
+<script>
+let rows=[]; let teams={}; let avgGoals=1.2, avgCorners=9.5, avgShots=24, avgYellows=4;
+function splitCSV(line){let out=[],cur='',q=false;for(let i=0;i<line.length;i++){let c=line[i];if(c==='"'){if(q&&line[i+1]==='"'){cur+='"';i++;}else q=!q;}else if(c===','&&!q){out.push(cur);cur='';}else cur+=c;}out.push(cur);return out;}
+function canon(x){x=(x||'').trim();let l=x.toLowerCase();let m={"united states":"USA","united states of america":"USA","u.s.a.":"USA","czech republic":"Czechia","turkey":"Turkiye","türkiye":"Turkiye","cabo verde":"Cape Verde","cape verde islands":"Cape Verde","dr congo":"DR Congo","congo dr":"DR Congo","curacao":"Curacao","curaçao":"Curacao","korea republic":"South Korea"};return m[l]||x;}
+function num(x){let v=parseFloat(x);return Number.isFinite(v)?v:null;}
+function addTeam(t){if(!teams[t])teams[t]={m:0,gf:0,ga:0,cf:0,ca:0,cm:0,sf:0,sa:0,sm:0,yf:0,ya:0,ym:0};return teams[t];}
+function loadText(text){rows=[];teams={};let lines=text.trim().split(/\r?\n/);let head=splitCSV(lines.shift());let idx={};head.forEach((c,i)=>idx[c]=i);let tg=0,tc=0,ts=0,ty=0,nc=0,ns=0,ny=0;for(let line of lines){let v=splitCSV(line);let h=canon(v[idx.home_team]),a=canon(v[idx.away_team]);let hg=num(v[idx.home_goals]),ag=num(v[idx.away_goals]);if(hg==null||ag==null)continue;let hc=num(v[idx.home_corners]),ac=num(v[idx.away_corners]),hs=num(v[idx.home_shots]),as=num(v[idx.away_shots]),hy=num(v[idx.home_yellow]),ay=num(v[idx.away_yellow]);rows.push({h,a,hg,ag,hc,ac,hs,as,hy,ay});tg+=hg+ag;if(hc!=null&&ac!=null){tc+=hc+ac;nc++;}if(hs!=null&&as!=null){ts+=hs+as;ns++;}if(hy!=null&&ay!=null){ty+=hy+ay;ny++;}let H=addTeam(h),A=addTeam(a);H.m++;H.gf+=hg;H.ga+=ag;A.m++;A.gf+=ag;A.ga+=hg;if(hc!=null&&ac!=null){H.cf+=hc;H.ca+=ac;H.cm++;A.cf+=ac;A.ca+=hc;A.cm++;}if(hs!=null&&as!=null){H.sf+=hs;H.sa+=as;H.sm++;A.sf+=as;A.sa+=hs;A.sm++;}if(hy!=null&&ay!=null){H.yf+=hy;H.ya+=ay;H.ym++;A.yf+=ay;A.ya+=hy;A.ym++;}}
+avgGoals=tg/(2*Math.max(1,rows.length));avgCorners=tc/Math.max(1,nc);avgShots=ts/Math.max(1,ns);avgYellows=ty/Math.max(1,ny);document.getElementById('dataStatus').innerHTML=`<span class="ok">Loaded ${rows.length} matches, ${Object.keys(teams).length} teams.</span>`;}
+document.getElementById('csv').addEventListener('change',e=>{let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>loadText(r.result);r.readAsText(f);});
+function poisson(k,lam){let p=Math.exp(-lam);for(let i=0;i<k;i++)p*=lam/(i+1);return p;}function clamp(x,lo,hi){return Math.max(lo,Math.min(hi,x));}
+function predict(home,away){home=canon(home);away=canon(away);let H=teams[home]||{m:0,gf:0,ga:0},A=teams[away]||{m:0,gf:0,ga:0};let hm=Math.max(1,H.m),am=Math.max(1,A.m),avg=Math.max(.1,avgGoals);let hAtt=clamp((H.gf/hm)/avg,.35,3.2),hDef=clamp((H.ga/hm)/avg,.35,3.2),aAtt=clamp((A.gf/am)/avg,.35,3.2),aDef=clamp((A.ga/am)/avg,.35,3.2);let lh=clamp(avg*hAtt*Math.sqrt(aDef),.05,4.5),la=clamp(avg*aAtt*Math.sqrt(hDef),.05,4.5);let hp=0,dp=0,ap=0,o25=0,btts=0,best=[0,0,0];for(let i=0;i<=7;i++)for(let j=0;j<=7;j++){let p=poisson(i,lh)*poisson(j,la);if(i>j)hp+=p;else if(i===j)dp+=p;else ap+=p;if(i+j>=3)o25+=p;if(i>0&&j>0)btts+=p;if(p>best[2])best=[i,j,p];}let s=hp+dp+ap;hp/=s;dp/=s;ap/=s;let hc=H.cm?H.cf/H.cm:avgCorners/2, aca=A.cm?A.ca/A.cm:avgCorners/2, ac=A.cm?A.cf/A.cm:avgCorners/2, hca=H.cm?H.ca/H.cm:avgCorners/2;let corners=clamp((hc+aca+ac+hca)/2,3,16);let o95=1/(1+Math.exp(-(corners-9.5)/1.8));return{home,away,lh,la,hp,dp,ap,o25,btts,corners,o95,best};}
+function value(prob, odds){if(!odds||odds<=1)return null;let fair=1/odds,edge=prob-fair,b=odds-1,kelly=Math.max(0,(b*prob-(1-prob))/b)*.25;return{edge,kelly,is:edge>=.05};}
+function marketRow(name,prob,odds){let v=value(prob,odds);let extra=v?` edge ${(v.edge*100).toFixed(1)}%, ¼ Kelly ${(v.kelly*100).toFixed(2)}% ${v.is?'✅':''}`:'';return `<tr><td>${name}</td><td>${(prob*100).toFixed(1)}%</td><td>${extra}</td><td><div class="bar"><span style="width:${Math.max(1,Math.min(100,prob*100))}%"></span></div></td></tr>`;}
+function runPrediction(){if(!rows.length){alert('Load CSV first');return;}let home=document.getElementById('home').value,away=document.getElementById('away').value,p=predict(home,away);let oh=parseFloat(document.getElementById('oddsHome').value),oo=parseFloat(document.getElementById('oddsOver25').value),ob=parseFloat(document.getElementById('oddsBtts').value),oc=parseFloat(document.getElementById('oddsCorners').value);let html=`<h2>${p.home} vs ${p.away}</h2><div class="big">${p.best[0]}-${p.best[1]}</div><p class="muted">xG ${p.lh.toFixed(2)} - ${p.la.toFixed(2)} | expected corners ${p.corners.toFixed(1)}</p><table><tr><th>Market</th><th>Model</th><th>Value</th><th></th></tr>${marketRow('Home win',p.hp,oh)}${marketRow('Draw',p.dp,null)}${marketRow('Away win',p.ap,null)}${marketRow('Over 2.5',p.o25,oo)}${marketRow('BTTS Yes',p.btts,ob)}${marketRow('Over 9.5 corners',p.o95,oc)}</table>`;let r=document.getElementById('result');r.style.display='block';r.innerHTML=html;}
+</script>
+</body>
+</html>

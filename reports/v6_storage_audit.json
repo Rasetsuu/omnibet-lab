@@ -1,0 +1,273 @@
+{
+  "root": "/mnt/data/omnibet_lab_v6_work/omnibet_lab_v5",
+  "total_files": 79,
+  "total_bytes": 3706433,
+  "total_human": "3.53 MB",
+  "by_extension_bytes": {
+    "(no_ext)": {
+      "bytes": 47,
+      "human": "47.00 B"
+    },
+    ".cpp": {
+      "bytes": 12092,
+      "human": "11.81 KB"
+    },
+    ".csv": {
+      "bytes": 32229,
+      "human": "31.47 KB"
+    },
+    ".html": {
+      "bytes": 8617,
+      "human": "8.42 KB"
+    },
+    ".json": {
+      "bytes": 389097,
+      "human": "379.98 KB"
+    },
+    ".md": {
+      "bytes": 40817,
+      "human": "39.86 KB"
+    },
+    ".py": {
+      "bytes": 178446,
+      "human": "174.26 KB"
+    },
+    ".rs": {
+      "bytes": 5406,
+      "human": "5.28 KB"
+    },
+    ".sqlite": {
+      "bytes": 3039232,
+      "human": "2.90 MB"
+    },
+    ".toml": {
+      "bytes": 450,
+      "human": "450.00 B"
+    }
+  },
+  "largest_files": [
+    {
+      "path": "build/omnibet.sqlite",
+      "bytes": 3039232,
+      "human": "2.90 MB",
+      "gzip9_bytes": 286906,
+      "gzip_ratio": 0.0944
+    },
+    {
+      "path": "reports/v3_hybrid_metrics.json",
+      "bytes": 180651,
+      "human": "176.42 KB",
+      "gzip9_bytes": 34938,
+      "gzip_ratio": 0.1934
+    },
+    {
+      "path": "reports/v2_dixon_walk_forward.json",
+      "bytes": 110786,
+      "human": "108.19 KB",
+      "gzip9_bytes": 19313,
+      "gzip_ratio": 0.1743
+    },
+    {
+      "path": "reports/v2_dixon_holdout.json",
+      "bytes": 38428,
+      "human": "37.53 KB",
+      "gzip9_bytes": 8031,
+      "gzip_ratio": 0.209
+    },
+    {
+      "path": "data/unified_intl_matches.csv",
+      "bytes": 31503,
+      "human": "30.76 KB",
+      "gzip9_bytes": 8629,
+      "gzip_ratio": 0.2739
+    },
+    {
+      "path": "python_lab/hybrid_model_lab.py",
+      "bytes": 25953,
+      "human": "25.34 KB",
+      "gzip9_bytes": null,
+      "gzip_ratio": null
+    },
+    {
+      "path": "python_lab/gold_feature_builder.py",
+      "bytes": 21935,
+      "human": "21.42 KB",
+      "gzip9_bytes": null,
+      "gzip_ratio": null
+    },
+    {
+      "path": "python_lab/dixon_coles_lab.py",
+      "bytes": 16130,
+      "human": "15.75 KB",
+      "gzip9_bytes": null,
+      "gzip_ratio": null
+    },
+    {
+      "path": "python_lab/feature_store.py",
+      "bytes": 14800,
+      "human": "14.45 KB",
+      "gzip9_bytes": null,
+      "gzip_ratio": null
+    },
+    {
+      "path": "reports/v3b_bet_builder_spain_cape_verde.json",
+      "bytes": 14651,
+      "human": "14.31 KB",
+      "gzip9_bytes": 2294,
+      "gzip_ratio": 0.1566
+    },
+    {
+      "path": "reports/v3b_smoke_tests.json",
+      "bytes": 14516,
+      "human": "14.18 KB",
+      "gzip9_bytes": 2172,
+      "gzip_ratio": 0.1496
+    },
+    {
+      "path": "reports/v3b_football_market_registry.json",
+      "bytes": 13891,
+      "human": "13.57 KB",
+      "gzip9_bytes": 1430,
+      "gzip_ratio": 0.1029
+    },
+    {
+      "path": "python_lab/bet_builder_lab.py",
+      "bytes": 13069,
+      "human": "12.76 KB",
+      "gzip9_bytes": null,
+      "gzip_ratio": null
+    },
+    {
+      "path": "cpp-core/omnibet.cpp",
+      "bytes": 12092,
+      "human": "11.81 KB",
+      "gzip9_bytes": null,
+      "gzip_ratio": null
+    },
+    {
+      "path": "python_lab/market_registry.py",
+      "bytes": 11728,
+      "human": "11.45 KB",
+      "gzip9_bytes": null,
+      "gzip_ratio": null
+    },
+    {
+      "path": "reports/v4_adapter_smoke_tests.json",
+      "bytes": 10416,
+      "human": "10.17 KB",
+      "gzip9_bytes": 1525,
+      "gzip_ratio": 0.1464
+    },
+    {
+      "path": "python_lab/adapters/statsbomb_open_adapter.py",
+      "bytes": 10398,
+      "human": "10.15 KB",
+      "gzip9_bytes": null,
+      "gzip_ratio": null
+    },
+    {
+      "path": "python_lab/adapters/warehouse.py",
+      "bytes": 9492,
+      "human": "9.27 KB",
+      "gzip9_bytes": null,
+      "gzip_ratio": null
+    },
+    {
+      "path": "python_lab/live_update_manager.py",
+      "bytes": 9332,
+      "human": "9.11 KB",
+      "gzip9_bytes": null,
+      "gzip_ratio": null
+    },
+    {
+      "path": "python_lab/adapters/thestatsapi_adapter.py",
+      "bytes": 8093,
+      "human": "7.90 KB",
+      "gzip9_bytes": null,
+      "gzip_ratio": null
+    },
+    {
+      "path": "web_gui/index.html",
+      "bytes": 7942,
+      "human": "7.76 KB",
+      "gzip9_bytes": null,
+      "gzip_ratio": null
+    },
+    {
+      "path": "python_lab/adapters/football_data_uk_adapter.py",
+      "bytes": 6573,
+      "human": "6.42 KB",
+      "gzip9_bytes": null,
+      "gzip_ratio": null
+    },
+    {
+      "path": "README.md",
+      "bytes": 5802,
+      "human": "5.67 KB",
+      "gzip9_bytes": 2592,
+      "gzip_ratio": 0.4467
+    },
+    {
+      "path": "python_lab/export_data_pack.py",
+      "bytes": 5564,
+      "human": "5.43 KB",
+      "gzip9_bytes": null,
+      "gzip_ratio": null
+    },
+    {
+      "path": "python_lab/storage_audit.py",
+      "bytes": 4883,
+      "human": "4.77 KB",
+      "gzip9_bytes": null,
+      "gzip_ratio": null
+    }
+  ],
+  "sqlite": {
+    "exists": true,
+    "path": "/mnt/data/omnibet_lab_v6_work/omnibet_lab_v5/build/omnibet.sqlite",
+    "bytes": 3039232,
+    "human": "2.90 MB",
+    "page_count": 742,
+    "page_size": 4096,
+    "sqlite_pages_bytes": 3039232,
+    "freelist_pages": 1,
+    "gzip9_bytes": 286906,
+    "gzip_ratio": 0.0944,
+    "tables": {
+      "adapter_watermarks": 0,
+      "bankroll_events": 0,
+      "bets": 0,
+      "bronze_blobs": 301,
+      "competitions": 0,
+      "features_json": 301,
+      "games": 301,
+      "gold_goal_timing_features": 0,
+      "gold_market_features": 0,
+      "gold_match_features": 301,
+      "gold_player_snapshots": 0,
+      "gold_team_snapshots": 602,
+      "lineups": 0,
+      "match_events": 0,
+      "matches_norm": 301,
+      "model_runs": 3,
+      "odds_snapshots": 0,
+      "players": 0,
+      "predictions": 0,
+      "raw_source_blobs": 0,
+      "seasons": 0,
+      "source_registry": 6,
+      "team_aliases": 14,
+      "team_snapshots": 602,
+      "teams": 0,
+      "update_runs": 6
+    }
+  },
+  "recommendations": [
+    "Keep app metadata, source registry, watermarks and recent cache in SQLite.",
+    "Move big immutable historical/event/player data into compressed data packs.",
+    "Preferred future pack format: Parquet + ZSTD when pyarrow/duckdb is available.",
+    "Current stdlib fallback: JSONL.GZ, deterministic, portable, slower/larger than ZSTD.",
+    "Do not bundle every sport/season by default; use optional sport/season/source packs.",
+    "Gold features can be regenerated, so treat them as cache unless expensive to rebuild."
+  ]
+}

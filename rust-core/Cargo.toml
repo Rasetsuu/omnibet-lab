@@ -1,0 +1,32 @@
+[package]
+name = "omnibet_lab_core"
+version = "0.13.0"
+edition = "2021"
+
+[lib]
+name = "omnibet_lab_core"
+path = "src/lib.rs"
+
+[[bin]]
+name = "omnibet-core"
+path = "src/main.rs"
+
+[[bin]]
+name = "omnibet-pack"
+path = "src/bin/omnibet-pack.rs"
+
+
+[[bin]]
+name = "omnibet-infer"
+path = "src/bin/omnibet-infer.rs"
+
+
+[[bin]]
+name = "omnibet-value"
+path = "src/bin/omnibet-value.rs"
+
+[dependencies]
+flate2 = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"

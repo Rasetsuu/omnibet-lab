@@ -1,0 +1,407 @@
+❯ /home/ciupix/Desktop/omnibet_lab_v13/rust-core/
+
+~/Desktop/omnibet_lab_v13/rust-core
+❯ cargo test
+
+  cargo run --bin omnibet-value -- report \
+        ../data_packs/football_core_v1 \
+        Spain \
+        "Cape Verde" \
+        ../data/sample_odds_spain_cape_verde.csv
+    Updating crates.io index
+     Locking 26 packages to latest compatible versions
+      Adding generic-array v0.14.7 (available: v0.14.9)
+      Adding sha2 v0.10.9 (available: v0.11.0)
+   Compiling version_check v0.9.5
+   Compiling proc-macro2 v1.0.106
+   Compiling typenum v1.20.1
+   Compiling unicode-ident v1.0.24
+   Compiling quote v1.0.45
+   Compiling serde_core v1.0.228
+   Compiling zmij v1.0.21
+   Compiling cfg-if v1.0.4
+   Compiling crc32fast v1.5.0
+   Compiling simd-adler32 v0.3.9
+   Compiling serde_json v1.0.150
+   Compiling serde v1.0.228
+   Compiling adler2 v2.0.1
+   Compiling cpufeatures v0.2.17
+   Compiling itoa v1.0.18
+   Compiling memchr v2.8.2
+   Compiling miniz_oxide v0.8.9
+   Compiling generic-array v0.14.7
+   Compiling flate2 v1.1.9
+   Compiling syn v2.0.117
+   Compiling block-buffer v0.10.4
+   Compiling crypto-common v0.1.7
+   Compiling digest v0.10.7
+   Compiling sha2 v0.10.9
+   Compiling serde_derive v1.0.228
+   Compiling omnibet_lab_core v0.13.0 (/home/ciupix/Desktop/omnibet_lab_v13/rust-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.48s
+     Running unittests src/lib.rs (target/debug/deps/omnibet_lab_core-81185cfffcdcf676)
+
+running 8 tests
+test gold_model::tests::sigmoid_bounds ... ok
+test gold_model::tests::softmax_sums_to_one ... ok
+test odds::tests::odds_math_works ... ok
+test odds::tests::overround_removal_sums_to_one ... ok
+test inference::tests::poisson_is_normalized_after_truncation ... ok
+test value::tests::csv_parser_simple ... ok
+test value::tests::decision_rejects_negative_edge ... ok
+test value::tests::low_trust_blocks_staking_labels ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/omnibet_core-8d6902a5c8daeaed)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/omnibet-infer.rs (target/debug/deps/omnibet_infer-510ea78f03c2a361)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/omnibet-pack.rs (target/debug/deps/omnibet_pack-2d67711f26d56dbc)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/omnibet-value.rs (target/debug/deps/omnibet_value-f82647dfdce2808a)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests omnibet_lab_core
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Compiling omnibet_lab_core v0.13.0 (/home/ciupix/Desktop/omnibet_lab_v13/rust-core)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.21s
+     Running `target/debug/omnibet-value report ../data_packs/football_core_v1 Spain 'Cape Verde' ../data/sample_odds_spain_cape_verde.csv`
+{
+  "ok": true,
+  "report": {
+    "away_team": "Cape Verde",
+    "home_team": "Spain",
+    "note": "v13 Rust value runtime. model_trust=0.25. Uses simple prediction model; do not treat as betting advice.",
+    "ok": true,
+    "selections": [
+      {
+        "bookmaker": "ExampleBook",
+        "bookmaker_odds": 5.8,
+        "decision": "PAPER ONLY - model trust too low",
+        "edge": 0.46693143394245706,
+        "fair_odds": 3.9538316964223665,
+        "market_id": "football.1x2",
+        "model_probability": 0.2529192127486995,
+        "model_trust": 0.25,
+        "quarter_kelly": 0.024319345517836308,
+        "selection": "away"
+      },
+      {
+        "bookmaker": "ExampleBook",
+        "bookmaker_odds": 1.95,
+        "decision": "PAPER ONLY - model trust too low",
+        "edge": 0.15370777594045615,
+        "fair_odds": 1.6902027018154042,
+        "market_id": "football.btts",
+        "model_probability": 0.5916450133027981,
+        "model_trust": 0.25,
+        "quarter_kelly": 0.04044941472117267,
+        "selection": "yes"
+      },
+      {
+        "bookmaker": "ExampleBook",
+        "bookmaker_odds": 2.3,
+        "decision": "PAPER ONLY - model trust too low",
+        "edge": 0.10754380385735196,
+        "fair_odds": 2.076667299288356,
+        "market_id": "football.double_chance",
+        "model_probability": 0.48154078428580527,
+        "model_trust": 0.25,
+        "quarter_kelly": 0.02068150074179848,
+        "selection": "X2"
+      },
+      {
+        "bookmaker": "ExampleBook",
+        "bookmaker_odds": 1.88,
+        "decision": "PAPER ONLY - model trust too low",
+        "edge": 0.10624773945594557,
+        "fair_odds": 1.6994385009316149,
+        "market_id": "football.total_goals",
+        "model_probability": 0.5884296486467796,
+        "model_trust": 0.25,
+        "quarter_kelly": 0.03018401689089363,
+        "selection": "over_2.5"
+      },
+      {
+        "bookmaker": "ExampleBook",
+        "bookmaker_odds": 1.32,
+        "decision": "PAPER ONLY - model trust too low",
+        "edge": 0.04072713621374913,
+        "fair_odds": 1.2683439818839244,
+        "market_id": "football.total_goals",
+        "model_probability": 0.7884296486467797,
+        "model_trust": 0.25,
+        "quarter_kelly": 0.03181807516699159,
+        "selection": "over_1.5"
+      },
+      {
+        "bookmaker": "ExampleBook",
+        "bookmaker_odds": 1.18,
+        "decision": "PAPER ONLY - model trust too low",
+        "edge": -0.008323505036604173,
+        "fair_odds": 1.1899041733802065,
+        "market_id": "football.team_goals",
+        "model_probability": 0.8404038092910134,
+        "model_trust": 0.25,
+        "quarter_kelly": 0.0,
+        "selection": "home_over_0.5"
+      },
+      {
+        "bookmaker": "ExampleBook",
+        "bookmaker_odds": 1.75,
+        "decision": "PAPER ONLY - model trust too low",
+        "edge": -0.041826893865576364,
+        "fair_odds": 1.8263923176262575,
+        "market_id": "football.team_goals",
+        "model_probability": 0.5475274892196706,
+        "model_trust": 0.25,
+        "quarter_kelly": 0.0,
+        "selection": "home_over_1.5"
+      },
+      {
+        "bookmaker": "ExampleBook",
+        "bookmaker_odds": 1.22,
+        "decision": "PAPER ONLY - model trust too low",
+        "edge": -0.05891831727526864,
+        "fair_odds": 1.2963805612151658,
+        "market_id": "football.double_chance",
+        "model_probability": 0.7713784284628946,
+        "model_trust": 0.25,
+        "quarter_kelly": 0.0,
+        "selection": "12"
+      },
+      {
+        "bookmaker": "ExampleBook",
+        "bookmaker_odds": 3.9,
+        "decision": "PAPER ONLY - model trust too low",
+        "edge": -0.10837587100528745,
+        "fair_odds": 4.374040442800901,
+        "market_id": "football.1x2",
+        "model_probability": 0.2286215715371058,
+        "model_trust": 0.25,
+        "quarter_kelly": 0.0,
+        "selection": "draw"
+      },
+      {
+        "bookmaker": "ExampleBook",
+        "bookmaker_odds": 1.15,
+        "decision": "PAPER ONLY - model trust too low",
+        "edge": -0.14085709466100405,
+        "fair_odds": 1.3385433236467676,
+        "market_id": "football.double_chance",
+        "model_probability": 0.7470807872513009,
+        "model_trust": 0.25,
+        "quarter_kelly": 0.0,
+        "selection": "1X"
+      },
+      {
+        "bookmaker": "ExampleBook",
+        "bookmaker_odds": 1.62,
+        "decision": "PAPER ONLY - model trust too low",
+        "edge": -0.1600960705430039,
+        "fair_odds": 1.9287920239250955,
+        "market_id": "football.1x2",
+        "model_probability": 0.5184592157141951,
+        "model_trust": 0.25,
+        "quarter_kelly": 0.0,
+        "selection": "home"
+      },
+      {
+        "bookmaker": "ExampleBook",
+        "bookmaker_odds": 1.38,
+        "decision": "PAPER ONLY - model trust too low",
+        "edge": -0.18363291513255586,
+        "fair_odds": 1.6904160218856379,
+        "market_id": "football.total_goals",
+        "model_probability": 0.5915703513532204,
+        "model_trust": 0.25,
+        "quarter_kelly": 0.0,
+        "selection": "under_3.5"
+      },
+      {
+        "bookmaker": "ExampleBook",
+        "bookmaker_odds": 1.92,
+        "decision": "PAPER ONLY - model trust too low",
+        "edge": -0.2097849254018168,
+        "fair_odds": 2.429718264962614,
+        "market_id": "football.total_goals",
+        "model_probability": 0.4115703513532204,
+        "model_trust": 0.25,
+        "quarter_kelly": 0.0,
+        "selection": "under_2.5"
+      },
+      {
+        "bookmaker": "ExampleBook",
+        "bookmaker_odds": 1.85,
+        "decision": "PAPER ONLY - model trust too low",
+        "edge": -0.24454327461017633,
+        "fair_odds": 2.4488497326506433,
+        "market_id": "football.btts",
+        "model_probability": 0.40835498669720194,
+        "model_trust": 0.25,
+        "quarter_kelly": 0.0,
+        "selection": "no"
+      }
+    ],
+    "tickets": [
+      {
+        "adjusted_probability": 0.2379598838295032,
+        "combined_bookmaker_odds": 3.0456,
+        "combined_probability_independent": 0.3050767741403887,
+        "correlation_risk": 0.22,
+        "decision": "PAPER ONLY - model trust too low",
+        "edge_adjusted": -0.27526937780886507,
+        "edge_independent": -0.07085817667803218,
+        "fair_odds_adjusted": 4.202389007369384,
+        "fair_odds_independent": 3.2778634257481203,
+        "legs": [
+          {
+            "bookmaker": "ExampleBook",
+            "bookmaker_odds": 1.62,
+            "decision": "PAPER ONLY - model trust too low",
+            "edge": -0.1600960705430039,
+            "fair_odds": 1.9287920239250955,
+            "market_id": "football.1x2",
+            "model_probability": 0.5184592157141951,
+            "model_trust": 0.25,
+            "quarter_kelly": 0.0,
+            "selection": "home"
+          },
+          {
+            "bookmaker": "ExampleBook",
+            "bookmaker_odds": 1.88,
+            "decision": "PAPER ONLY - model trust too low",
+            "edge": 0.10624773945594557,
+            "fair_odds": 1.6994385009316149,
+            "market_id": "football.total_goals",
+            "model_probability": 0.5884296486467796,
+            "model_trust": 0.25,
+            "quarter_kelly": 0.03018401689089363,
+            "selection": "over_2.5"
+          }
+        ],
+        "model_trust": 0.25,
+        "name": "Balanced Builder",
+        "note": "v13 heuristic builder. Same-game correlation is approximated, not bookmaker-grade.",
+        "quarter_kelly_adjusted": 0.0
+      },
+      {
+        "adjusted_probability": 0.11190823429869229,
+        "combined_bookmaker_odds": 5.9389199999999995,
+        "combined_probability_independent": 0.180497152094665,
+        "correlation_risk": 0.38,
+        "decision": "PAPER ONLY - model trust too low",
+        "edge_adjusted": -0.3353859491588105,
+        "edge_independent": 0.07195814651804766,
+        "fair_odds_adjusted": 8.935892932873177,
+        "fair_odds_independent": 5.540253618381369,
+        "legs": [
+          {
+            "bookmaker": "ExampleBook",
+            "bookmaker_odds": 1.62,
+            "decision": "PAPER ONLY - model trust too low",
+            "edge": -0.1600960705430039,
+            "fair_odds": 1.9287920239250955,
+            "market_id": "football.1x2",
+            "model_probability": 0.5184592157141951,
+            "model_trust": 0.25,
+            "quarter_kelly": 0.0,
+            "selection": "home"
+          },
+          {
+            "bookmaker": "ExampleBook",
+            "bookmaker_odds": 1.88,
+            "decision": "PAPER ONLY - model trust too low",
+            "edge": 0.10624773945594557,
+            "fair_odds": 1.6994385009316149,
+            "market_id": "football.total_goals",
+            "model_probability": 0.5884296486467796,
+            "model_trust": 0.25,
+            "quarter_kelly": 0.03018401689089363,
+            "selection": "over_2.5"
+          },
+          {
+            "bookmaker": "ExampleBook",
+            "bookmaker_odds": 1.95,
+            "decision": "PAPER ONLY - model trust too low",
+            "edge": 0.15370777594045615,
+            "fair_odds": 1.6902027018154042,
+            "market_id": "football.btts",
+            "model_probability": 0.5916450133027981,
+            "model_trust": 0.25,
+            "quarter_kelly": 0.04044941472117267,
+            "selection": "yes"
+          }
+        ],
+        "model_trust": 0.25,
+        "name": "Aggressive Builder",
+        "note": "v13 heuristic builder. Same-game correlation is approximated, not bookmaker-grade.",
+        "quarter_kelly_adjusted": 0.0
+      },
+      {
+        "adjusted_probability": 0.4065947762992132,
+        "combined_bookmaker_odds": 1.5869999999999997,
+        "combined_probability_independent": 0.4419508438034926,
+        "correlation_risk": 0.08,
+        "decision": "PAPER ONLY - model trust too low",
+        "edge_adjusted": -0.3547340900131487,
+        "edge_independent": -0.29862401088385737,
+        "fair_odds_adjusted": 2.4594511742179876,
+        "fair_odds_independent": 2.2626950802805488,
+        "legs": [
+          {
+            "bookmaker": "ExampleBook",
+            "bookmaker_odds": 1.15,
+            "decision": "PAPER ONLY - model trust too low",
+            "edge": -0.14085709466100405,
+            "fair_odds": 1.3385433236467676,
+            "market_id": "football.double_chance",
+            "model_probability": 0.7470807872513009,
+            "model_trust": 0.25,
+            "quarter_kelly": 0.0,
+            "selection": "1X"
+          },
+          {
+            "bookmaker": "ExampleBook",
+            "bookmaker_odds": 1.38,
+            "decision": "PAPER ONLY - model trust too low",
+            "edge": -0.18363291513255586,
+            "fair_odds": 1.6904160218856379,
+            "market_id": "football.total_goals",
+            "model_probability": 0.5915703513532204,
+            "model_trust": 0.25,
+            "quarter_kelly": 0.0,
+            "selection": "under_3.5"
+          }
+        ],
+        "model_trust": 0.25,
+        "name": "Safe Builder",
+        "note": "v13 heuristic builder. Same-game correlation is approximated, not bookmaker-grade.",
+        "quarter_kelly_adjusted": 0.0
+      }
+    ]
+  }
+}
+
+~/Desktop/omnibet_lab_v13/rust-core
+❯

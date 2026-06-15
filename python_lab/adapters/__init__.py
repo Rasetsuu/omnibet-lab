@@ -1,0 +1,1 @@
+"""OmniBet Lab data adapters."""

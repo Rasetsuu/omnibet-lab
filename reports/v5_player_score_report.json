@@ -1,0 +1,7 @@
+{
+  "ok": false,
+  "reason": "Not enough player lineup/event data. Import StatsBomb or TheStatsAPI lineups/events first.",
+  "lineup_rows": 0,
+  "event_rows": 0,
+  "snapshots_written": 0
+}

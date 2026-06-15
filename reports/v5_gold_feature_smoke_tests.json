@@ -1,0 +1,113 @@
+{
+  "py_compile": {
+    "returncode": 0
+  },
+  "warehouse_init": {
+    "db": "/mnt/data/omnibet_lab_v5_work/omnibet_lab_v4/build/omnibet.sqlite",
+    "counts": {
+      "source_registry": 6,
+      "update_runs": 5,
+      "adapter_watermarks": 0,
+      "raw_source_blobs": 0,
+      "bronze_blobs": 301,
+      "competitions": 0,
+      "seasons": 0,
+      "teams": 0,
+      "players": 0,
+      "matches_norm": 301,
+      "match_events": 0,
+      "lineups": 0,
+      "odds_snapshots": 0
+    }
+  },
+  "football_data_import": {
+    "run_id": "football_data_uk_csv:2026-06-15T18:34:13+00:00",
+    "input": "/mnt/data/omnibet_lab_v5_work/omnibet_lab_v4/data/unified_intl_matches.csv",
+    "rows_seen": 301,
+    "matches_inserted": 301,
+    "odds_inserted": 0
+  },
+  "gold_build": {
+    "db": "/mnt/data/omnibet_lab_v5_work/omnibet_lab_v4/build/omnibet.sqlite",
+    "matches_seen": 301,
+    "gold_match_features_written": 301,
+    "event_matches_seen": 0,
+    "gold_market_features_written": 0,
+    "counts": {
+      "gold_team_snapshots": 602,
+      "gold_match_features": 301,
+      "gold_goal_timing_features": 0,
+      "gold_player_snapshots": 0,
+      "gold_market_features": 0
+    },
+    "note": "Event/player features activate when match_events/lineups/player data exist in the warehouse."
+  },
+  "gold_inspect": {
+    "counts": {
+      "gold_team_snapshots": 602,
+      "gold_match_features": 301,
+      "gold_goal_timing_features": 0,
+      "gold_player_snapshots": 0,
+      "gold_market_features": 0
+    },
+    "samples": [
+      [
+        "fdc:Euro-2024:2024-06-14:Germany:Scotland:267",
+        "Germany",
+        "Scotland",
+        "H",
+        1,
+        null,
+        null
+      ],
+      [
+        "fdc:Euro-2024:2024-06-15:Hungary:Switzerland:270",
+        "Hungary",
+        "Switzerland",
+        "A",
+        1,
+        null,
+        null
+      ],
+      [
+        "fdc:Euro-2024:2024-06-15:Italy:Albania:271",
+        "Italy",
+        "Albania",
+        "H",
+        1,
+        null,
+        null
+      ],
+      [
+        "fdc:Euro-2024:2024-06-15:Spain:Croatia:290",
+        "Spain",
+        "Croatia",
+        "H",
+        1,
+        null,
+        null
+      ],
+      [
+        "fdc:Euro-2024:2024-06-16:Poland:Netherlands:276",
+        "Poland",
+        "Netherlands",
+        "A",
+        1,
+        null,
+        null
+      ]
+    ]
+  },
+  "goal_timing": {
+    "ok": false,
+    "reason": "No gold_goal_timing_features rows. Import event data first, e.g. StatsBomb Open Data or TheStatsAPI events.",
+    "matches": 0
+  },
+  "player_score": {
+    "ok": false,
+    "reason": "Not enough player lineup/event data. Import StatsBomb or TheStatsAPI lineups/events first.",
+    "lineup_rows": 0,
+    "event_rows": 0,
+    "snapshots_written": 0
+  }
+}

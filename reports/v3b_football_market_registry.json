@@ -1,0 +1,649 @@
+[
+  {
+    "market_id": "football.1x2",
+    "sport": "football",
+    "family": "core",
+    "display_name": "Full Time Result",
+    "selections": [
+      "home",
+      "draw",
+      "away"
+    ],
+    "requires_team": false,
+    "requires_player": false,
+    "requires_line": false,
+    "requires_minute": false,
+    "availability": "supported",
+    "model_hint": "hybrid_1x2",
+    "data_requirements": [
+      "match_results"
+    ],
+    "correlation_tags": [
+      "result"
+    ]
+  },
+  {
+    "market_id": "football.double_chance",
+    "sport": "football",
+    "family": "core",
+    "display_name": "Double Chance",
+    "selections": [
+      "1X",
+      "12",
+      "X2"
+    ],
+    "requires_team": false,
+    "requires_player": false,
+    "requires_line": false,
+    "requires_minute": false,
+    "availability": "supported",
+    "model_hint": "derived_1x2",
+    "data_requirements": [
+      "match_results"
+    ],
+    "correlation_tags": [
+      "result"
+    ]
+  },
+  {
+    "market_id": "football.draw_no_bet",
+    "sport": "football",
+    "family": "core",
+    "display_name": "Draw No Bet",
+    "selections": [
+      "home",
+      "away"
+    ],
+    "requires_team": false,
+    "requires_player": false,
+    "requires_line": false,
+    "requires_minute": false,
+    "availability": "prototype",
+    "model_hint": "derived_1x2",
+    "data_requirements": [
+      "match_results"
+    ],
+    "correlation_tags": [
+      "result"
+    ]
+  },
+  {
+    "market_id": "football.correct_score",
+    "sport": "football",
+    "family": "core",
+    "display_name": "Correct Score",
+    "selections": [
+      "0-0",
+      "1-0",
+      "1-1",
+      "2-1",
+      "2-0"
+    ],
+    "requires_team": false,
+    "requires_player": false,
+    "requires_line": false,
+    "requires_minute": false,
+    "availability": "prototype",
+    "model_hint": "score_matrix",
+    "data_requirements": [
+      "score_matrix"
+    ],
+    "correlation_tags": [
+      "scoreline",
+      "result",
+      "goals"
+    ]
+  },
+  {
+    "market_id": "football.total_goals",
+    "sport": "football",
+    "family": "goals",
+    "display_name": "Total Goals",
+    "selections": [
+      "over",
+      "under"
+    ],
+    "requires_team": false,
+    "requires_player": false,
+    "requires_line": true,
+    "requires_minute": false,
+    "availability": "supported",
+    "model_hint": "hybrid_over_goals",
+    "data_requirements": [
+      "match_results",
+      "score_matrix"
+    ],
+    "correlation_tags": [
+      "goals"
+    ]
+  },
+  {
+    "market_id": "football.team_goals",
+    "sport": "football",
+    "family": "goals",
+    "display_name": "Team Goals",
+    "selections": [
+      "over",
+      "under"
+    ],
+    "requires_team": true,
+    "requires_player": false,
+    "requires_line": true,
+    "requires_minute": false,
+    "availability": "prototype",
+    "model_hint": "team_goal_lambda",
+    "data_requirements": [
+      "score_matrix",
+      "team_attack"
+    ],
+    "correlation_tags": [
+      "team_attacking",
+      "goals"
+    ]
+  },
+  {
+    "market_id": "football.btts",
+    "sport": "football",
+    "family": "goals",
+    "display_name": "Both Teams To Score",
+    "selections": [
+      "yes",
+      "no"
+    ],
+    "requires_team": false,
+    "requires_player": false,
+    "requires_line": false,
+    "requires_minute": false,
+    "availability": "supported",
+    "model_hint": "hybrid_btts",
+    "data_requirements": [
+      "match_results"
+    ],
+    "correlation_tags": [
+      "goals",
+      "both_teams_score"
+    ]
+  },
+  {
+    "market_id": "football.goal_interval",
+    "sport": "football",
+    "family": "goal_timing",
+    "display_name": "Goal In Time Interval",
+    "selections": [
+      "yes",
+      "no"
+    ],
+    "requires_team": false,
+    "requires_player": false,
+    "requires_line": false,
+    "requires_minute": true,
+    "availability": "future",
+    "model_hint": "goal_hazard_by_minute",
+    "data_requirements": [
+      "goal_events",
+      "event_timestamps"
+    ],
+    "correlation_tags": [
+      "goal_timing",
+      "goals"
+    ]
+  },
+  {
+    "market_id": "football.first_goal_time",
+    "sport": "football",
+    "family": "goal_timing",
+    "display_name": "First Goal Time",
+    "selections": [
+      "before",
+      "after",
+      "no_goal"
+    ],
+    "requires_team": false,
+    "requires_player": false,
+    "requires_line": false,
+    "requires_minute": true,
+    "availability": "future",
+    "model_hint": "first_goal_hazard",
+    "data_requirements": [
+      "goal_events",
+      "event_timestamps"
+    ],
+    "correlation_tags": [
+      "goal_timing",
+      "goals"
+    ]
+  },
+  {
+    "market_id": "football.team_to_score_first",
+    "sport": "football",
+    "family": "goal_timing",
+    "display_name": "Team To Score First",
+    "selections": [
+      "home",
+      "away",
+      "no_goal"
+    ],
+    "requires_team": false,
+    "requires_player": false,
+    "requires_line": false,
+    "requires_minute": false,
+    "availability": "future",
+    "model_hint": "first_goal_team_model",
+    "data_requirements": [
+      "goal_events"
+    ],
+    "correlation_tags": [
+      "goal_timing",
+      "team_attacking"
+    ]
+  },
+  {
+    "market_id": "football.anytime_goalscorer",
+    "sport": "football",
+    "family": "player_goals",
+    "display_name": "Anytime Goalscorer",
+    "selections": [
+      "yes",
+      "no"
+    ],
+    "requires_team": false,
+    "requires_player": true,
+    "requires_line": false,
+    "requires_minute": false,
+    "availability": "future",
+    "model_hint": "player_goal_probability",
+    "data_requirements": [
+      "lineups",
+      "player_goals",
+      "shots",
+      "xg",
+      "expected_minutes"
+    ],
+    "correlation_tags": [
+      "player_attacking",
+      "goals"
+    ]
+  },
+  {
+    "market_id": "football.first_goalscorer",
+    "sport": "football",
+    "family": "player_goals",
+    "display_name": "First Goalscorer",
+    "selections": [
+      "yes",
+      "no"
+    ],
+    "requires_team": false,
+    "requires_player": true,
+    "requires_line": false,
+    "requires_minute": false,
+    "availability": "future",
+    "model_hint": "player_first_goal_hazard",
+    "data_requirements": [
+      "goal_events",
+      "lineups",
+      "expected_minutes"
+    ],
+    "correlation_tags": [
+      "player_attacking",
+      "goal_timing"
+    ]
+  },
+  {
+    "market_id": "football.total_corners",
+    "sport": "football",
+    "family": "corners",
+    "display_name": "Total Corners",
+    "selections": [
+      "over",
+      "under"
+    ],
+    "requires_team": false,
+    "requires_player": false,
+    "requires_line": true,
+    "requires_minute": false,
+    "availability": "prototype",
+    "model_hint": "corners_regression",
+    "data_requirements": [
+      "corners"
+    ],
+    "correlation_tags": [
+      "corners",
+      "tempo"
+    ]
+  },
+  {
+    "market_id": "football.team_corners",
+    "sport": "football",
+    "family": "corners",
+    "display_name": "Team Corners",
+    "selections": [
+      "over",
+      "under"
+    ],
+    "requires_team": true,
+    "requires_player": false,
+    "requires_line": true,
+    "requires_minute": false,
+    "availability": "future",
+    "model_hint": "team_corners_model",
+    "data_requirements": [
+      "corners",
+      "team_style"
+    ],
+    "correlation_tags": [
+      "corners",
+      "team_attacking"
+    ]
+  },
+  {
+    "market_id": "football.first_corner",
+    "sport": "football",
+    "family": "corners",
+    "display_name": "First Corner Team",
+    "selections": [
+      "home",
+      "away"
+    ],
+    "requires_team": false,
+    "requires_player": false,
+    "requires_line": false,
+    "requires_minute": false,
+    "availability": "future",
+    "model_hint": "first_corner_model",
+    "data_requirements": [
+      "event_timestamps",
+      "corners"
+    ],
+    "correlation_tags": [
+      "corners",
+      "tempo"
+    ]
+  },
+  {
+    "market_id": "football.total_cards",
+    "sport": "football",
+    "family": "discipline",
+    "display_name": "Total Cards",
+    "selections": [
+      "over",
+      "under"
+    ],
+    "requires_team": false,
+    "requires_player": false,
+    "requires_line": true,
+    "requires_minute": false,
+    "availability": "prototype",
+    "model_hint": "cards_regression",
+    "data_requirements": [
+      "cards",
+      "referee"
+    ],
+    "correlation_tags": [
+      "cards",
+      "physicality"
+    ]
+  },
+  {
+    "market_id": "football.team_cards",
+    "sport": "football",
+    "family": "discipline",
+    "display_name": "Team Cards",
+    "selections": [
+      "over",
+      "under"
+    ],
+    "requires_team": true,
+    "requires_player": false,
+    "requires_line": true,
+    "requires_minute": false,
+    "availability": "future",
+    "model_hint": "team_cards_model",
+    "data_requirements": [
+      "cards",
+      "referee",
+      "team_fouls"
+    ],
+    "correlation_tags": [
+      "cards",
+      "team_discipline"
+    ]
+  },
+  {
+    "market_id": "football.player_card",
+    "sport": "football",
+    "family": "discipline",
+    "display_name": "Player To Be Carded",
+    "selections": [
+      "yes",
+      "no"
+    ],
+    "requires_team": false,
+    "requires_player": true,
+    "requires_line": false,
+    "requires_minute": false,
+    "availability": "future",
+    "model_hint": "player_card_model",
+    "data_requirements": [
+      "lineups",
+      "player_cards",
+      "referee",
+      "position"
+    ],
+    "correlation_tags": [
+      "cards",
+      "player_discipline"
+    ]
+  },
+  {
+    "market_id": "football.red_card",
+    "sport": "football",
+    "family": "discipline",
+    "display_name": "Red Card",
+    "selections": [
+      "yes",
+      "no"
+    ],
+    "requires_team": false,
+    "requires_player": false,
+    "requires_line": false,
+    "requires_minute": false,
+    "availability": "future",
+    "model_hint": "rare_event_model",
+    "data_requirements": [
+      "red_cards",
+      "referee",
+      "derby_flag"
+    ],
+    "correlation_tags": [
+      "cards",
+      "chaos"
+    ]
+  },
+  {
+    "market_id": "football.player_shots",
+    "sport": "football",
+    "family": "player_stats",
+    "display_name": "Player Shots",
+    "selections": [
+      "over",
+      "under"
+    ],
+    "requires_team": false,
+    "requires_player": true,
+    "requires_line": true,
+    "requires_minute": false,
+    "availability": "future",
+    "model_hint": "player_shot_volume",
+    "data_requirements": [
+      "lineups",
+      "shots",
+      "expected_minutes"
+    ],
+    "correlation_tags": [
+      "player_attacking",
+      "shots",
+      "tempo"
+    ]
+  },
+  {
+    "market_id": "football.player_shots_on_target",
+    "sport": "football",
+    "family": "player_stats",
+    "display_name": "Player Shots On Target",
+    "selections": [
+      "over",
+      "under"
+    ],
+    "requires_team": false,
+    "requires_player": true,
+    "requires_line": true,
+    "requires_minute": false,
+    "availability": "future",
+    "model_hint": "player_sot_model",
+    "data_requirements": [
+      "lineups",
+      "shots",
+      "xg",
+      "expected_minutes"
+    ],
+    "correlation_tags": [
+      "player_attacking",
+      "shots",
+      "goals"
+    ]
+  },
+  {
+    "market_id": "football.player_assist",
+    "sport": "football",
+    "family": "player_stats",
+    "display_name": "Player Assist",
+    "selections": [
+      "yes",
+      "no"
+    ],
+    "requires_team": false,
+    "requires_player": true,
+    "requires_line": false,
+    "requires_minute": false,
+    "availability": "future",
+    "model_hint": "player_assist_model",
+    "data_requirements": [
+      "lineups",
+      "assists",
+      "key_passes",
+      "xA"
+    ],
+    "correlation_tags": [
+      "player_creativity",
+      "team_attacking"
+    ]
+  },
+  {
+    "market_id": "football.total_offsides",
+    "sport": "football",
+    "family": "offsides",
+    "display_name": "Total Offsides",
+    "selections": [
+      "over",
+      "under"
+    ],
+    "requires_team": false,
+    "requires_player": false,
+    "requires_line": true,
+    "requires_minute": false,
+    "availability": "future",
+    "model_hint": "offside_model",
+    "data_requirements": [
+      "offsides",
+      "team_style",
+      "defensive_line"
+    ],
+    "correlation_tags": [
+      "offsides",
+      "tempo"
+    ]
+  },
+  {
+    "market_id": "football.penalty_awarded",
+    "sport": "football",
+    "family": "penalties",
+    "display_name": "Penalty Awarded",
+    "selections": [
+      "yes",
+      "no"
+    ],
+    "requires_team": false,
+    "requires_player": false,
+    "requires_line": false,
+    "requires_minute": false,
+    "availability": "future",
+    "model_hint": "rare_event_model",
+    "data_requirements": [
+      "penalties",
+      "box_touches",
+      "referee"
+    ],
+    "correlation_tags": [
+      "penalties",
+      "chaos",
+      "goals"
+    ]
+  },
+  {
+    "market_id": "football.halftime_result",
+    "sport": "football",
+    "family": "halves",
+    "display_name": "Half Time Result",
+    "selections": [
+      "home",
+      "draw",
+      "away"
+    ],
+    "requires_team": false,
+    "requires_player": false,
+    "requires_line": false,
+    "requires_minute": false,
+    "availability": "future",
+    "model_hint": "first_half_model",
+    "data_requirements": [
+      "half_time_scores",
+      "goal_events"
+    ],
+    "correlation_tags": [
+      "first_half",
+      "result"
+    ]
+  },
+  {
+    "market_id": "football.ht_ft",
+    "sport": "football",
+    "family": "halves",
+    "display_name": "Half Time / Full Time",
+    "selections": [
+      "HH",
+      "HD",
+      "HA",
+      "DH",
+      "DD",
+      "DA",
+      "AH",
+      "AD",
+      "AA"
+    ],
+    "requires_team": false,
+    "requires_player": false,
+    "requires_line": false,
+    "requires_minute": false,
+    "availability": "future",
+    "model_hint": "state_transition_model",
+    "data_requirements": [
+      "half_time_scores",
+      "full_time_scores"
+    ],
+    "correlation_tags": [
+      "first_half",
+      "result"
+    ]
+  }
+]

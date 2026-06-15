@@ -1,0 +1,5 @@
+{
+  "ok": false,
+  "reason": "No gold_goal_timing_features rows. Import event data first, e.g. StatsBomb Open Data or TheStatsAPI events.",
+  "matches": 0
+}

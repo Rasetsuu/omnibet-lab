@@ -1,0 +1,13 @@
+{
+  "name": "omnibet-lab-tauri",
+  "version": "0.3.0",
+  "private": true,
+  "scripts": {
+    "dev": "tauri dev",
+    "build": "tauri build"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@tauri-apps/cli": "^2"
+  }
+}

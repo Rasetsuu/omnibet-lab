@@ -1,0 +1,1502 @@
+{
+  "pack_name": "football_event_demo_v1",
+  "sport": "football",
+  "created_at": "2026-06-15T22:38:57+00:00",
+  "source_db": "../build/omnibet_v13_event_demo.sqlite",
+  "format": "omnibet.pack.v1",
+  "storage_policy": {
+    "current_codec": "jsonl.gzip",
+    "future_preferred_codec": "parquet.zstd",
+    "sqlite_role": "metadata/cache/recent state",
+    "pack_role": "compressed immutable historical data"
+  },
+  "tables": [
+    {
+      "table": "competitions",
+      "path": "../data_packs/football_event_demo_v1/tables/competitions.jsonl.gz",
+      "rows": 0,
+      "uncompressed_jsonl_bytes": 0,
+      "compressed_bytes": 44,
+      "compression": "gzip",
+      "gzip_level": 9,
+      "compression_ratio": null,
+      "sha256": "7779f1c3602a791b4ca3084a4473c8ec4f528648d84c33cb62f1873da3ecaed7",
+      "schema": [
+        {
+          "cid": 0,
+          "name": "competition_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": true
+        },
+        {
+          "cid": 1,
+          "name": "source_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 2,
+          "name": "sport",
+          "type": "TEXT",
+          "notnull": true,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 3,
+          "name": "name",
+          "type": "TEXT",
+          "notnull": true,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 4,
+          "name": "country",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 5,
+          "name": "raw_json",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        }
+      ]
+    },
+    {
+      "table": "seasons",
+      "path": "../data_packs/football_event_demo_v1/tables/seasons.jsonl.gz",
+      "rows": 0,
+      "uncompressed_jsonl_bytes": 0,
+      "compressed_bytes": 39,
+      "compression": "gzip",
+      "gzip_level": 9,
+      "compression_ratio": null,
+      "sha256": "c8e3caf756db52dcf6978f859344cfe875a55f36c204870d60d84a7150670911",
+      "schema": [
+        {
+          "cid": 0,
+          "name": "season_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": true
+        },
+        {
+          "cid": 1,
+          "name": "competition_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 2,
+          "name": "name",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 3,
+          "name": "start_date",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 4,
+          "name": "end_date",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 5,
+          "name": "is_current",
+          "type": "INTEGER",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 6,
+          "name": "raw_json",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        }
+      ]
+    },
+    {
+      "table": "teams",
+      "path": "../data_packs/football_event_demo_v1/tables/teams.jsonl.gz",
+      "rows": 4,
+      "uncompressed_jsonl_bytes": 578,
+      "compressed_bytes": 203,
+      "compression": "gzip",
+      "gzip_level": 9,
+      "compression_ratio": 0.3512,
+      "sha256": "df0cd376ce04992d9efd7c22418473fc2df88f8be9abd426ab5dd807ef6a1c1a",
+      "schema": [
+        {
+          "cid": 0,
+          "name": "team_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": true
+        },
+        {
+          "cid": 1,
+          "name": "source_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 2,
+          "name": "sport",
+          "type": "TEXT",
+          "notnull": true,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 3,
+          "name": "name",
+          "type": "TEXT",
+          "notnull": true,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 4,
+          "name": "country",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 5,
+          "name": "raw_json",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        }
+      ]
+    },
+    {
+      "table": "players",
+      "path": "../data_packs/football_event_demo_v1/tables/players.jsonl.gz",
+      "rows": 9,
+      "uncompressed_jsonl_bytes": 2012,
+      "compressed_bytes": 330,
+      "compression": "gzip",
+      "gzip_level": 9,
+      "compression_ratio": 0.164,
+      "sha256": "3cc1462fee8d0ea3bad4f0bbe922a622283aaf1789144aa72ee0b43f864ad2e7",
+      "schema": [
+        {
+          "cid": 0,
+          "name": "player_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": true
+        },
+        {
+          "cid": 1,
+          "name": "source_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 2,
+          "name": "sport",
+          "type": "TEXT",
+          "notnull": true,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 3,
+          "name": "name",
+          "type": "TEXT",
+          "notnull": true,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 4,
+          "name": "nationality",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 5,
+          "name": "birth_date",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 6,
+          "name": "position",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 7,
+          "name": "current_team_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 8,
+          "name": "raw_json",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        }
+      ]
+    },
+    {
+      "table": "matches_norm",
+      "path": "../data_packs/football_event_demo_v1/tables/matches_norm.jsonl.gz",
+      "rows": 305,
+      "uncompressed_jsonl_bytes": 331956,
+      "compressed_bytes": 20742,
+      "compression": "gzip",
+      "gzip_level": 9,
+      "compression_ratio": 0.0625,
+      "sha256": "1bacc9ef830eb1c78237e2b7aa451e22fbdce782bda1e689aae0ccbed634de50",
+      "schema": [
+        {
+          "cid": 0,
+          "name": "match_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": true
+        },
+        {
+          "cid": 1,
+          "name": "source_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 2,
+          "name": "sport",
+          "type": "TEXT",
+          "notnull": true,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 3,
+          "name": "competition_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 4,
+          "name": "season_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 5,
+          "name": "match_date",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 6,
+          "name": "status",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 7,
+          "name": "home_team_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 8,
+          "name": "away_team_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 9,
+          "name": "home_team_name",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 10,
+          "name": "away_team_name",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 11,
+          "name": "home_score",
+          "type": "INTEGER",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 12,
+          "name": "away_score",
+          "type": "INTEGER",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 13,
+          "name": "venue",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 14,
+          "name": "raw_json",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        }
+      ]
+    },
+    {
+      "table": "match_events",
+      "path": "../data_packs/football_event_demo_v1/tables/match_events.jsonl.gz",
+      "rows": 35,
+      "uncompressed_jsonl_bytes": 11739,
+      "compressed_bytes": 867,
+      "compression": "gzip",
+      "gzip_level": 9,
+      "compression_ratio": 0.0739,
+      "sha256": "103016ca3ee2ec672c055ea5b0f273ddcc9f5ee7b4c0ba2e2d0aa9d13054b4e0",
+      "schema": [
+        {
+          "cid": 0,
+          "name": "event_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": true
+        },
+        {
+          "cid": 1,
+          "name": "match_id",
+          "type": "TEXT",
+          "notnull": true,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 2,
+          "name": "source_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 3,
+          "name": "event_type",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 4,
+          "name": "minute",
+          "type": "INTEGER",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 5,
+          "name": "second",
+          "type": "INTEGER",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 6,
+          "name": "period",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 7,
+          "name": "team_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 8,
+          "name": "player_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 9,
+          "name": "related_player_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 10,
+          "name": "x",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 11,
+          "name": "y",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 12,
+          "name": "outcome",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 13,
+          "name": "xg",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 14,
+          "name": "raw_json",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        }
+      ]
+    },
+    {
+      "table": "lineups",
+      "path": "../data_packs/football_event_demo_v1/tables/lineups.jsonl.gz",
+      "rows": 18,
+      "uncompressed_jsonl_bytes": 4606,
+      "compressed_bytes": 448,
+      "compression": "gzip",
+      "gzip_level": 9,
+      "compression_ratio": 0.0973,
+      "sha256": "919475e02285c36d686052e1c4169ca3e541984b555822cbcc65c0e4d0b3b0e9",
+      "schema": [
+        {
+          "cid": 0,
+          "name": "lineup_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": true
+        },
+        {
+          "cid": 1,
+          "name": "match_id",
+          "type": "TEXT",
+          "notnull": true,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 2,
+          "name": "team_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 3,
+          "name": "player_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 4,
+          "name": "player_name",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 5,
+          "name": "started",
+          "type": "INTEGER",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 6,
+          "name": "position",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 7,
+          "name": "shirt_number",
+          "type": "INTEGER",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 8,
+          "name": "minutes_played",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 9,
+          "name": "raw_json",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        }
+      ]
+    },
+    {
+      "table": "odds_snapshots",
+      "path": "../data_packs/football_event_demo_v1/tables/odds_snapshots.jsonl.gz",
+      "rows": 0,
+      "uncompressed_jsonl_bytes": 0,
+      "compressed_bytes": 46,
+      "compression": "gzip",
+      "gzip_level": 9,
+      "compression_ratio": null,
+      "sha256": "1ffb3445878b4199557634cfac3624509f177ab74793aee04b16688f76faa303",
+      "schema": [
+        {
+          "cid": 0,
+          "name": "odds_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": true
+        },
+        {
+          "cid": 1,
+          "name": "source_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 2,
+          "name": "match_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 3,
+          "name": "bookmaker",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 4,
+          "name": "market_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 5,
+          "name": "selection",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 6,
+          "name": "line",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 7,
+          "name": "odds_decimal",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 8,
+          "name": "captured_at",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 9,
+          "name": "is_live",
+          "type": "INTEGER",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 10,
+          "name": "raw_json",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        }
+      ]
+    },
+    {
+      "table": "gold_team_snapshots",
+      "path": "../data_packs/football_event_demo_v1/tables/gold_team_snapshots.jsonl.gz",
+      "rows": 610,
+      "uncompressed_jsonl_bytes": 691306,
+      "compressed_bytes": 30171,
+      "compression": "gzip",
+      "gzip_level": 9,
+      "compression_ratio": 0.0436,
+      "sha256": "b5ce72601223a547285c1988a433414fffe54f88643be699639ec58c7df5263f",
+      "schema": [
+        {
+          "cid": 0,
+          "name": "snapshot_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": true
+        },
+        {
+          "cid": 1,
+          "name": "match_id",
+          "type": "TEXT",
+          "notnull": true,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 2,
+          "name": "team_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 3,
+          "name": "team_name",
+          "type": "TEXT",
+          "notnull": true,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 4,
+          "name": "opponent_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 5,
+          "name": "opponent_name",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 6,
+          "name": "snapshot_date",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 7,
+          "name": "rolling_n",
+          "type": "INTEGER",
+          "notnull": true,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 8,
+          "name": "prior_matches",
+          "type": "INTEGER",
+          "notnull": true,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 9,
+          "name": "goals_for_avg",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 10,
+          "name": "goals_against_avg",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 11,
+          "name": "xg_for_avg",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 12,
+          "name": "xg_against_avg",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 13,
+          "name": "shots_for_avg",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 14,
+          "name": "shots_against_avg",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 15,
+          "name": "cards_for_avg",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 16,
+          "name": "cards_against_avg",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 17,
+          "name": "corners_for_avg",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 18,
+          "name": "corners_against_avg",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 19,
+          "name": "first_half_goals_for_avg",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 20,
+          "name": "second_half_goals_for_avg",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 21,
+          "name": "points_avg",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 22,
+          "name": "rest_days",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 23,
+          "name": "raw_json",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        }
+      ]
+    },
+    {
+      "table": "gold_match_features",
+      "path": "../data_packs/football_event_demo_v1/tables/gold_match_features.jsonl.gz",
+      "rows": 305,
+      "uncompressed_jsonl_bytes": 662634,
+      "compressed_bytes": 27787,
+      "compression": "gzip",
+      "gzip_level": 9,
+      "compression_ratio": 0.0419,
+      "sha256": "3e1f96fdcfe8c3326e16e584d0a39c838152c359a5c8097b9779e6626eec2a48",
+      "schema": [
+        {
+          "cid": 0,
+          "name": "feature_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": true
+        },
+        {
+          "cid": 1,
+          "name": "match_id",
+          "type": "TEXT",
+          "notnull": true,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 2,
+          "name": "source_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 3,
+          "name": "sport",
+          "type": "TEXT",
+          "notnull": true,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 4,
+          "name": "match_date",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 5,
+          "name": "competition_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 6,
+          "name": "season_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 7,
+          "name": "home_team_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 8,
+          "name": "away_team_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 9,
+          "name": "home_team_name",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 10,
+          "name": "away_team_name",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 11,
+          "name": "target_home_goals",
+          "type": "INTEGER",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 12,
+          "name": "target_away_goals",
+          "type": "INTEGER",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 13,
+          "name": "target_outcome",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 14,
+          "name": "target_over_25",
+          "type": "INTEGER",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 15,
+          "name": "target_btts",
+          "type": "INTEGER",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 16,
+          "name": "feature_version",
+          "type": "TEXT",
+          "notnull": true,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 17,
+          "name": "features_json",
+          "type": "TEXT",
+          "notnull": true,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 18,
+          "name": "created_at",
+          "type": "TEXT",
+          "notnull": false,
+          "default": "CURRENT_TIMESTAMP",
+          "pk": false
+        }
+      ]
+    },
+    {
+      "table": "gold_goal_timing_features",
+      "path": "../data_packs/football_event_demo_v1/tables/gold_goal_timing_features.jsonl.gz",
+      "rows": 4,
+      "uncompressed_jsonl_bytes": 3440,
+      "compressed_bytes": 618,
+      "compression": "gzip",
+      "gzip_level": 9,
+      "compression_ratio": 0.1797,
+      "sha256": "7aac628a30a592baed714fa8e4f16c8abba92e97410d0e0fd8950aa87d9f9b6f",
+      "schema": [
+        {
+          "cid": 0,
+          "name": "row_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": true
+        },
+        {
+          "cid": 1,
+          "name": "match_id",
+          "type": "TEXT",
+          "notnull": true,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 2,
+          "name": "source_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 3,
+          "name": "home_team_name",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 4,
+          "name": "away_team_name",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 5,
+          "name": "match_date",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 6,
+          "name": "first_goal_minute",
+          "type": "INTEGER",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 7,
+          "name": "first_goal_team",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 8,
+          "name": "home_goal_0_15",
+          "type": "INTEGER",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 9,
+          "name": "away_goal_0_15",
+          "type": "INTEGER",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 10,
+          "name": "goal_0_15",
+          "type": "INTEGER",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 11,
+          "name": "goal_16_30",
+          "type": "INTEGER",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 12,
+          "name": "goal_31_45",
+          "type": "INTEGER",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 13,
+          "name": "goal_46_60",
+          "type": "INTEGER",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 14,
+          "name": "goal_61_75",
+          "type": "INTEGER",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 15,
+          "name": "goal_76_90",
+          "type": "INTEGER",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 16,
+          "name": "first_half_goals",
+          "type": "INTEGER",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 17,
+          "name": "second_half_goals",
+          "type": "INTEGER",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 18,
+          "name": "raw_json",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        }
+      ]
+    },
+    {
+      "table": "gold_player_snapshots",
+      "path": "../data_packs/football_event_demo_v1/tables/gold_player_snapshots.jsonl.gz",
+      "rows": 9,
+      "uncompressed_jsonl_bytes": 3376,
+      "compressed_bytes": 616,
+      "compression": "gzip",
+      "gzip_level": 9,
+      "compression_ratio": 0.1825,
+      "sha256": "c77be890bf04f9ec90bf08e436dbc35e40e542eabc8e289e7432d982db8be65a",
+      "schema": [
+        {
+          "cid": 0,
+          "name": "snapshot_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": true
+        },
+        {
+          "cid": 1,
+          "name": "player_id",
+          "type": "TEXT",
+          "notnull": true,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 2,
+          "name": "player_name",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 3,
+          "name": "team_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 4,
+          "name": "snapshot_date",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 5,
+          "name": "prior_matches",
+          "type": "INTEGER",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 6,
+          "name": "expected_minutes",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 7,
+          "name": "goals_90",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 8,
+          "name": "shots_90",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 9,
+          "name": "xg_90",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 10,
+          "name": "cards_90",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 11,
+          "name": "player_score",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 12,
+          "name": "raw_json",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        }
+      ]
+    },
+    {
+      "table": "gold_market_features",
+      "path": "../data_packs/football_event_demo_v1/tables/gold_market_features.jsonl.gz",
+      "rows": 0,
+      "uncompressed_jsonl_bytes": 0,
+      "compressed_bytes": 52,
+      "compression": "gzip",
+      "gzip_level": 9,
+      "compression_ratio": null,
+      "sha256": "9134d648eaf6f412c7c681639f0f25c05e134b754585e73d49317c295d00b26d",
+      "schema": [
+        {
+          "cid": 0,
+          "name": "row_id",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": true
+        },
+        {
+          "cid": 1,
+          "name": "match_id",
+          "type": "TEXT",
+          "notnull": true,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 2,
+          "name": "market_id",
+          "type": "TEXT",
+          "notnull": true,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 3,
+          "name": "selection",
+          "type": "TEXT",
+          "notnull": true,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 4,
+          "name": "bookmaker",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 5,
+          "name": "odds_decimal",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 6,
+          "name": "implied_probability",
+          "type": "REAL",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 7,
+          "name": "captured_at",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 8,
+          "name": "is_live",
+          "type": "INTEGER",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        },
+        {
+          "cid": 9,
+          "name": "features_json",
+          "type": "TEXT",
+          "notnull": false,
+          "default": null,
+          "pk": false
+        }
+      ]
+    }
+  ],
+  "skipped": [],
+  "total_rows": 1299,
+  "total_uncompressed_jsonl_bytes": 1711647,
+  "total_compressed_bytes": 81963,
+  "overall_compression_ratio": 0.0479,
+  "manifest_sha256": "da6cf11a163beb7031edd88b1e188cb6e8c52aa3d47dcb4eaf64586c93e90dbc"
+}

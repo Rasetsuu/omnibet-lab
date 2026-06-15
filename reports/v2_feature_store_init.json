@@ -1,0 +1,11 @@
+{
+  "db_path": "../build/omnibet.sqlite",
+  "imported_games": 301,
+  "feature_rows": 301,
+  "counts": {
+    "games": 301,
+    "team_aliases": 14,
+    "team_snapshots": 602,
+    "features_json": 301
+  }
+}

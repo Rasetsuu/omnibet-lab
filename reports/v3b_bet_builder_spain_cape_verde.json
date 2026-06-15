@@ -1,0 +1,546 @@
+{
+  "fixture": {
+    "home": "Spain",
+    "away": "Cape Verde"
+  },
+  "model_prediction": {
+    "home": "Spain",
+    "away": "Cape Verde",
+    "outcome": {
+      "H": 0.5708770041581005,
+      "D": 0.2524246166508549,
+      "A": 0.17669837919104459
+    },
+    "pick": "H",
+    "over25_prob": 0.5713160838557005,
+    "btts_prob": 0.5061167017627801,
+    "calibration_alpha_1x2": 0.5,
+    "note": "Single-match predict mode uses latest aggregate feature fallback; v3B will improve this via feature store fixture snapshots."
+  },
+  "available_legs": [
+    {
+      "market_id": "football.1x2",
+      "selection": "home",
+      "label": "Spain win",
+      "probability": 0.5708770041581005,
+      "fair_odds": 1.751690806804782,
+      "category": "core",
+      "tags": [
+        "result",
+        "home_strength"
+      ],
+      "bookmaker_odds": 1.62,
+      "edge": -0.07517925326387709,
+      "kelly": 0.0,
+      "quarter_kelly": 0.0,
+      "risk_note": ""
+    },
+    {
+      "market_id": "football.1x2",
+      "selection": "draw",
+      "label": "Draw",
+      "probability": 0.2524246166508549,
+      "fair_odds": 3.961578760692606,
+      "category": "core",
+      "tags": [
+        "result",
+        "draw"
+      ],
+      "bookmaker_odds": 3.9,
+      "edge": -0.015543995061665816,
+      "kelly": 0.0,
+      "quarter_kelly": 0.0,
+      "risk_note": ""
+    },
+    {
+      "market_id": "football.1x2",
+      "selection": "away",
+      "label": "Cape Verde win",
+      "probability": 0.17669837919104459,
+      "fair_odds": 5.659361475629664,
+      "category": "core",
+      "tags": [
+        "result",
+        "away_strength"
+      ],
+      "bookmaker_odds": 5.8,
+      "edge": 0.024850599308058552,
+      "kelly": 0.005177208189178865,
+      "quarter_kelly": 0.0012943020472947163,
+      "risk_note": ""
+    },
+    {
+      "market_id": "football.double_chance",
+      "selection": "1X",
+      "label": "Spain or Draw",
+      "probability": 0.8233016208089554,
+      "fair_odds": 1.2146216826555318,
+      "category": "core",
+      "tags": [
+        "result",
+        "safer"
+      ],
+      "bookmaker_odds": 1.15,
+      "edge": -0.053203136069701396,
+      "kelly": 0.0,
+      "quarter_kelly": 0.0,
+      "risk_note": ""
+    },
+    {
+      "market_id": "football.double_chance",
+      "selection": "12",
+      "label": "No Draw",
+      "probability": 0.7475753833491451,
+      "fair_odds": 1.3376577429823735,
+      "category": "core",
+      "tags": [
+        "result"
+      ],
+      "bookmaker_odds": 1.22,
+      "edge": -0.08795803231404298,
+      "kelly": 0.0,
+      "quarter_kelly": 0.0,
+      "risk_note": ""
+    },
+    {
+      "market_id": "football.double_chance",
+      "selection": "X2",
+      "label": "Draw or Cape Verde",
+      "probability": 0.4291229958418995,
+      "fair_odds": 2.3303342158070386,
+      "category": "core",
+      "tags": [
+        "result",
+        "safer"
+      ],
+      "bookmaker_odds": 2.3,
+      "edge": -0.013017109563631224,
+      "kelly": 0.0,
+      "quarter_kelly": 0.0,
+      "risk_note": ""
+    },
+    {
+      "market_id": "football.total_goals",
+      "selection": "over_1.5",
+      "label": "Over 1.5 Goals",
+      "probability": 0.7513160838557005,
+      "fair_odds": 1.3309977271723925,
+      "category": "goals",
+      "tags": [
+        "goals",
+        "tempo"
+      ],
+      "bookmaker_odds": 1.32,
+      "edge": -0.008262769310475315,
+      "kelly": 0.0,
+      "quarter_kelly": 0.0,
+      "risk_note": ""
+    },
+    {
+      "market_id": "football.total_goals",
+      "selection": "over_2.5",
+      "label": "Over 2.5 Goals",
+      "probability": 0.5713160838557005,
+      "fair_odds": 1.7503445610198745,
+      "category": "goals",
+      "tags": [
+        "goals",
+        "tempo"
+      ],
+      "bookmaker_odds": 1.88,
+      "edge": 0.0740742376487169,
+      "kelly": 0.08417527005536013,
+      "quarter_kelly": 0.021043817513840032,
+      "risk_note": ""
+    },
+    {
+      "market_id": "football.total_goals",
+      "selection": "under_2.5",
+      "label": "Under 2.5 Goals",
+      "probability": 0.42868391614429946,
+      "fair_odds": 2.3327210616956986,
+      "category": "goals",
+      "tags": [
+        "goals",
+        "defensive"
+      ],
+      "bookmaker_odds": 1.92,
+      "edge": -0.17692688100294507,
+      "kelly": 0.0,
+      "quarter_kelly": 0.0,
+      "risk_note": ""
+    },
+    {
+      "market_id": "football.total_goals",
+      "selection": "over_3.5",
+      "label": "Over 3.5 Goals",
+      "probability": 0.35131608385570057,
+      "fair_odds": 2.846439562416219,
+      "category": "goals",
+      "tags": [
+        "goals",
+        "chaos"
+      ],
+      "bookmaker_odds": null,
+      "edge": null,
+      "kelly": null,
+      "quarter_kelly": null,
+      "risk_note": ""
+    },
+    {
+      "market_id": "football.total_goals",
+      "selection": "under_3.5",
+      "label": "Under 3.5 Goals",
+      "probability": 0.6486839161442994,
+      "fair_odds": 1.5415828496933943,
+      "category": "goals",
+      "tags": [
+        "goals",
+        "safer"
+      ],
+      "bookmaker_odds": 1.38,
+      "edge": -0.10481619572086687,
+      "kelly": 0.0,
+      "quarter_kelly": 0.0,
+      "risk_note": ""
+    },
+    {
+      "market_id": "football.btts",
+      "selection": "yes",
+      "label": "BTTS Yes",
+      "probability": 0.5061167017627801,
+      "fair_odds": 1.9758288879166566,
+      "category": "goals",
+      "tags": [
+        "goals",
+        "both_teams_score"
+      ],
+      "bookmaker_odds": 1.95,
+      "edge": -0.013072431562578757,
+      "kelly": 0.0,
+      "quarter_kelly": 0.0,
+      "risk_note": ""
+    },
+    {
+      "market_id": "football.btts",
+      "selection": "no",
+      "label": "BTTS No",
+      "probability": 0.4938832982372199,
+      "fair_odds": 2.0247698263318967,
+      "category": "goals",
+      "tags": [
+        "goals",
+        "defensive"
+      ],
+      "bookmaker_odds": 1.85,
+      "edge": -0.08631589826114316,
+      "kelly": 0.0,
+      "quarter_kelly": 0.0,
+      "risk_note": ""
+    },
+    {
+      "market_id": "football.team_goals",
+      "selection": "home_over_0.5",
+      "label": "Spain Over 0.5 Goals",
+      "probability": 0.7272061984075906,
+      "fair_odds": 1.3751257926428064,
+      "category": "team_goals",
+      "tags": [
+        "team_attacking",
+        "goals"
+      ],
+      "bookmaker_odds": 1.18,
+      "edge": -0.14189668587904314,
+      "kelly": 0.0,
+      "quarter_kelly": 0.0,
+      "risk_note": ""
+    },
+    {
+      "market_id": "football.team_goals",
+      "selection": "away_over_0.5",
+      "label": "Cape Verde Over 0.5 Goals",
+      "probability": 0.4352763462901398,
+      "fair_odds": 2.2973910907932393,
+      "category": "team_goals",
+      "tags": [
+        "team_attacking",
+        "goals"
+      ],
+      "bookmaker_odds": null,
+      "edge": null,
+      "kelly": null,
+      "quarter_kelly": null,
+      "risk_note": ""
+    },
+    {
+      "market_id": "football.team_goals",
+      "selection": "home_over_1.5",
+      "label": "Spain Over 1.5 Goals",
+      "probability": 0.45685528122064045,
+      "fair_odds": 2.188876961930194,
+      "category": "team_goals",
+      "tags": [
+        "team_attacking",
+        "goals"
+      ],
+      "bookmaker_odds": 1.75,
+      "edge": -0.20050325786387924,
+      "kelly": 0.0,
+      "quarter_kelly": 0.0,
+      "risk_note": ""
+    },
+    {
+      "market_id": "football.team_goals",
+      "selection": "away_over_1.5",
+      "label": "Cape Verde Over 1.5 Goals",
+      "probability": 0.2223432915998952,
+      "fair_odds": 4.4975496800663155,
+      "category": "team_goals",
+      "tags": [
+        "team_attacking",
+        "goals"
+      ],
+      "bookmaker_odds": null,
+      "edge": null,
+      "kelly": null,
+      "quarter_kelly": null,
+      "risk_note": ""
+    },
+    {
+      "market_id": "football.total_corners",
+      "selection": "over_8.5",
+      "label": "Over 8.5 Corners",
+      "probability": 0.5285264335422802,
+      "fair_odds": 1.8920529542823776,
+      "category": "corners",
+      "tags": [
+        "corners",
+        "tempo"
+      ],
+      "bookmaker_odds": 1.83,
+      "edge": -0.03279662661762717,
+      "kelly": 0.0,
+      "quarter_kelly": 0.0,
+      "risk_note": "prototype: no dedicated corners model yet"
+    },
+    {
+      "market_id": "football.total_cards",
+      "selection": "over_3.5",
+      "label": "Over 3.5 Cards",
+      "probability": 0.5,
+      "fair_odds": 2.0,
+      "category": "cards",
+      "tags": [
+        "cards",
+        "physicality"
+      ],
+      "bookmaker_odds": 1.8,
+      "edge": -0.09999999999999998,
+      "kelly": 0.0,
+      "quarter_kelly": 0.0,
+      "risk_note": "prototype: no referee/card model yet"
+    }
+  ],
+  "tickets": [
+    {
+      "name": "Safe Builder",
+      "legs": [
+        {
+          "market_id": "football.double_chance",
+          "selection": "1X",
+          "label": "Spain or Draw",
+          "probability": 0.8233016208089554,
+          "fair_odds": 1.2146216826555318,
+          "category": "core",
+          "tags": [
+            "result",
+            "safer"
+          ],
+          "bookmaker_odds": 1.15,
+          "edge": -0.053203136069701396,
+          "kelly": 0.0,
+          "quarter_kelly": 0.0,
+          "risk_note": ""
+        },
+        {
+          "market_id": "football.total_goals",
+          "selection": "over_1.5",
+          "label": "Over 1.5 Goals",
+          "probability": 0.7513160838557005,
+          "fair_odds": 1.3309977271723925,
+          "category": "goals",
+          "tags": [
+            "goals",
+            "tempo"
+          ],
+          "bookmaker_odds": 1.32,
+          "edge": -0.008262769310475315,
+          "kelly": 0.0,
+          "quarter_kelly": 0.0,
+          "risk_note": ""
+        }
+      ],
+      "raw_probability": 0.6185597495782352,
+      "adjusted_probability": 0.6185597495782352,
+      "fair_odds": 1.6166586989888199,
+      "bookmaker_odds": 1.518,
+      "edge": -0.06102630014023891,
+      "quarter_kelly": 0.0,
+      "correlation_risk": 0.0,
+      "decision": "NO BET - edge too small",
+      "notes": []
+    },
+    {
+      "name": "Balanced Builder",
+      "legs": [
+        {
+          "market_id": "football.1x2",
+          "selection": "home",
+          "label": "Spain win",
+          "probability": 0.5708770041581005,
+          "fair_odds": 1.751690806804782,
+          "category": "core",
+          "tags": [
+            "result",
+            "home_strength"
+          ],
+          "bookmaker_odds": 1.62,
+          "edge": -0.07517925326387709,
+          "kelly": 0.0,
+          "quarter_kelly": 0.0,
+          "risk_note": ""
+        },
+        {
+          "market_id": "football.double_chance",
+          "selection": "1X",
+          "label": "Spain or Draw",
+          "probability": 0.8233016208089554,
+          "fair_odds": 1.2146216826555318,
+          "category": "core",
+          "tags": [
+            "result",
+            "safer"
+          ],
+          "bookmaker_odds": 1.15,
+          "edge": -0.053203136069701396,
+          "kelly": 0.0,
+          "quarter_kelly": 0.0,
+          "risk_note": ""
+        },
+        {
+          "market_id": "football.total_goals",
+          "selection": "over_2.5",
+          "label": "Over 2.5 Goals",
+          "probability": 0.5713160838557005,
+          "fair_odds": 1.7503445610198745,
+          "category": "goals",
+          "tags": [
+            "goals",
+            "tempo"
+          ],
+          "bookmaker_odds": 1.88,
+          "edge": 0.0740742376487169,
+          "kelly": 0.08417527005536013,
+          "quarter_kelly": 0.021043817513840032,
+          "risk_note": ""
+        }
+      ],
+      "raw_probability": 0.2685208234269414,
+      "adjusted_probability": 0.2685208234269414,
+      "fair_odds": 3.7241059640653082,
+      "bookmaker_odds": 3.50244,
+      "edge": -0.05952192719654337,
+      "quarter_kelly": 0.0,
+      "correlation_risk": 0.0,
+      "decision": "NO BET - edge too small",
+      "notes": []
+    },
+    {
+      "name": "Aggressive Builder",
+      "legs": [
+        {
+          "market_id": "football.1x2",
+          "selection": "home",
+          "label": "Spain win",
+          "probability": 0.5708770041581005,
+          "fair_odds": 1.751690806804782,
+          "category": "core",
+          "tags": [
+            "result",
+            "home_strength"
+          ],
+          "bookmaker_odds": 1.62,
+          "edge": -0.07517925326387709,
+          "kelly": 0.0,
+          "quarter_kelly": 0.0,
+          "risk_note": ""
+        },
+        {
+          "market_id": "football.double_chance",
+          "selection": "1X",
+          "label": "Spain or Draw",
+          "probability": 0.8233016208089554,
+          "fair_odds": 1.2146216826555318,
+          "category": "core",
+          "tags": [
+            "result",
+            "safer"
+          ],
+          "bookmaker_odds": 1.15,
+          "edge": -0.053203136069701396,
+          "kelly": 0.0,
+          "quarter_kelly": 0.0,
+          "risk_note": ""
+        },
+        {
+          "market_id": "football.total_goals",
+          "selection": "over_2.5",
+          "label": "Over 2.5 Goals",
+          "probability": 0.5713160838557005,
+          "fair_odds": 1.7503445610198745,
+          "category": "goals",
+          "tags": [
+            "goals",
+            "tempo"
+          ],
+          "bookmaker_odds": 1.88,
+          "edge": 0.0740742376487169,
+          "kelly": 0.08417527005536013,
+          "quarter_kelly": 0.021043817513840032,
+          "risk_note": ""
+        },
+        {
+          "market_id": "football.total_cards",
+          "selection": "over_3.5",
+          "label": "Over 3.5 Cards",
+          "probability": 0.5,
+          "fair_odds": 2.0,
+          "category": "cards",
+          "tags": [
+            "cards",
+            "physicality"
+          ],
+          "bookmaker_odds": 1.8,
+          "edge": -0.09999999999999998,
+          "kelly": 0.0,
+          "quarter_kelly": 0.0,
+          "risk_note": "prototype: no referee/card model yet"
+        }
+      ],
+      "raw_probability": 0.1342604117134707,
+      "adjusted_probability": 0.1342604117134707,
+      "fair_odds": 7.4482119281306165,
+      "bookmaker_odds": 6.304392,
+      "edge": -0.15356973447688904,
+      "quarter_kelly": 0.0,
+      "correlation_risk": 0.0,
+      "decision": "NO BET - edge too small",
+      "notes": []
+    }
+  ],
+  "notes": [
+    "v3B is a prototype. It supports core/result/goals markets now and reserves player/event markets for future event-data models.",
+    "Same-game probabilities are correlation-adjusted heuristically, not bookmaker-grade joint pricing.",
+    "NO BET logic is intentional; the tool should reject weak or badly priced tickets."
+  ]
+}

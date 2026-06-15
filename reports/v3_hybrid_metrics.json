@@ -1,0 +1,5933 @@
+{
+  "summary": {
+    "baseline_matches": 211,
+    "baseline_1x2_accuracy": 0.47393364928909953,
+    "baseline_over25_accuracy": 0.5165876777251185,
+    "baseline_log_loss": 1.0440622954660919,
+    "baseline_brier": 0.6181632681935114,
+    "baseline_over25_log_loss": 0.7521209415235879,
+    "hybrid_matches": 211,
+    "hybrid_1x2_accuracy": 0.4597156398104265,
+    "hybrid_over25_accuracy": 0.5402843601895735,
+    "hybrid_log_loss": 1.0284232042938226,
+    "hybrid_brier": 0.6191771040867935,
+    "hybrid_over25_log_loss": 0.694681981192852,
+    "calibration_enabled": true,
+    "min_train": 90,
+    "refit_every": 25,
+    "delta_1x2_accuracy": -0.014218009478673022,
+    "delta_over25_accuracy": 0.023696682464455,
+    "delta_log_loss": -0.01563909117226925,
+    "delta_brier": 0.001013835893282078
+  },
+  "predictions": [
+    {
+      "date": "2024-09-06",
+      "home": "Belgium",
+      "away": "Israel",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.3365164137203476,
+        "D": 0.3269671725593044,
+        "A": 0.33651641372034763
+      },
+      "baseline_over25_prob": 0.2740086392511206,
+      "baseline_btts_prob": 0.35632173090535924,
+      "baseline_logloss": 1.0891083533147445,
+      "baseline_brier": 0.6603612978971392,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.7336352940744864,
+        "D": 0.18156578132837536,
+        "A": 0.08479892459713835
+      },
+      "hybrid_over25_prob": 0.6997064853094914,
+      "hybrid_btts_prob": 0.7474384391854767,
+      "hybrid_logloss": 0.30974324840861056,
+      "hybrid_brier": 0.11110714712499994
+    },
+    {
+      "date": "2024-09-06",
+      "home": "France",
+      "away": "Italy",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.42122521938646845,
+        "D": 0.3479341870700464,
+        "A": 0.2308405935434852
+      },
+      "baseline_over25_prob": 0.21234285615582119,
+      "baseline_btts_prob": 0.2864965067199632,
+      "baseline_logloss": 1.4660278779094194,
+      "baseline_brier": 0.8900950765198107,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.5368181386912746,
+        "D": 0.27795598688371836,
+        "A": 0.18522587442500701
+      },
+      "hybrid_over25_prob": 0.808583928016843,
+      "hybrid_btts_prob": 0.7918283266319577,
+      "hybrid_logloss": 1.686179255810511,
+      "hybrid_brier": 1.0292901203789608
+    },
+    {
+      "date": "2024-09-06",
+      "home": "Iceland",
+      "away": "Montenegro",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.3690523999117896,
+        "D": 0.26189520017642065,
+        "A": 0.3690523999117897
+      },
+      "baseline_over25_prob": 0.49019906927758655,
+      "baseline_btts_prob": 0.5360190923014604,
+      "baseline_logloss": 0.9968166398423894,
+      "baseline_brier": 0.6028836438131713,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.2600314828665772,
+        "D": 0.2960930642469646,
+        "A": 0.44387545288645824
+      },
+      "hybrid_over25_prob": 0.515046030196687,
+      "hybrid_btts_prob": 0.5417105624513995,
+      "hybrid_logloss": 1.3469525673487894,
+      "hybrid_brier": 0.8322499267189523
+    },
+    {
+      "date": "2024-09-06",
+      "home": "Kazakhstan",
+      "away": "Norway",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.3690523999117896,
+        "D": 0.26189520017642065,
+        "A": 0.3690523999117897
+      },
+      "baseline_over25_prob": 0.49019906927758655,
+      "baseline_btts_prob": 0.5360190923014604,
+      "baseline_logloss": 1.3398108545687493,
+      "baseline_brier": 0.8171980432839092,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.15981641678951403,
+        "D": 0.2657551631683604,
+        "A": 0.5744284200421257
+      },
+      "hybrid_over25_prob": 0.4524964714932374,
+      "hybrid_btts_prob": 0.5178224847098676,
+      "hybrid_logloss": 1.3251798332814182,
+      "hybrid_brier": 0.8946247772414535
+    },
+    {
+      "date": "2024-09-06",
+      "home": "Kosovo",
+      "away": "Romania",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.4270375806054842,
+        "D": 0.2633893108177902,
+        "A": 0.3095731085767254
+      },
+      "baseline_over25_prob": 0.4733135807241101,
+      "baseline_btts_prob": 0.5183510509661894,
+      "baseline_logloss": 1.1725609996413,
+      "baseline_brier": 0.7284243167028621,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.09881945399834771,
+        "D": 0.17537102822905976,
+        "A": 0.7258095177725925
+      },
+      "hybrid_over25_prob": 0.2697444510913092,
+      "hybrid_btts_prob": 0.3099883022942168,
+      "hybrid_logloss": 0.3204676707970119,
+      "hybrid_brier": 0.1157007025747475
+    },
+    {
+      "date": "2024-09-06",
+      "home": "Lithuania",
+      "away": "Cyprus",
+      "actual": "A",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.3690523999117896,
+        "D": 0.26189520017642065,
+        "A": 0.3690523999117897
+      },
+      "baseline_over25_prob": 0.49019906927758655,
+      "baseline_btts_prob": 0.5360190923014604,
+      "baseline_logloss": 0.9968166398423893,
+      "baseline_brier": 0.6028836438131712,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.2600314828665772,
+        "D": 0.2960930642469646,
+        "A": 0.44387545288645824
+      },
+      "hybrid_over25_prob": 0.515046030196687,
+      "hybrid_btts_prob": 0.5417105624513995,
+      "hybrid_logloss": 0.8122112674176128,
+      "hybrid_brier": 0.46456198667919
+    },
+    {
+      "date": "2024-09-06",
+      "home": "Slovenia",
+      "away": "Austria",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.3197721143175433,
+        "D": 0.2966568149838587,
+        "A": 0.38357107069859797
+      },
+      "baseline_over25_prob": 0.35711213407760534,
+      "baseline_btts_prob": 0.42690018387382556,
+      "baseline_logloss": 1.2151793133950337,
+      "baseline_brier": 0.744072607280631,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.1134650697191861,
+        "D": 0.15403731979957005,
+        "A": 0.732497610481244
+      },
+      "hybrid_over25_prob": 0.6443588185510926,
+      "hybrid_btts_prob": 0.783170182893761,
+      "hybrid_logloss": 1.8705603695663762,
+      "hybrid_brier": 1.2650799276990068
+    },
+    {
+      "date": "2024-09-06",
+      "home": "Wales",
+      "away": "Turkiye",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.3765374984408773,
+        "D": 0.24692500311824547,
+        "A": 0.37653749844087725
+      },
+      "baseline_over25_prob": 0.5580034186844527,
+      "baseline_btts_prob": 0.5889671806798867,
+      "baseline_logloss": 1.3986706195596361,
+      "baseline_brier": 0.8506829263926818,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.08730767154995778,
+        "D": 0.12535927565782531,
+        "A": 0.7873330527922168
+      },
+      "hybrid_over25_prob": 0.21339899059403022,
+      "hybrid_btts_prob": 0.27205592633967657,
+      "hybrid_logloss": 2.0765714590475444,
+      "hybrid_brier": 1.3925123622083908
+    },
+    {
+      "date": "2024-09-07",
+      "home": "Armenia",
+      "away": "Latvia",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.3690523999117896,
+        "D": 0.26189520017642065,
+        "A": 0.3690523999117897
+      },
+      "baseline_over25_prob": 0.49019906927758655,
+      "baseline_btts_prob": 0.5360190923014604,
+      "baseline_logloss": 0.9968166398423894,
+      "baseline_brier": 0.6028836438131713,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.2600314828665772,
+        "D": 0.2960930642469646,
+        "A": 0.44387545288645824
+      },
+      "hybrid_over25_prob": 0.515046030196687,
+      "hybrid_btts_prob": 0.5417105624513995,
+      "hybrid_logloss": 1.3469525673487894,
+      "hybrid_brier": 0.8322499267189523
+    },
+    {
+      "date": "2024-09-07",
+      "home": "Faroe Islands",
+      "away": "North Macedonia",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.3690523999117896,
+        "D": 0.26189520017642065,
+        "A": 0.3690523999117897
+      },
+      "baseline_over25_prob": 0.49019906927758655,
+      "baseline_btts_prob": 0.5360190923014604,
+      "baseline_logloss": 1.3398108545687493,
+      "baseline_brier": 0.8171980432839092,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.2600314828665772,
+        "D": 0.2960930642469646,
+        "A": 0.44387545288645824
+      },
+      "hybrid_over25_prob": 0.515046030196687,
+      "hybrid_btts_prob": 0.5417105624513995,
+      "hybrid_logloss": 1.217081467833616,
+      "hybrid_brier": 0.7601267639581774
+    },
+    {
+      "date": "2024-09-07",
+      "home": "Georgia",
+      "away": "Czechia",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.368331311421934,
+        "D": 0.24490204729579923,
+        "A": 0.3867666412822667
+      },
+      "baseline_over25_prob": 0.5673886655410306,
+      "baseline_btts_prob": 0.5961427504920207,
+      "baseline_logloss": 0.9987724430656756,
+      "baseline_brier": 0.6085707797083733,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.22398082430093316,
+        "D": 0.28465046041322456,
+        "A": 0.49136871528584225
+      },
+      "hybrid_over25_prob": 0.6696430108194215,
+      "hybrid_btts_prob": 0.7801886313849635,
+      "hybrid_logloss": 1.4961948365908884,
+      "hybrid_brier": 0.924674860027779
+    },
+    {
+      "date": "2024-09-07",
+      "home": "Germany",
+      "away": "Hungary",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.6573637157913613,
+        "D": 0.20896809574048836,
+        "A": 0.13366818846815057
+      },
+      "baseline_over25_prob": 0.4980818736954911,
+      "baseline_btts_prob": 0.4444989810759973,
+      "baseline_logloss": 0.4195178127778802,
+      "baseline_brier": 0.17893447290206593,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.7486767459964083,
+        "D": 0.11086840418543203,
+        "A": 0.14045484981815967
+      },
+      "hybrid_over25_prob": 0.7567920579081534,
+      "hybrid_btts_prob": 0.6612512671409532,
+      "hybrid_logloss": 0.2894479694018675,
+      "hybrid_brier": 0.09518274588701997
+    },
+    {
+      "date": "2024-09-07",
+      "home": "Greece",
+      "away": "Finland",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.3690523999117896,
+        "D": 0.26189520017642065,
+        "A": 0.3690523999117897
+      },
+      "baseline_over25_prob": 0.49019906927758655,
+      "baseline_btts_prob": 0.5360190923014604,
+      "baseline_logloss": 0.9968166398423894,
+      "baseline_brier": 0.6028836438131713,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.2600314828665772,
+        "D": 0.2960930642469646,
+        "A": 0.44387545288645824
+      },
+      "hybrid_over25_prob": 0.515046030196687,
+      "hybrid_btts_prob": 0.5417105624513995,
+      "hybrid_logloss": 1.3469525673487894,
+      "hybrid_brier": 0.8322499267189523
+    },
+    {
+      "date": "2024-09-07",
+      "home": "Moldova",
+      "away": "Malta",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.3690523999117896,
+        "D": 0.26189520017642065,
+        "A": 0.3690523999117897
+      },
+      "baseline_over25_prob": 0.49019906927758655,
+      "baseline_btts_prob": 0.5360190923014604,
+      "baseline_logloss": 0.9968166398423894,
+      "baseline_brier": 0.6028836438131713,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.2600314828665772,
+        "D": 0.2960930642469646,
+        "A": 0.44387545288645824
+      },
+      "hybrid_over25_prob": 0.515046030196687,
+      "hybrid_btts_prob": 0.5417105624513995,
+      "hybrid_logloss": 1.3469525673487894,
+      "hybrid_brier": 0.8322499267189523
+    },
+    {
+      "date": "2024-09-07",
+      "home": "Netherlands",
+      "away": "Bosnia-Herzegovina",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.43012621760368097,
+        "D": 0.25402353784229276,
+        "A": 0.31585024455402616
+      },
+      "baseline_over25_prob": 0.514637257847227,
+      "baseline_btts_prob": 0.5512138082287386,
+      "baseline_logloss": 0.8436765840549428,
+      "baseline_brier": 0.48904546262544,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.8415615355893938,
+        "D": 0.09372689855189675,
+        "A": 0.06471156585870938
+      },
+      "hybrid_over25_prob": 0.8370326343104942,
+      "hybrid_btts_prob": 0.8449068209352071,
+      "hybrid_logloss": 0.17249614195308793,
+      "hybrid_brier": 0.038075065272834545
+    },
+    {
+      "date": "2024-09-07",
+      "home": "Republic of Ireland",
+      "away": "England",
+      "actual": "A",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.32410357477895724,
+        "D": 0.2815121549815222,
+        "A": 0.39438427023952066
+      },
+      "baseline_over25_prob": 0.40853239061903457,
+      "baseline_btts_prob": 0.46911076068390145,
+      "baseline_logloss": 0.9304295398088311,
+      "baseline_brier": 0.5510626327201578,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.08355974648786907,
+        "D": 0.15278951360781667,
+        "A": 0.7636507399043143
+      },
+      "hybrid_over25_prob": 0.14215195019764035,
+      "hybrid_btts_prob": 0.18380911428314833,
+      "hybrid_logloss": 0.2696447410611372,
+      "hybrid_brier": 0.08618783944940822
+    },
+    {
+      "date": "2024-09-07",
+      "home": "Ukraine",
+      "away": "Albania",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.3593600799769335,
+        "D": 0.2812798400461334,
+        "A": 0.35936007997693337
+      },
+      "baseline_over25_prob": 0.41277629951937006,
+      "baseline_btts_prob": 0.4741638542546872,
+      "baseline_logloss": 1.023430384878284,
+      "baseline_brier": 0.6186775226245675,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.48349966713157677,
+        "D": 0.35856892855810235,
+        "A": 0.157931404310321
+      },
+      "hybrid_over25_prob": 0.7176172175451973,
+      "hybrid_btts_prob": 0.7545182030547257,
+      "hybrid_logloss": 1.8455944901602164,
+      "hybrid_brier": 1.071423124490439
+    },
+    {
+      "date": "2024-09-08",
+      "home": "Bulgaria",
+      "away": "Northern Ireland",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.055083542552434,
+        "D": 0.3659437430424605,
+        "A": 0.5789727144051052
+      },
+      "baseline_over25_prob": 0.10985388048832803,
+      "baseline_btts_prob": 0.08804929412405038,
+      "baseline_logloss": 2.898904290696908,
+      "baseline_brier": 1.3619913386527998,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.09723493688935775,
+        "D": 0.1657668960534026,
+        "A": 0.7369981670572398
+      },
+      "hybrid_over25_prob": 0.44719926876529187,
+      "hybrid_btts_prob": 0.4740617855561901,
+      "hybrid_logloss": 2.3306251990782325,
+      "hybrid_brier": 1.3856297212460726
+    },
+    {
+      "date": "2024-09-08",
+      "home": "Croatia",
+      "away": "Poland",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.33190531904719306,
+        "D": 0.23041747028109627,
+        "A": 0.43767721067171067
+      },
+      "baseline_over25_prob": 0.6303901804985484,
+      "baseline_btts_prob": 0.641852972936654,
+      "baseline_logloss": 1.1029055343310143,
+      "baseline_brier": 0.6910040540695419,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.2646145746286598,
+        "D": 0.3848750202500535,
+        "A": 0.3505104051212868
+      },
+      "hybrid_over25_prob": 0.6324967217675814,
+      "hybrid_btts_prob": 0.6592734348879394,
+      "hybrid_logloss": 1.3294809470772584,
+      "hybrid_brier": 0.8117780491593547
+    },
+    {
+      "date": "2024-09-08",
+      "home": "Denmark",
+      "away": "Serbia",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "D",
+      "baseline_probs": {
+        "H": 0.3281635852552015,
+        "D": 0.423542350290187,
+        "A": 0.24829406445461152
+      },
+      "baseline_over25_prob": 0.11513708446448202,
+      "baseline_btts_prob": 0.19521783029450418,
+      "baseline_logloss": 1.114243059391073,
+      "baseline_brier": 0.6924022331098711,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.3072431092727004,
+        "D": 0.5817765028430044,
+        "A": 0.11098038788429516
+      },
+      "hybrid_over25_prob": 0.3724619816896218,
+      "hybrid_btts_prob": 0.52166520030412,
+      "hybrid_logloss": 1.1801159578901679,
+      "hybrid_brier": 0.8306926554053407
+    },
+    {
+      "date": "2024-09-08",
+      "home": "Gibraltar",
+      "away": "Liechtenstein",
+      "actual": "D",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.47828818666502876,
+        "D": 0.31220954491059805,
+        "A": 0.20950226842437325
+      },
+      "baseline_over25_prob": 0.2740066927739173,
+      "baseline_btts_prob": 0.330997871831738,
+      "baseline_logloss": 1.1640806983040968,
+      "baseline_brier": 0.7457065000903662,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.34626390791608574,
+        "D": 0.35540913049369915,
+        "A": 0.2983269615902152
+      },
+      "hybrid_over25_prob": 0.4379249235357216,
+      "hybrid_btts_prob": 0.40374373475418673,
+      "hybrid_logloss": 1.0344856728383545,
+      "hybrid_brier": 0.6243950589878582
+    },
+    {
+      "date": "2024-09-08",
+      "home": "Luxembourg",
+      "away": "Belarus",
+      "actual": "A",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.055083542552434,
+        "D": 0.3659437430424605,
+        "A": 0.5789727144051052
+      },
+      "baseline_over25_prob": 0.10985388048832803,
+      "baseline_btts_prob": 0.08804929412405038,
+      "baseline_logloss": 0.5464999278993611,
+      "baseline_brier": 0.3142129949474573,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.16979631117356853,
+        "D": 0.4509573976120569,
+        "A": 0.37924629121437464
+      },
+      "hybrid_over25_prob": 0.5677860107581515,
+      "hybrid_btts_prob": 0.489991607605066,
+      "hybrid_logloss": 0.9695694400646624,
+      "hybrid_brier": 0.6175285287202992
+    },
+    {
+      "date": "2024-09-08",
+      "home": "Portugal",
+      "away": "Scotland",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.6103122624008318,
+        "D": 0.22379416109755515,
+        "A": 0.16589357650161293
+      },
+      "baseline_over25_prob": 0.498111862592573,
+      "baseline_btts_prob": 0.4749940404449635,
+      "baseline_logloss": 0.4937845472186076,
+      "baseline_brier": 0.22946103810101312,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.3437293287424932,
+        "D": 0.5583525737831282,
+        "A": 0.09791809747437866
+      },
+      "hybrid_over25_prob": 0.5254489363844307,
+      "hybrid_btts_prob": 0.745772380642149,
+      "hybrid_logloss": 1.067900766376804,
+      "hybrid_brier": 0.7520367444160241
+    },
+    {
+      "date": "2024-09-08",
+      "home": "Slovakia",
+      "away": "Azerbaijan",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.6056101757891372,
+        "D": 0.2117626044483336,
+        "A": 0.1826272197625292
+      },
+      "baseline_over25_prob": 0.5767089333651926,
+      "baseline_btts_prob": 0.5465516680348295,
+      "baseline_logloss": 0.5015187741778425,
+      "baseline_brier": 0.23373943548200776,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.8707131232633603,
+        "D": 0.06492963402376492,
+        "A": 0.06435724271287485
+      },
+      "hybrid_over25_prob": 0.8100487860630685,
+      "hybrid_btts_prob": 0.85069857334653,
+      "hybrid_logloss": 0.1384427211773549,
+      "hybrid_brier": 0.025072808560379013
+    },
+    {
+      "date": "2024-09-08",
+      "home": "Sweden",
+      "away": "Estonia",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.7309240511100755,
+        "D": 0.1871641986864587,
+        "A": 0.08191175020346575
+      },
+      "baseline_over25_prob": 0.45605772460838556,
+      "baseline_btts_prob": 0.34020640673215163,
+      "baseline_logloss": 0.3134457218802904,
+      "baseline_brier": 0.11414183836235241,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.6176544249460733,
+        "D": 0.3096885236156696,
+        "A": 0.07265705143825708
+      },
+      "hybrid_over25_prob": 0.49796730086420216,
+      "hybrid_btts_prob": 0.5197033572172081,
+      "hybrid_logloss": 0.4818261608606876,
+      "hybrid_brier": 0.24737416754627262
+    },
+    {
+      "date": "2024-09-08",
+      "home": "Switzerland",
+      "away": "Spain",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.2402184541072481,
+        "D": 0.26791124205962974,
+        "A": 0.4918703038331222
+      },
+      "baseline_over25_prob": 0.41826015822630824,
+      "baseline_btts_prob": 0.45759912587465207,
+      "baseline_logloss": 0.7095402073363575,
+      "baseline_brier": 0.3876771274422531,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.10840810019413577,
+        "D": 0.15233192568673723,
+        "A": 0.739259974119127
+      },
+      "hybrid_over25_prob": 0.4627691683212861,
+      "hybrid_btts_prob": 0.5631772486375339,
+      "hybrid_logloss": 0.3021056281266676,
+      "hybrid_brier": 0.10294269286748972
+    },
+    {
+      "date": "2024-09-09",
+      "home": "Cyprus",
+      "away": "Kosovo",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.8240712396165588,
+        "D": 0.1541759283160387,
+        "A": 0.021752832067402583
+      },
+      "baseline_over25_prob": 0.36369980557829334,
+      "baseline_btts_prob": 0.1204364208992793,
+      "baseline_logloss": 3.8280113199285086,
+      "baseline_brier": 1.6598311464034317,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.6678425845157626,
+        "D": 0.06188475595349126,
+        "A": 0.27027265953074614
+      },
+      "hybrid_over25_prob": 0.6996745200731156,
+      "hybrid_btts_prob": 0.5360425825441931,
+      "hybrid_logloss": 1.3083239794254928,
+      "hybrid_brier": 0.9823454321404471
+    },
+    {
+      "date": "2024-09-09",
+      "home": "France",
+      "away": "Belgium",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.24728219763923567,
+        "D": 0.3501798654532413,
+        "A": 0.4025379369075232
+      },
+      "baseline_over25_prob": 0.21295585920357307,
+      "baseline_btts_prob": 0.2913534004925512,
+      "baseline_logloss": 1.3972250939475424,
+      "baseline_brier": 0.851246818809434,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.4915454028681371,
+        "D": 0.2632705896121,
+        "A": 0.24518400751976288
+      },
+      "hybrid_over25_prob": 0.48264921563285157,
+      "hybrid_btts_prob": 0.6661761190565139,
+      "hybrid_logloss": 0.7102009675308353,
+      "hybrid_brier": 0.38795267824267893
+    },
+    {
+      "date": "2024-09-09",
+      "home": "Israel",
+      "away": "Italy",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.1914907213384353,
+        "D": 0.20554124921462516,
+        "A": 0.6029680294469397
+      },
+      "baseline_over25_prob": 0.6199671495718976,
+      "baseline_btts_prob": 0.5854064178583094,
+      "baseline_logloss": 0.5058911028198209,
+      "baseline_brier": 0.23655028712866905,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.10551965399168656,
+        "D": 0.3172557996984589,
+        "A": 0.5772245463098545
+      },
+      "hybrid_over25_prob": 0.5418038582459166,
+      "hybrid_btts_prob": 0.5278229902931546,
+      "hybrid_logloss": 0.5495239264622988,
+      "hybrid_brier": 0.29052472406374225
+    },
+    {
+      "date": "2024-09-09",
+      "home": "Montenegro",
+      "away": "Wales",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.055083542552434,
+        "D": 0.3659437430424605,
+        "A": 0.5789727144051052
+      },
+      "baseline_over25_prob": 0.10985388048832803,
+      "baseline_btts_prob": 0.08804929412405038,
+      "baseline_logloss": 0.5464999278993611,
+      "baseline_brier": 0.3142129949474573,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.19377773842185142,
+        "D": 0.23808968833740773,
+        "A": 0.568132573240741
+      },
+      "hybrid_over25_prob": 0.46005140942164896,
+      "hybrid_btts_prob": 0.4775091001517991,
+      "hybrid_logloss": 0.5654004839025129,
+      "hybrid_brier": 0.2807459858961554
+    },
+    {
+      "date": "2024-09-09",
+      "home": "Norway",
+      "away": "Austria",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "D",
+      "baseline_probs": {
+        "H": 0.28734076303996137,
+        "D": 0.36670398439747237,
+        "A": 0.34595525256256643
+      },
+      "baseline_over25_prob": 0.19115297544197224,
+      "baseline_btts_prob": 0.2772158351763615,
+      "baseline_logloss": 1.2470864398731902,
+      "baseline_brier": 0.7620400369730753,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.09673913469156831,
+        "D": 0.8232604268101804,
+        "A": 0.08000043849825131
+      },
+      "hybrid_over25_prob": 0.10592924327838436,
+      "hybrid_btts_prob": 0.22034536328768276,
+      "hybrid_logloss": 2.3357372563082186,
+      "hybrid_brier": 1.5000379913093298
+    },
+    {
+      "date": "2024-09-09",
+      "home": "Romania",
+      "away": "Lithuania",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.5071984884574662,
+        "D": 0.3075315297960883,
+        "A": 0.18526998174644568
+      },
+      "baseline_over25_prob": 0.2693753522384842,
+      "baseline_btts_prob": 0.31529237370399066,
+      "baseline_logloss": 0.6788528560341724,
+      "baseline_brier": 0.3717539377336567,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.6025728341643923,
+        "D": 0.24042096743063537,
+        "A": 0.15700619840497235
+      },
+      "hybrid_over25_prob": 0.7955415203619409,
+      "hybrid_btts_prob": 0.8415872349295244,
+      "hybrid_logloss": 0.5065467343436165,
+      "hybrid_brier": 0.24040154006198777
+    },
+    {
+      "date": "2024-09-09",
+      "home": "Slovenia",
+      "away": "Kazakhstan",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "D",
+      "baseline_probs": {
+        "H": 0.20033639843522655,
+        "D": 0.5993272031295469,
+        "A": 0.20033639843522655
+      },
+      "baseline_over25_prob": 0.02311528767170396,
+      "baseline_btts_prob": 0.06717519471468436,
+      "baseline_logloss": 1.6077573332226327,
+      "baseline_brier": 1.0387896446166278,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.6937110871599084,
+        "D": 0.23740704964602355,
+        "A": 0.06888186319406817
+      },
+      "hybrid_over25_prob": 0.16206714561182628,
+      "hybrid_btts_prob": 0.3016366779796849,
+      "hybrid_logloss": 0.36569970607494046,
+      "hybrid_brier": 0.15491971642748106
+    },
+    {
+      "date": "2024-09-09",
+      "home": "Turkiye",
+      "away": "Iceland",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.14601203562150494,
+        "D": 0.23862634478112435,
+        "A": 0.6153616195973709
+      },
+      "baseline_over25_prob": 0.41274456485383887,
+      "baseline_btts_prob": 0.39467355257739944,
+      "baseline_logloss": 1.924066224907709,
+      "baseline_brier": 1.1649078986004253,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.7175998460478097,
+        "D": 0.20908630108253531,
+        "A": 0.07331385286965501
+      },
+      "hybrid_over25_prob": 0.5111268710416222,
+      "hybrid_btts_prob": 0.7402491754736924,
+      "hybrid_logloss": 0.3318431827751856,
+      "hybrid_brier": 0.12884184927519082
+    },
+    {
+      "date": "2024-09-10",
+      "home": "Albania",
+      "away": "Georgia",
+      "actual": "A",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.35580193145730443,
+        "D": 0.23485326211154547,
+        "A": 0.40934480643115007
+      },
+      "baseline_over25_prob": 0.6148200887891053,
+      "baseline_btts_prob": 0.632108998860591,
+      "baseline_logloss": 0.8931974305953622,
+      "baseline_brier": 0.5306246268430383,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.21834748579212632,
+        "D": 0.475535015535198,
+        "A": 0.3061174986726756
+      },
+      "hybrid_over25_prob": 0.31594691814047393,
+      "hybrid_btts_prob": 0.36501645237692704,
+      "hybrid_logloss": 1.1837862681417615,
+      "hybrid_brier": 0.7552821012000682
+    },
+    {
+      "date": "2024-09-10",
+      "home": "Andorra",
+      "away": "Malta",
+      "actual": "A",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.615612085874213,
+        "D": 0.23943095702953784,
+        "A": 0.1449569570962492
+      },
+      "baseline_over25_prob": 0.40850194162706066,
+      "baseline_btts_prob": 0.390582205435591,
+      "baseline_logloss": 1.9313184282416107,
+      "baseline_brier": 1.1674040286765852,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.4341146268144576,
+        "D": 0.22607311453676612,
+        "A": 0.33981225864877623
+      },
+      "hybrid_over25_prob": 0.49472672967104075,
+      "hybrid_btts_prob": 0.3449447807331285,
+      "hybrid_logloss": 1.0793619943244714,
+      "hybrid_brier": 0.67541241616104
+    },
+    {
+      "date": "2024-09-10",
+      "home": "Czechia",
+      "away": "Ukraine",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.31642237744608376,
+        "D": 0.25317365292667143,
+        "A": 0.4304039696272449
+      },
+      "baseline_over25_prob": 0.5185267101785057,
+      "baseline_btts_prob": 0.5542869947691781,
+      "baseline_logloss": 1.1506773204122898,
+      "baseline_brier": 0.7166228416635895,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.2209121629243712,
+        "D": 0.181882197819423,
+        "A": 0.5972056392562057
+      },
+      "hybrid_over25_prob": 0.6438698021321863,
+      "hybrid_btts_prob": 0.5720852658988334,
+      "hybrid_logloss": 1.5099901093005947,
+      "hybrid_brier": 0.9967135673222185
+    },
+    {
+      "date": "2024-09-10",
+      "home": "England",
+      "away": "Finland",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.7849639793358594,
+        "D": 0.16180020614561128,
+        "A": 0.05323581451852941
+      },
+      "baseline_over25_prob": 0.45598720361398576,
+      "baseline_btts_prob": 0.27534903775491837,
+      "baseline_logloss": 0.24211744844888983,
+      "baseline_brier": 0.07525384883928228,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.8879698008917086,
+        "D": 0.05620383119216272,
+        "A": 0.055826367916128716
+      },
+      "hybrid_over25_prob": 0.7362492422908744,
+      "hybrid_btts_prob": 0.7453601086878192,
+      "hybrid_logloss": 0.11881754457308492,
+      "hybrid_brier": 0.018826219507627497
+    },
+    {
+      "date": "2024-09-10",
+      "home": "Hungary",
+      "away": "Bosnia-Herzegovina",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.49573815717791647,
+        "D": 0.17996511228086057,
+        "A": 0.32429673054122304
+      },
+      "baseline_over25_prob": 0.875009293082168,
+      "baseline_btts_prob": 0.8372327244560619,
+      "baseline_logloss": 1.7149922675394642,
+      "baseline_brier": 1.023381906998425,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.7159893166292172,
+        "D": 0.18554774395714435,
+        "A": 0.09846293941363857
+      },
+      "hybrid_over25_prob": 0.29311773073432856,
+      "hybrid_btts_prob": 0.5855581516487726,
+      "hybrid_logloss": 1.684443050228271,
+      "hybrid_brier": 1.1856681293384446
+    },
+    {
+      "date": "2024-09-10",
+      "home": "Latvia",
+      "away": "Faroe Islands",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.1314507107680977,
+        "D": 0.16844066669360294,
+        "A": 0.7001086225382994
+      },
+      "baseline_over25_prob": 0.6787861751456965,
+      "baseline_btts_prob": 0.5801733311643266,
+      "baseline_logloss": 2.029123320684329,
+      "baseline_brier": 1.2729022093739033,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.12357936542680649,
+        "D": 0.22281090673348775,
+        "A": 0.6536097278397058
+      },
+      "hybrid_over25_prob": 0.6181046969214632,
+      "hybrid_btts_prob": 0.6144400818103053,
+      "hybrid_logloss": 2.090871694280706,
+      "hybrid_brier": 1.2449635051917725
+    },
+    {
+      "date": "2024-09-10",
+      "home": "Netherlands",
+      "away": "Germany",
+      "actual": "D",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.27331174035021727,
+        "D": 0.218172782784479,
+        "A": 0.5085154768653036
+      },
+      "baseline_over25_prob": 0.6564909386432144,
+      "baseline_btts_prob": 0.649967033060234,
+      "baseline_logloss": 1.5224679485397856,
+      "baseline_brier": 0.9445410952037772,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.3802501620750554,
+        "D": 0.28705135854863884,
+        "A": 0.33269847937630587
+      },
+      "hybrid_over25_prob": 0.6136886187777411,
+      "hybrid_btts_prob": 0.7632377674211173,
+      "hybrid_logloss": 1.2480941295852688,
+      "hybrid_brier": 0.7635742292847537
+    },
+    {
+      "date": "2024-09-10",
+      "home": "North Macedonia",
+      "away": "Armenia",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.1314507107680977,
+        "D": 0.16844066669360294,
+        "A": 0.7001086225382994
+      },
+      "baseline_over25_prob": 0.6787861751456965,
+      "baseline_btts_prob": 0.5801733311643266,
+      "baseline_logloss": 2.029123320684329,
+      "baseline_brier": 1.2729022093739033,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.14335979224496576,
+        "D": 0.6052831727348759,
+        "A": 0.2513570350201583
+      },
+      "hybrid_over25_prob": 0.27989947004215315,
+      "hybrid_btts_prob": 0.6280227933679197,
+      "hybrid_logloss": 1.9423977789406783,
+      "hybrid_brier": 1.1633805237927108
+    },
+    {
+      "date": "2024-09-10",
+      "home": "Republic of Ireland",
+      "away": "Greece",
+      "actual": "A",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.013672702923444118,
+        "D": 0.09984905820967076,
+        "A": 0.8864782388668853
+      },
+      "baseline_over25_prob": 0.49347142983402525,
+      "baseline_btts_prob": 0.12784518572211398,
+      "baseline_logloss": 0.12049870101463933,
+      "baseline_brier": 0.023043967481354937,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.5818231859654638,
+        "D": 0.23613564668642353,
+        "A": 0.1820411673481127
+      },
+      "hybrid_over25_prob": 0.2883020716224353,
+      "hybrid_btts_prob": 0.5433362162581632,
+      "hybrid_logloss": 1.703522423262998,
+      "hybrid_brier": 1.0633349152762563
+    },
+    {
+      "date": "2024-10-10",
+      "home": "Austria",
+      "away": "Kazakhstan",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.5513017545999792,
+        "D": 0.2618049540876673,
+        "A": 0.1868932913123534
+      },
+      "baseline_over25_prob": 0.3906437676597898,
+      "baseline_btts_prob": 0.40989920746562336,
+      "baseline_logloss": 0.5954729707324323,
+      "baseline_brier": 0.304801051747467,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.8616208656231827,
+        "D": 0.07821956923958734,
+        "A": 0.06015956513722992
+      },
+      "hybrid_over25_prob": 0.584941174819557,
+      "hybrid_btts_prob": 0.4935848030768138,
+      "hybrid_logloss": 0.14893993613609063,
+      "hybrid_brier": 0.028886259120404455
+    },
+    {
+      "date": "2024-10-10",
+      "home": "England",
+      "away": "Greece",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.15527134954007066,
+        "D": 0.24970369431797126,
+        "A": 0.5950249561419579
+      },
+      "baseline_over25_prob": 0.39063517118028457,
+      "baseline_btts_prob": 0.3866882453950188,
+      "baseline_logloss": 0.5191519312203667,
+      "baseline_brier": 0.2504659130918607,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.8589635146877426,
+        "D": 0.08225098867301335,
+        "A": 0.05878549663924397
+      },
+      "hybrid_over25_prob": 0.6949156466913831,
+      "hybrid_btts_prob": 0.8465357160241895,
+      "hybrid_logloss": 2.83386011029727,
+      "hybrid_brier": 1.6304682860390427
+    },
+    {
+      "date": "2024-10-10",
+      "home": "Faroe Islands",
+      "away": "Armenia",
+      "actual": "D",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.2522130963717923,
+        "D": 0.2598548739025115,
+        "A": 0.48793202972569616
+      },
+      "baseline_over25_prob": 0.45617118867843903,
+      "baseline_btts_prob": 0.4910711636179661,
+      "baseline_logloss": 1.3476319811035833,
+      "baseline_brier": 0.8495039192995518,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.4736401802889303,
+        "D": 0.21318212077669327,
+        "A": 0.3131776989343765
+      },
+      "hybrid_over25_prob": 0.5214643455089906,
+      "hybrid_btts_prob": 0.7078200836187463,
+      "hybrid_logloss": 1.5456084514795463,
+      "hybrid_brier": 0.9414976665594235
+    },
+    {
+      "date": "2024-10-10",
+      "home": "Finland",
+      "away": "Republic of Ireland",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.2955957319151474,
+        "D": 0.2845102036416559,
+        "A": 0.4198940644431968
+      },
+      "baseline_over25_prob": 0.39065595809496584,
+      "baseline_btts_prob": 0.45101347578913464,
+      "baseline_logloss": 0.8677528270356308,
+      "baseline_brier": 0.5048457891709022,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.13230230792828096,
+        "D": 0.4138971160535953,
+        "A": 0.4538005760181238
+      },
+      "hybrid_over25_prob": 0.5349178627262916,
+      "hybrid_btts_prob": 0.6694432634164351,
+      "hybrid_logloss": 0.7900974373156416,
+      "hybrid_brier": 0.48714853411876635
+    },
+    {
+      "date": "2024-10-10",
+      "home": "Gibraltar",
+      "away": "San Marino",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.2522130963717923,
+        "D": 0.2598548739025115,
+        "A": 0.48793202972569616
+      },
+      "baseline_over25_prob": 0.45617118867843903,
+      "baseline_btts_prob": 0.4910711636179661,
+      "baseline_logloss": 1.3774809282833302,
+      "baseline_brier": 0.86478747436099,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.2717701175321938,
+        "D": 0.3324717619937967,
+        "A": 0.39575812047400943
+      },
+      "hybrid_over25_prob": 0.5010175394529941,
+      "hybrid_btts_prob": 0.23416732495432252,
+      "hybrid_logloss": 1.3027987261635796,
+      "hybrid_brier": 0.7974807241634552
+    },
+    {
+      "date": "2024-10-10",
+      "home": "Israel",
+      "away": "France",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.19349276372065566,
+        "D": 0.2405900116935794,
+        "A": 0.5659172245857649
+      },
+      "baseline_over25_prob": 0.4720800583041601,
+      "baseline_btts_prob": 0.47526085645885696,
+      "baseline_logloss": 0.5693074577888922,
+      "baseline_brier": 0.28375085925029947,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.09153875951955871,
+        "D": 0.24018693945521322,
+        "A": 0.6682743010252281
+      },
+      "hybrid_over25_prob": 0.24536914497309287,
+      "hybrid_btts_prob": 0.24751276028343097,
+      "hybrid_logloss": 0.40305655945374336,
+      "hybrid_brier": 0.17611104973954284
+    },
+    {
+      "date": "2024-10-10",
+      "home": "Italy",
+      "away": "Belgium",
+      "actual": "D",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.3711275795850722,
+        "D": 0.30064754735943094,
+        "A": 0.3282248730554966
+      },
+      "baseline_over25_prob": 0.34586454248765053,
+      "baseline_btts_prob": 0.4181688719597534,
+      "baseline_logloss": 1.201816639323179,
+      "baseline_brier": 0.7345611006353502,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.1664744963003648,
+        "D": 0.3363012407832106,
+        "A": 0.4972242629164246
+      },
+      "hybrid_over25_prob": 0.42631160526272355,
+      "hybrid_btts_prob": 0.5479255722768196,
+      "hybrid_logloss": 1.089747970729753,
+      "hybrid_brier": 0.7154417685371476
+    },
+    {
+      "date": "2024-10-10",
+      "home": "Latvia",
+      "away": "North Macedonia",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.15640740973244227,
+        "D": 0.23079448419181622,
+        "A": 0.6127981060757416
+      },
+      "baseline_over25_prob": 0.4561384151902181,
+      "baseline_btts_prob": 0.4359362988579896,
+      "baseline_logloss": 0.48971975116800276,
+      "baseline_brier": 0.22765467841111126,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.38206501761155165,
+        "D": 0.2469279162282842,
+        "A": 0.3710070661601641
+      },
+      "hybrid_over25_prob": 0.5908137272337416,
+      "hybrid_btts_prob": 0.611358134319228,
+      "hybrid_logloss": 0.9915341703022679,
+      "hybrid_brier": 0.602579184315802
+    },
+    {
+      "date": "2024-10-10",
+      "home": "Moldova",
+      "away": "Andorra",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.7276210436554186,
+        "D": 0.23775999223389574,
+        "A": 0.034618964110685865
+      },
+      "baseline_over25_prob": 0.22961843688114306,
+      "baseline_btts_prob": 0.10821090998705621,
+      "baseline_logloss": 0.3179749107451077,
+      "baseline_brier": 0.1319185824425225,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.48103942249830994,
+        "D": 0.3281697786237653,
+        "A": 0.19079079887792472
+      },
+      "hybrid_over25_prob": 0.3901905666558786,
+      "hybrid_btts_prob": 0.34325362273984067,
+      "hybrid_logloss": 0.7318060527789227,
+      "hybrid_brier": 0.41341661353933556
+    },
+    {
+      "date": "2024-10-10",
+      "home": "Norway",
+      "away": "Slovenia",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "D",
+      "baseline_probs": {
+        "H": 0.3162831566710974,
+        "D": 0.3674336866578054,
+        "A": 0.3162831566710974
+      },
+      "baseline_over25_prob": 0.1911529986297966,
+      "baseline_btts_prob": 0.27839700202654094,
+      "baseline_logloss": 1.1511174012073078,
+      "baseline_brier": 0.7025112711364194,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.27375961922526704,
+        "D": 0.5491545860745535,
+        "A": 0.17708579470017943
+      },
+      "hybrid_over25_prob": 0.36814190467179764,
+      "hybrid_btts_prob": 0.4317220234483326,
+      "hybrid_logloss": 1.2955048597463403,
+      "hybrid_brier": 0.8603552287591374
+    },
+    {
+      "date": "2024-10-11",
+      "home": "Bosnia-Herzegovina",
+      "away": "Germany",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.11668359298166854,
+        "D": 0.1617487172931152,
+        "A": 0.7215676897252162
+      },
+      "baseline_over25_prob": 0.6720845986449256,
+      "baseline_btts_prob": 0.5569120089901163,
+      "baseline_logloss": 0.32632908711588204,
+      "baseline_brier": 0.11730225982203325,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.22311006586350093,
+        "D": 0.14365728267407543,
+        "A": 0.6332326514624237
+      },
+      "hybrid_over25_prob": 0.6587930990060675,
+      "hybrid_btts_prob": 0.7152773132860237,
+      "hybrid_logloss": 0.4569173865081238,
+      "hybrid_brier": 0.2049338043081989
+    },
+    {
+      "date": "2024-10-11",
+      "home": "Czechia",
+      "away": "Albania",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.33524485770857254,
+        "D": 0.24170556175570687,
+        "A": 0.42304958053572056
+      },
+      "baseline_over25_prob": 0.576783821667922,
+      "baseline_btts_prob": 0.6012834781951648,
+      "baseline_logloss": 1.092894095614878,
+      "baseline_brier": 0.679291925377987,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.46829801374048224,
+        "D": 0.1959276191234033,
+        "A": 0.3357743671361144
+      },
+      "hybrid_over25_prob": 0.6886281964676234,
+      "hybrid_btts_prob": 0.6380031091662972,
+      "hybrid_logloss": 0.7586504042270421,
+      "hybrid_brier": 0.43383905975334003
+    },
+    {
+      "date": "2024-10-11",
+      "home": "Estonia",
+      "away": "Azerbaijan",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.36497496692574616,
+        "D": 0.2700500661485075,
+        "A": 0.36497496692574616
+      },
+      "baseline_over25_prob": 0.4561795850406832,
+      "baseline_btts_prob": 0.5090726611877457,
+      "baseline_logloss": 1.0079265115166984,
+      "baseline_brier": 0.60939055734022,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.3629067227088213,
+        "D": 0.2009947335267703,
+        "A": 0.4360985437644084
+      },
+      "hybrid_over25_prob": 0.6635885364242969,
+      "hybrid_btts_prob": 0.6846631300406164,
+      "hybrid_logloss": 1.01360943997239,
+      "hybrid_brier": 0.6364686667485497
+    },
+    {
+      "date": "2024-10-11",
+      "home": "Hungary",
+      "away": "Netherlands",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.15236019404707338,
+        "D": 0.2020641599189445,
+        "A": 0.6455756460339821
+      },
+      "baseline_over25_prob": 0.5653859955263034,
+      "baseline_btts_prob": 0.5134979649096411,
+      "baseline_logloss": 1.5991700086514422,
+      "baseline_brier": 1.076683148368115,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.2437833995086007,
+        "D": 0.3103169845019017,
+        "A": 0.44589961598949757
+      },
+      "hybrid_over25_prob": 0.5540684266346894,
+      "hybrid_btts_prob": 0.6610762231620275,
+      "hybrid_logloss": 1.1701609732800133,
+      "hybrid_brier": 0.7339194752821014
+    },
+    {
+      "date": "2024-10-11",
+      "home": "Iceland",
+      "away": "Wales",
+      "actual": "D",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.2955957319151474,
+        "D": 0.2845102036416559,
+        "A": 0.4198940644431968
+      },
+      "baseline_over25_prob": 0.39065595809496584,
+      "baseline_btts_prob": 0.45101347578913464,
+      "baseline_logloss": 1.2569861608861113,
+      "baseline_brier": 0.7756135107739839,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.4756742606572108,
+        "D": 0.26952783429481264,
+        "A": 0.25479790504797656
+      },
+      "hybrid_over25_prob": 0.4924114386430023,
+      "hybrid_btts_prob": 0.4213485182203354,
+      "hybrid_logloss": 1.311083612723878,
+      "hybrid_brier": 0.8247775595386485
+    },
+    {
+      "date": "2024-10-11",
+      "home": "Slovakia",
+      "away": "Sweden",
+      "actual": "D",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.15658037190877896,
+        "D": 0.214850577881032,
+        "A": 0.6285690502101889
+      },
+      "baseline_over25_prob": 0.5184592742507067,
+      "baseline_btts_prob": 0.4822185984640071,
+      "baseline_logloss": 1.537812479069465,
+      "baseline_brier": 1.03607607880298,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.30906116912391673,
+        "D": 0.1648647439083907,
+        "A": 0.5260740869676926
+      },
+      "hybrid_over25_prob": 0.5931243155763963,
+      "hybrid_btts_prob": 0.6572930861934971,
+      "hybrid_logloss": 1.802629875135645,
+      "hybrid_brier": 1.0697236472063316
+    },
+    {
+      "date": "2024-10-11",
+      "home": "Turkiye",
+      "away": "Montenegro",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.584531364046438,
+        "D": 0.23034493008335918,
+        "A": 0.18512370587020263
+      },
+      "baseline_over25_prob": 0.5010599444689137,
+      "baseline_btts_prob": 0.4914894014446585,
+      "baseline_logloss": 0.5369448398921238,
+      "baseline_brier": 0.25994376075133835,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.5422016264095534,
+        "D": 0.24755762902010162,
+        "A": 0.21024074457034506
+      },
+      "hybrid_over25_prob": 0.630893523359986,
+      "hybrid_btts_prob": 0.6157837250354186,
+      "hybrid_logloss": 0.6121173422733187,
+      "hybrid_brier": 0.31506530122560544
+    },
+    {
+      "date": "2024-10-11",
+      "home": "Ukraine",
+      "away": "Georgia",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.27635936513145115,
+        "D": 0.23616088550262174,
+        "A": 0.48747974936592703
+      },
+      "baseline_over25_prob": 0.5730272828359915,
+      "baseline_btts_prob": 0.5874125309849153,
+      "baseline_logloss": 1.2860532126161315,
+      "baseline_brier": 0.8170642383162059,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.45362313012127253,
+        "D": 0.3143956187846699,
+        "A": 0.23198125109405765
+      },
+      "hybrid_over25_prob": 0.48882563750315844,
+      "hybrid_btts_prob": 0.44053918622355004,
+      "hybrid_logloss": 0.7904885355378117,
+      "hybrid_brier": 0.4511875899086356
+    },
+    {
+      "date": "2024-10-12",
+      "home": "Belarus",
+      "away": "Northern Ireland",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "D",
+      "baseline_probs": {
+        "H": 0.2671201946030673,
+        "D": 0.4657596107938657,
+        "A": 0.26712019460306724
+      },
+      "baseline_over25_prob": 0.080301390752163,
+      "baseline_btts_prob": 0.1548181201064076,
+      "baseline_logloss": 0.7640856346218408,
+      "baseline_brier": 0.42811919018868283,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.4285134298469904,
+        "D": 0.27220823507499287,
+        "A": 0.29927833507801666
+      },
+      "hybrid_over25_prob": 0.615291338616502,
+      "hybrid_btts_prob": 0.6208046823707116,
+      "hybrid_logloss": 1.3011879354568199,
+      "hybrid_brier": 0.8028721344989581
+    },
+    {
+      "date": "2024-10-12",
+      "home": "Bulgaria",
+      "away": "Luxembourg",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.5789727144051053,
+        "D": 0.3659437430424605,
+        "A": 0.055083542552434
+      },
+      "baseline_over25_prob": 0.10985388048832803,
+      "baseline_btts_prob": 0.08804929412405033,
+      "baseline_logloss": 1.0052756649292454,
+      "baseline_brier": 0.7402709376727468,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.326557850098436,
+        "D": 0.4357611117888624,
+        "A": 0.23768103811270158
+      },
+      "hybrid_over25_prob": 0.35711214138312125,
+      "hybrid_btts_prob": 0.33242338635918545,
+      "hybrid_logloss": 0.830661094531089,
+      "hybrid_brier": 0.4814978283089847
+    },
+    {
+      "date": "2024-10-12",
+      "home": "Croatia",
+      "away": "Scotland",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.46848960609229795,
+        "D": 0.23781045279898547,
+        "A": 0.29369994110871667
+      },
+      "baseline_over25_prob": 0.576775718496316,
+      "baseline_btts_prob": 0.5945601903676224,
+      "baseline_logloss": 0.7582413630517942,
+      "baseline_brier": 0.4253167656996427,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.38286794959222703,
+        "D": 0.3620369769522458,
+        "A": 0.2550950734555271
+      },
+      "hybrid_over25_prob": 0.5684483871095776,
+      "hybrid_btts_prob": 0.5379444295384657,
+      "hybrid_logloss": 0.9600651283840478,
+      "hybrid_brier": 0.5769962368225038
+    },
+    {
+      "date": "2024-10-12",
+      "home": "Cyprus",
+      "away": "Romania",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.1658935765016129,
+        "D": 0.22379416109755512,
+        "A": 0.6103122624008317
+      },
+      "baseline_over25_prob": 0.4981118625925729,
+      "baseline_btts_prob": 0.47499404044496346,
+      "baseline_logloss": 0.49378454721860776,
+      "baseline_brier": 0.2294610381010132,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.2687578812830492,
+        "D": 0.4210701048053693,
+        "A": 0.31017201391158145
+      },
+      "hybrid_over25_prob": 0.4964564806296718,
+      "hybrid_btts_prob": 0.563025725302588,
+      "hybrid_logloss": 1.1706282518081703,
+      "hybrid_brier": 0.7253934823033616
+    },
+    {
+      "date": "2024-10-12",
+      "home": "Lithuania",
+      "away": "Kosovo",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.1826272197625292,
+        "D": 0.2117626044483336,
+        "A": 0.6056101757891373
+      },
+      "baseline_over25_prob": 0.5767089333651927,
+      "baseline_btts_prob": 0.5465516680348294,
+      "baseline_logloss": 0.5015187741778424,
+      "baseline_brier": 0.2337394354820077,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.4141347330751851,
+        "D": 0.3037801084720103,
+        "A": 0.2820851584528046
+      },
+      "hybrid_over25_prob": 0.39521614861014,
+      "hybrid_btts_prob": 0.40793501061519744,
+      "hybrid_logloss": 1.2655462733018115,
+      "hybrid_brier": 0.7791916511562559
+    },
+    {
+      "date": "2024-10-12",
+      "home": "Poland",
+      "away": "Portugal",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.23443003639049964,
+        "D": 0.2561257640825246,
+        "A": 0.5094441995269758
+      },
+      "baseline_over25_prob": 0.4561677434339382,
+      "baseline_btts_prob": 0.484322341396326,
+      "baseline_logloss": 0.6744349523819345,
+      "baseline_brier": 0.3612028423666375,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.24280588524452126,
+        "D": 0.163832022298597,
+        "A": 0.5933620924568818
+      },
+      "hybrid_over25_prob": 0.6364632576055043,
+      "hybrid_btts_prob": 0.6180617077251183,
+      "hybrid_logloss": 0.5219504551058226,
+      "hybrid_brier": 0.2511500172908692
+    },
+    {
+      "date": "2024-10-12",
+      "home": "Serbia",
+      "away": "Switzerland",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.27865371497083935,
+        "D": 0.3196375964529545,
+        "A": 0.4017086885762059
+      },
+      "baseline_over25_prob": 0.2847231861763063,
+      "baseline_btts_prob": 0.3607158111625228,
+      "baseline_logloss": 1.2777854330230227,
+      "baseline_brier": 0.783878526469208,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.2658025886681956,
+        "D": 0.2808846275667779,
+        "A": 0.4533127837650265
+      },
+      "hybrid_over25_prob": 0.511374546822501,
+      "hybrid_btts_prob": 0.6054126841226366,
+      "hybrid_logloss": 1.3250013935924203,
+      "hybrid_brier": 0.8234344927344479
+    },
+    {
+      "date": "2024-10-12",
+      "home": "Spain",
+      "away": "Denmark",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.5140938797551474,
+        "D": 0.27602986842333005,
+        "A": 0.2098762518215222
+      },
+      "baseline_over25_prob": 0.36832550062551506,
+      "baseline_btts_prob": 0.40577869793235277,
+      "baseline_logloss": 0.6653493847665892,
+      "baseline_brier": 0.356345287031857,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.5053543314737308,
+        "D": 0.2606659091100695,
+        "A": 0.23397975941619975
+      },
+      "hybrid_over25_prob": 0.684943028903493,
+      "hybrid_btts_prob": 0.6764124212949092,
+      "hybrid_logloss": 0.6824954492629539,
+      "hybrid_brier": 0.3673675813804415
+    },
+    {
+      "date": "2024-10-13",
+      "home": "Armenia",
+      "away": "North Macedonia",
+      "actual": "A",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.24156738343439957,
+        "D": 0.22875369595860517,
+        "A": 0.5296789206069951
+      },
+      "baseline_over25_prob": 0.5767550752646062,
+      "baseline_btts_prob": 0.5784892423701824,
+      "baseline_logloss": 0.6354842661885806,
+      "baseline_brier": 0.33188497187546545,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.4444023081544222,
+        "D": 0.2741146341477647,
+        "A": 0.281483057697813
+      },
+      "hybrid_over25_prob": 0.5220103177060591,
+      "hybrid_btts_prob": 0.4620259050882153,
+      "hybrid_logloss": 1.2676830190118074,
+      "hybrid_brier": 0.7888988405222253
+    },
+    {
+      "date": "2024-10-13",
+      "home": "Austria",
+      "away": "Norway",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.28094107190288115,
+        "D": 0.25988196965542404,
+        "A": 0.4591769584416945
+      },
+      "baseline_over25_prob": 0.474360186763411,
+      "baseline_btts_prob": 0.5134554541748382,
+      "baseline_logloss": 1.269610340170972,
+      "baseline_brier": 0.795427859391926,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.6017877328415062,
+        "D": 0.16005796571259256,
+        "A": 0.23815430144590116
+      },
+      "hybrid_over25_prob": 0.6751094552936286,
+      "hybrid_btts_prob": 0.6327293588638274,
+      "hybrid_logloss": 0.5078504991057718,
+      "hybrid_brier": 0.24090903340074624
+    },
+    {
+      "date": "2024-10-13",
+      "home": "Faroe Islands",
+      "away": "Latvia",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.5298579123753233,
+        "D": 0.24348836332035056,
+        "A": 0.22665372430432643
+      },
+      "baseline_over25_prob": 0.4981435114543158,
+      "baseline_btts_prob": 0.5127206964587853,
+      "baseline_logloss": 1.4126861268402413,
+      "baseline_brier": 0.9044311744794793,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.40256886616681214,
+        "D": 0.17745253950023537,
+        "A": 0.41997859433295254
+      },
+      "hybrid_over25_prob": 0.5812346774116299,
+      "hybrid_btts_prob": 0.49707614932482636,
+      "hybrid_logloss": 1.7290520889171657,
+      "hybrid_brier": 1.0150280364793274
+    },
+    {
+      "date": "2024-10-13",
+      "home": "Finland",
+      "away": "England",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.10895448645839151,
+        "D": 0.21464792470751287,
+        "A": 0.6763975888340958
+      },
+      "baseline_over25_prob": 0.4258633452848102,
+      "baseline_btts_prob": 0.36225391410782354,
+      "baseline_logloss": 0.39097422666824067,
+      "baseline_brier": 0.16266333221304083,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.22420541476986344,
+        "D": 0.17199974994594214,
+        "A": 0.6037948352841944
+      },
+      "hybrid_over25_prob": 0.5080125356842011,
+      "hybrid_btts_prob": 0.5957272345256136,
+      "hybrid_logloss": 0.5045208154323109,
+      "hybrid_brier": 0.23683051454107173
+    },
+    {
+      "date": "2024-10-13",
+      "home": "Greece",
+      "away": "Republic of Ireland",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.7309240511100755,
+        "D": 0.1871641986864587,
+        "A": 0.08191175020346575
+      },
+      "baseline_over25_prob": 0.45605772460838556,
+      "baseline_btts_prob": 0.34020640673215163,
+      "baseline_logloss": 0.3134457218802904,
+      "baseline_brier": 0.11414183836235241,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.4743988474521409,
+        "D": 0.1824728845991977,
+        "A": 0.34312826794866136
+      },
+      "hybrid_over25_prob": 0.6020333869501365,
+      "hybrid_btts_prob": 0.4915299763784622,
+      "hybrid_logloss": 0.7457068607869417,
+      "hybrid_brier": 0.4272899334390383
+    },
+    {
+      "date": "2024-10-13",
+      "home": "Kazakhstan",
+      "away": "Slovenia",
+      "actual": "A",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.09576933393066935,
+        "D": 0.23917659360137283,
+        "A": 0.6650540724679577
+      },
+      "baseline_over25_prob": 0.32973808402867727,
+      "baseline_btts_prob": 0.2778486546760044,
+      "baseline_logloss": 0.4078869296500317,
+      "baseline_brier": 0.17856598261858048,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.23746188005312524,
+        "D": 0.1788463376600274,
+        "A": 0.5836917822868474
+      },
+      "hybrid_over25_prob": 0.6471780088590684,
+      "hybrid_btts_prob": 0.6803706211250526,
+      "hybrid_logloss": 0.5383822055303159,
+      "hybrid_brier": 0.2616866891082711
+    },
+    {
+      "date": "2024-10-13",
+      "home": "Liechtenstein",
+      "away": "Gibraltar",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.2522130963717923,
+        "D": 0.2598548739025115,
+        "A": 0.48793202972569616
+      },
+      "baseline_over25_prob": 0.45617118867843903,
+      "baseline_btts_prob": 0.4910711636179661,
+      "baseline_logloss": 1.3476319811035833,
+      "baseline_brier": 0.8495039192995518,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.6029323461662496,
+        "D": 0.2732765944324398,
+        "A": 0.12379105940131063
+      },
+      "hybrid_over25_prob": 0.24338538890150482,
+      "hybrid_btts_prob": 0.2670195307646017,
+      "hybrid_logloss": 1.2972708302846698,
+      "hybrid_brier": 0.9069785486409497
+    },
+    {
+      "date": "2024-10-13",
+      "home": "Malta",
+      "away": "Moldova",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.05878657983869033,
+        "D": 0.24531582464127583,
+        "A": 0.6958975955200339
+      },
+      "baseline_over25_prob": 0.2560096694152043,
+      "baseline_btts_prob": 0.171841631252456,
+      "baseline_logloss": 2.8338416841627856,
+      "baseline_brier": 1.430336019561744,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.28319711120371,
+        "D": 0.5887417793692653,
+        "A": 0.12806110942702467
+      },
+      "hybrid_over25_prob": 0.23979986665294303,
+      "hybrid_btts_prob": 0.2729312811383575,
+      "hybrid_logloss": 1.2616121177664699,
+      "hybrid_brier": 0.8768229119092756
+    },
+    {
+      "date": "2024-10-14",
+      "home": "Azerbaijan",
+      "away": "Slovakia",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.15023716230223222,
+        "D": 0.2086073476291273,
+        "A": 0.6411554900686406
+      },
+      "baseline_over25_prob": 0.5327116146055374,
+      "baseline_btts_prob": 0.4870220828488638,
+      "baseline_logloss": 0.44448327726778597,
+      "baseline_brier": 0.19485761272936436,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.214368485914413,
+        "D": 0.3301768898480537,
+        "A": 0.45545462423753336
+      },
+      "hybrid_over25_prob": 0.47452877160644125,
+      "hybrid_btts_prob": 0.5000417834666281,
+      "hybrid_logloss": 0.7864591847249919,
+      "hybrid_brier": 0.45150029260725766
+    },
+    {
+      "date": "2024-10-14",
+      "home": "Belgium",
+      "away": "France",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.289014913230686,
+        "D": 0.30585870979438096,
+        "A": 0.4051263769749331
+      },
+      "baseline_over25_prob": 0.3233215124452592,
+      "baseline_btts_prob": 0.3950293762452749,
+      "baseline_logloss": 0.9035562186371352,
+      "baseline_brier": 0.5309537977977936,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.3271892567306534,
+        "D": 0.39445038654712106,
+        "A": 0.2783603567222255
+      },
+      "hybrid_over25_prob": 0.5910229030146258,
+      "hybrid_btts_prob": 0.6712090145370764,
+      "hybrid_logloss": 1.2788387574923503,
+      "hybrid_brier": 0.7834076919172043
+    },
+    {
+      "date": "2024-10-14",
+      "home": "Bosnia-Herzegovina",
+      "away": "Hungary",
+      "actual": "A",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.3744516386498749,
+        "D": 0.25109672270025035,
+        "A": 0.37445163864987513
+      },
+      "baseline_over25_prob": 0.5384375958222362,
+      "baseline_btts_prob": 0.5737677627281542,
+      "baseline_logloss": 0.9822926201449806,
+      "baseline_brier": 0.5945743462262094,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.2180301282064117,
+        "D": 0.18723209574311087,
+        "A": 0.5947377760504775
+      },
+      "hybrid_over25_prob": 0.5675346438670167,
+      "hybrid_btts_prob": 0.6047676104292055,
+      "hybrid_logloss": 0.5196346830990182,
+      "hybrid_brier": 0.2468304646425747
+    },
+    {
+      "date": "2024-10-14",
+      "home": "Estonia",
+      "away": "Sweden",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.16376426456582108,
+        "D": 0.19666720562764414,
+        "A": 0.6395685298065346
+      },
+      "baseline_over25_prob": 0.6129325529837633,
+      "baseline_btts_prob": 0.5596746624039612,
+      "baseline_logloss": 0.4469615021619622,
+      "baseline_brier": 0.1954075688239933,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.21396737745122213,
+        "D": 0.1644684939172217,
+        "A": 0.6215641286315562
+      },
+      "hybrid_over25_prob": 0.657466865541406,
+      "hybrid_btts_prob": 0.7522431626356446,
+      "hybrid_logloss": 0.4755161897155692,
+      "hybrid_brier": 0.2160456328431463
+    },
+    {
+      "date": "2024-10-14",
+      "home": "Georgia",
+      "away": "Albania",
+      "actual": "A",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.4478576019707296,
+        "D": 0.25984482039077667,
+        "A": 0.2922975776384935
+      },
+      "baseline_over25_prob": 0.4803607666128791,
+      "baseline_btts_prob": 0.5206548855940021,
+      "baseline_logloss": 1.229982894143568,
+      "baseline_brier": 0.7689384809432316,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.4744215078161856,
+        "D": 0.2610690291247681,
+        "A": 0.2645094630590464
+      },
+      "hybrid_over25_prob": 0.642715948922215,
+      "hybrid_btts_prob": 0.6611390446188063,
+      "hybrid_logloss": 1.3298782511629144,
+      "hybrid_brier": 0.8341791349764245
+    },
+    {
+      "date": "2024-10-14",
+      "home": "Germany",
+      "away": "Netherlands",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.4884353232674009,
+        "D": 0.22176070700283074,
+        "A": 0.2898039697297682
+      },
+      "baseline_over25_prob": 0.6512678395678247,
+      "baseline_btts_prob": 0.6502975930769179,
+      "baseline_logloss": 0.7165482148985475,
+      "baseline_brier": 0.3948625705220563,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.442453254017532,
+        "D": 0.24721790034381383,
+        "A": 0.31032884563865426
+      },
+      "hybrid_over25_prob": 0.5851282763334853,
+      "hybrid_btts_prob": 0.5768581226330681,
+      "hybrid_logloss": 0.8154204607528639,
+      "hybrid_brier": 0.4682790566414623
+    },
+    {
+      "date": "2024-10-14",
+      "home": "Iceland",
+      "away": "Turkiye",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.3372947895345598,
+        "D": 0.24282038905125783,
+        "A": 0.4198848214141823
+      },
+      "baseline_over25_prob": 0.572101469514183,
+      "baseline_btts_prob": 0.5979093209058101,
+      "baseline_logloss": 0.8677748400420795,
+      "baseline_brier": 0.5092631368118223,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.24033472737329728,
+        "D": 0.21459158682492857,
+        "A": 0.5450736858017742
+      },
+      "hybrid_over25_prob": 0.5406802997137095,
+      "hybrid_btts_prob": 0.46529283761167906,
+      "hybrid_logloss": 0.6068342901520285,
+      "hybrid_brier": 0.3107682816676209
+    },
+    {
+      "date": "2024-10-14",
+      "home": "Italy",
+      "away": "Israel",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.6161339566750422,
+        "D": 0.19728679742606653,
+        "A": 0.18657924589889135
+      },
+      "baseline_over25_prob": 0.651747843381014,
+      "baseline_btts_prob": 0.6066590600982413,
+      "baseline_logloss": 0.4842908769552712,
+      "baseline_brier": 0.22108703465679114,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.5819386823731645,
+        "D": 0.24579023620241297,
+        "A": 0.17227108142442266
+      },
+      "hybrid_over25_prob": 0.5343098275926393,
+      "hybrid_btts_prob": 0.47853037910201146,
+      "hybrid_logloss": 0.5413901935482512,
+      "hybrid_brier": 0.2648654310034639
+    },
+    {
+      "date": "2024-10-14",
+      "home": "Ukraine",
+      "away": "Czechia",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.35809181129219453,
+        "D": 0.24671856047960453,
+        "A": 0.3951896282282008
+      },
+      "baseline_over25_prob": 0.5578628576410479,
+      "baseline_btts_prob": 0.5884544797351957,
+      "baseline_logloss": 1.399507023256147,
+      "baseline_brier": 0.8518375146995876,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.4353066886819491,
+        "D": 0.36363205647265945,
+        "A": 0.2010612548453915
+      },
+      "hybrid_over25_prob": 0.5317667829056075,
+      "hybrid_btts_prob": 0.5920928944212432,
+      "hybrid_logloss": 1.0116127564488155,
+      "hybrid_brier": 0.6348817009604634
+    },
+    {
+      "date": "2024-10-14",
+      "home": "Wales",
+      "away": "Montenegro",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.5737476872006119,
+        "D": 0.26115391062800747,
+        "A": 0.16509840217138033
+      },
+      "baseline_over25_prob": 0.36831771786261075,
+      "baseline_btts_prob": 0.37800853769319126,
+      "baseline_logloss": 0.5555655486384055,
+      "baseline_brier": 0.27714988160267157,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.30081069883761624,
+        "D": 0.3201704169790667,
+        "A": 0.37901888418331714
+      },
+      "hybrid_over25_prob": 0.485395095998563,
+      "hybrid_btts_prob": 0.4743144351423969,
+      "hybrid_logloss": 1.2012741195947736,
+      "hybrid_brier": 0.7350300893360588
+    },
+    {
+      "date": "2024-10-15",
+      "home": "Belarus",
+      "away": "Luxembourg",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 1,
+      "baseline_pick": "D",
+      "baseline_probs": {
+        "H": 0.4377312951271293,
+        "D": 0.4872095573581952,
+        "A": 0.07505914751467535
+      },
+      "baseline_over25_prob": 0.04984883663685876,
+      "baseline_btts_prob": 0.06777711130813446,
+      "baseline_logloss": 0.7190609458695911,
+      "baseline_brier": 0.4601966004240819,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.29375256318425735,
+        "D": 0.5588751865227131,
+        "A": 0.14737225029302967
+      },
+      "hybrid_over25_prob": 0.4058411404319684,
+      "hybrid_btts_prob": 0.37597928145488624,
+      "hybrid_logloss": 0.5818291106813014,
+      "hybrid_brier": 0.3026002495991237
+    },
+    {
+      "date": "2024-10-15",
+      "home": "Kosovo",
+      "away": "Cyprus",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.6789779123322431,
+        "D": 0.18946596072492589,
+        "A": 0.13155612694283092
+      },
+      "baseline_over25_prob": 0.5766313990307229,
+      "baseline_btts_prob": 0.5006026113711657,
+      "baseline_logloss": 0.38716668165468876,
+      "baseline_brier": 0.15625954558018237,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.404001281499066,
+        "D": 0.16915306845769873,
+        "A": 0.4268456500432353
+      },
+      "hybrid_over25_prob": 0.46200678187072963,
+      "hybrid_btts_prob": 0.3501603446263769,
+      "hybrid_logloss": 0.9063372289986268,
+      "hybrid_brier": 0.5660244419842426
+    },
+    {
+      "date": "2024-10-15",
+      "home": "Lithuania",
+      "away": "Romania",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.155291523805096,
+        "D": 0.2135921606662892,
+        "A": 0.6311163155286146
+      },
+      "baseline_over25_prob": 0.5213289370639026,
+      "baseline_btts_prob": 0.48320233937507867,
+      "baseline_logloss": 0.460265098200976,
+      "baseline_brier": 0.20581224113298724,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.22871971385094286,
+        "D": 0.21521278860645435,
+        "A": 0.5560674975426028
+      },
+      "hybrid_over25_prob": 0.42523611401316563,
+      "hybrid_btts_prob": 0.3494348556619401,
+      "hybrid_logloss": 0.5868655936418326,
+      "hybrid_brier": 0.2957053186219106
+    },
+    {
+      "date": "2024-10-15",
+      "home": "Northern Ireland",
+      "away": "Bulgaria",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "D",
+      "baseline_probs": {
+        "H": 0.21396610693570503,
+        "D": 0.5720677861285898,
+        "A": 0.21396610693570503
+      },
+      "baseline_over25_prob": 0.030212108292729585,
+      "baseline_btts_prob": 0.08035449784286053,
+      "baseline_logloss": 1.5419376553086497,
+      "baseline_brier": 0.990892327889099,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.4123454642142991,
+        "D": 0.4386723676330722,
+        "A": 0.14898216815262877
+      },
+      "hybrid_over25_prob": 0.39452303860090876,
+      "hybrid_btts_prob": 0.2982904289840728,
+      "hybrid_logloss": 0.8858937756073382,
+      "hybrid_brier": 0.5599669859817711
+    },
+    {
+      "date": "2024-10-15",
+      "home": "Poland",
+      "away": "Croatia",
+      "actual": "D",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.3220576660624179,
+        "D": 0.244836563657875,
+        "A": 0.433105770279707
+      },
+      "baseline_over25_prob": 0.5578595592726732,
+      "baseline_btts_prob": 0.5852183009869253,
+      "baseline_logloss": 1.407164378149733,
+      "baseline_brier": 0.861573564107197,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.31243629032607295,
+        "D": 0.3121538357346133,
+        "A": 0.3754098739393138
+      },
+      "hybrid_over25_prob": 0.5959380956534105,
+      "hybrid_btts_prob": 0.6504430404094871,
+      "hybrid_logloss": 1.1642591494364325,
+      "hybrid_brier": 0.711681354658455
+    },
+    {
+      "date": "2024-10-15",
+      "home": "Scotland",
+      "away": "Portugal",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.16556199053971743,
+        "D": 0.21624599984144352,
+        "A": 0.6181920096188388
+      },
+      "baseline_over25_prob": 0.5284751612210271,
+      "baseline_btts_prob": 0.4973453612610687,
+      "baseline_logloss": 1.5313386311842714,
+      "baseline_brier": 1.0238424662325905,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.2353632819587687,
+        "D": 0.17440832590966548,
+        "A": 0.5902283921315659
+      },
+      "hybrid_over25_prob": 0.5666859273233074,
+      "hybrid_btts_prob": 0.6147283670055487,
+      "hybrid_logloss": 1.746356028339075,
+      "hybrid_brier": 1.0853670416998975
+    },
+    {
+      "date": "2024-10-15",
+      "home": "Spain",
+      "away": "Serbia",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.5754119880475894,
+        "D": 0.2856060430191636,
+        "A": 0.13898196893324682
+      },
+      "baseline_over25_prob": 0.27831254848285036,
+      "baseline_btts_prob": 0.2897507912847672,
+      "baseline_logloss": 0.5526689937967195,
+      "baseline_brier": 0.28116177939132664,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.6392508920400048,
+        "D": 0.22920337385358291,
+        "A": 0.13154573410641224
+      },
+      "hybrid_over25_prob": 0.5580748632019766,
+      "hybrid_btts_prob": 0.5489031861185684,
+      "hybrid_logloss": 0.4474582693640167,
+      "hybrid_brier": 0.19997838564139242
+    },
+    {
+      "date": "2024-10-15",
+      "home": "Switzerland",
+      "away": "Denmark",
+      "actual": "D",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.28557832013755313,
+        "D": 0.29631470528621906,
+        "A": 0.41810697457622775
+      },
+      "baseline_over25_prob": 0.34988334818123434,
+      "baseline_btts_prob": 0.4162949429695698,
+      "baseline_logloss": 1.2163331959135135,
+      "baseline_brier": 0.7515414131182938,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.40324087090234445,
+        "D": 0.3136134822512689,
+        "A": 0.28314564684638666
+      },
+      "hybrid_over25_prob": 0.573521709124501,
+      "hybrid_btts_prob": 0.6310277862175798,
+      "hybrid_logloss": 1.1595939995573397,
+      "hybrid_brier": 0.7139011090413692
+    },
+    {
+      "date": "2024-11-14",
+      "home": "Armenia",
+      "away": "Faroe Islands",
+      "actual": "A",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.3722712932825807,
+        "D": 0.255457413434838,
+        "A": 0.37227129328258074
+      },
+      "baseline_over25_prob": 0.5185296590667706,
+      "baseline_btts_prob": 0.5582433191314798,
+      "baseline_logloss": 0.9881324074889404,
+      "baseline_brier": 0.5978877351182268,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.36694168654297,
+        "D": 0.34164733413800563,
+        "A": 0.2914109793190244
+      },
+      "hybrid_over25_prob": 0.4667729729188488,
+      "hybrid_btts_prob": 0.37567365561125415,
+      "hybrid_logloss": 1.2330207081030122,
+      "hybrid_brier": 0.7534675024762294
+    },
+    {
+      "date": "2024-11-14",
+      "home": "Belgium",
+      "away": "Italy",
+      "actual": "A",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.29549788025640333,
+        "D": 0.2622763612572054,
+        "A": 0.44222575848639156
+      },
+      "baseline_over25_prob": 0.4721039724277835,
+      "baseline_btts_prob": 0.51493450799198,
+      "baseline_logloss": 0.8159347614945781,
+      "baseline_brier": 0.46721999140642895,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.5833489381902628,
+        "D": 0.24550575287428777,
+        "A": 0.17114530893544946
+      },
+      "hybrid_over25_prob": 0.6003855060551927,
+      "hybrid_btts_prob": 0.6626707445708198,
+      "hybrid_logloss": 1.7652423234645498,
+      "hybrid_brier": 1.0875691572817894
+    },
+    {
+      "date": "2024-11-14",
+      "home": "France",
+      "away": "Israel",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.6833559407918188,
+        "D": 0.1826300953681515,
+        "A": 0.13401396384002948
+      },
+      "baseline_over25_prob": 0.6146250272965998,
+      "baseline_btts_prob": 0.532391081635938,
+      "baseline_logloss": 1.7002925085850826,
+      "baseline_brier": 1.1530286453174656,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.7454328651783867,
+        "D": 0.1294960755454752,
+        "A": 0.12507105927613804
+      },
+      "hybrid_over25_prob": 0.5244138310649364,
+      "hybrid_btts_prob": 0.48753413994654393,
+      "hybrid_logloss": 2.0441047029698853,
+      "hybrid_brier": 1.329090008847243
+    },
+    {
+      "date": "2024-11-14",
+      "home": "Greece",
+      "away": "England",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.5381653911005874,
+        "D": 0.25304534685136804,
+        "A": 0.20878926204804468
+      },
+      "baseline_over25_prob": 0.44327587525497436,
+      "baseline_btts_prob": 0.46241902885432823,
+      "baseline_logloss": 1.5664298512690316,
+      "baseline_brier": 0.979668367592055,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.19916854634858572,
+        "D": 0.16469078116969424,
+        "A": 0.6361406724817201
+      },
+      "hybrid_over25_prob": 0.5841661937082042,
+      "hybrid_btts_prob": 0.5426208678686903,
+      "hybrid_logloss": 0.45233555695204225,
+      "hybrid_brier": 0.19918477347894772
+    },
+    {
+      "date": "2024-11-14",
+      "home": "Kazakhstan",
+      "away": "Austria",
+      "actual": "A",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.09629398178096536,
+        "D": 0.1816140315600018,
+        "A": 0.7220919866590328
+      },
+      "baseline_over25_prob": 0.5183665002946428,
+      "baseline_btts_prob": 0.40921307295825027,
+      "baseline_logloss": 0.32560274285976165,
+      "baseline_brier": 0.1194890512658334,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.18701580096447076,
+        "D": 0.15322990962364674,
+        "A": 0.6597542894118825
+      },
+      "hybrid_over25_prob": 0.5840334040549089,
+      "hybrid_btts_prob": 0.7030507902940467,
+      "hybrid_logloss": 0.4158878020482093,
+      "hybrid_brier": 0.17422145858726648
+    },
+    {
+      "date": "2024-11-14",
+      "home": "North Macedonia",
+      "away": "Latvia",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.7309240511100755,
+        "D": 0.1871641986864587,
+        "A": 0.08191175020346575
+      },
+      "baseline_over25_prob": 0.45605772460838556,
+      "baseline_btts_prob": 0.34020640673215163,
+      "baseline_logloss": 0.3134457218802904,
+      "baseline_brier": 0.11414183836235241,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.4341998491634057,
+        "D": 0.22648686621487696,
+        "A": 0.3393132846217174
+      },
+      "hybrid_over25_prob": 0.4322560198203571,
+      "hybrid_btts_prob": 0.3431228173430192,
+      "hybrid_logloss": 0.834250368927675,
+      "hybrid_brier": 0.486559616375327
+    },
+    {
+      "date": "2024-11-14",
+      "home": "Republic of Ireland",
+      "away": "Finland",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.4584498246042294,
+        "D": 0.2570221586256443,
+        "A": 0.2845280167701263
+      },
+      "baseline_over25_prob": 0.4878125861782339,
+      "baseline_btts_prob": 0.52465221703589,
+      "baseline_logloss": 0.7799044270705967,
+      "baseline_brier": 0.440293174822917,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.32020620274098377,
+        "D": 0.33721844292264713,
+        "A": 0.3425753543363691
+      },
+      "hybrid_over25_prob": 0.5391160083170339,
+      "hybrid_btts_prob": 0.47047302922571776,
+      "hybrid_logloss": 1.1387901071487343,
+      "hybrid_brier": 0.6931937584376959
+    },
+    {
+      "date": "2024-11-14",
+      "home": "Slovenia",
+      "away": "Norway",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.3740965709716422,
+        "D": 0.282604834933625,
+        "A": 0.3432985940947328
+      },
+      "baseline_over25_prob": 0.4072688761981122,
+      "baseline_btts_prob": 0.46937659570214096,
+      "baseline_logloss": 1.0691546737941855,
+      "baseline_brier": 0.6510704736585567,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.3326280978929596,
+        "D": 0.3786292891756482,
+        "A": 0.28874261293139225
+      },
+      "hybrid_over25_prob": 0.5930383280334861,
+      "hybrid_btts_prob": 0.6199071805744619,
+      "hybrid_logloss": 1.2422196003949675,
+      "hybrid_brier": 0.7598886607892082
+    },
+    {
+      "date": "2024-11-15",
+      "home": "Cyprus",
+      "away": "Lithuania",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.2636908776263913,
+        "D": 0.24640610139663646,
+        "A": 0.48990302097697225
+      },
+      "baseline_over25_prob": 0.5185173268805807,
+      "baseline_btts_prob": 0.5423561747252881,
+      "baseline_logloss": 1.3329777799778484,
+      "baseline_brier": 0.842872060458447,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.2257911021798625,
+        "D": 0.46134036294002256,
+        "A": 0.312868534880115
+      },
+      "hybrid_over25_prob": 0.5738160213821657,
+      "hybrid_btts_prob": 0.5846304668556449,
+      "hybrid_logloss": 1.488145033800919,
+      "hybrid_brier": 0.9101210680595335
+    },
+    {
+      "date": "2024-11-15",
+      "home": "Denmark",
+      "away": "Spain",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.19536306439306245,
+        "D": 0.26994814663254224,
+        "A": 0.5346887889743952
+      },
+      "baseline_over25_prob": 0.3739200056195002,
+      "baseline_btts_prob": 0.40230697568590384,
+      "baseline_logloss": 0.6260704041924725,
+      "baseline_brier": 0.3275532519055073,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.19440119234539796,
+        "D": 0.3154942996432427,
+        "A": 0.4901045080113594
+      },
+      "hybrid_over25_prob": 0.5587191230827757,
+      "hybrid_btts_prob": 0.5831906551565917,
+      "hybrid_logloss": 0.7131366289629281,
+      "hybrid_brier": 0.3973218894430305
+    },
+    {
+      "date": "2024-11-15",
+      "home": "Luxembourg",
+      "away": "Bulgaria",
+      "actual": "A",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "D",
+      "baseline_probs": {
+        "H": 0.34481392815390677,
+        "D": 0.3859920749908831,
+        "A": 0.2691939968552104
+      },
+      "baseline_over25_prob": 0.1604934216873514,
+      "baseline_btts_prob": 0.2452115848985349,
+      "baseline_logloss": 1.3123229814037096,
+      "baseline_brier": 0.8019639412371573,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.4791490128882387,
+        "D": 0.28152262928742744,
+        "A": 0.2393283578243339
+      },
+      "hybrid_over25_prob": 0.5113350059792938,
+      "hybrid_btts_prob": 0.4540764649773,
+      "hybrid_logloss": 1.429918787852934,
+      "hybrid_brier": 0.8874601145629043
+    },
+    {
+      "date": "2024-11-15",
+      "home": "Northern Ireland",
+      "away": "Belarus",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.5065502762728968,
+        "D": 0.3569229206205768,
+        "A": 0.13652680310652662
+      },
+      "baseline_over25_prob": 0.16049258469640126,
+      "baseline_btts_prob": 0.19767074627369952,
+      "baseline_logloss": 0.6801316980815594,
+      "baseline_brier": 0.3895261690771653,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.4904841867750133,
+        "D": 0.3292926931655029,
+        "A": 0.18022312005948377
+      },
+      "hybrid_over25_prob": 0.3971601175148427,
+      "hybrid_btts_prob": 0.33140789568557016,
+      "hybrid_logloss": 0.7123622394872052,
+      "hybrid_brier": 0.4005204147024846
+    },
+    {
+      "date": "2024-11-15",
+      "home": "Portugal",
+      "away": "Poland",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.5355066112273338,
+        "D": 0.2367669958990104,
+        "A": 0.22772639287365604
+      },
+      "baseline_over25_prob": 0.5270932424087171,
+      "baseline_btts_prob": 0.5350479088582901,
+      "baseline_logloss": 0.6245420432744954,
+      "baseline_brier": 0.323672028571804,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.5439538385230623,
+        "D": 0.31446180563523807,
+        "A": 0.14158435584169965
+      },
+      "hybrid_over25_prob": 0.5053302008703983,
+      "hybrid_btts_prob": 0.5155177350737793,
+      "hybrid_logloss": 0.6088908913827747,
+      "hybrid_brier": 0.3269104584203324
+    },
+    {
+      "date": "2024-11-15",
+      "home": "Romania",
+      "away": "Kosovo",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.3396824697403047,
+        "D": 0.239061755947233,
+        "A": 0.42125577431246225
+      },
+      "baseline_over25_prob": 0.5906366342570334,
+      "baseline_btts_prob": 0.6123266535426901,
+      "baseline_logloss": 1.0797440102684586,
+      "baseline_brier": 0.6706261913164302,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.4866634247116174,
+        "D": 0.3553375323043114,
+        "A": 0.15799904298407116
+      },
+      "hybrid_over25_prob": 0.5713542651939372,
+      "hybrid_btts_prob": 0.588730561055475,
+      "hybrid_logloss": 0.7201825145215239,
+      "hybrid_brier": 0.4147428989768053
+    },
+    {
+      "date": "2024-11-15",
+      "home": "San Marino",
+      "away": "Gibraltar",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 1,
+      "baseline_pick": "D",
+      "baseline_probs": {
+        "H": 0.2529823534274037,
+        "D": 0.3921646883801464,
+        "A": 0.3548529581924499
+      },
+      "baseline_over25_prob": 0.1506313433097998,
+      "baseline_btts_prob": 0.2331954137989174,
+      "baseline_logloss": 0.9360734040000672,
+      "baseline_brier": 0.559384459135605,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.32019537245536733,
+        "D": 0.37779487544491464,
+        "A": 0.302009752099718
+      },
+      "hybrid_over25_prob": 0.46127283960829724,
+      "hybrid_btts_prob": 0.454751301045964,
+      "hybrid_logloss": 0.9734038882075837,
+      "hybrid_brier": 0.5808741839277738
+    },
+    {
+      "date": "2024-11-15",
+      "home": "Scotland",
+      "away": "Croatia",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.2879253583712367,
+        "D": 0.23704726915516805,
+        "A": 0.4750273724735952
+      },
+      "baseline_over25_prob": 0.5767740774627083,
+      "baseline_btts_prob": 0.5932298664498195,
+      "baseline_logloss": 1.2450540047592362,
+      "baseline_brier": 0.7888927076638222,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.25061890325470376,
+        "D": 0.3274881193862494,
+        "A": 0.4218929773590469
+      },
+      "hybrid_over25_prob": 0.5843730270281264,
+      "hybrid_btts_prob": 0.6074515881489572,
+      "hybrid_logloss": 1.38382180738296,
+      "hybrid_brier": 0.8468141808432068
+    },
+    {
+      "date": "2024-11-15",
+      "home": "Switzerland",
+      "away": "Serbia",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.38122729062134464,
+        "D": 0.2985726585774805,
+        "A": 0.3202000508011749
+      },
+      "baseline_over25_prob": 0.35122338664858405,
+      "baseline_btts_prob": 0.4220637630347428,
+      "baseline_logloss": 1.2087419634495848,
+      "baseline_brier": 0.7398626349426298,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.44952216005633794,
+        "D": 0.3928332455195972,
+        "A": 0.15764459442406492
+      },
+      "hybrid_over25_prob": 0.540473620387896,
+      "hybrid_btts_prob": 0.5036022432106797,
+      "hybrid_logloss": 0.9343700688135076,
+      "hybrid_brier": 0.5955734582791096
+    },
+    {
+      "date": "2024-11-16",
+      "home": "Albania",
+      "away": "Czechia",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.35278063638656443,
+        "D": 0.2612190713439622,
+        "A": 0.3860002922694733
+      },
+      "baseline_over25_prob": 0.4922647463094881,
+      "baseline_btts_prob": 0.5373053805720349,
+      "baseline_logloss": 1.3423958699115786,
+      "baseline_brier": 0.8192476635873058,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.1780616637252782,
+        "D": 0.558567271793546,
+        "A": 0.26337106448117575
+      },
+      "hybrid_over25_prob": 0.5126183567038531,
+      "hybrid_btts_prob": 0.5698843333991864,
+      "hybrid_logloss": 0.582380216887565,
+      "hybrid_brier": 0.29593312722635473
+    },
+    {
+      "date": "2024-11-16",
+      "home": "Andorra",
+      "away": "Moldova",
+      "actual": "A",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.04167457505865592,
+        "D": 0.2567027342906553,
+        "A": 0.7016226906506889
+      },
+      "baseline_over25_prob": 0.21232943861341794,
+      "baseline_btts_prob": 0.11628619333008225,
+      "baseline_logloss": 0.354359497154816,
+      "baseline_brier": 0.1566620827331528,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.22971422220539842,
+        "D": 0.210194597808577,
+        "A": 0.5600911799860246
+      },
+      "hybrid_over25_prob": 0.3583951919953831,
+      "hybrid_btts_prob": 0.3604778320481265,
+      "hybrid_logloss": 0.5796556871032927,
+      "hybrid_brier": 0.29047016275742876
+    },
+    {
+      "date": "2024-11-16",
+      "home": "Azerbaijan",
+      "away": "Estonia",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.302935664264065,
+        "D": 0.2331079644978507,
+        "A": 0.4639563712380845
+      },
+      "baseline_over25_prob": 0.6041835020323411,
+      "baseline_btts_prob": 0.6173088776974093,
+      "baseline_logloss": 1.456253565794182,
+      "baseline_brier": 0.8951489252121515,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.3024066086364777,
+        "D": 0.4555004379924279,
+        "A": 0.2420929533710945
+      },
+      "hybrid_over25_prob": 0.4047028778638019,
+      "hybrid_btts_prob": 0.3826228732392567,
+      "hybrid_logloss": 0.7863586007185295,
+      "hybrid_brier": 0.44653852804539257
+    },
+    {
+      "date": "2024-11-16",
+      "home": "Georgia",
+      "away": "Ukraine",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.4022530649896626,
+        "D": 0.26742822299665425,
+        "A": 0.3303187120136832
+      },
+      "baseline_over25_prob": 0.4630306116180048,
+      "baseline_btts_prob": 0.512896835343059,
+      "baseline_logloss": 1.3189040738978879,
+      "baseline_brier": 0.8075793882617961,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.21512123807954628,
+        "D": 0.42534491213853076,
+        "A": 0.35953384978192293
+      },
+      "hybrid_over25_prob": 0.5861503865618799,
+      "hybrid_btts_prob": 0.5957281259952089,
+      "hybrid_logloss": 0.8548548812198157,
+      "hybrid_brier": 0.5057702062169601
+    },
+    {
+      "date": "2024-11-16",
+      "home": "Germany",
+      "away": "Bosnia-Herzegovina",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.7180834128754903,
+        "D": 0.17357616010077503,
+        "A": 0.10834042702373423
+      },
+      "baseline_over25_prob": 0.588883545239616,
+      "baseline_btts_prob": 0.4801136163775913,
+      "baseline_logloss": 0.33116954276028465,
+      "baseline_brier": 0.12134329357894626,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.7753648456889971,
+        "D": 0.1301936168670025,
+        "A": 0.09444153744400047
+      },
+      "hybrid_over25_prob": 0.46725524140695485,
+      "hybrid_btts_prob": 0.3281308919450896,
+      "hybrid_logloss": 0.25442159177461254,
+      "hybrid_brier": 0.07633053442002646
+    },
+    {
+      "date": "2024-11-16",
+      "home": "Montenegro",
+      "away": "Iceland",
+      "actual": "A",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.2943593059161912,
+        "D": 0.24416308087353608,
+        "A": 0.4614776132102728
+      },
+      "baseline_over25_prob": 0.5482040465023229,
+      "baseline_btts_prob": 0.5729909536671653,
+      "baseline_logloss": 0.7733217349692896,
+      "baseline_brier": 0.4362693721148233,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.2415005379570552,
+        "D": 0.2738836679955981,
+        "A": 0.4846157940473467
+      },
+      "hybrid_over25_prob": 0.49589979693236597,
+      "hybrid_btts_prob": 0.5605409179318928,
+      "hybrid_logloss": 0.7243988792048023,
+      "hybrid_brier": 0.3989556531737169
+    },
+    {
+      "date": "2024-11-16",
+      "home": "Netherlands",
+      "away": "Hungary",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.5327406296022135,
+        "D": 0.24164193205018356,
+        "A": 0.22561743834760326
+      },
+      "baseline_over25_prob": 0.5045902287704143,
+      "baseline_btts_prob": 0.5171058898947242,
+      "baseline_logloss": 0.6297205968916212,
+      "baseline_brier": 0.32762537103601597,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.5544389792371117,
+        "D": 0.3181885059116313,
+        "A": 0.12737251485125706
+      },
+      "hybrid_over25_prob": 0.49688526819013523,
+      "hybrid_btts_prob": 0.46699625727334504,
+      "hybrid_logloss": 0.5897985247087472,
+      "hybrid_brier": 0.3159923060570769
+    },
+    {
+      "date": "2024-11-16",
+      "home": "Sweden",
+      "away": "Slovakia",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.5487891466962214,
+        "D": 0.22506660572744502,
+        "A": 0.2261442475763335
+      },
+      "baseline_over25_prob": 0.5767459145484263,
+      "baseline_btts_prob": 0.5717634726203673,
+      "baseline_logloss": 0.6000409791941858,
+      "baseline_brier": 0.3053874318646633,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.2713517368678527,
+        "D": 0.209600835343511,
+        "A": 0.5190474277886363
+      },
+      "hybrid_over25_prob": 0.4924885721921548,
+      "hybrid_btts_prob": 0.356327871327188,
+      "hybrid_logloss": 1.3043393776535082,
+      "hybrid_brier": 0.8442710338361923
+    },
+    {
+      "date": "2024-11-16",
+      "home": "Turkiye",
+      "away": "Wales",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.37161005498151267,
+        "D": 0.27001819853703257,
+        "A": 0.35837174648145453
+      },
+      "baseline_over25_prob": 0.4561795610419115,
+      "baseline_btts_prob": 0.5090173884623646,
+      "baseline_logloss": 1.3092659202661647,
+      "baseline_brier": 0.79939777210665,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.5704557764073208,
+        "D": 0.31775357335957066,
+        "A": 0.11179065023310851
+      },
+      "hybrid_over25_prob": 0.5349857945037649,
+      "hybrid_btts_prob": 0.5113916059704359,
+      "hybrid_logloss": 1.1464791231549714,
+      "hybrid_brier": 0.8033771289796552
+    },
+    {
+      "date": "2024-11-17",
+      "home": "Austria",
+      "away": "Slovenia",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.5298579123753233,
+        "D": 0.24348836332035056,
+        "A": 0.22665372430432643
+      },
+      "baseline_over25_prob": 0.4981435114543158,
+      "baseline_btts_prob": 0.5127206964587853,
+      "baseline_logloss": 1.4126861268402413,
+      "baseline_brier": 0.9044311744794793,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.5343378158974372,
+        "D": 0.24579444755421923,
+        "A": 0.21986773654834355
+      },
+      "hybrid_over25_prob": 0.54194392426032,
+      "hybrid_btts_prob": 0.39116589437778937,
+      "hybrid_logloss": 1.4032596713884231,
+      "hybrid_brier": 0.9026847384129807
+    },
+    {
+      "date": "2024-11-17",
+      "home": "England",
+      "away": "Republic of Ireland",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.577592961782473,
+        "D": 0.2547906573795429,
+        "A": 0.16761638083798444
+      },
+      "baseline_over25_prob": 0.3906389779712984,
+      "baseline_btts_prob": 0.39656211528489843,
+      "baseline_logloss": 0.5488858767574137,
+      "baseline_brier": 0.27144123614882715,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.718770348608252,
+        "D": 0.1855077683019278,
+        "A": 0.09572188308982021
+      },
+      "hybrid_over25_prob": 0.4981049700751464,
+      "hybrid_btts_prob": 0.4585267331903027,
+      "hybrid_logloss": 0.33021337616419555,
+      "hybrid_brier": 0.12266592782454706
+    },
+    {
+      "date": "2024-11-17",
+      "home": "Finland",
+      "away": "Greece",
+      "actual": "A",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.10098040047871219,
+        "D": 0.19403222540594445,
+        "A": 0.7049873741153434
+      },
+      "baseline_over25_prob": 0.4814472867047761,
+      "baseline_btts_prob": 0.3901121488102782,
+      "baseline_logloss": 0.34957538538648797,
+      "baseline_brier": 0.1348779952081847,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.23078011057973036,
+        "D": 0.3057086499739111,
+        "A": 0.4635112394463585
+      },
+      "hybrid_over25_prob": 0.4258518602171413,
+      "hybrid_btts_prob": 0.4881353808397192,
+      "hybrid_logloss": 0.7689246451950241,
+      "hybrid_brier": 0.4345374283084463
+    },
+    {
+      "date": "2024-11-17",
+      "home": "Israel",
+      "away": "Belgium",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.20509343866970006,
+        "D": 0.23554655836845212,
+        "A": 0.5593600029618476
+      },
+      "baseline_over25_prob": 0.5063322110616886,
+      "baseline_btts_prob": 0.5078554567761566,
+      "baseline_logloss": 1.5842896052994802,
+      "baseline_brier": 1.0002422353186626,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.11690014111247829,
+        "D": 0.12167326614436545,
+        "A": 0.7614265927431563
+      },
+      "hybrid_over25_prob": 0.583310188049733,
+      "hybrid_btts_prob": 0.5408763461037011,
+      "hybrid_logloss": 2.1464352033835574,
+      "hybrid_brier": 1.3744402005978509
+    },
+    {
+      "date": "2024-11-17",
+      "home": "Italy",
+      "away": "France",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.38033611201530476,
+        "D": 0.2771210318375551,
+        "A": 0.34254285614714003
+      },
+      "baseline_over25_prob": 0.4273800928204278,
+      "baseline_btts_prob": 0.4855270986729513,
+      "baseline_logloss": 1.0713585016707365,
+      "baseline_brier": 0.65370152039279,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.17360359374153575,
+        "D": 0.4401607141601698,
+        "A": 0.3862356920982945
+      },
+      "hybrid_over25_prob": 0.5553092386449775,
+      "hybrid_btts_prob": 0.5505042722609141,
+      "hybrid_logloss": 0.9513074945675065,
+      "hybrid_brier": 0.6005862877040263
+    },
+    {
+      "date": "2024-11-17",
+      "home": "Latvia",
+      "away": "Armenia",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.2780945605577328,
+        "D": 0.25767498692421437,
+        "A": 0.46423045251805267
+      },
+      "baseline_over25_prob": 0.481554786302541,
+      "baseline_btts_prob": 0.5182675779679039,
+      "baseline_logloss": 0.7673741851434784,
+      "baseline_brier": 0.43078199150720314,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.25614775445014887,
+        "D": 0.28816908724044066,
+        "A": 0.4556831583094104
+      },
+      "hybrid_over25_prob": 0.598453864162573,
+      "hybrid_btts_prob": 0.5869155132474146,
+      "hybrid_logloss": 0.7859575392416255,
+      "hybrid_brier": 0.4449339190988608
+    },
+    {
+      "date": "2024-11-17",
+      "home": "North Macedonia",
+      "away": "Faroe Islands",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.5654264285459654,
+        "D": 0.2752437152602305,
+        "A": 0.15932985619380388
+      },
+      "baseline_over25_prob": 0.3233125504128164,
+      "baseline_btts_prob": 0.33992486414888057,
+      "baseline_logloss": 0.5701750917199789,
+      "baseline_brier": 0.28999929487130804,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.3514028978335651,
+        "D": 0.4638158384118588,
+        "A": 0.18478126375457612
+      },
+      "hybrid_over25_prob": 0.4006234977989056,
+      "hybrid_btts_prob": 0.36204762435038185,
+      "hybrid_logloss": 1.0458218567248243,
+      "hybrid_brier": 0.6699474483351306
+    },
+    {
+      "date": "2024-11-17",
+      "home": "Norway",
+      "away": "Kazakhstan",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.6794479698469499,
+        "D": 0.19986828397008236,
+        "A": 0.12068374618296758
+      },
+      "baseline_over25_prob": 0.506258241969202,
+      "baseline_btts_prob": 0.43526871915535015,
+      "baseline_logloss": 0.3864746195559987,
+      "baseline_brier": 0.15726550156514238,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.5945705366921809,
+        "D": 0.29142378812727604,
+        "A": 0.11400567518054311
+      },
+      "hybrid_over25_prob": 0.3823513121336398,
+      "hybrid_btts_prob": 0.28137563405528926,
+      "hybrid_logloss": 0.5199159211221734,
+      "hybrid_brier": 0.26229816797788924
+    },
+    {
+      "date": "2024-11-18",
+      "home": "Bulgaria",
+      "away": "Belarus",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 1,
+      "baseline_pick": "D",
+      "baseline_probs": {
+        "H": 0.22854793702397175,
+        "D": 0.41620295669148333,
+        "A": 0.35524910628454504
+      },
+      "baseline_over25_prob": 0.12051284599836161,
+      "baseline_btts_prob": 0.1980782357629441,
+      "baseline_logloss": 0.8765822610317784,
+      "baseline_brier": 0.5192550748096474,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.2272618361795738,
+        "D": 0.4507358091493563,
+        "A": 0.32200235467106997
+      },
+      "hybrid_over25_prob": 0.42069916782684413,
+      "hybrid_btts_prob": 0.42885946383734574,
+      "hybrid_logloss": 0.7968739001467013,
+      "hybrid_brier": 0.45702460994823735
+    },
+    {
+      "date": "2024-11-18",
+      "home": "Croatia",
+      "away": "Portugal",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.22116496294621135,
+        "D": 0.24388725985208637,
+        "A": 0.5349477772017025
+      },
+      "baseline_over25_prob": 0.4909120145546934,
+      "baseline_btts_prob": 0.5046758755223956,
+      "baseline_logloss": 1.4110492102533614,
+      "baseline_brier": 0.9067895409820277,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.2049261892867431,
+        "D": 0.32183550561030827,
+        "A": 0.47323830510294856
+      },
+      "hybrid_over25_prob": 0.5137685394945414,
+      "hybrid_btts_prob": 0.5228430962044557,
+      "hybrid_logloss": 1.13371471610904,
+      "hybrid_brier": 0.7258563179231237
+    },
+    {
+      "date": "2024-11-18",
+      "home": "Kosovo",
+      "away": "Lithuania",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.5602271613035116,
+        "D": 0.22266877926037013,
+        "A": 0.2171040594361182
+      },
+      "baseline_over25_prob": 0.5767397116962802,
+      "baseline_btts_prob": 0.5673303668750614,
+      "baseline_logloss": 0.5794129323198655,
+      "baseline_brier": 0.2901157075361126,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.35070236039666536,
+        "D": 0.40333487273998336,
+        "A": 0.24596276686335128
+      },
+      "hybrid_over25_prob": 0.49289916412742607,
+      "hybrid_btts_prob": 0.45751975738788575,
+      "hybrid_logloss": 1.047817391329241,
+      "hybrid_brier": 0.6447641270457157
+    },
+    {
+      "date": "2024-11-18",
+      "home": "Liechtenstein",
+      "away": "San Marino",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.26849860035686407,
+        "D": 0.36540880241169954,
+        "A": 0.3660925972314366
+      },
+      "baseline_over25_prob": 0.19115293292220728,
+      "baseline_btts_prob": 0.275114767660316,
+      "baseline_logloss": 1.0048689796792425,
+      "baseline_brier": 0.6074536865583331,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.2778885049994568,
+        "D": 0.6420425931534617,
+        "A": 0.08006890184708151
+      },
+      "hybrid_over25_prob": 0.23279460499620663,
+      "hybrid_btts_prob": 0.2517222677192252,
+      "hybrid_logloss": 2.524867741902579,
+      "hybrid_brier": 1.3357139379828893
+    },
+    {
+      "date": "2024-11-18",
+      "home": "Luxembourg",
+      "away": "Northern Ireland",
+      "actual": "D",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.051034924520953026,
+        "D": 0.2625142816215831,
+        "A": 0.6864507938574641
+      },
+      "baseline_over25_prob": 0.21662874999079704,
+      "baseline_btts_prob": 0.1365680728452053,
+      "baseline_logloss": 1.3374497922529616,
+      "baseline_brier": 1.0177044407205318,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.20298655180279535,
+        "D": 0.1483615998099833,
+        "A": 0.6486518483872213
+      },
+      "hybrid_over25_prob": 0.4357818395393729,
+      "hybrid_btts_prob": 0.4283072375008267,
+      "hybrid_logloss": 1.908102743121614,
+      "hybrid_brier": 1.1872407253071586
+    },
+    {
+      "date": "2024-11-18",
+      "home": "Poland",
+      "away": "Scotland",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.3576135703839554,
+        "D": 0.23179497445671546,
+        "A": 0.41059145515932916
+      },
+      "baseline_over25_prob": 0.630394263447793,
+      "baseline_btts_prob": 0.6441650318695101,
+      "baseline_logloss": 0.8901565852340886,
+      "baseline_brier": 0.5290188086373467,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.2695109382618495,
+        "D": 0.4841808833328586,
+        "A": 0.246308178405292
+      },
+      "hybrid_over25_prob": 0.540216259113322,
+      "hybrid_btts_prob": 0.5044376062491513,
+      "hybrid_logloss": 1.4011717693509238,
+      "hybrid_brier": 0.8751186355665187
+    },
+    {
+      "date": "2024-11-18",
+      "home": "Romania",
+      "away": "Cyprus",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.6878835368827029,
+        "D": 0.19152089627916516,
+        "A": 0.12059556683813169
+      },
+      "baseline_over25_prob": 0.5409180272302601,
+      "baseline_btts_prob": 0.4606902957487034,
+      "baseline_logloss": 0.3741357331646641,
+      "baseline_brier": 0.1486402310014361,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.6824491423731093,
+        "D": 0.169792805657493,
+        "A": 0.14775805196939779
+      },
+      "hybrid_over25_prob": 0.4918408720743681,
+      "hybrid_btts_prob": 0.3686820066331372,
+      "hybrid_logloss": 0.3820672713689642,
+      "hybrid_brier": 0.15150058595440827
+    },
+    {
+      "date": "2024-11-18",
+      "home": "Serbia",
+      "away": "Denmark",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.265795152105857,
+        "D": 0.3306765634029728,
+        "A": 0.40352828449117034
+      },
+      "baseline_over25_prob": 0.2560293889202226,
+      "baseline_btts_prob": 0.33352769959769285,
+      "baseline_logloss": 1.1066145311671698,
+      "baseline_brier": 0.6814760020454173,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.23200854821423478,
+        "D": 0.37803527673989024,
+        "A": 0.38995617504587504
+      },
+      "hybrid_over25_prob": 0.5216445189901578,
+      "hybrid_btts_prob": 0.5625206698991678,
+      "hybrid_logloss": 0.9727677630083248,
+      "hybrid_brier": 0.5927339018809109
+    },
+    {
+      "date": "2024-11-18",
+      "home": "Spain",
+      "away": "Switzerland",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.5860261221179431,
+        "D": 0.22899215775585666,
+        "A": 0.18498172012620007
+      },
+      "baseline_over25_prob": 0.5063210950565972,
+      "baseline_btts_prob": 0.4953260366411518,
+      "baseline_logloss": 0.534390913405572,
+      "baseline_brier": 0.2580300166632391,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.45084850221413647,
+        "D": 0.36322324729354527,
+        "A": 0.18592825049231826
+      },
+      "hybrid_over25_prob": 0.5637100732871236,
+      "hybrid_btts_prob": 0.5347279673547014,
+      "hybrid_logloss": 0.7966239111796204,
+      "hybrid_brier": 0.4680678092260595
+    },
+    {
+      "date": "2024-11-19",
+      "home": "Albania",
+      "away": "Ukraine",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.35127979368082707,
+        "D": 0.29744041263834564,
+        "A": 0.35127979368082707
+      },
+      "baseline_over25_prob": 0.35711236408618696,
+      "baseline_btts_prob": 0.42825063240192013,
+      "baseline_logloss": 1.0461722400642293,
+      "baseline_brier": 0.6327061986057041,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.16731998135442544,
+        "D": 0.5139717062347696,
+        "A": 0.31870831241080494
+      },
+      "hybrid_over25_prob": 0.45663017043141907,
+      "hybrid_btts_prob": 0.5190326947963455,
+      "hybrid_logloss": 1.143478975656105,
+      "hybrid_brier": 0.7563212545484589
+    },
+    {
+      "date": "2024-11-19",
+      "home": "Bosnia-Herzegovina",
+      "away": "Netherlands",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.10723781072292551,
+        "D": 0.15490354659823063,
+        "A": 0.7378586426788438
+      },
+      "baseline_over25_prob": 0.6786748529780026,
+      "baseline_btts_prob": 0.5492883293062267,
+      "baseline_logloss": 1.864952635770872,
+      "baseline_brier": 1.2701233401767607,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.12265677124187051,
+        "D": 0.1543906190891602,
+        "A": 0.7229526096689692
+      },
+      "hybrid_over25_prob": 0.5157420216299491,
+      "hybrid_btts_prob": 0.5761940121442021,
+      "hybrid_logloss": 1.8682694004318126,
+      "hybrid_brier": 1.2527603844430673
+    },
+    {
+      "date": "2024-11-19",
+      "home": "Czechia",
+      "away": "Georgia",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.3535472177730826,
+        "D": 0.26066136568444587,
+        "A": 0.38579141654247145
+      },
+      "baseline_over25_prob": 0.49472685949782436,
+      "baseline_btts_prob": 0.5392628867394689,
+      "baseline_logloss": 1.0397382303643994,
+      "baseline_brier": 0.6346805642872494,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.34574431053435756,
+        "D": 0.24046336121048728,
+        "A": 0.41379232825515516
+      },
+      "hybrid_over25_prob": 0.5528539260761204,
+      "hybrid_btts_prob": 0.4770113846169593,
+      "hybrid_logloss": 1.0620557640047439,
+      "hybrid_brier": 0.6570972262056305
+    },
+    {
+      "date": "2024-11-19",
+      "home": "Hungary",
+      "away": "Germany",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.08799767908263251,
+        "D": 0.1625181179770455,
+        "A": 0.749484202940322
+      },
+      "baseline_over25_prob": 0.576505803329934,
+      "baseline_btts_prob": 0.43762385557699734,
+      "baseline_logloss": 1.8169657881841208,
+      "baseline_brier": 1.2708460646977295,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.18106961812647426,
+        "D": 0.21594741104795528,
+        "A": 0.6029829708255704
+      },
+      "hybrid_over25_prob": 0.5704158441775028,
+      "hybrid_btts_prob": 0.6215033746894356,
+      "hybrid_logloss": 1.5327203683115411,
+      "hybrid_brier": 1.0111131319565019
+    },
+    {
+      "date": "2024-11-19",
+      "home": "Malta",
+      "away": "Andorra",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.51932790676765,
+        "D": 0.35906231390727356,
+        "A": 0.1216097793250763
+      },
+      "baseline_over25_prob": 0.15063048804840715,
+      "baseline_btts_prob": 0.1791862689846455,
+      "baseline_logloss": 1.0242593292131084,
+      "baseline_brier": 0.6952915306290611,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.179255367240493,
+        "D": 0.7423769306602109,
+        "A": 0.07836770209929608
+      },
+      "hybrid_over25_prob": 0.2312746523844848,
+      "hybrid_btts_prob": 0.2508222445817594,
+      "hybrid_logloss": 0.2978981719959017,
+      "hybrid_brier": 0.10464362927290179
+    },
+    {
+      "date": "2024-11-19",
+      "home": "Montenegro",
+      "away": "Turkiye",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.14925421701613772,
+        "D": 0.24704214791734003,
+        "A": 0.6037036350665218
+      },
+      "baseline_over25_prob": 0.39063306299943823,
+      "baseline_btts_prob": 0.3814525376811251,
+      "baseline_logloss": 1.902104272394092,
+      "baseline_brier": 1.1492562891049698,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.12854022681265231,
+        "D": 0.11955053582828376,
+        "A": 0.7519092373590639
+      },
+      "hybrid_over25_prob": 0.46836889788208214,
+      "hybrid_btts_prob": 0.5143977768432628,
+      "hybrid_logloss": 2.0515133745108174,
+      "hybrid_brier": 1.3391019681264622
+    },
+    {
+      "date": "2024-11-19",
+      "home": "Slovakia",
+      "away": "Estonia",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.5296068021148297,
+        "D": 0.25907646530804296,
+        "A": 0.21131673257712738
+      },
+      "baseline_over25_prob": 0.42445665872968547,
+      "baseline_btts_prob": 0.44947908613918114,
+      "baseline_logloss": 0.6356204305694079,
+      "baseline_brier": 0.33304513696021976,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.4218620431904654,
+        "D": 0.46500654807000275,
+        "A": 0.11313140873953188
+      },
+      "hybrid_over25_prob": 0.4095048319950819,
+      "hybrid_btts_prob": 0.3437573013534194,
+      "hybrid_logloss": 0.8630769302643947,
+      "hybrid_brier": 0.5632733024952742
+    },
+    {
+      "date": "2024-11-19",
+      "home": "Sweden",
+      "away": "Azerbaijan",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.7508483790031555,
+        "D": 0.15925629418898796,
+        "A": 0.08989532680785654
+      },
+      "baseline_over25_prob": 0.5984907366220505,
+      "baseline_btts_prob": 0.45770651908517895,
+      "baseline_logloss": 0.28655153974057035,
+      "baseline_brier": 0.09552026726605606,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.6194777006987955,
+        "D": 0.14110561564954194,
+        "A": 0.23941668365166263
+      },
+      "hybrid_over25_prob": 0.5044330950420257,
+      "hybrid_btts_prob": 0.31352998011513233,
+      "hybrid_logloss": 0.47887857420438945,
+      "hybrid_brier": 0.22202836344407204
+    },
+    {
+      "date": "2024-11-19",
+      "home": "Wales",
+      "away": "Iceland",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.4155979847939053,
+        "D": 0.26234844320761386,
+        "A": 0.32205357199848117
+      },
+      "baseline_over25_prob": 0.48155946030939883,
+      "baseline_btts_prob": 0.5264784928031625,
+      "baseline_logloss": 0.878036868676652,
+      "baseline_brier": 0.514070924267384,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.24892014168868765,
+        "D": 0.310805874275051,
+        "A": 0.44027398403626133
+      },
+      "hybrid_over25_prob": 0.5138026247022888,
+      "hybrid_btts_prob": 0.5512925214737612,
+      "hybrid_logloss": 1.390623150067528,
+      "hybrid_brier": 0.8545624260639818
+    },
+    {
+      "date": "2025-03-20",
+      "home": "Armenia",
+      "away": "Georgia",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.3752013711705239,
+        "D": 0.25725668185287887,
+        "A": 0.36754194697659714
+      },
+      "baseline_over25_prob": 0.5104367626485925,
+      "baseline_btts_prob": 0.551894124877478,
+      "baseline_logloss": 1.000917825409966,
+      "baseline_brier": 0.606960258120348,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.23115954764375835,
+        "D": 0.4297882566223916,
+        "A": 0.33905219573385004
+      },
+      "hybrid_over25_prob": 0.37893865237248353,
+      "hybrid_btts_prob": 0.35883804933479224,
+      "hybrid_logloss": 1.0816012137374351,
+      "hybrid_brier": 0.6750046819616267
+    },
+    {
+      "date": "2025-03-20",
+      "home": "Austria",
+      "away": "Serbia",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.5439719710563454,
+        "D": 0.26256202156101494,
+        "A": 0.1934660073826398
+      },
+      "baseline_over25_prob": 0.3950866789847741,
+      "baseline_btts_prob": 0.4172953114196705,
+      "baseline_logloss": 1.3372679522450464,
+      "baseline_brier": 0.8771493733516822,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.3912865539057,
+        "D": 0.4646282008194349,
+        "A": 0.14408524527486521
+      },
+      "hybrid_over25_prob": 0.44806897950974856,
+      "hybrid_btts_prob": 0.37983865499955755,
+      "hybrid_logloss": 0.7665177613501184,
+      "hybrid_brier": 0.46048868853115166
+    },
+    {
+      "date": "2025-03-20",
+      "home": "Bulgaria",
+      "away": "Republic of Ireland",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.48172856074552245,
+        "D": 0.29523694479554896,
+        "A": 0.22303449445892884
+      },
+      "baseline_over25_prob": 0.3233189711875252,
+      "baseline_btts_prob": 0.37646288354676016,
+      "baseline_logloss": 1.5004288358119773,
+      "baseline_brier": 0.9229026566108548,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.2904586062537976,
+        "D": 0.2715970703961947,
+        "A": 0.4379443233500077
+      },
+      "hybrid_over25_prob": 0.475068633471217,
+      "hybrid_btts_prob": 0.4431761305558262,
+      "hybrid_logloss": 0.8256634923248203,
+      "hybrid_brier": 0.47403775424917477
+    },
+    {
+      "date": "2025-03-20",
+      "home": "Croatia",
+      "away": "France",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.26345641043245316,
+        "D": 0.256060319423086,
+        "A": 0.48048327014446107
+      },
+      "baseline_over25_prob": 0.4787598909473786,
+      "baseline_btts_prob": 0.5120099535169549,
+      "baseline_logloss": 1.3338673499887779,
+      "baseline_brier": 0.8389275194048149,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.26917031010525266,
+        "D": 0.4245428290818965,
+        "A": 0.30628686081285095
+      },
+      "hybrid_over25_prob": 0.5493043070821948,
+      "hybrid_btts_prob": 0.6860452460693128,
+      "hybrid_logloss": 1.3124109766502992,
+      "hybrid_brier": 0.8081602904631036
+    },
+    {
+      "date": "2025-03-20",
+      "home": "Denmark",
+      "away": "Portugal",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.23775282754968255,
+        "D": 0.29346421651517884,
+        "A": 0.4687829559351384
+      },
+      "baseline_over25_prob": 0.3368497578135205,
+      "baseline_btts_prob": 0.3929000259432227,
+      "baseline_logloss": 1.4365236846739087,
+      "baseline_brier": 0.8868994580586577,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.25441042372161643,
+        "D": 0.4354811478979201,
+        "A": 0.3101084283804635
+      },
+      "hybrid_over25_prob": 0.5590022047091172,
+      "hybrid_btts_prob": 0.6933628065443432,
+      "hybrid_logloss": 1.3688064746070787,
+      "hybrid_brier": 0.8417148837820706
+    },
+    {
+      "date": "2025-03-20",
+      "home": "Greece",
+      "away": "Scotland",
+      "actual": "A",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.5912967044102153,
+        "D": 0.23296788707738392,
+        "A": 0.17573540851240047
+      },
+      "baseline_over25_prob": 0.47733168962459577,
+      "baseline_btts_prob": 0.4671408550694523,
+      "baseline_logloss": 1.7387757758495745,
+      "baseline_brier": 1.0833179458359017,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.3001132335547909,
+        "D": 0.3124830748967021,
+        "A": 0.38740369154850707
+      },
+      "hybrid_over25_prob": 0.47468664282334505,
+      "hybrid_btts_prob": 0.42513911240564894,
+      "hybrid_logloss": 0.948287999018744,
+      "hybrid_brier": 0.5629878621800071
+    },
+    {
+      "date": "2025-03-20",
+      "home": "Italy",
+      "away": "Germany",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.23534558931896832,
+        "D": 0.22732596107333927,
+        "A": 0.5373284496076924
+      },
+      "baseline_over25_prob": 0.5767515815190994,
+      "baseline_btts_prob": 0.5758977685390467,
+      "baseline_logloss": 0.6211457334444077,
+      "baseline_brier": 0.32112960253223144,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.2165152831114874,
+        "D": 0.41648645711202237,
+        "A": 0.36699825977649025
+      },
+      "hybrid_over25_prob": 0.5470292164432322,
+      "hybrid_btts_prob": 0.6851261559173817,
+      "hybrid_logloss": 1.0023981726922415,
+      "hybrid_brier": 0.6210310399045637
+    },
+    {
+      "date": "2025-03-20",
+      "home": "Kosovo",
+      "away": "Iceland",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.4928821309869131,
+        "D": 0.22193424396566788,
+        "A": 0.2851836250474193
+      },
+      "baseline_over25_prob": 0.6471560688879217,
+      "baseline_btts_prob": 0.646033341809629,
+      "baseline_logloss": 0.7074852187441175,
+      "baseline_brier": 0.38775304171217395,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.36333715066986616,
+        "D": 0.2758057960666942,
+        "A": 0.36085705326343975
+      },
+      "hybrid_over25_prob": 0.5139455243808888,
+      "hybrid_btts_prob": 0.47891269233447253,
+      "hybrid_logloss": 1.0124240860514253,
+      "hybrid_brier": 0.6116262337511207
+    },
+    {
+      "date": "2025-03-20",
+      "home": "Netherlands",
+      "away": "Spain",
+      "actual": "D",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.3117925398718674,
+        "D": 0.2286628885999032,
+        "A": 0.45954457152822936
+      },
+      "baseline_over25_prob": 0.6303848708688152,
+      "baseline_btts_prob": 0.638886960613303,
+      "baseline_logloss": 1.4755064622187117,
+      "baseline_brier": 0.9033567405638594,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.3662508760839418,
+        "D": 0.369772843978099,
+        "A": 0.26397627993795925
+      },
+      "hybrid_over25_prob": 0.5343470684099267,
+      "hybrid_btts_prob": 0.5857649030267471,
+      "hybrid_logloss": 0.9948663970735749,
+      "hybrid_brier": 0.6010094487895923
+    },
+    {
+      "date": "2025-03-20",
+      "home": "Slovakia",
+      "away": "Slovenia",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.4316905650545109,
+        "D": 0.2870018745671362,
+        "A": 0.28130756037835253
+      },
+      "baseline_over25_prob": 0.377281609241112,
+      "baseline_btts_prob": 0.437555954312356,
+      "baseline_logloss": 1.2482665316510375,
+      "baseline_brier": 0.7738570143538811,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.3695969712005481,
+        "D": 0.33399043890164415,
+        "A": 0.2964125898978077
+      },
+      "hybrid_over25_prob": 0.5779150712628823,
+      "hybrid_btts_prob": 0.5976827922393183,
+      "hybrid_logloss": 1.0966429124581512,
+      "hybrid_brier": 0.6680310800449694
+    },
+    {
+      "date": "2025-03-20",
+      "home": "Turkiye",
+      "away": "Hungary",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.5146927024196463,
+        "D": 0.2512275450166699,
+        "A": 0.23407975256368366
+      },
+      "baseline_over25_prob": 0.474551699190147,
+      "baseline_btts_prob": 0.4981453967203986,
+      "baseline_logloss": 0.6641852507420952,
+      "baseline_brier": 0.3534317830201243,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.3679973274986319,
+        "D": 0.43290912171939094,
+        "A": 0.19909355078197724
+      },
+      "hybrid_over25_prob": 0.4760372599304932,
+      "hybrid_btts_prob": 0.5171644798072407,
+      "hybrid_logloss": 0.9996796030715548,
+      "hybrid_brier": 0.6264759276797017
+    },
+    {
+      "date": "2025-03-20",
+      "home": "Ukraine",
+      "away": "Belgium",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.3631050855763984,
+        "D": 0.29346966728497637,
+        "A": 0.3434252471386252
+      },
+      "baseline_over25_prob": 0.36982601510749624,
+      "baseline_btts_prob": 0.4387424714074837,
+      "baseline_logloss": 1.0130629946659933,
+      "baseline_brier": 0.6097004780072273,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.30281285471638714,
+        "D": 0.3827647826254941,
+        "A": 0.31442236265811885
+      },
+      "hybrid_over25_prob": 0.5893785588466849,
+      "hybrid_btts_prob": 0.6809531680541271,
+      "hybrid_logloss": 1.194640305491712,
+      "hybrid_brier": 0.731440216506569
+    },
+    {
+      "date": "2025-03-21",
+      "home": "Andorra",
+      "away": "Latvia",
+      "actual": "A",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.355959174483188,
+        "D": 0.3341261999720569,
+        "A": 0.30991462554475524
+      },
+      "baseline_over25_prob": 0.2560297043005812,
+      "baseline_btts_prob": 0.33932588938789016,
+      "baseline_logloss": 1.1714584209014252,
+      "baseline_brier": 0.7145650754435551,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.3018683001687513,
+        "D": 0.20063927561167874,
+        "A": 0.49749242421956996
+      },
+      "hybrid_over25_prob": 0.5689317885088809,
+      "hybrid_btts_prob": 0.5308046546376652,
+      "hybrid_logloss": 0.6981749501987891,
+      "hybrid_brier": 0.3838944532814752
+    },
+    {
+      "date": "2025-03-21",
+      "home": "Cyprus",
+      "away": "San Marino",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.1340445993351939,
+        "D": 0.2145046992237427,
+        "A": 0.6514507014410637
+      },
+      "baseline_over25_prob": 0.47730078881610866,
+      "baseline_btts_prob": 0.4296910171864097,
+      "baseline_logloss": 2.0095827035474736,
+      "baseline_brier": 1.2202790383376672,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.3207855113405479,
+        "D": 0.3878386478593324,
+        "A": 0.2913758408001197
+      },
+      "hybrid_over25_prob": 0.5421589488040326,
+      "hybrid_btts_prob": 0.6119224976966471,
+      "hybrid_logloss": 1.1369825681601204,
+      "hybrid_brier": 0.696651018980253
+    },
+    {
+      "date": "2025-03-21",
+      "home": "England",
+      "away": "Albania",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.5936024614925508,
+        "D": 0.23640874167315448,
+        "A": 0.16998879683429463
+      },
+      "baseline_over25_prob": 0.4561458673307939,
+      "baseline_btts_prob": 0.4470632295326838,
+      "baseline_logloss": 0.5215454404183072,
+      "baseline_brier": 0.24994424349356903,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.6461891368269272,
+        "D": 0.19902263271279125,
+        "A": 0.1547882304602816
+      },
+      "hybrid_over25_prob": 0.5559009046477641,
+      "hybrid_btts_prob": 0.43230281181763974,
+      "hybrid_logloss": 0.43666303658583294,
+      "hybrid_brier": 0.18875153152023064
+    },
+    {
+      "date": "2025-03-21",
+      "home": "Malta",
+      "away": "Finland",
+      "actual": "A",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.6001984056838752,
+        "D": 0.28458374872415243,
+        "A": 0.11521784559197251
+      },
+      "baseline_over25_prob": 0.2560220161005632,
+      "baseline_btts_prob": 0.250935174137958,
+      "baseline_logloss": 2.1609306330650684,
+      "baseline_brier": 1.2240654969822677,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.3396227714634995,
+        "D": 0.2936216656330442,
+        "A": 0.36675556290345634
+      },
+      "hybrid_over25_prob": 0.48122040100093966,
+      "hybrid_btts_prob": 0.44993296998600685,
+      "hybrid_logloss": 1.0030596939664969,
+      "hybrid_brier": 0.60255582653939
+    },
+    {
+      "date": "2025-03-21",
+      "home": "Poland",
+      "away": "Lithuania",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.3875688753450855,
+        "D": 0.23682921723811404,
+        "A": 0.37560190741680044
+      },
+      "baseline_over25_prob": 0.6071656965808708,
+      "baseline_btts_prob": 0.6269562393297603,
+      "baseline_logloss": 0.9478617031570928,
+      "baseline_brier": 0.57223675343884,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.4061188965743354,
+        "D": 0.3956716086811208,
+        "A": 0.1982094947445439
+      },
+      "hybrid_over25_prob": 0.5987075072175404,
+      "hybrid_btts_prob": 0.6531028467934763,
+      "hybrid_logloss": 0.9011093135469571,
+      "hybrid_brier": 0.5485377907292783
+    },
+    {
+      "date": "2025-03-21",
+      "home": "Romania",
+      "away": "Bosnia-Herzegovina",
+      "actual": "A",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.7503803825820875,
+        "D": 0.1545113126469277,
+        "A": 0.09510830477098474
+      },
+      "baseline_over25_prob": 0.6401441767174659,
+      "baseline_btts_prob": 0.4992219466724427,
+      "baseline_logloss": 2.352738986524466,
+      "baseline_brier": 1.4057734443943577,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.6960107760239879,
+        "D": 0.14765849797190156,
+        "A": 0.15633072600411066
+      },
+      "hybrid_over25_prob": 0.562014482130715,
+      "hybrid_btts_prob": 0.3374125421276297,
+      "hybrid_logloss": 1.8557814773551322,
+      "hybrid_brier": 1.2180118762495828
+    },
+    {
+      "date": "2025-03-22",
+      "home": "Czechia",
+      "away": "Faroe Islands",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.3652272265392725,
+        "D": 0.2832530579038289,
+        "A": 0.35151971555689854
+      },
+      "baseline_over25_prob": 0.4054296704876475,
+      "baseline_btts_prob": 0.46812406787946625,
+      "baseline_logloss": 1.00723558063257,
+      "baseline_brier": 0.6067348791640969,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.5179819769734615,
+        "D": 0.2599411863918075,
+        "A": 0.222076836634731
+      },
+      "hybrid_over25_prob": 0.6181117283267881,
+      "hybrid_btts_prob": 0.6112979359142547,
+      "hybrid_logloss": 0.6578148308154875,
+      "hybrid_brier": 0.349228916274882
+    },
+    {
+      "date": "2025-03-22",
+      "home": "Israel",
+      "away": "Estonia",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.3258795848290604,
+        "D": 0.26890440499794543,
+        "A": 0.4052160101729941
+      },
+      "baseline_over25_prob": 0.4561787136367031,
+      "baseline_btts_prob": 0.5070817238015022,
+      "baseline_logloss": 1.121227337539954,
+      "baseline_brier": 0.6909479280780593,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.32677068232307926,
+        "D": 0.36747888870568085,
+        "A": 0.30575042897123994
+      },
+      "hybrid_over25_prob": 0.4755434923512045,
+      "hybrid_btts_prob": 0.4239601465129339,
+      "hybrid_logloss": 1.1184966313942817,
+      "hybrid_brier": 0.6817617726401917
+    },
+    {
+      "date": "2025-03-22",
+      "home": "Liechtenstein",
+      "away": "North Macedonia",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.10390373251625447,
+        "D": 0.24255957884419305,
+        "A": 0.6535366886395523
+      },
+      "baseline_over25_prob": 0.33457202100085653,
+      "baseline_btts_prob": 0.29218269296016786,
+      "baseline_logloss": 0.4253566057346799,
+      "baseline_brier": 0.1896679610387282,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.2788011060510069,
+        "D": 0.1492590906517142,
+        "A": 0.5719398032972789
+      },
+      "hybrid_over25_prob": 0.5673031101172168,
+      "hybrid_btts_prob": 0.4456953006120117,
+      "hybrid_logloss": 0.5587215321311214,
+      "hybrid_brier": 0.2832438648786137
+    },
+    {
+      "date": "2025-03-22",
+      "home": "Moldova",
+      "away": "Norway",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.3289873219500296,
+        "D": 0.2638118550904147,
+        "A": 0.4072008229595555
+      },
+      "baseline_over25_prob": 0.4773682632267692,
+      "baseline_btts_prob": 0.5239839028382115,
+      "baseline_logloss": 0.8984487927273469,
+      "baseline_brier": 0.5292402171899266,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.23102473885324448,
+        "D": 0.22374476560563034,
+        "A": 0.5452304955411252
+      },
+      "hybrid_over25_prob": 0.5814007982311717,
+      "hybrid_btts_prob": 0.6587080962796725,
+      "hybrid_logloss": 0.6065466461291668,
+      "hybrid_brier": 0.3102494522838988
+    },
+    {
+      "date": "2025-03-22",
+      "home": "Montenegro",
+      "away": "Gibraltar",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.21070507287993265,
+        "D": 0.2965513110400322,
+        "A": 0.4927436160800353
+      },
+      "baseline_over25_prob": 0.312042630261354,
+      "baseline_btts_prob": 0.3621232972858889,
+      "baseline_logloss": 1.5572958821451048,
+      "baseline_brier": 0.9537254332446635,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.37472582671708315,
+        "D": 0.2943711551535495,
+        "A": 0.33090301812936734
+      },
+      "hybrid_over25_prob": 0.5950208505979163,
+      "hybrid_btts_prob": 0.6785611701607216,
+      "hybrid_logloss": 0.9815606491711452,
+      "hybrid_brier": 0.5871189761681945
+    },
+    {
+      "date": "2025-03-22",
+      "home": "Wales",
+      "away": "Kazakhstan",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.7749001010940815,
+        "D": 0.17326803336319738,
+        "A": 0.051831865542721234
+      },
+      "baseline_over25_prob": 0.4126413944729998,
+      "baseline_btts_prob": 0.24509626255949257,
+      "baseline_logloss": 0.2550211597514313,
+      "baseline_brier": 0.08337831815864355,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.5699148977560531,
+        "D": 0.1894576829035722,
+        "A": 0.24062741934037474
+      },
+      "hybrid_over25_prob": 0.4382726025445358,
+      "hybrid_btts_prob": 0.24040370761296748,
+      "hybrid_logloss": 0.5622682314825845,
+      "hybrid_brier": 0.27876896372178533
+    },
+    {
+      "date": "2025-03-23",
+      "home": "Belgium",
+      "away": "Ukraine",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.3141329838894496,
+        "D": 0.274891728344389,
+        "A": 0.4109752877661616
+      },
+      "baseline_over25_prob": 0.4302846653274526,
+      "baseline_btts_prob": 0.4853128276520875,
+      "baseline_logloss": 1.1579388671597945,
+      "baseline_brier": 0.7148797132550347,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.3359284493880822,
+        "D": 0.44191009281302146,
+        "A": 0.2221614577988964
+      },
+      "hybrid_over25_prob": 0.5435484113962927,
+      "hybrid_btts_prob": 0.6654631645809105,
+      "hybrid_logloss": 1.090857089945386,
+      "hybrid_brier": 0.685631267793461
+    },
+    {
+      "date": "2025-03-23",
+      "home": "France",
+      "away": "Croatia",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.42669428559255423,
+        "D": 0.26442100158109194,
+        "A": 0.30888471282635394
+      },
+      "baseline_over25_prob": 0.468936579480554,
+      "baseline_btts_prob": 0.514844361519929,
+      "baseline_logloss": 0.8516874809740512,
+      "baseline_brier": 0.4940076740671988,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.39864010622745405,
+        "D": 0.3934303601611012,
+        "A": 0.2079295336114448
+      },
+      "hybrid_over25_prob": 0.5540386086998023,
+      "hybrid_btts_prob": 0.6330066483255739,
+      "hybrid_logloss": 0.9196962585343745,
+      "hybrid_brier": 0.5596558610824945
+    },
+    {
+      "date": "2025-03-23",
+      "home": "Georgia",
+      "away": "Armenia",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.4738208975665393,
+        "D": 0.25225651514527503,
+        "A": 0.2739225872881857
+      },
+      "baseline_over25_prob": 0.5010919515545074,
+      "baseline_btts_prob": 0.5321038664494311,
+      "baseline_logloss": 0.7469258819267309,
+      "baseline_brier": 0.4155313810975745,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.42430912093767503,
+        "D": 0.2548623277799232,
+        "A": 0.32082855128240173
+      },
+      "hybrid_over25_prob": 0.6445088295801856,
+      "hybrid_btts_prob": 0.7096080091233641,
+      "hybrid_logloss": 0.8572930305691853,
+      "hybrid_brier": 0.49930575367491814
+    },
+    {
+      "date": "2025-03-23",
+      "home": "Germany",
+      "away": "Italy",
+      "actual": "D",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.5485775811485014,
+        "D": 0.22317236902624552,
+        "A": 0.22825004982525307
+      },
+      "baseline_over25_prob": 0.5878493677029808,
+      "baseline_btts_prob": 0.5811358947410147,
+      "baseline_logloss": 1.4998108508234556,
+      "baseline_brier": 0.9564966160282669,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.6046322521396206,
+        "D": 0.21731620813469799,
+        "A": 0.17805153972568144
+      },
+      "hybrid_over25_prob": 0.588719671617655,
+      "hybrid_btts_prob": 0.5280176659102388,
+      "hybrid_logloss": 1.526401805754471,
+      "hybrid_brier": 1.009876429174763
+    },
+    {
+      "date": "2025-03-23",
+      "home": "Hungary",
+      "away": "Turkiye",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.18498172012620012,
+        "D": 0.22899215775585668,
+        "A": 0.5860261221179431
+      },
+      "baseline_over25_prob": 0.5063210950565971,
+      "baseline_btts_prob": 0.4953260366411517,
+      "baseline_logloss": 0.534390913405572,
+      "baseline_brier": 0.2580300166632391,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.37689440296865007,
+        "D": 0.27904357556564663,
+        "A": 0.3440620214657034
+      },
+      "hybrid_over25_prob": 0.6045855081221915,
+      "hybrid_btts_prob": 0.6329706132700551,
+      "hybrid_logloss": 1.0669333429014813,
+      "hybrid_brier": 0.6501693397372152
+    },
+    {
+      "date": "2025-03-23",
+      "home": "Iceland",
+      "away": "Kosovo",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.27013494715377023,
+        "D": 0.22148427319240596,
+        "A": 0.5083807796538236
+      },
+      "baseline_over25_prob": 0.6376257882191494,
+      "baseline_btts_prob": 0.6346405139707246,
+      "baseline_logloss": 0.6765245459404485,
+      "baseline_brier": 0.36371763075912095,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.39032815208861504,
+        "D": 0.2729699206854622,
+        "A": 0.3367019272259228
+      },
+      "hybrid_over25_prob": 0.5803267669333118,
+      "hybrid_btts_prob": 0.5675984413595201,
+      "hybrid_logloss": 1.088557228964775,
+      "hybrid_brier": 0.6668329772577455
+    },
+    {
+      "date": "2025-03-23",
+      "home": "Portugal",
+      "away": "Denmark",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.39539306555616394,
+        "D": 0.31596865290076237,
+        "A": 0.28863828154307397
+      },
+      "baseline_over25_prob": 0.296278262038707,
+      "baseline_btts_prob": 0.37221552086884974,
+      "baseline_logloss": 0.9278749061936331,
+      "baseline_brier": 0.5486977923656344,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.42459199455017327,
+        "D": 0.38119371497957166,
+        "A": 0.19421429047025515
+      },
+      "hybrid_over25_prob": 0.5293955556288693,
+      "hybrid_btts_prob": 0.593251959291625,
+      "hybrid_logloss": 0.8566265839882885,
+      "hybrid_brier": 0.5141222116985393
+    },
+    {
+      "date": "2025-03-23",
+      "home": "Republic of Ireland",
+      "away": "Bulgaria",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.2816135938335849,
+        "D": 0.29190955417260245,
+        "A": 0.42647685199381274
+      },
+      "baseline_over25_prob": 0.36192359462774193,
+      "baseline_btts_prob": 0.42527824956749644,
+      "baseline_logloss": 1.2672193823066158,
+      "baseline_brier": 0.7831727216684975,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.36109006776769925,
+        "D": 0.3975402190745426,
+        "A": 0.24136971315775818
+      },
+      "hybrid_over25_prob": 0.5247754536456962,
+      "hybrid_btts_prob": 0.5574921229767582,
+      "hybrid_logloss": 1.0186278565666251,
+      "hybrid_brier": 0.624503465716777
+    },
+    {
+      "date": "2025-03-23",
+      "home": "Scotland",
+      "away": "Greece",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.20979745528915744,
+        "D": 0.2575171509195336,
+        "A": 0.5326853937913092
+      },
+      "baseline_over25_prob": 0.42840478462843995,
+      "baseline_btts_prob": 0.45168934129846294,
+      "baseline_logloss": 0.6298242846366939,
+      "baseline_brier": 0.3287129964395036,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.468611771053169,
+        "D": 0.2850796612025508,
+        "A": 0.24630856774428028
+      },
+      "hybrid_over25_prob": 0.6177991523720558,
+      "hybrid_btts_prob": 0.6519523707231322,
+      "hybrid_logloss": 1.4011701886535912,
+      "hybrid_brier": 0.868918180256627
+    },
+    {
+      "date": "2025-03-23",
+      "home": "Serbia",
+      "away": "Austria",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.1931520909365422,
+        "D": 0.25575845969842415,
+        "A": 0.5510894493650335
+      },
+      "baseline_over25_prob": 0.41715432839086736,
+      "baseline_btts_prob": 0.433787994426974,
+      "baseline_logloss": 1.6442773644739128,
+      "baseline_brier": 1.02011551926884,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.34807650245601673,
+        "D": 0.32622925139889203,
+        "A": 0.32569424614509124
+      },
+      "hybrid_over25_prob": 0.6010496953688214,
+      "hybrid_btts_prob": 0.6871622631525669,
+      "hybrid_logloss": 1.055332988724031,
+      "hybrid_brier": 0.6375065130902807
+    },
+    {
+      "date": "2025-03-23",
+      "home": "Slovenia",
+      "away": "Slovakia",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.2850459367927681,
+        "D": 0.3006848654573522,
+        "A": 0.41426919774987975
+      },
+      "baseline_over25_prob": 0.3368517151249954,
+      "baseline_btts_prob": 0.4055276912819564,
+      "baseline_logloss": 1.255104929972855,
+      "baseline_brier": 0.7731896690159656,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.33289262179731016,
+        "D": 0.32482415921177454,
+        "A": 0.3422832189909153
+      },
+      "hybrid_over25_prob": 0.5695359534784113,
+      "hybrid_btts_prob": 0.6126890742369173,
+      "hybrid_logloss": 1.0999352980672863,
+      "hybrid_brier": 0.6677007904628858
+    },
+    {
+      "date": "2025-03-23",
+      "home": "Spain",
+      "away": "Netherlands",
+      "actual": "D",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.4143877510961364,
+        "D": 0.23568974098735754,
+        "A": 0.3499225079165062
+      },
+      "baseline_over25_prob": 0.6095303699035043,
+      "baseline_btts_prob": 0.627658513735829,
+      "baseline_logloss": 1.4452389957091836,
+      "baseline_brier": 0.8783331418370635,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.3955532705585795,
+        "D": 0.3729495357184425,
+        "A": 0.23149719372297797
+      },
+      "hybrid_over25_prob": 0.5792801641849442,
+      "hybrid_btts_prob": 0.652995700863352,
+      "hybrid_logloss": 0.9863121614712892,
+      "hybrid_brier": 0.6032456253069196
+    },
+    {
+      "date": "2025-03-24",
+      "home": "Albania",
+      "away": "Andorra",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.376256549532651,
+        "D": 0.36451989752498654,
+        "A": 0.25922355294236243
+      },
+      "baseline_over25_prob": 0.19115290272157467,
+      "baseline_btts_prob": 0.27366938105554983,
+      "baseline_logloss": 0.9774840556748084,
+      "baseline_brier": 0.5891274980926028,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.36526139190779777,
+        "D": 0.4611132341888152,
+        "A": 0.173625373903387
+      },
+      "hybrid_over25_prob": 0.46638684759000804,
+      "hybrid_btts_prob": 0.6057136703434689,
+      "hybrid_logloss": 1.0071420394939745,
+      "hybrid_brier": 0.6456642858099864
+    },
+    {
+      "date": "2025-03-24",
+      "home": "Bosnia-Herzegovina",
+      "away": "Cyprus",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.33430254866372167,
+        "D": 0.23832888817551226,
+        "A": 0.4273685631607661
+      },
+      "baseline_over25_prob": 0.5925906226772634,
+      "baseline_btts_prob": 0.6132654121289492,
+      "baseline_logloss": 1.0957088617032382,
+      "baseline_brier": 0.6825976444326902,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.3633665081137918,
+        "D": 0.2465622444788914,
+        "A": 0.3900712474073168
+      },
+      "hybrid_over25_prob": 0.58220705456484,
+      "hybrid_btts_prob": 0.5754024412132231,
+      "hybrid_logloss": 1.0123432898600568,
+      "hybrid_brier": 0.6182507214475955
+    },
+    {
+      "date": "2025-03-24",
+      "home": "England",
+      "away": "Latvia",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.6540478321591264,
+        "D": 0.21320476971393001,
+        "A": 0.1327473981269436
+      },
+      "baseline_over25_prob": 0.4796952750391534,
+      "baseline_btts_prob": 0.4300225267398987,
+      "baseline_logloss": 0.4245747923413896,
+      "baseline_brier": 0.18276104797204315,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.6405518915104262,
+        "D": 0.18801224348535045,
+        "A": 0.17143586500422334
+      },
+      "hybrid_over25_prob": 0.5224428800952564,
+      "hybrid_btts_prob": 0.4071502408741233,
+      "hybrid_logloss": 0.4454251437367024,
+      "hybrid_brier": 0.19394180220687338
+    },
+    {
+      "date": "2025-03-24",
+      "home": "Lithuania",
+      "away": "Finland",
+      "actual": "D",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.393441151163869,
+        "D": 0.2838097832410486,
+        "A": 0.3227490655950821
+      },
+      "baseline_over25_prob": 0.400164959740771,
+      "baseline_btts_prob": 0.46225899655029346,
+      "baseline_logloss": 1.2594510425422165,
+      "baseline_brier": 0.7718913253528827,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.3859229513261538,
+        "D": 0.20849899245720468,
+        "A": 0.40557805621664156
+      },
+      "hybrid_over25_prob": 0.5782071605398951,
+      "hybrid_btts_prob": 0.4842278591953223,
+      "hybrid_logloss": 1.5678210700945026,
+      "hybrid_brier": 0.9399039289860183
+    },
+    {
+      "date": "2025-03-24",
+      "home": "Poland",
+      "away": "Malta",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.27237093304889093,
+        "D": 0.28172175733343746,
+        "A": 0.44590730961767155
+      },
+      "baseline_over25_prob": 0.390654713802044,
+      "baseline_btts_prob": 0.44612467241523585,
+      "baseline_logloss": 1.3005904172693388,
+      "baseline_brier": 0.8076445363976518,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.5357356652193637,
+        "D": 0.2602604810405219,
+        "A": 0.20400385374011443
+      },
+      "hybrid_over25_prob": 0.6205584259352803,
+      "hybrid_btts_prob": 0.5900312102348024,
+      "hybrid_logloss": 0.6241144014598344,
+      "hybrid_brier": 0.32489446288156865
+    },
+    {
+      "date": "2025-03-24",
+      "home": "San Marino",
+      "away": "Romania",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.2603875860028687,
+        "D": 0.2647932623571207,
+        "A": 0.4748191516400107
+      },
+      "baseline_over25_prob": 0.4432859772485911,
+      "baseline_btts_prob": 0.48384037179611766,
+      "baseline_logloss": 0.744821280834306,
+      "baseline_brier": 0.4137320902182464,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.2555226132597095,
+        "D": 0.22204238188194342,
+        "A": 0.5224350048583472
+      },
+      "hybrid_over25_prob": 0.5333518303622564,
+      "hybrid_btts_prob": 0.5458030507862405,
+      "hybrid_logloss": 0.6492546954961775,
+      "hybrid_brier": 0.34266294982352474
+    },
+    {
+      "date": "2025-03-25",
+      "home": "Gibraltar",
+      "away": "Czechia",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.3413619991646714,
+        "D": 0.26963725547889084,
+        "A": 0.3890007453564374
+      },
+      "baseline_over25_prob": 0.45617927310060075,
+      "baseline_btts_prob": 0.5083561889973329,
+      "baseline_logloss": 0.9441740192821397,
+      "baseline_brier": 0.5625523531908787,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.2677875962936376,
+        "D": 0.2871756149359581,
+        "A": 0.4450367887704043
+      },
+      "hybrid_over25_prob": 0.49232094475419147,
+      "hybrid_btts_prob": 0.5076338826481555,
+      "hybrid_logloss": 0.8095983288388212,
+      "hybrid_brier": 0.4621641963608347
+    },
+    {
+      "date": "2025-03-25",
+      "home": "Israel",
+      "away": "Norway",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.13781455070579332,
+        "D": 0.17425227821835956,
+        "A": 0.6879331710758471
+      },
+      "baseline_over25_prob": 0.6654257989627994,
+      "baseline_btts_prob": 0.5763385694785702,
+      "baseline_logloss": 0.37406358083088503,
+      "baseline_brier": 0.1467424125653048,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.2724415698586874,
+        "D": 0.25855174099102984,
+        "A": 0.4690066891502829
+      },
+      "hybrid_over25_prob": 0.5401859694964911,
+      "hybrid_btts_prob": 0.6583432313762081,
+      "hybrid_logloss": 0.7571382480570068,
+      "hybrid_brier": 0.42302730792370297
+    },
+    {
+      "date": "2025-03-25",
+      "home": "Liechtenstein",
+      "away": "Kazakhstan",
+      "actual": "A",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.5168091185507417,
+        "D": 0.25162585652182745,
+        "A": 0.23156502492743086
+      },
+      "baseline_over25_prob": 0.4707360694467358,
+      "baseline_btts_prob": 0.49417693221622017,
+      "baseline_logloss": 1.462894559681031,
+      "baseline_brier": 0.920899547602318,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.3793597349037192,
+        "D": 0.21992477879503547,
+        "A": 0.4007154863012453
+      },
+      "hybrid_over25_prob": 0.5136656662704,
+      "hybrid_btts_prob": 0.36424063925099803,
+      "hybrid_logloss": 0.9145036139679523,
+      "hybrid_brier": 0.5514226451534183
+    },
+    {
+      "date": "2025-03-25",
+      "home": "Moldova",
+      "away": "Estonia",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.4575524067069775,
+        "D": 0.2858436030693574,
+        "A": 0.2566039902236653
+      },
+      "baseline_over25_prob": 0.36960993461289543,
+      "baseline_btts_prob": 0.425140607605774,
+      "baseline_logloss": 1.360221276556482,
+      "baseline_brier": 0.843698397650396,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.37924057878808753,
+        "D": 0.3230834924535806,
+        "A": 0.2976759287583319
+      },
+      "hybrid_over25_prob": 0.4654160597333164,
+      "hybrid_btts_prob": 0.34749773642585746,
+      "hybrid_logloss": 1.2117498716083384,
+      "hybrid_brier": 0.7414654607409982
+    },
+    {
+      "date": "2025-03-25",
+      "home": "Montenegro",
+      "away": "Faroe Islands",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.3371004210816366,
+        "D": 0.2899493126576618,
+        "A": 0.37295026626070155
+      },
+      "baseline_over25_prob": 0.38111107821653745,
+      "baseline_btts_prob": 0.4478049472135329,
+      "baseline_logloss": 1.0873744076131584,
+      "baseline_brier": 0.6625983567447222,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.4118412849235931,
+        "D": 0.27183569736350327,
+        "A": 0.3163230177129036
+      },
+      "hybrid_over25_prob": 0.5691483182677619,
+      "hybrid_btts_prob": 0.5313235093887536,
+      "hybrid_logloss": 0.8871172346210228,
+      "hybrid_brier": 0.51988557201643
+    },
+    {
+      "date": "2025-03-25",
+      "home": "North Macedonia",
+      "away": "Wales",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.4470481042137324,
+        "D": 0.28413378144658963,
+        "A": 0.268818114339678
+      },
+      "baseline_over25_prob": 0.38110876789385895,
+      "baseline_btts_prob": 0.4376591240824481,
+      "baseline_logloss": 1.2583100903038833,
+      "baseline_brier": 0.7845796289441915,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.3559917111724185,
+        "D": 0.37631007206853573,
+        "A": 0.26769821675904576
+      },
+      "hybrid_over25_prob": 0.4519195823114086,
+      "hybrid_btts_prob": 0.4625218266263902,
+      "hybrid_logloss": 0.9773418156805309,
+      "hybrid_brier": 0.5873815598825948
+    },
+    {
+      "date": "2025-06-04",
+      "home": "Germany",
+      "away": "Portugal",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.4469078570565774,
+        "D": 0.23571612907887596,
+        "A": 0.3173760138645464
+      },
+      "baseline_over25_prob": 0.5988015629723012,
+      "baseline_btts_prob": 0.6157555660390505,
+      "baseline_logloss": 1.1476680444305454,
+      "baseline_brier": 0.7212642326542874,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.39910998960127797,
+        "D": 0.35032450365711465,
+        "A": 0.2505655067416074
+      },
+      "hybrid_over25_prob": 0.5254655228481369,
+      "hybrid_btts_prob": 0.5045291853759869,
+      "hybrid_logloss": 1.3840348886849054,
+      "hybrid_brier": 0.8436681013475996
+    },
+    {
+      "date": "2025-06-05",
+      "home": "Spain",
+      "away": "France",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.44437700374718975,
+        "D": 0.2446978889847943,
+        "A": 0.3109251072680161
+      },
+      "baseline_over25_prob": 0.5540124896901165,
+      "baseline_btts_prob": 0.580586256914081,
+      "baseline_logloss": 0.8110819692990685,
+      "baseline_brier": 0.46526839316819246,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.4164944258142747,
+        "D": 0.360453731151015,
+        "A": 0.22305184303471037
+      },
+      "hybrid_over25_prob": 0.572830769892319,
+      "hybrid_btts_prob": 0.6147537017852471,
+      "hybrid_logloss": 0.8758822008638985,
+      "hybrid_brier": 0.5201577720876823
+    },
+    {
+      "date": "2025-06-08",
+      "home": "Germany",
+      "away": "France",
+      "actual": "A",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.4830587330728152,
+        "D": 0.21584039404929156,
+        "A": 0.30110087287789317
+      },
+      "baseline_over25_prob": 0.688216611863664,
+      "baseline_btts_prob": 0.6811095210310608,
+      "baseline_logloss": 1.2003099445352063,
+      "baseline_brier": 0.7683928051933095,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.4146005423199768,
+        "D": 0.32638427235589285,
+        "A": 0.25901518532413037
+      },
+      "hybrid_over25_prob": 0.5625103752936956,
+      "hybrid_btts_prob": 0.5706803936343289,
+      "hybrid_logloss": 1.3508685884062075,
+      "hybrid_brier": 0.8274787985135375
+    },
+    {
+      "date": "2025-06-08",
+      "home": "Portugal",
+      "away": "Spain",
+      "actual": "D",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.3867680704336143,
+        "D": 0.22646385913277148,
+        "A": 0.38676807043361416
+      },
+      "baseline_over25_prob": 0.6602114061476564,
+      "baseline_btts_prob": 0.6679848174355227,
+      "baseline_logloss": 1.4851699091181907,
+      "baseline_brier": 0.8975372418416472,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.40674354432410975,
+        "D": 0.3364651902253291,
+        "A": 0.25679126545056113
+      },
+      "hybrid_over25_prob": 0.5786840742486046,
+      "hybrid_btts_prob": 0.6433624875830527,
+      "hybrid_logloss": 1.0892605818298098,
+      "hybrid_brier": 0.6716605086437484
+    },
+    {
+      "date": "2026-03-26",
+      "home": "Czechia",
+      "away": "Republic of Ireland",
+      "actual": "D",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.5348269140566475,
+        "D": 0.2379588287522118,
+        "A": 0.22721425719114077
+      },
+      "baseline_over25_prob": 0.5215207408191744,
+      "baseline_btts_prob": 0.5306116211818546,
+      "baseline_logloss": 1.4356576087109725,
+      "baseline_brier": 0.9183728933469792,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.574627449929715,
+        "D": 0.2037341636269537,
+        "A": 0.22163838644333128
+      },
+      "hybrid_over25_prob": 0.5934383111345822,
+      "hybrid_btts_prob": 0.5145980205227052,
+      "hybrid_logloss": 1.5909392544121614,
+      "hybrid_brier": 1.0133595627327976
+    },
+    {
+      "date": "2026-03-26",
+      "home": "Denmark",
+      "away": "North Macedonia",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.1571436284693341,
+        "D": 0.2641942473914842,
+        "A": 0.5786621241391817
+      },
+      "baseline_over25_prob": 0.3503527970588772,
+      "baseline_btts_prob": 0.35841367140162683,
+      "baseline_logloss": 1.8505950608218178,
+      "baseline_brier": 1.1150553172978623,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.5257355044699489,
+        "D": 0.2299171628096746,
+        "A": 0.24434733272037648
+      },
+      "hybrid_over25_prob": 0.6726895120532967,
+      "hybrid_btts_prob": 0.5332480972036282,
+      "hybrid_logloss": 0.6429570359254981,
+      "hybrid_brier": 0.3374943324823867
+    },
+    {
+      "date": "2026-03-26",
+      "home": "Italy",
+      "away": "Northern Ireland",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.25526821255547116,
+        "D": 0.23842606885255876,
+        "A": 0.5063057185919699
+      },
+      "baseline_over25_prob": 0.5462481361681418,
+      "baseline_btts_prob": 0.560577070887749,
+      "baseline_logloss": 1.3654404726493996,
+      "baseline_brier": 0.867817906217739,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.3082824229655182,
+        "D": 0.12462416978633142,
+        "A": 0.5670934072481504
+      },
+      "hybrid_over25_prob": 0.9003790502705786,
+      "hybrid_btts_prob": 0.7295208664085717,
+      "hybrid_logloss": 1.1767389584771828,
+      "hybrid_brier": 0.8155993226177032
+    },
+    {
+      "date": "2026-03-26",
+      "home": "Poland",
+      "away": "Albania",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.3256503508500062,
+        "D": 0.25668881774533875,
+        "A": 0.41766083140465515
+      },
+      "baseline_over25_prob": 0.5063616476381838,
+      "baseline_btts_prob": 0.5461253795784073,
+      "baseline_logloss": 1.1219310166065937,
+      "baseline_brier": 0.6950771685538473,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.4345642417775327,
+        "D": 0.26525749725180564,
+        "A": 0.3001782609706617
+      },
+      "hybrid_over25_prob": 0.7088505653560128,
+      "hybrid_btts_prob": 0.5677628830204147,
+      "hybrid_logloss": 0.8334114930134983,
+      "hybrid_brier": 0.4801861248842788
+    },
+    {
+      "date": "2026-03-26",
+      "home": "Slovakia",
+      "away": "Kosovo",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.3145101472489331,
+        "D": 0.26489685717566525,
+        "A": 0.42059299557540153
+      },
+      "baseline_over25_prob": 0.46893699575158493,
+      "baseline_btts_prob": 0.5156759566615773,
+      "baseline_logloss": 0.8660896692630452,
+      "baseline_brier": 0.5047994544403771,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.3920509122535015,
+        "D": 0.3253978336568018,
+        "A": 0.2825512540896967
+      },
+      "hybrid_over25_prob": 0.5862066931584852,
+      "hybrid_btts_prob": 0.5421992931549233,
+      "hybrid_logloss": 1.263895314446141,
+      "hybrid_brier": 0.7743203709556092
+    },
+    {
+      "date": "2026-03-26",
+      "home": "Turkiye",
+      "away": "Romania",
+      "actual": "H",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.305564455741068,
+        "D": 0.23683384267450808,
+        "A": 0.4576017015844237
+      },
+      "baseline_over25_prob": 0.5878835631780772,
+      "baseline_btts_prob": 0.6054228390636651,
+      "baseline_logloss": 1.185594538202089,
+      "baseline_brier": 0.7477303114591328,
+      "hybrid_pick": "D",
+      "hybrid_probs": {
+        "H": 0.34484358775296736,
+        "D": 0.41291304866730316,
+        "A": 0.24224336357972956
+      },
+      "hybrid_over25_prob": 0.5484865102312448,
+      "hybrid_btts_prob": 0.5743938090675754,
+      "hybrid_logloss": 1.0646643335854777,
+      "hybrid_brier": 0.6584089574665514
+    },
+    {
+      "date": "2026-03-26",
+      "home": "Ukraine",
+      "away": "Sweden",
+      "actual": "A",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.15357478391585788,
+        "D": 0.19012700390539441,
+        "A": 0.6562982121787476
+      },
+      "baseline_over25_prob": 0.6233667653035111,
+      "baseline_btts_prob": 0.5588203544818885,
+      "baseline_logloss": 0.42114000159767173,
+      "baseline_brier": 0.1778644108203695,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.3065071434232686,
+        "D": 0.12450484957630127,
+        "A": 0.5689880070004302
+      },
+      "hybrid_over25_prob": 0.9004294113967397,
+      "hybrid_btts_prob": 0.7298090765756062,
+      "hybrid_logloss": 0.5638959224058269,
+      "hybrid_brier": 0.2952194246469708
+    },
+    {
+      "date": "2026-03-26",
+      "home": "Wales",
+      "away": "Bosnia-Herzegovina",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.6382262121470998,
+        "D": 0.21186428616425687,
+        "A": 0.14990950168864337
+      },
+      "baseline_over25_prob": 0.5184524060300745,
+      "baseline_btts_prob": 0.4761017025066025,
+      "baseline_logloss": 1.5518093689023336,
+      "baseline_brier": 1.0509634599915485,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.4343154263337973,
+        "D": 0.23796499660814807,
+        "A": 0.32771957705805466
+      },
+      "hybrid_over25_prob": 0.5204889136941868,
+      "hybrid_btts_prob": 0.4386644419081918,
+      "hybrid_logloss": 1.4356316892019756,
+      "hybrid_brier": 0.8767273571330382
+    },
+    {
+      "date": "2026-03-31",
+      "home": "Bosnia-Herzegovina",
+      "away": "Italy",
+      "actual": "D",
+      "actual_over25": 0,
+      "actual_btts": 1,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.22345803052426938,
+        "D": 0.21507569456221942,
+        "A": 0.5614662749135112
+      },
+      "baseline_over25_prob": 0.620002421161638,
+      "baseline_btts_prob": 0.6032805663128663,
+      "baseline_logloss": 1.5367652450845222,
+      "baseline_brier": 0.9812840345380222,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.3241737958535361,
+        "D": 0.2663882904410386,
+        "A": 0.40943791370542537
+      },
+      "hybrid_over25_prob": 0.6757365968918195,
+      "hybrid_btts_prob": 0.5976870758487829,
+      "hybrid_logloss": 1.3228002960828495,
+      "hybrid_brier": 0.8109141954995635
+    },
+    {
+      "date": "2026-03-31",
+      "home": "Czechia",
+      "away": "Denmark",
+      "actual": "D",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.4089807867820637,
+        "D": 0.2494643460928663,
+        "A": 0.3415548671250698
+      },
+      "baseline_over25_prob": 0.5423608061873629,
+      "baseline_btts_prob": 0.5754668435009376,
+      "baseline_logloss": 1.3884392754333437,
+      "baseline_brier": 0.8472287789995088,
+      "hybrid_pick": "H",
+      "hybrid_probs": {
+        "H": 0.36141001320239863,
+        "D": 0.3300364231113109,
+        "A": 0.30855356368629056
+      },
+      "hybrid_over25_prob": 0.6282960548547912,
+      "hybrid_btts_prob": 0.5623062256250912,
+      "hybrid_logloss": 1.1085522575476912,
+      "hybrid_brier": 0.6746736936639542
+    },
+    {
+      "date": "2026-03-31",
+      "home": "Kosovo",
+      "away": "Turkiye",
+      "actual": "A",
+      "actual_over25": 0,
+      "actual_btts": 0,
+      "baseline_pick": "A",
+      "baseline_probs": {
+        "H": 0.376569759248703,
+        "D": 0.24199102722365726,
+        "A": 0.3814392135276398
+      },
+      "baseline_over25_prob": 0.5817455817389805,
+      "baseline_btts_prob": 0.6073466668677711,
+      "baseline_logloss": 0.9638037763981089,
+      "baseline_brier": 0.5829818873986917,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.29805856102920525,
+        "D": 0.2303574500590938,
+        "A": 0.47158398891170095
+      },
+      "hybrid_over25_prob": 0.6992859268406847,
+      "hybrid_btts_prob": 0.5986025821674574,
+      "hybrid_logloss": 0.7516580614641671,
+      "hybrid_brier": 0.4211269413749978
+    },
+    {
+      "date": "2026-03-31",
+      "home": "Sweden",
+      "away": "Poland",
+      "actual": "H",
+      "actual_over25": 1,
+      "actual_btts": 1,
+      "baseline_pick": "H",
+      "baseline_probs": {
+        "H": 0.6718171604246219,
+        "D": 0.17565809893010725,
+        "A": 0.15252474064527097
+      },
+      "baseline_over25_prob": 0.6931166683092479,
+      "baseline_btts_prob": 0.6128890825161537,
+      "baseline_logloss": 0.3977690581816566,
+      "baseline_brier": 0.16182354042040487,
+      "hybrid_pick": "A",
+      "hybrid_probs": {
+        "H": 0.3982839438938224,
+        "D": 0.1855075099454396,
+        "A": 0.416208546160738
+      },
+      "hybrid_over25_prob": 0.5670133564819801,
+      "hybrid_btts_prob": 0.39972509756288266,
+      "hybrid_logloss": 0.9205901011967728,
+      "hybrid_brier": 0.5697048023193652
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "py_compile": {
+    "returncode": 0,
+    "stdout_tail": "",
+    "stderr_tail": "readsheet_warmup.py\", line 704, in _warm_collaboration_flows\n  File \"/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/generated/interface/models.py\", line 30820, in hydrate_crdt_from_proto\n  File \"/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/rpc/remote.py\", line 749, in __call__\n  File \"/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/rpc/client.py\", line 150, in call\nartifact_tool.rpc.client.RemoteError: hydrateCrdtFromProto requires an empty collaborative document.\n"
+  },
+  "export_data_pack": {
+    "returncode": 0,
+    "stdout_tail": "     \"pk\": false\n        },\n        {\n          \"cid\": 10,\n          \"name\": \"cards_90\",\n          \"type\": \"REAL\",\n          \"notnull\": false,\n          \"default\": null,\n          \"pk\": false\n        },\n        {\n          \"cid\": 11,\n          \"name\": \"player_score\",\n          \"type\": \"REAL\",\n          \"notnull\": false,\n          \"default\": null,\n          \"pk\": false\n        },\n        {\n          \"cid\": 12,\n          \"name\": \"raw_json\",\n          \"type\": \"TEXT\",\n          \"notnull\": false,\n          \"default\": null,\n          \"pk\": false\n        }\n      ]\n    },\n    {\n      \"table\": \"gold_market_features\",\n      \"path\": \"../data_packs/football_core_v1/tables/gold_market_features.jsonl.gz\",\n      \"rows\": 0,\n      \"uncompressed_jsonl_bytes\": 0,\n      \"compressed_bytes\": 52,\n      \"compression\": \"gzip\",\n      \"gzip_level\": 9,\n      \"compression_ratio\": null,\n      \"sha256\": \"b856805852680851b2ef688e55982a975e44a0c2178a6be78a9618d870ef96da\",\n      \"schema\": [\n        {\n          \"cid\": 0,\n          \"name\": \"row_id\",\n          \"type\": \"TEXT\",\n          \"notnull\": false,\n          \"default\": null,\n          \"pk\": true\n        },\n        {\n          \"cid\": 1,\n          \"name\": \"match_id\",\n          \"type\": \"TEXT\",\n          \"notnull\": true,\n          \"default\": null,\n          \"pk\": false\n        },\n        {\n          \"cid\": 2,\n          \"name\": \"market_id\",\n          \"type\": \"TEXT\",\n          \"notnull\": true,\n          \"default\": null,\n          \"pk\": false\n        },\n        {\n          \"cid\": 3,\n          \"name\": \"selection\",\n          \"type\": \"TEXT\",\n          \"notnull\": true,\n          \"default\": null,\n          \"pk\": false\n        },\n        {\n          \"cid\": 4,\n          \"name\": \"bookmaker\",\n          \"type\": \"TEXT\",\n          \"notnull\": false,\n          \"default\": null,\n          \"pk\": false\n        },\n        {\n          \"cid\": 5,\n          \"name\": \"odds_decimal\",\n          \"type\": \"REAL\",\n          \"notnull\": false,\n          \"default\": null,\n          \"pk\": false\n        },\n        {\n          \"cid\": 6,\n          \"name\": \"implied_probability\",\n          \"type\": \"REAL\",\n          \"notnull\": false,\n          \"default\": null,\n          \"pk\": false\n        },\n        {\n          \"cid\": 7,\n          \"name\": \"captured_at\",\n          \"type\": \"TEXT\",\n          \"notnull\": false,\n          \"default\": null,\n          \"pk\": false\n        },\n        {\n          \"cid\": 8,\n          \"name\": \"is_live\",\n          \"type\": \"INTEGER\",\n          \"notnull\": false,\n          \"default\": null,\n          \"pk\": false\n        },\n        {\n          \"cid\": 9,\n          \"name\": \"features_json\",\n          \"type\": \"TEXT\",\n          \"notnull\": false,\n          \"default\": null,\n          \"pk\": false\n        }\n      ]\n    }\n  ],\n  \"skipped\": [],\n  \"total_rows\": 1204,\n  \"total_uncompressed_jsonl_bytes\": 1665509,\n  \"total_compressed_bytes\": 77275,\n  \"overall_compression_ratio\": 0.0464,\n  \"manifest_sha256\": \"c4a064dc835b9591a879e57f6bf5f902d94706a0de8d617206be6933dd78503c\"\n}\n",
+    "stderr_tail": "readsheet_warmup.py\", line 704, in _warm_collaboration_flows\n  File \"/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/generated/interface/models.py\", line 30820, in hydrate_crdt_from_proto\n  File \"/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/rpc/remote.py\", line 749, in __call__\n  File \"/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/rpc/client.py\", line 150, in call\nartifact_tool.rpc.client.RemoteError: hydrateCrdtFromProto requires an empty collaborative document.\n"
+  },
+  "verify_data_pack": {
+    "returncode": 0,
+    "stdout_tail": "{\n  \"ok\": true,\n  \"checked_tables\": 13,\n  \"checked\": [\n    {\n      \"table\": \"competitions\",\n      \"sha_ok\": true,\n      \"rows_ok\": true,\n      \"rows\": 0\n    },\n    {\n      \"table\": \"seasons\",\n      \"sha_ok\": true,\n      \"rows_ok\": true,\n      \"rows\": 0\n    },\n    {\n      \"table\": \"teams\",\n      \"sha_ok\": true,\n      \"rows_ok\": true,\n      \"rows\": 0\n    },\n    {\n      \"table\": \"players\",\n      \"sha_ok\": true,\n      \"rows_ok\": true,\n      \"rows\": 0\n    },\n    {\n      \"table\": \"matches_norm\",\n      \"sha_ok\": true,\n      \"rows_ok\": true,\n      \"rows\": 301\n    },\n    {\n      \"table\": \"match_events\",\n      \"sha_ok\": true,\n      \"rows_ok\": true,\n      \"rows\": 0\n    },\n    {\n      \"table\": \"lineups\",\n      \"sha_ok\": true,\n      \"rows_ok\": true,\n      \"rows\": 0\n    },\n    {\n      \"table\": \"odds_snapshots\",\n      \"sha_ok\": true,\n      \"rows_ok\": true,\n      \"rows\": 0\n    },\n    {\n      \"table\": \"gold_team_snapshots\",\n      \"sha_ok\": true,\n      \"rows_ok\": true,\n      \"rows\": 602\n    },\n    {\n      \"table\": \"gold_match_features\",\n      \"sha_ok\": true,\n      \"rows_ok\": true,\n      \"rows\": 301\n    },\n    {\n      \"table\": \"gold_goal_timing_features\",\n      \"sha_ok\": true,\n      \"rows_ok\": true,\n      \"rows\": 0\n    },\n    {\n      \"table\": \"gold_player_snapshots\",\n      \"sha_ok\": true,\n      \"rows_ok\": true,\n      \"rows\": 0\n    },\n    {\n      \"table\": \"gold_market_features\",\n      \"sha_ok\": true,\n      \"rows_ok\": true,\n      \"rows\": 0\n    }\n  ],\n  \"errors\": []\n}\n",
+    "stderr_tail": "readsheet_warmup.py\", line 704, in _warm_collaboration_flows\n  File \"/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/generated/interface/models.py\", line 30820, in hydrate_crdt_from_proto\n  File \"/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/rpc/remote.py\", line 749, in __call__\n  File \"/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/rpc/client.py\", line 150, in call\nartifact_tool.rpc.client.RemoteError: hydrateCrdtFromProto requires an empty collaborative document.\n"
+  },
+  "empty_table_compression_ratios": {
+    "competitions": null,
+    "seasons": null,
+    "teams": null,
+    "players": null,
+    "match_events": null,
+    "lineups": null,
+    "odds_snapshots": null,
+    "gold_goal_timing_features": null,
+    "gold_player_snapshots": null,
+    "gold_market_features": null
+  },
+  "cargo_available": {
+    "available": false,
+    "path": null
+  },
+  "cargo_test": {
+    "skipped": true,
+    "reason": "cargo not installed in this environment"
+  },
+  "rust_infer_predict": {
+    "skipped": true,
+    "reason": "cargo not installed in this environment"
+  }
+}
