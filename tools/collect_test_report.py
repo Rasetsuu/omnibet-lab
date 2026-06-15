@@ -66,6 +66,7 @@ def main() -> None:
     synth = load_json(reports / "v13_synthetic_event_pipeline.json")
     statsbomb = load_json(reports / "v14_statsbomb_public_sample.json")
     event_compare = load_json(reports / "ci_event_aware_compare.json")
+    rust_linear = load_json(reports / "ci_rust_event_linear_model.json")
     rust_compare = load_json(reports / "ci_rust_compare.json")
     rust_value = load_json(reports / "ci_rust_value_report.json")
 
@@ -79,6 +80,7 @@ def main() -> None:
     comparison = rust_compare.get("comparison", {}) if isinstance(rust_compare, dict) else {}
     baseline = comparison.get("baseline", {}) if isinstance(comparison, dict) else {}
     gold = comparison.get("gold_feature_heuristic", {}) if isinstance(comparison, dict) else {}
+    linear_report = rust_linear.get("linear_model_backtest", {}) if isinstance(rust_linear, dict) else {}
 
     synthetic_counts = counts_from_v13(synth)
     statsbomb_counts = counts_from_statsbomb(statsbomb)
@@ -92,6 +94,18 @@ def main() -> None:
         "event_minus_match_log_loss": event_compare.get("event_minus_match_log_loss"),
     }
 
+    rust_linear_summary = {
+        "ok": bool(rust_linear.get("ok")) and bool(linear_report.get("ok")),
+        "model_name": linear_report.get("model_name"),
+        "model_version": linear_report.get("model_version"),
+        "model_trust": linear_report.get("model_trust"),
+        "trust_decision": linear_report.get("trust_decision"),
+        "rows_tested": linear_report.get("rows_tested"),
+        "accuracy": linear_report.get("accuracy"),
+        "log_loss": linear_report.get("log_loss"),
+        "brier": linear_report.get("brier"),
+    }
+
     summary = {
         "ok": True,
         "git_sha": git_rev(root),
@@ -102,6 +116,7 @@ def main() -> None:
         "statsbomb_public_sample_counts": statsbomb_counts,
         "statsbomb_selected_match_ids": statsbomb.get("sample", {}).get("selected_match_ids"),
         "event_aware_compare": event_compare_summary,
+        "rust_linear_model": rust_linear_summary,
         "model_compare": {
             "aligned_test_window": comparison.get("aligned_test_window"),
             "baseline_matches_tested": baseline.get("matches_tested"),
@@ -128,6 +143,9 @@ def main() -> None:
         and all_positive(summary["statsbomb_public_sample_counts"])
         and summary["event_aware_compare"]["ok"]
         and int(summary["event_aware_compare"]["event_history_rows"] or 0) > 0
+        and summary["rust_linear_model"]["ok"]
+        and int(summary["rust_linear_model"]["rows_tested"] or 0) > 0
+        and summary["rust_linear_model"]["trust_decision"] == "PAPER_ONLY"
         and summary["model_compare"]["aligned_test_window"] is True
         and summary["value_gate"]["paper_only_selections"]
         and summary["value_gate"]["paper_only_tickets"]
