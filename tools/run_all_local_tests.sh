@@ -60,9 +60,14 @@ log "StatsBomb public sample pipeline"
     --db ../build/omnibet_v14_statsbomb_sample.sqlite \
     --pack-dir ../data_packs/football_statsbomb_sample_v1 \
     --reports-dir ../reports \
-    --limit-matches 3 \
+    --limit-matches 12 \
     | tee ../reports/ci_statsbomb_public_sample.json
   python verify_data_pack.py --pack-dir ../data_packs/football_statsbomb_sample_v1 | tee ../reports/ci_verify_statsbomb_sample_pack.json
+  python event_aware_compare.py \
+    --db ../build/omnibet_v14_statsbomb_sample.sqlite \
+    --out ../reports/ci_event_aware_compare.json \
+    --require-event-rows 1 \
+    | tee ../reports/ci_event_aware_compare_stdout.json
 )
 
 log "rust tests"
