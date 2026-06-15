@@ -69,6 +69,7 @@ def main() -> None:
     rust_linear = load_json(reports / "ci_rust_event_linear_model.json")
     rust_compare = load_json(reports / "ci_rust_compare.json")
     rust_value = load_json(reports / "ci_rust_value_report.json")
+    paper = load_json(reports / "ci_paper_ledger.json")
 
     value_report = rust_value.get("report", {}) if isinstance(rust_value, dict) else {}
     selections = value_report.get("selections", []) if isinstance(value_report, dict) else []
@@ -106,6 +107,16 @@ def main() -> None:
         "brier": linear_report.get("brier"),
     }
 
+    paper_summary = {
+        "ok": bool(paper.get("ok")),
+        "paper_bets_written": paper.get("paper_bets_written"),
+        "clv_rows_written": paper.get("clv_rows_written"),
+        "all_paper_only": paper.get("all_paper_only"),
+        "avg_clv_percent": paper.get("avg_clv_percent"),
+        "positive_clv_rows": paper.get("positive_clv_rows"),
+        "negative_clv_rows": paper.get("negative_clv_rows"),
+    }
+
     summary = {
         "ok": True,
         "git_sha": git_rev(root),
@@ -117,6 +128,7 @@ def main() -> None:
         "statsbomb_selected_match_ids": statsbomb.get("sample", {}).get("selected_match_ids"),
         "event_aware_compare": event_compare_summary,
         "rust_linear_model": rust_linear_summary,
+        "paper_ledger": paper_summary,
         "model_compare": {
             "aligned_test_window": comparison.get("aligned_test_window"),
             "baseline_matches_tested": baseline.get("matches_tested"),
@@ -146,6 +158,10 @@ def main() -> None:
         and summary["rust_linear_model"]["ok"]
         and int(summary["rust_linear_model"]["rows_tested"] or 0) > 0
         and summary["rust_linear_model"]["trust_decision"] == "PAPER_ONLY"
+        and summary["paper_ledger"]["ok"]
+        and int(summary["paper_ledger"]["paper_bets_written"] or 0) > 0
+        and int(summary["paper_ledger"]["clv_rows_written"] or 0) > 0
+        and summary["paper_ledger"]["all_paper_only"] is True
         and summary["model_compare"]["aligned_test_window"] is True
         and summary["value_gate"]["paper_only_selections"]
         and summary["value_gate"]["paper_only_tickets"]
