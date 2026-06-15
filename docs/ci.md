@@ -44,3 +44,7 @@ It runs automatically on:
 ## Why this matters
 
 This allows bigger development batches. Instead of manually running every command after each small change, GitHub Actions can run the full test harness and expose logs/reports for review.
+
+## Workflow refresh
+
+After enabling Actions on a new private repository, make any small commit or use the manual workflow button in GitHub Actions to start the first run.
