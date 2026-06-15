@@ -20,17 +20,33 @@ def softmax3(h: float, d: float, a: float) -> Tuple[float, float, float]:
     return eh / s, ed / s, ea / s
 
 
-def num(obj: Dict[str, Any], path: str, default: float = 0.0) -> float:
+def opt_num(obj: Dict[str, Any], path: str) -> Optional[float]:
     cur: Any = obj
     for part in path.split("."):
         if not isinstance(cur, dict) or part not in cur or cur[part] is None:
-            return default
+            return None
         cur = cur[part]
     try:
         x = float(cur)
-        return x if math.isfinite(x) else default
+        return x if math.isfinite(x) else None
     except Exception:
-        return default
+        return None
+
+
+def num(obj: Dict[str, Any], path: str, default: float = 0.0) -> float:
+    x = opt_num(obj, path)
+    return x if x is not None else default
+
+
+def feature_or_snapshot_diff(f: Dict[str, Any], feature_path: str, home_path: str, away_path: str) -> float:
+    x = opt_num(f, feature_path)
+    if x is not None:
+        return x
+    h = opt_num(f, home_path)
+    a = opt_num(f, away_path)
+    if h is not None and a is not None:
+        return h - a
+    return 0.0
 
 
 def actual_outcome(hg: int, ag: int) -> str:
@@ -67,16 +83,23 @@ def match_only_probs(f: Dict[str, Any]) -> Tuple[float, float, float]:
 
 
 def event_aware_probs(f: Dict[str, Any]) -> Tuple[float, float, float]:
+    xg_for_diff = feature_or_snapshot_diff(f, "features.xg_for_avg_diff", "home_snapshot.xg_for_avg", "away_snapshot.xg_for_avg")
+    xg_against_diff = feature_or_snapshot_diff(f, "features.xg_against_avg_diff", "home_snapshot.xg_against_avg", "away_snapshot.xg_against_avg")
+    shots_for_diff = feature_or_snapshot_diff(f, "features.shots_for_avg_diff", "home_snapshot.shots_for_avg", "away_snapshot.shots_for_avg")
+    shots_against_diff = feature_or_snapshot_diff(f, "features.shots_against_avg_diff", "home_snapshot.shots_against_avg", "away_snapshot.shots_against_avg")
+    cards_for_diff = feature_or_snapshot_diff(f, "features.cards_for_avg_diff", "home_snapshot.cards_for_avg", "away_snapshot.cards_for_avg")
+    cards_against_diff = feature_or_snapshot_diff(f, "features.cards_against_avg_diff", "home_snapshot.cards_against_avg", "away_snapshot.cards_against_avg")
+
     strength = 0.18
     strength += 0.30 * num(f, "features.goals_for_avg_diff")
     strength -= 0.20 * num(f, "features.goals_against_avg_diff")
     strength += 0.12 * num(f, "features.points_avg_diff")
-    strength += 0.34 * num(f, "features.xg_for_avg_diff")
-    strength -= 0.26 * num(f, "features.xg_against_avg_diff")
-    strength += 0.012 * num(f, "features.shots_for_avg_diff")
-    strength -= 0.008 * num(f, "features.shots_against_avg_diff")
-    strength -= 0.035 * num(f, "features.cards_for_avg_diff")
-    strength += 0.020 * num(f, "features.cards_against_avg_diff")
+    strength += 0.34 * xg_for_diff
+    strength -= 0.26 * xg_against_diff
+    strength += 0.012 * shots_for_diff
+    strength -= 0.008 * shots_against_diff
+    strength -= 0.035 * cards_for_diff
+    strength += 0.020 * cards_against_diff
     strength += 0.01 * max(-14.0, min(14.0, num(f, "features.rest_days_diff")))
     draw = -0.14 - 0.30 * abs(strength)
     return softmax3(strength, draw, -strength)
@@ -84,14 +107,22 @@ def event_aware_probs(f: Dict[str, Any]) -> Tuple[float, float, float]:
 
 def has_event_history(f: Dict[str, Any]) -> bool:
     keys = [
-        "features.xg_for_avg_diff",
-        "features.xg_against_avg_diff",
-        "features.shots_for_avg_diff",
-        "features.shots_against_avg_diff",
-        "features.cards_for_avg_diff",
-        "features.cards_against_avg_diff",
+        "home_snapshot.xg_for_avg", "away_snapshot.xg_for_avg",
+        "home_snapshot.shots_for_avg", "away_snapshot.shots_for_avg",
+        "home_snapshot.cards_for_avg", "away_snapshot.cards_for_avg",
+        "features.xg_for_avg_diff", "features.shots_for_avg_diff", "features.cards_for_avg_diff",
     ]
-    return any(abs(num(f, k, 0.0)) > 1e-9 for k in keys)
+    return any(opt_num(f, k) is not None for k in keys)
+
+
+def event_signal(f: Dict[str, Any]) -> Dict[str, float]:
+    return {
+        "xg_for_avg_diff": feature_or_snapshot_diff(f, "features.xg_for_avg_diff", "home_snapshot.xg_for_avg", "away_snapshot.xg_for_avg"),
+        "xg_against_avg_diff": feature_or_snapshot_diff(f, "features.xg_against_avg_diff", "home_snapshot.xg_against_avg", "away_snapshot.xg_against_avg"),
+        "shots_for_avg_diff": feature_or_snapshot_diff(f, "features.shots_for_avg_diff", "home_snapshot.shots_for_avg", "away_snapshot.shots_for_avg"),
+        "shots_against_avg_diff": feature_or_snapshot_diff(f, "features.shots_against_avg_diff", "home_snapshot.shots_against_avg", "away_snapshot.shots_against_avg"),
+        "cards_for_avg_diff": feature_or_snapshot_diff(f, "features.cards_for_avg_diff", "home_snapshot.cards_for_avg", "away_snapshot.cards_for_avg"),
+    }
 
 
 def summarize(rows: List[dict], key: str) -> Dict[str, Any]:
@@ -120,7 +151,6 @@ def compare(db_path: Path, require_event_rows: int = 1) -> dict:
     player_count = con.execute("SELECT COUNT(*) FROM players").fetchone()[0]
     con.close()
 
-    evaluated = []
     eligible = []
     for mid, date, home, away, hg, ag, feature_json in rows:
         f = json.loads(feature_json)
@@ -141,15 +171,8 @@ def compare(db_path: Path, require_event_rows: int = 1) -> dict:
             "event_aware_pick": pick(ep),
             "event_aware_log_loss": log_loss(ep, actual),
             "event_aware_brier": brier(ep, actual),
-            "event_signal": {
-                "xg_for_avg_diff": num(f, "features.xg_for_avg_diff"),
-                "xg_against_avg_diff": num(f, "features.xg_against_avg_diff"),
-                "shots_for_avg_diff": num(f, "features.shots_for_avg_diff"),
-                "shots_against_avg_diff": num(f, "features.shots_against_avg_diff"),
-                "cards_for_avg_diff": num(f, "features.cards_for_avg_diff"),
-            },
+            "event_signal": event_signal(f),
         }
-        evaluated.append(rec)
         if rec["has_event_history"]:
             eligible.append(rec)
 
@@ -159,7 +182,7 @@ def compare(db_path: Path, require_event_rows: int = 1) -> dict:
     if match_summary["log_loss"] is not None and event_summary["log_loss"] is not None:
         delta = event_summary["log_loss"] - match_summary["log_loss"]
 
-    report = {
+    return {
         "ok": len(eligible) >= require_event_rows,
         "warning": "Tiny public sample comparison. Do not treat as model proof; it validates event-aware evaluation plumbing.",
         "db": str(db_path),
@@ -172,7 +195,6 @@ def compare(db_path: Path, require_event_rows: int = 1) -> dict:
         "event_minus_match_log_loss": delta,
         "samples": eligible[:8],
     }
-    return report
 
 
 def main() -> None:
