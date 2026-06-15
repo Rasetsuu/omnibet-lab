@@ -46,6 +46,10 @@ def feature_or_snapshot_diff(f: Dict[str, Any], feature_path: str, home_path: st
     a = opt_num(f, away_path)
     if h is not None and a is not None:
         return h - a
+    if h is not None:
+        return h
+    if a is not None:
+        return -a
     return 0.0
 
 
