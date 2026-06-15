@@ -104,6 +104,18 @@ log "rust model/runtime smoke"
     | tee ../reports/ci_rust_value_report.json
 )
 
+log "paper ledger and CLV smoke"
+(
+  cd python_lab
+  python paper_betting_ledger.py \
+    --db ../build/omnibet.sqlite \
+    --value-report ../reports/ci_rust_value_report.json \
+    --closing-odds ../data/sample_closing_odds_spain_cape_verde.csv \
+    --out ../reports/ci_paper_ledger.json \
+    --fixture-id Spain-vs-Cape-Verde \
+    | tee ../reports/ci_paper_ledger_stdout.json
+)
+
 log "collect CI summary"
 python tools/collect_test_report.py --root "$ROOT" --out reports/ci_summary.json
 cat reports/ci_summary.json
