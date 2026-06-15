@@ -2,18 +2,80 @@
 <html>
 <head>
   <meta charset="utf-8"/>
-  <title>OmniBet Lab</title>
+  <title>OmniBet Lab Desktop</title>
   <style>
-    body { font-family: system-ui, sans-serif; margin: 2rem; max-width: 1100px; }
-    .card { border: 1px solid #ccc; border-radius: 12px; padding: 1rem; margin: 1rem 0; }
-    code { background: #eee; padding: 0.1rem 0.3rem; border-radius: 4px; }
+    body { font-family: system-ui, sans-serif; margin: 2rem; max-width: 1100px; background:#101216; color:#f2f2f2; }
+    .card { border: 1px solid #303846; border-radius: 12px; padding: 1rem; margin: 1rem 0; background:#171b22; }
+    button { padding: .6rem .9rem; border-radius: 8px; border: 1px solid #506070; background:#202838; color:#fff; cursor:pointer; }
+    input { padding: .55rem; border-radius: 8px; border: 1px solid #506070; background:#0f131a; color:#fff; }
+    .tabs button { margin-right: .4rem; }
+    pre { white-space: pre-wrap; background:#0b0e13; padding:1rem; border-radius:10px; overflow:auto; }
+    .warn { color:#ffd479; }
   </style>
 </head>
 <body>
-  <h1>OmniBet Lab Tauri GUI</h1>
-  <div class="card">
-    <p>This is the v3A Tauri placeholder. The current working GUI is still <code>../web_gui/index.html</code>.</p>
-    <p>v3B/v4 will wire this page to Rust commands for predictions, odds, Kelly, and bet-builder generation.</p>
+  <h1>OmniBet Lab Desktop</h1>
+  <p class="warn">v18 desktop wiring preview. All value/bet-builder output is paper-only until the model trust gate says otherwise.</p>
+
+  <div class="tabs card">
+    <button onclick="showTab('simple')">Simple</button>
+    <button onclick="showTab('detailed')">Detailed</button>
+    <button onclick="showTab('advanced')">Advanced</button>
+    <button onclick="showTab('builder')">Bet Builder</button>
   </div>
+
+  <section id="simple" class="card tab">
+    <h2>Simple</h2>
+    <p>Quick fixture check.</p>
+    <input id="home" value="Spain" />
+    <input id="away" value="Cape Verde" />
+    <button onclick="predictFixture()">Predict</button>
+  </section>
+
+  <section id="detailed" class="card tab" hidden>
+    <h2>Detailed</h2>
+    <button onclick="packSummary()">Load Pack Summary</button>
+  </section>
+
+  <section id="advanced" class="card tab" hidden>
+    <h2>Advanced</h2>
+    <p>Future home for model comparison, calibration, and CI report views.</p>
+    <button onclick="ping()">Ping Backend</button>
+  </section>
+
+  <section id="builder" class="card tab" hidden>
+    <h2>Bet Builder</h2>
+    <p class="warn">This panel is intentionally paper-only in v18.</p>
+    <button onclick="valueReport()">Generate Paper Value Report</button>
+  </section>
+
+  <div class="card">
+    <h2>Output</h2>
+    <pre id="out">Ready.</pre>
+  </div>
+
+<script>
+const fallback = {
+  ping: () => 'browser-preview-ok',
+  pack_summary: () => ({ok:true, format:'omnibet.pack.v1', pack_name:'browser preview', total_rows:0, note:'Open in Tauri for backend command invocation.'}),
+  predict_fixture: ({homeTeam, awayTeam}) => ({ok:true, home_team:homeTeam, away_team:awayTeam, model_trust:0.25, decision_mode:'PAPER_ONLY', note:'Browser fallback preview.'}),
+  value_report: ({homeTeam, awayTeam}) => ({ok:true, fixture:`${homeTeam} vs ${awayTeam}`, mode:'paper_only', paper_only:true, note:'Browser fallback preview; no staking labels.'})
+};
+
+async function invokeCommand(name, args = {}) {
+  if (window.__TAURI__ && window.__TAURI__.core && window.__TAURI__.core.invoke) {
+    return await window.__TAURI__.core.invoke(name, args);
+  }
+  return fallback[name](args);
+}
+
+function out(x) { document.getElementById('out').textContent = typeof x === 'string' ? x : JSON.stringify(x, null, 2); }
+function teams() { return {homeTeam: document.getElementById('home').value, awayTeam: document.getElementById('away').value}; }
+function showTab(id) { document.querySelectorAll('.tab').forEach(x => x.hidden = x.id !== id); }
+async function ping() { out(await invokeCommand('ping')); }
+async function packSummary() { out(await invokeCommand('pack_summary')); }
+async function predictFixture() { out(await invokeCommand('predict_fixture', teams())); }
+async function valueReport() { out(await invokeCommand('value_report', teams())); }
+</script>
 </body>
 </html>
