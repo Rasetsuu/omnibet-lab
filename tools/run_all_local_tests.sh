@@ -10,13 +10,6 @@ log() {
   printf '\n===== %s =====\n' "$*"
 }
 
-run_json() {
-  local name="$1"
-  shift
-  log "$name"
-  "$@" | tee "reports/ci_${name}.json"
-}
-
 log "tool versions"
 python --version
 cargo --version
@@ -59,6 +52,19 @@ log "synthetic event pipeline"
   python verify_data_pack.py --pack-dir ../data_packs/football_event_demo_v1 | tee ../reports/ci_verify_event_demo_pack.json
 )
 
+log "StatsBomb public sample pipeline"
+(
+  cd python_lab
+  python statsbomb_public_sample.py \
+    --sample-root ../data/statsbomb_public_sample/data \
+    --db ../build/omnibet_v14_statsbomb_sample.sqlite \
+    --pack-dir ../data_packs/football_statsbomb_sample_v1 \
+    --reports-dir ../reports \
+    --limit-matches 3 \
+    | tee ../reports/ci_statsbomb_public_sample.json
+  python verify_data_pack.py --pack-dir ../data_packs/football_statsbomb_sample_v1 | tee ../reports/ci_verify_statsbomb_sample_pack.json
+)
+
 log "rust tests"
 (
   cd rust-core
@@ -70,6 +76,7 @@ log "rust pack verify"
   cd rust-core
   cargo run --bin omnibet-pack -- verify ../data_packs/football_core_v1 | tee ../reports/ci_rust_pack_verify.json
   cargo run --bin omnibet-pack -- verify ../data_packs/football_event_demo_v1 | tee ../reports/ci_rust_event_pack_verify.json
+  cargo run --bin omnibet-pack -- verify ../data_packs/football_statsbomb_sample_v1 | tee ../reports/ci_rust_statsbomb_pack_verify.json
 )
 
 log "rust model/runtime smoke"
