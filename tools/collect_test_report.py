@@ -87,6 +87,7 @@ def main() -> None:
     train_export = load_json(reports / "ci_v22_train_export.json")
     multisource = load_json(reports / "ci_v23_multisource.json")
     walk_forward = load_json(reports / "ci_v24_walk_forward.json")
+    odds_clv = load_json(reports / "ci_v25_odds_clv_backtest.json")
     rust_trained = load_json(reports / "ci_rust_trained_model.json")
     market_registry = load_json(reports / "ci_market_registry_football.json")
     event_compare = load_json(reports / "ci_event_aware_compare.json")
@@ -184,6 +185,25 @@ def main() -> None:
         "leakage_guard": walk_forward.get("leakage_guard"),
     }
 
+    odds_clv_summary = {
+        "ok": bool(odds_clv.get("ok")),
+        "target_market": odds_clv.get("target_market"),
+        "settlement_scope": odds_clv.get("settlement_scope"),
+        "matches_seen": odds_clv.get("matches_seen"),
+        "matches_with_odds": odds_clv.get("matches_with_odds"),
+        "paper_bets": odds_clv.get("paper_bets"),
+        "wins": odds_clv.get("wins"),
+        "losses": odds_clv.get("losses"),
+        "profit_units": odds_clv.get("profit_units"),
+        "roi": odds_clv.get("roi"),
+        "avg_edge": odds_clv.get("avg_edge"),
+        "avg_clv_percent": odds_clv.get("avg_clv_percent"),
+        "positive_clv_rows": odds_clv.get("positive_clv_rows"),
+        "negative_clv_rows": odds_clv.get("negative_clv_rows"),
+        "all_paper_only": odds_clv.get("all_paper_only"),
+        "leakage_guard": odds_clv.get("leakage_guard"),
+    }
+
     paper_summary = {
         "ok": bool(paper.get("ok")),
         "paper_bets_written": paper.get("paper_bets_written"),
@@ -238,6 +258,7 @@ def main() -> None:
         "rust_linear_model": rust_linear_summary,
         "trained_model_export": trained_model_summary,
         "walk_forward_backtest": walk_forward_summary,
+        "odds_clv_backtest": odds_clv_summary,
         "multisource_adapters": multisource_summary,
         "paper_ledger": paper_summary,
         "model_compare": {
@@ -293,6 +314,11 @@ def main() -> None:
         and summary["walk_forward_backtest"]["settlement_scope"] == "regulation_time"
         and int(summary["walk_forward_backtest"]["rows_tested"] or 0) > 0
         and summary["walk_forward_backtest"]["trust_decision"] == "PAPER_ONLY"
+        and summary["odds_clv_backtest"]["ok"]
+        and summary["odds_clv_backtest"]["settlement_scope"] == "regulation_time"
+        and int(summary["odds_clv_backtest"]["paper_bets"] or 0) > 0
+        and int(summary["odds_clv_backtest"]["matches_with_odds"] or 0) > 0
+        and summary["odds_clv_backtest"]["all_paper_only"] is True
         and summary["multisource_adapters"]["ok"]
         and int(summary["multisource_adapters"]["source_count"] or 0) >= 3
         and int(summary["multisource_adapters"]["multi_source_identity_candidates"] or 0) > 0
