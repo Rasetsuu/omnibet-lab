@@ -141,6 +141,19 @@ log "v23 multi-source adapter smoke + v25 odds CLV walk-forward"
   python verify_data_pack.py --pack-dir ../data_packs/football_multisource_v1 | tee ../reports/ci_verify_multisource_pack.json
 )
 
+log "v26 local backfill tiny smoke"
+(
+  cd python_lab
+  python local_backfill_runner.py \
+    --preset tiny-smoke \
+    --out ../build/v26_smoke \
+    --pack-name football_v26_tiny_smoke \
+    | tee ../reports/ci_v26_local_backfill.json
+  python verify_data_pack.py \
+    --pack-dir ../build/v26_smoke/packs/football_v26_tiny_smoke \
+    | tee ../reports/ci_verify_v26_backfill_pack.json
+)
+
 log "rust tests"
 (
   cd rust-core
@@ -156,6 +169,7 @@ log "rust pack verify"
   cargo run --bin omnibet-pack -- verify ../data_packs/football_statsbomb_scale_v1 | tee ../reports/ci_rust_statsbomb_scale_pack_verify.json
   cargo run --bin omnibet-pack -- verify ../data_packs/football_phase_training_v1 | tee ../reports/ci_rust_phase_training_pack_verify.json
   cargo run --bin omnibet-pack -- verify ../data_packs/football_multisource_v1 | tee ../reports/ci_rust_multisource_pack_verify.json
+  cargo run --bin omnibet-pack -- verify ../build/v26_smoke/packs/football_v26_tiny_smoke | tee ../reports/ci_rust_v26_backfill_pack_verify.json
 )
 
 log "rust model/runtime smoke"
