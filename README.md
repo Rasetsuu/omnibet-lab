@@ -2,8 +2,8 @@
 
 Cross-sport prediction/value-betting research lab with a Rust-first runtime direction and a Python research/backfill layer.
 
-Current merged milestone: **v26 — local-scale historical data backfill runner**.
-Next target: **v27 — Parquet+ZSTD storage-scale path**.
+Current merged milestone: **v27 — Parquet+ZSTD storage-scale path**.
+Next target: **v28 — real-source acquisition catalog and local sync plan**.
 
 OmniBet is not meant to be a simple score predictor. The project is building a local-first sports intelligence pipeline:
 
@@ -27,7 +27,7 @@ raw data sources
 - `cpp-core/` — early std-only proof core kept for portability experiments.
 - `data/` — tiny deterministic samples only.
 - `data_packs/` — compressed JSONL.GZ packs used by CI/Rust readers.
-- `docs/` — milestone docs from v4 through v27.
+- `docs/` — milestone docs from v4 through v28.
 
 ## What works now
 
@@ -37,6 +37,7 @@ raw data sources
 - OpenFootball-style JSON adapter.
 - Wyscout-style public match/event adapter.
 - Multi-source identity candidate reports.
+- Real-source acquisition catalog and local sync plan.
 - Compressed JSONL.GZ data packs and Python/Rust verification.
 - Optional local Parquet+ZSTD warehouse-pack exporter for heavy data.
 - Phase-aware football market registry.
@@ -119,17 +120,30 @@ python check_parquet_pack.py \
   --pack-dir ../build/local_backfills/v26_run/parquet_zstd_pack
 ```
 
-CI only runs dependency-free plan mode:
+See [`docs/v27_parquet_zstd_storage.md`](docs/v27_parquet_zstd_storage.md).
+
+## v28 real-source acquisition catalog
+
+v28 records the real data-source plan in repo-owned, CI-checked form:
 
 ```bash
 cd python_lab
-python export_parquet_zstd_pack.py \
-  --plan-only \
-  --db ../build/v26_smoke/omnibet_v26_backfill.sqlite \
-  --out ../reports/ci_v27_parquet_zstd_plan.json
+python source_acquisition_catalog.py \
+  --out ../reports/ci_v28_source_catalog.json \
+  --write-example-config ../configs/source_acquisition.v28.example.json \
+  --write-shell-plan ../build/v28_sync_sources_plan.sh
 ```
 
-See [`docs/v27_parquet_zstd_storage.md`](docs/v27_parquet_zstd_storage.md).
+The catalog covers:
+
+```text
+StatsBomb Open Data
+Football-Data.co.uk
+OpenFootball World Cup / football.db
+The Odds API as optional paid odds source
+```
+
+See [`docs/v28_source_acquisition.md`](docs/v28_source_acquisition.md).
 
 ## Storage direction
 
