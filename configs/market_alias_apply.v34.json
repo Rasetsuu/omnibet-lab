@@ -1,0 +1,22 @@
+{
+  "version": "omnibet.market_alias_apply.v34",
+  "auto_mapping_policy": "exact high-confidence aliases only",
+  "auto_threshold": 0.95,
+  "fuzzy_market_auto_mapping": false,
+  "preserve_unknowns": true,
+  "preserve_raw_snapshots": true,
+  "dangerous_separations": [
+    "shots and shots on target are different",
+    "final regulation and to qualify are different"
+  ],
+  "tables_used": [
+    "raw_market_snapshots",
+    "canonical_markets",
+    "market_aliases",
+    "resolver_mapping_candidates",
+    "resolver_mapping_decisions",
+    "unknown_market_queue"
+  ],
+  "ci_policy": "local deterministic smoke only; no API keys, no provider calls, no website automation",
+  "smoke_script": "python_lab/market_alias_apply_smoke.py"
+}
