@@ -1,0 +1,32 @@
+name: OmniBet v63-v66 Source Phase1
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  source-phase1:
+    name: v63-v66 source phase1 smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Run v63-v66 source phase1 smoke
+        run: |
+          mkdir -p reports
+          python python_lab/source_phase1_smoke.py --root . --out reports/ci_v63_v66_source_phase1.json
+      - name: Upload source phase1 report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v63-v66-source-phase1-report
+          path: reports/ci_v63_v66_source_phase1.json
+          if-no-files-found: warn
