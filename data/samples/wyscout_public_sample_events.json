@@ -1,0 +1,7 @@
+[
+  {"id": 50001, "matchId": 1001, "eventName": "Shot", "subEventName": "Goal", "matchPeriod": "1H", "eventSec": 1230.0, "teamId": 10, "playerId": 10001, "positions": [{"x": 88, "y": 47}], "tags": [{"id": 101}]},
+  {"id": 50002, "matchId": 1001, "eventName": "Pass", "subEventName": "Simple pass", "matchPeriod": "2H", "eventSec": 205.0, "teamId": 20, "playerId": 20001, "positions": [{"x": 45, "y": 52}], "tags": []},
+  {"id": 50003, "matchId": 1001, "eventName": "Shot", "subEventName": "Shot", "matchPeriod": "2H", "eventSec": 2500.0, "teamId": 10, "playerId": 10002, "positions": [{"x": 91, "y": 40}], "tags": []},
+  {"id": 50004, "matchId": 1002, "eventName": "Shot", "subEventName": "Goal", "matchPeriod": "2H", "eventSec": 1800.0, "teamId": 40, "playerId": 40001, "positions": [{"x": 86, "y": 51}], "tags": [{"id": 101}]},
+  {"id": 50005, "matchId": 1002, "eventName": "Foul", "subEventName": "Yellow card", "matchPeriod": "2H", "eventSec": 2790.0, "teamId": 30, "playerId": 30001, "positions": [{"x": 58, "y": 48}], "tags": [{"id": 1702}]}
+]
