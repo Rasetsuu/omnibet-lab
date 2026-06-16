@@ -1,0 +1,45 @@
+{
+  "version": "omnibet.source_optin_cache_promotion.v63_v66",
+  "mode": "desktop_local_manual_source_phase1",
+  "milestones": {
+    "v63": "status-only source opt-in controls",
+    "v64": "manual source cache actions",
+    "v65": "local cached source snapshots",
+    "v66": "candidate-only review-decision promotion"
+  },
+  "sources": [
+    {
+      "source_id": "source_a",
+      "enabled_default": false,
+      "credential_env": "SOURCE_A_TOKEN",
+      "credential_value_displayed": false,
+      "manual_action_only": true
+    },
+    {
+      "source_id": "source_b",
+      "enabled_default": false,
+      "credential_env": "SOURCE_B_TOKEN",
+      "credential_value_displayed": false,
+      "manual_action_only": true
+    }
+  ],
+  "local_outputs": {
+    "source_cache_dir": ".omnibet-local/cache/source_snapshots",
+    "source_cache_index": ".omnibet-local/cache/source_snapshots/cache_index.json",
+    "promotion_candidates": ".omnibet-local/exports/mapping_rule_candidates.v66.json"
+  },
+  "tauri_commands": [
+    "source_status",
+    "cache_source_sample",
+    "promote_review_decisions"
+  ],
+  "ci_policy": {
+    "credential_values_in_output": false,
+    "external_source_calls": false,
+    "background_fetches": false,
+    "shell_execution": false,
+    "recommendation_output": false,
+    "production_mapping_mutation": false
+  },
+  "smoke_script": "python_lab/source_phase1_smoke.py"
+}
