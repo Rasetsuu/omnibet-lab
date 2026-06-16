@@ -1,0 +1,36 @@
+{
+  "version": "omnibet.provider_event_timeline.v37",
+  "mode": "offline_sample_only_for_ci",
+  "canonical_event_id": "canonical_event:france_senegal_2026_demo",
+  "inputs": {
+    "odds_sample": "data/samples/the_odds_api_event_markets_sample.json",
+    "state_sample": "data/samples/api_football_live_state_sample.json",
+    "link_manifest": "data/samples/provider_event_link_sample.v37.json"
+  },
+  "created_tables_by_smoke": [
+    "provider_event_links",
+    "provider_event_timeline"
+  ],
+  "timeline_types": [
+    "match_state",
+    "match_event",
+    "odds_market"
+  ],
+  "ci_policy": {
+    "network_calls": false,
+    "api_key_required": false,
+    "paid_quota_usage": false,
+    "website_automation": false,
+    "betting_output": false
+  },
+  "acceptance": [
+    "v35 odds adapter report ok",
+    "v36 state adapter report ok",
+    "provider links written",
+    "timeline has match_state rows",
+    "timeline has match_event rows",
+    "timeline has odds_market rows",
+    "unknown markets visible"
+  ],
+  "smoke_script": "python_lab/provider_event_timeline_smoke.py"
+}
