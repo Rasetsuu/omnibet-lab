@@ -1,0 +1,35 @@
+{
+  "version": "omnibet.platform_hardening.v42_v48",
+  "mode": "offline_sample_only_for_ci",
+  "milestones": {
+    "v42": "provider identity hardening",
+    "v43": "shared provider-pipeline schema promotion",
+    "v44": "expanded settlement coverage",
+    "v45": "player prop truth skeleton",
+    "v46": "feature export pack",
+    "v47": "first model pass smoke",
+    "v48": "env-gated live provider scaffold"
+  },
+  "inputs": {
+    "odds_sample": "data/samples/the_odds_api_event_markets_sample.json",
+    "state_sample": "data/samples/api_football_live_state_sample.json",
+    "link_manifest": "data/samples/provider_event_link_sample.v37.json"
+  },
+  "smoke_scripts": [
+    "python_lab/provider_identity_hardening_smoke.py",
+    "python_lab/schema_promotion_smoke.py",
+    "python_lab/expanded_settlement_smoke.py",
+    "python_lab/player_prop_truth_smoke.py",
+    "python_lab/feature_export_pack_smoke.py",
+    "python_lab/first_model_pass_smoke.py",
+    "python_lab/live_provider_scaffold_smoke.py"
+  ],
+  "ci_policy": {
+    "network_calls": false,
+    "api_key_required": false,
+    "paid_quota_usage": false,
+    "website_automation": false,
+    "recommendation_output": false,
+    "model_quality_claim": false
+  }
+}

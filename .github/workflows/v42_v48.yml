@@ -1,0 +1,84 @@
+name: OmniBet v42-v48 Platform Hardening
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    name: v42-v48 smoke checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Python compile
+        run: |
+          cd python_lab
+          python -m py_compile *.py adapters/*.py
+
+      - name: Run v42 identity hardening smoke
+        run: |
+          cd python_lab
+          python provider_identity_hardening_smoke.py \
+            --db ../build/omnibet_v42_identity_hardening.sqlite \
+            --out ../reports/ci_v42_identity_hardening.json
+
+      - name: Run v43 schema promotion smoke
+        run: |
+          cd python_lab
+          python schema_promotion_smoke.py \
+            --db ../build/omnibet_v43_schema_promotion.sqlite \
+            --out ../reports/ci_v43_schema_promotion.json
+
+      - name: Run v44 expanded settlement smoke
+        run: |
+          cd python_lab
+          python expanded_settlement_smoke.py \
+            --db ../build/omnibet_v44_expanded_settlement.sqlite \
+            --out ../reports/ci_v44_expanded_settlement.json
+
+      - name: Run v45 player prop truth smoke
+        run: |
+          cd python_lab
+          python player_prop_truth_smoke.py \
+            --db ../build/omnibet_v45_player_prop_truth.sqlite \
+            --out ../reports/ci_v45_player_prop_truth.json
+
+      - name: Run v46 feature export pack smoke
+        run: |
+          cd python_lab
+          python feature_export_pack_smoke.py \
+            --db ../build/omnibet_v46_feature_export.sqlite \
+            --out-dir ../build/v46_feature_export_pack \
+            --out ../reports/ci_v46_feature_export_pack.json
+
+      - name: Run v47 first model pass smoke
+        run: |
+          cd python_lab
+          python first_model_pass_smoke.py \
+            --db ../build/omnibet_v47_first_model_pass.sqlite \
+            --out ../reports/ci_v47_first_model_pass.json
+
+      - name: Run v48 live scaffold smoke
+        run: |
+          cd python_lab
+          python live_provider_scaffold_smoke.py \
+            --db ../build/omnibet_v48_live_provider_scaffold.sqlite \
+            --out ../reports/ci_v48_live_provider_scaffold.json
+
+      - name: Upload smoke reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v42-v48-smoke-reports
+          path: reports/ci_v*.json
+          if-no-files-found: warn
