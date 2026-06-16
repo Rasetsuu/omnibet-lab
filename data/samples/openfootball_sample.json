@@ -1,0 +1,10 @@
+{
+  "name": "OpenFootball-style CI sample",
+  "competition": "sample_league",
+  "season": "2024-2025",
+  "matches": [
+    {"round": "1", "date": "2024-08-10", "team1": "Spain", "team2": "Cape Verde", "score": {"ft": [2, 0], "ht": [1, 0]}},
+    {"round": "1", "date": "2024-08-11", "team1": "Germany", "team2": "Japan", "score": {"ft": [1, 1], "ht": [0, 1]}},
+    {"round": "2", "date": "2024-08-18", "team1": "Cape Verde", "team2": "Japan", "score": {"ft": [1, 2], "ht": [1, 1]}}
+  ]
+}
