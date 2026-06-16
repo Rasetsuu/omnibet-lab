@@ -7,6 +7,7 @@ This creates a source-neutral warehouse:
 - bronze_blobs for raw API/CSV payloads
 - normalized matches/teams/players/events/odds skeletons
 - dynamic raw bookmaker/provider market snapshots for market discovery
+- canonical resolver tables for teams/players/markets/selections
 - adapter watermarks for incremental updates
 
 The warehouse is intentionally conservative:
@@ -257,6 +258,175 @@ SELECT
 FROM raw_market_snapshots
 WHERE needs_mapping = 1 OR mapped_market_id IS NULL OR mapped_market_id = ''
 GROUP BY raw_market_name, raw_selection_name, provider_id, bookmaker, provider_sport_key;
+
+CREATE TABLE IF NOT EXISTS canonical_teams (
+    canonical_team_id TEXT PRIMARY KEY,
+    sport TEXT NOT NULL,
+    display_name TEXT NOT NULL,
+    country TEXT,
+    team_type TEXT,
+    metadata_json TEXT,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS team_aliases (
+    alias_id TEXT PRIMARY KEY,
+    canonical_team_id TEXT NOT NULL,
+    provider_id TEXT,
+    alias_text TEXT NOT NULL,
+    normalized_alias TEXT NOT NULL,
+    confidence REAL NOT NULL DEFAULT 1.0,
+    source_note TEXT,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(canonical_team_id) REFERENCES canonical_teams(canonical_team_id)
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_team_alias_unique
+    ON team_aliases(provider_id, normalized_alias, canonical_team_id);
+CREATE INDEX IF NOT EXISTS idx_team_alias_lookup
+    ON team_aliases(normalized_alias, provider_id);
+
+CREATE TABLE IF NOT EXISTS canonical_players (
+    canonical_player_id TEXT PRIMARY KEY,
+    sport TEXT NOT NULL,
+    display_name TEXT NOT NULL,
+    birth_date TEXT,
+    nationality TEXT,
+    primary_team_id TEXT,
+    position TEXT,
+    metadata_json TEXT,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS player_aliases (
+    alias_id TEXT PRIMARY KEY,
+    canonical_player_id TEXT NOT NULL,
+    provider_id TEXT,
+    alias_text TEXT NOT NULL,
+    normalized_alias TEXT NOT NULL,
+    team_context_id TEXT,
+    country_context TEXT,
+    shirt_number INTEGER,
+    confidence REAL NOT NULL DEFAULT 1.0,
+    source_note TEXT,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(canonical_player_id) REFERENCES canonical_players(canonical_player_id)
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_player_alias_unique
+    ON player_aliases(provider_id, normalized_alias, canonical_player_id, COALESCE(team_context_id, ''));
+CREATE INDEX IF NOT EXISTS idx_player_alias_lookup
+    ON player_aliases(normalized_alias, provider_id, team_context_id);
+
+CREATE TABLE IF NOT EXISTS canonical_markets (
+    canonical_market_id TEXT PRIMARY KEY,
+    sport TEXT NOT NULL,
+    market_family TEXT NOT NULL,
+    display_name TEXT NOT NULL,
+    settlement_scope TEXT NOT NULL,
+    period TEXT,
+    line_required INTEGER NOT NULL DEFAULT 0,
+    team_required INTEGER NOT NULL DEFAULT 0,
+    player_required INTEGER NOT NULL DEFAULT 0,
+    dangerous_confusables_json TEXT,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS market_aliases (
+    alias_id TEXT PRIMARY KEY,
+    canonical_market_id TEXT NOT NULL,
+    provider_id TEXT,
+    alias_text TEXT NOT NULL,
+    normalized_alias TEXT NOT NULL,
+    settlement_scope_hint TEXT,
+    confidence REAL NOT NULL DEFAULT 1.0,
+    source_note TEXT,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(canonical_market_id) REFERENCES canonical_markets(canonical_market_id)
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_market_alias_unique
+    ON market_aliases(provider_id, normalized_alias, canonical_market_id);
+CREATE INDEX IF NOT EXISTS idx_market_alias_lookup
+    ON market_aliases(normalized_alias, provider_id);
+
+CREATE TABLE IF NOT EXISTS canonical_selections (
+    canonical_selection_id TEXT PRIMARY KEY,
+    selection_family TEXT NOT NULL,
+    display_name TEXT NOT NULL,
+    side TEXT,
+    metadata_json TEXT,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS selection_aliases (
+    alias_id TEXT PRIMARY KEY,
+    canonical_selection_id TEXT NOT NULL,
+    provider_id TEXT,
+    alias_text TEXT NOT NULL,
+    normalized_alias TEXT NOT NULL,
+    confidence REAL NOT NULL DEFAULT 1.0,
+    source_note TEXT,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(canonical_selection_id) REFERENCES canonical_selections(canonical_selection_id)
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_selection_alias_unique
+    ON selection_aliases(provider_id, normalized_alias, canonical_selection_id);
+CREATE INDEX IF NOT EXISTS idx_selection_alias_lookup
+    ON selection_aliases(normalized_alias, provider_id);
+
+CREATE TABLE IF NOT EXISTS resolver_mapping_candidates (
+    candidate_id TEXT PRIMARY KEY,
+    entity_type TEXT NOT NULL,
+    raw_value TEXT NOT NULL,
+    normalized_raw_value TEXT NOT NULL,
+    provider_id TEXT,
+    context_json TEXT,
+    candidate_canonical_id TEXT,
+    candidate_display_name TEXT,
+    strategy TEXT NOT NULL,
+    confidence REAL NOT NULL,
+    auto_map_allowed INTEGER NOT NULL DEFAULT 0,
+    reason TEXT,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS resolver_mapping_decisions (
+    decision_id TEXT PRIMARY KEY,
+    candidate_id TEXT,
+    entity_type TEXT NOT NULL,
+    raw_value TEXT NOT NULL,
+    provider_id TEXT,
+    canonical_id TEXT,
+    decision TEXT NOT NULL,
+    confidence REAL,
+    reason TEXT,
+    decided_by TEXT NOT NULL DEFAULT 'system',
+    decided_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    immutable_raw_ref TEXT,
+    FOREIGN KEY(candidate_id) REFERENCES resolver_mapping_candidates(candidate_id)
+);
+
+CREATE VIEW IF NOT EXISTS resolver_review_queue AS
+SELECT
+    entity_type,
+    raw_value,
+    normalized_raw_value,
+    provider_id,
+    context_json,
+    candidate_canonical_id,
+    candidate_display_name,
+    strategy,
+    confidence,
+    reason,
+    COUNT(*) AS candidate_count,
+    MIN(created_at) AS first_seen_at,
+    MAX(created_at) AS last_seen_at
+FROM resolver_mapping_candidates
+WHERE auto_map_allowed = 0 OR confidence < 0.95 OR candidate_canonical_id IS NULL OR candidate_canonical_id = ''
+GROUP BY entity_type, raw_value, normalized_raw_value, provider_id, context_json,
+         candidate_canonical_id, candidate_display_name, strategy, confidence, reason;
 """
 
 
@@ -324,6 +494,9 @@ WAREHOUSE_COUNT_TABLES = [
     "bronze_blobs", "competitions", "seasons", "teams", "players",
     "matches_norm", "match_events", "lineups", "odds_snapshots",
     "raw_market_snapshots", "market_mapping_rules", "unknown_market_queue",
+    "canonical_teams", "team_aliases", "canonical_players", "player_aliases",
+    "canonical_markets", "market_aliases", "canonical_selections", "selection_aliases",
+    "resolver_mapping_candidates", "resolver_mapping_decisions", "resolver_review_queue",
 ]
 
 

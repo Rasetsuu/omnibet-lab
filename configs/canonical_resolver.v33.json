@@ -1,0 +1,33 @@
+{
+  "version": "omnibet.canonical_resolver.v33",
+  "stable_canonical_tables": [
+    "canonical_teams",
+    "team_aliases",
+    "canonical_players",
+    "player_aliases",
+    "canonical_markets",
+    "market_aliases",
+    "canonical_selections",
+    "selection_aliases",
+    "resolver_mapping_candidates",
+    "resolver_mapping_decisions",
+    "resolver_review_queue"
+  ],
+  "auto_map_threshold": 0.95,
+  "review_policy": "below auto threshold, missing canonical id, or ambiguous context goes to resolver_review_queue",
+  "safety_rules": [
+    "Never discard raw provider data",
+    "Never use uncertain mappings for model training",
+    "Store confidence for every suggested mapping",
+    "Prefer missing data over false merges",
+    "Corrections must be possible without mutating original raw snapshots"
+  ],
+  "dangerous_separations": [
+    "shots and shots on target are different",
+    "1x2 regulation and to qualify are different",
+    "player shots and team shots are different",
+    "total corners and team corners are different"
+  ],
+  "ci_policy": "local deterministic smoke only; no API keys, no provider calls, no website automation",
+  "smoke_script": "python_lab/canonical_resolver_smoke.py"
+}
