@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
-mkdir -p reports build data_packs
+mkdir -p reports build data_packs build/models
 
 log() {
   printf '\n===== %s =====\n' "$*"
@@ -79,7 +79,7 @@ log "StatsBomb public sample pipeline"
     | tee ../reports/ci_event_aware_compare_stdout.json
 )
 
-log "v20 data-scale smoke + v21 phase lab"
+log "v20 data-scale smoke + v21 phase lab + v22 training export"
 (
   cd python_lab
   python statsbomb_scale_pipeline.py \
@@ -96,6 +96,12 @@ log "v20 data-scale smoke + v21 phase lab"
     --db ../build/omnibet_v20_statsbomb_scale.sqlite \
     --out ../reports/ci_v21_phase_lab.json \
     | tee ../reports/ci_v21_phase_lab_stdout.json
+  python train_linear_model.py \
+    --db ../build/omnibet_v20_statsbomb_scale.sqlite \
+    --out-model ../build/models/football_regulation_linear_trained_v1.json \
+    --out-report ../reports/ci_v22_train_export.json \
+    --model-trust 0.35 \
+    | tee ../reports/ci_v22_train_export_stdout.json
   python export_data_pack.py \
     --db ../build/omnibet_v20_statsbomb_scale.sqlite \
     --out-dir ../data_packs/football_phase_training_v1 \
@@ -132,6 +138,11 @@ log "rust model/runtime smoke"
     ../models/football_event_linear_v1.json \
     1 \
     | tee ../reports/ci_rust_event_linear_model.json
+  cargo run --bin omnibet-model -- backtest \
+    ../data_packs/football_phase_training_v1 \
+    ../build/models/football_regulation_linear_trained_v1.json \
+    1 \
+    | tee ../reports/ci_rust_trained_model.json
   cargo run --bin omnibet-value -- report \
     ../data_packs/football_core_v1 \
     Spain \
