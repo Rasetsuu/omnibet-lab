@@ -1,5 +1,5 @@
 {
-  "version": "omnibet.local_data_contract.v61",
+  "version": "omnibet.local_data_contract.v61_plus_v63_v66",
   "mode": "desktop_local_first",
   "root_env": "OMNIBET_HOME",
   "default_root": ".omnibet-local",
@@ -10,20 +10,25 @@
     "exports": "exports",
     "review_decisions": "review_decisions",
     "logs": "logs",
-    "cache": "cache"
+    "cache": "cache",
+    "source_snapshots": "cache/source_snapshots"
   },
   "files": {
     "settings": "configs/desktop_settings.local.json",
     "dashboard_report": "build/v49_dashboard_data.json",
     "review_report": "build/v53_v54_review_data.json",
     "review_decisions_jsonl": "review_decisions/review_decisions.jsonl",
-    "workflow_runs_jsonl": "logs/workflow_runs.jsonl"
+    "workflow_runs_jsonl": "logs/workflow_runs.jsonl",
+    "source_snapshot_index": "cache/source_snapshots/cache_index.json",
+    "mapping_rule_candidates": "exports/mapping_rule_candidates.v66.json"
   },
   "policy": {
     "offline_default": true,
     "api_key_values_in_files": false,
     "live_provider_calls_in_ci": false,
     "shell_execution": false,
-    "portable_mode_supported": true
+    "portable_mode_supported": true,
+    "source_actions_manual_only": true,
+    "promotion_candidate_only": true
   }
 }
