@@ -2,8 +2,8 @@
 
 Cross-sport prediction/value-betting research lab with a Rust-first runtime direction and a Python research/backfill layer.
 
-Current merged milestone: **v32 — raw market snapshot warehouse tables and unknown market queue**.
-Next target: **v33 — canonical resolver and alias mapping engine**.
+Current merged milestone: **v33 — canonical resolver and alias mapping engine**.
+Next target: **v34 — safe market alias apply engine**.
 
 OmniBet is not meant to be a simple score predictor. The project is building a local-first sports intelligence pipeline:
 
@@ -27,7 +27,7 @@ raw data sources
 - `cpp-core/` — early std-only proof core kept for portability experiments.
 - `data/` — tiny deterministic samples only.
 - `data_packs/` — compressed JSONL.GZ packs used by CI/Rust readers.
-- `docs/` — milestone docs from v4 through v33.
+- `docs/` — milestone docs from v4 through v34.
 
 ## What works now
 
@@ -44,6 +44,7 @@ raw data sources
 - Provider candidate matrix and dynamic market discovery schema.
 - Raw market snapshot warehouse tables and unknown market queue.
 - Canonical resolver tables and alias-mapping smoke.
+- Safe market alias application to raw snapshots.
 - Compressed JSONL.GZ data packs and Python/Rust verification.
 - Optional local Parquet+ZSTD warehouse-pack exporter for heavy data.
 - Phase-aware football market registry.
@@ -134,34 +135,31 @@ See [`docs/v32_market_snapshot_warehouse.md`](docs/v32_market_snapshot_warehouse
 
 ## v33 canonical resolver
 
-v33 adds canonical storage and alias resolution for teams, players, markets, and selections:
+v33 adds canonical storage and alias resolution for teams, players, markets, and selections.
 
-```text
-canonical_teams / team_aliases
-canonical_players / player_aliases
-canonical_markets / market_aliases
-canonical_selections / selection_aliases
-resolver_mapping_candidates
-resolver_mapping_decisions
-resolver_review_queue
-```
+See [`docs/v33_canonical_resolver.md`](docs/v33_canonical_resolver.md).
 
-CI-safe smoke:
+## v34 safe market alias apply
+
+v34 applies exact high-confidence market aliases onto raw market snapshots while preserving unknown markets.
 
 ```bash
 cd python_lab
-python canonical_resolver_smoke.py \
-  --db ../build/omnibet_v33_resolver_smoke.sqlite \
-  --out ../reports/ci_v33_canonical_resolver_smoke.json
+python market_alias_apply_smoke.py \
+  --db ../build/omnibet_v34_market_alias_apply.sqlite \
+  --out ../reports/ci_v34_market_alias_apply.json
 ```
 
-Key safety rule:
+The smoke proves:
 
 ```text
-Never train on uncertain mappings. Prefer missing data over false merges.
+Cornere / Lovituri de colț -> total corners
+Shots and shots on target remain separate
+Final and To qualify remain separate
+unknown market remains in unknown_market_queue
 ```
 
-See [`docs/v33_canonical_resolver.md`](docs/v33_canonical_resolver.md).
+See [`docs/v34_market_alias_apply.md`](docs/v34_market_alias_apply.md).
 
 ## Storage direction
 
