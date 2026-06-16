@@ -37,6 +37,30 @@ struct ReviewLoadPayload {
     note: String,
 }
 
+#[derive(Serialize)]
+struct SettingsLoadPayload {
+    ok: bool,
+    mode: &'static str,
+    path: String,
+    settings_json: Option<Value>,
+    error: String,
+    note: String,
+}
+
+#[derive(Serialize)]
+struct WorkflowRunPayload {
+    ok: bool,
+    mode: &'static str,
+    workflow_id: String,
+    program: String,
+    args: Vec<String>,
+    status_code: Option<i32>,
+    stdout_json: Option<Value>,
+    stdout_text: String,
+    stderr_text: String,
+    note: String,
+}
+
 fn repo_root() -> PathBuf {
     std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."))
 }
@@ -46,6 +70,17 @@ fn cli_path(bin: &'static str) -> PathBuf {
         return Path::new(&dir).join(bin);
     }
     repo_root().join("rust-core").join("target").join("debug").join(bin)
+}
+
+fn python_program() -> String {
+    if let Ok(py) = std::env::var("OMNIBET_PYTHON") {
+        return py;
+    }
+    if cfg!(windows) {
+        "python".to_string()
+    } else {
+        "python3".to_string()
+    }
 }
 
 fn run_allowed_cli(bin: &'static str, args: Vec<String>) -> CliBridgePayload {
@@ -140,6 +175,19 @@ fn review_candidate_paths(path_hint: Option<String>) -> Vec<PathBuf> {
     paths
 }
 
+fn settings_candidate_paths(path_hint: Option<String>) -> Vec<PathBuf> {
+    let root = repo_root();
+    let mut paths = Vec::new();
+    if let Some(hint) = path_hint {
+        if !hint.trim().is_empty() {
+            paths.push(root.join(hint));
+        }
+    }
+    paths.push(root.join("configs").join("desktop_settings.local.json"));
+    paths.push(root.join("tauri-app").join("src").join("settings-data.sample.json"));
+    paths
+}
+
 fn load_first_dashboard_json(path_hint: Option<String>) -> DashboardLoadPayload {
     for path in dashboard_candidate_paths(path_hint) {
         if !path.exists() {
@@ -184,6 +232,123 @@ fn load_first_review_json(path_hint: Option<String>) -> ReviewLoadPayload {
     ReviewLoadPayload { ok: false, mode: "missing_review_json", path: String::new(), review_json: None, error: "no allowlisted review JSON path exists".to_string(), note: "Generate build/v53_v54_review_data.json or keep bundled review-data.sample.json available.".to_string() }
 }
 
+fn load_first_settings_json(path_hint: Option<String>) -> SettingsLoadPayload {
+    for path in settings_candidate_paths(path_hint) {
+        if !path.exists() {
+            continue;
+        }
+        let text = match fs::read_to_string(&path) {
+            Ok(text) => text,
+            Err(e) => {
+                return SettingsLoadPayload { ok: false, mode: "read_error", path: path.display().to_string(), settings_json: None, error: e.to_string(), note: "Failed to read local settings JSON.".to_string() };
+            }
+        };
+        let value = match serde_json::from_str::<Value>(&text) {
+            Ok(value) => value,
+            Err(e) => {
+                return SettingsLoadPayload { ok: false, mode: "parse_error", path: path.display().to_string(), settings_json: None, error: e.to_string(), note: "Local settings JSON could not be parsed.".to_string() };
+            }
+        };
+        return SettingsLoadPayload { ok: true, mode: "local_settings_json", path: path.display().to_string(), settings_json: Some(value), error: String::new(), note: "Loaded local offline settings JSON through the Tauri bridge; API key values are not displayed.".to_string() };
+    }
+    SettingsLoadPayload { ok: false, mode: "missing_settings_json", path: String::new(), settings_json: None, error: "no allowlisted settings JSON path exists".to_string(), note: "Keep bundled settings-data.sample.json available or create configs/desktop_settings.local.json.".to_string() }
+}
+
+fn local_workflow_args(workflow_id: &str) -> Option<Vec<String>> {
+    match workflow_id {
+        "generate_dashboard_report" => Some(vec![
+            "python_lab/dashboard_data_smoke.py".to_string(),
+            "--dashboard-out".to_string(),
+            "build/v49_dashboard_data.json".to_string(),
+            "--out".to_string(),
+            "reports/local_v49_dashboard_data.json".to_string(),
+        ]),
+        "generate_review_report" => Some(vec![
+            "python_lab/review_ui_smoke.py".to_string(),
+            "--review-out".to_string(),
+            "build/v53_v54_review_data.json".to_string(),
+            "--out".to_string(),
+            "reports/local_v53_v54_review_ui.json".to_string(),
+        ]),
+        "run_leak_guard" => Some(vec![
+            "python_lab/leak_guard_smoke.py".to_string(),
+            "--out".to_string(),
+            "reports/local_v40_leak_guard.json".to_string(),
+        ]),
+        "run_feature_export" => Some(vec![
+            "python_lab/feature_export_pack_smoke.py".to_string(),
+            "--out-dir".to_string(),
+            "build/v46_feature_export_pack".to_string(),
+            "--out".to_string(),
+            "reports/local_v46_feature_export_pack.json".to_string(),
+        ]),
+        "run_settlement_truth" => Some(vec![
+            "python_lab/settlement_truth_smoke.py".to_string(),
+            "--out".to_string(),
+            "reports/local_v38_settlement_truth.json".to_string(),
+        ]),
+        "run_first_model_pass" => Some(vec![
+            "python_lab/first_model_pass_smoke.py".to_string(),
+            "--out".to_string(),
+            "reports/local_v47_first_model_pass.json".to_string(),
+        ]),
+        _ => None,
+    }
+}
+
+fn run_allowlisted_workflow(workflow_id: String) -> WorkflowRunPayload {
+    let args = match local_workflow_args(&workflow_id) {
+        Some(args) => args,
+        None => {
+            return WorkflowRunPayload {
+                ok: false,
+                mode: "blocked",
+                workflow_id,
+                program: String::new(),
+                args: Vec::new(),
+                status_code: None,
+                stdout_json: None,
+                stdout_text: String::new(),
+                stderr_text: "unknown workflow id".to_string(),
+                note: "Only fixed allowlisted offline workflows may run; no shell execution.".to_string(),
+            };
+        }
+    };
+    let program = python_program();
+    let output = match Command::new(&program).current_dir(repo_root()).args(&args).output() {
+        Ok(output) => output,
+        Err(e) => {
+            return WorkflowRunPayload {
+                ok: false,
+                mode: "spawn_error",
+                workflow_id,
+                program,
+                args,
+                status_code: None,
+                stdout_json: None,
+                stdout_text: String::new(),
+                stderr_text: e.to_string(),
+                note: "Failed to start allowlisted Python workflow. Set OMNIBET_PYTHON if needed.".to_string(),
+            };
+        }
+    };
+    let stdout_text = String::from_utf8_lossy(&output.stdout).to_string();
+    let stderr_text = String::from_utf8_lossy(&output.stderr).to_string();
+    let stdout_json = serde_json::from_str::<Value>(&stdout_text).ok();
+    WorkflowRunPayload {
+        ok: output.status.success(),
+        mode: "allowlisted_local_workflow",
+        workflow_id,
+        program,
+        args,
+        status_code: output.status.code(),
+        stdout_json,
+        stdout_text,
+        stderr_text,
+        note: "Ran a fixed allowlisted offline workflow without shell execution.".to_string(),
+    }
+}
+
 #[tauri::command]
 fn ping() -> String {
     "omnibet-tauri-ok".to_string()
@@ -197,6 +362,16 @@ fn load_dashboard_report(path_hint: Option<String>) -> DashboardLoadPayload {
 #[tauri::command]
 fn load_review_report(path_hint: Option<String>) -> ReviewLoadPayload {
     load_first_review_json(path_hint)
+}
+
+#[tauri::command]
+fn load_app_settings(path_hint: Option<String>) -> SettingsLoadPayload {
+    load_first_settings_json(path_hint)
+}
+
+#[tauri::command]
+fn run_local_workflow(workflow_id: String) -> WorkflowRunPayload {
+    run_allowlisted_workflow(workflow_id)
 }
 
 #[tauri::command]
@@ -241,6 +416,8 @@ fn main() {
             ping,
             load_dashboard_report,
             load_review_report,
+            load_app_settings,
+            run_local_workflow,
             pack_summary,
             predict_fixture,
             value_report
