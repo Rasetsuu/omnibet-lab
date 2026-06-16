@@ -1,0 +1,168 @@
+{
+  "get": "fixtures",
+  "parameters": {
+    "id": "123456"
+  },
+  "errors": [],
+  "results": 1,
+  "paging": {
+    "current": 1,
+    "total": 1
+  },
+  "response": [
+    {
+      "fixture": {
+        "id": 123456,
+        "referee": "Example Referee",
+        "timezone": "UTC",
+        "date": "2026-06-16T20:00:00+00:00",
+        "timestamp": 1781640000,
+        "periods": {
+          "first": 1781640000,
+          "second": 1781643600
+        },
+        "venue": {
+          "id": 77,
+          "name": "Example Stadium",
+          "city": "Bucharest"
+        },
+        "status": {
+          "long": "Match Finished",
+          "short": "FT",
+          "elapsed": 90
+        }
+      },
+      "league": {
+        "id": 1,
+        "name": "FIFA World Cup",
+        "country": "World",
+        "season": 2026,
+        "round": "Group Stage - 1"
+      },
+      "teams": {
+        "home": {
+          "id": 10,
+          "name": "France",
+          "winner": true
+        },
+        "away": {
+          "id": 20,
+          "name": "Senegal",
+          "winner": false
+        }
+      },
+      "goals": {
+        "home": 2,
+        "away": 1
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 0
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 1
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      },
+      "events": [
+        {
+          "time": {"elapsed": 18, "extra": null},
+          "team": {"id": 10, "name": "France"},
+          "player": {"id": 1001, "name": "Kylian Mbappe"},
+          "assist": {"id": 1002, "name": "Antoine Griezmann"},
+          "type": "Goal",
+          "detail": "Normal Goal",
+          "comments": null
+        },
+        {
+          "time": {"elapsed": 54, "extra": null},
+          "team": {"id": 20, "name": "Senegal"},
+          "player": {"id": 2001, "name": "Sadio Mane"},
+          "assist": {"id": 2002, "name": "Ismaila Sarr"},
+          "type": "Goal",
+          "detail": "Normal Goal",
+          "comments": null
+        },
+        {
+          "time": {"elapsed": 72, "extra": null},
+          "team": {"id": 10, "name": "France"},
+          "player": {"id": 1002, "name": "Antoine Griezmann"},
+          "assist": {"id": null, "name": null},
+          "type": "Card",
+          "detail": "Yellow Card",
+          "comments": null
+        },
+        {
+          "time": {"elapsed": 78, "extra": null},
+          "team": {"id": 10, "name": "France"},
+          "player": {"id": 1003, "name": "Olivier Giroud"},
+          "assist": {"id": 1001, "name": "Kylian Mbappe"},
+          "type": "Goal",
+          "detail": "Normal Goal",
+          "comments": null
+        }
+      ],
+      "lineups": [
+        {
+          "team": {"id": 10, "name": "France"},
+          "formation": "4-2-3-1",
+          "startXI": [
+            {"player": {"id": 1001, "name": "Kylian Mbappe", "number": 10, "pos": "F", "grid": "4:2"}},
+            {"player": {"id": 1002, "name": "Antoine Griezmann", "number": 7, "pos": "M", "grid": "3:2"}},
+            {"player": {"id": 1004, "name": "Mike Maignan", "number": 16, "pos": "G", "grid": "1:1"}}
+          ],
+          "substitutes": [
+            {"player": {"id": 1003, "name": "Olivier Giroud", "number": 9, "pos": "F", "grid": null}}
+          ],
+          "coach": {"id": 9001, "name": "Example France Coach"}
+        },
+        {
+          "team": {"id": 20, "name": "Senegal"},
+          "formation": "4-3-3",
+          "startXI": [
+            {"player": {"id": 2001, "name": "Sadio Mane", "number": 10, "pos": "F", "grid": "4:1"}},
+            {"player": {"id": 2002, "name": "Ismaila Sarr", "number": 18, "pos": "F", "grid": "4:3"}},
+            {"player": {"id": 2003, "name": "Edouard Mendy", "number": 16, "pos": "G", "grid": "1:1"}}
+          ],
+          "substitutes": [
+            {"player": {"id": 2004, "name": "Nicolas Jackson", "number": 7, "pos": "F", "grid": null}}
+          ],
+          "coach": {"id": 9002, "name": "Example Senegal Coach"}
+        }
+      ],
+      "statistics": [
+        {
+          "team": {"id": 10, "name": "France"},
+          "statistics": [
+            {"type": "Shots on Goal", "value": 7},
+            {"type": "Shots off Goal", "value": 5},
+            {"type": "Total Shots", "value": 15},
+            {"type": "Corner Kicks", "value": 8},
+            {"type": "Ball Possession", "value": "58%"},
+            {"type": "Yellow Cards", "value": 1}
+          ]
+        },
+        {
+          "team": {"id": 20, "name": "Senegal"},
+          "statistics": [
+            {"type": "Shots on Goal", "value": 3},
+            {"type": "Shots off Goal", "value": 4},
+            {"type": "Total Shots", "value": 9},
+            {"type": "Corner Kicks", "value": 4},
+            {"type": "Ball Possession", "value": "42%"},
+            {"type": "Yellow Cards", "value": 0}
+          ]
+        }
+      ]
+    }
+  ]
+}
