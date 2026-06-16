@@ -58,20 +58,34 @@ def parse_cargo_version(cargo: str) -> str | None:
     return match.group(1) if match else None
 
 
+def load_package_json(root: Path) -> Dict[str, Any]:
+    path = root / "tauri-app/package.json"
+    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+
+
+def package_has_no_web_server(package: Dict[str, Any]) -> bool:
+    scripts = package.get("scripts", {}) if isinstance(package, dict) else {}
+    deps = package.get("dependencies", {}) if isinstance(package, dict) else {}
+    dev_deps = package.get("devDependencies", {}) if isinstance(package, dict) else {}
+    forbidden_words = ["vite", "webpack", "next", "serve", "http-server", "dev-server"]
+    combined = json.dumps({"scripts": scripts, "dependencies": deps, "devDependencies": dev_deps}).lower()
+    return not any(word in combined for word in forbidden_words)
+
+
 def build_report(root: Path, platform_name: str) -> Dict[str, Any]:
     tauri_conf = json.loads(read(root, "tauri-app/src-tauri/tauri.conf.json"))
     cargo = read(root, "tauri-app/src-tauri/Cargo.toml")
     rust = read(root, "tauri-app/src-tauri/src/main.rs")
     html = read(root, "tauri-app/src/index.html")
-    api = read(root, "tauri-app/src/api.js")
-    app = read(root, "tauri-app/src/app.js")
     settings = json.loads(read(root, "tauri-app/src/settings-data.sample.json"))
     review = json.loads(read(root, "tauri-app/src/review-data.sample.json"))
     dashboard = json.loads(read(root, "tauri-app/src/dashboard-data.sample.json"))
+    package = load_package_json(root)
 
     file_presence = {rel: (root / rel).exists() for rel in FRONTEND_FILES}
     cargo_version = parse_cargo_version(cargo)
     tauri_version = tauri_conf.get("version")
+    package_version = package.get("version")
     module_links = {module: f'src="{module}"' in html for module in REQUIRED_MODULES}
     command_registration = {cmd: (f"fn {cmd}" in rust and cmd in rust and "generate_handler!" in rust) for cmd in REQUIRED_COMMANDS}
     workflow_allowlist = {workflow: workflow in rust for workflow in REQUIRED_WORKFLOWS}
@@ -81,9 +95,12 @@ def build_report(root: Path, platform_name: str) -> Dict[str, Any]:
         "tauri_config_valid_json": isinstance(tauri_conf, dict),
         "product_name_present": tauri_conf.get("productName") == "OmniBet Lab",
         "identifier_present": tauri_conf.get("identifier") == "local.omnibet.lab",
-        "cargo_and_tauri_versions_match": cargo_version == tauri_version == "0.4.0",
+        "cargo_tauri_and_package_versions_match": cargo_version == tauri_version == package_version == "0.4.0",
         "frontend_dist_static_src": tauri_conf.get("build", {}).get("frontendDist") == "../src",
         "no_before_build_web_server": tauri_conf.get("build", {}).get("beforeBuildCommand") == "" and tauri_conf.get("build", {}).get("beforeDevCommand") == "",
+        "package_metadata_has_no_web_server_dependency": package_has_no_web_server(package),
+        "package_is_private": package.get("private") is True,
+        "package_has_tauri_cli_only": set((package.get("dependencies") or {}).keys()) == set() and set((package.get("devDependencies") or {}).keys()) == {"@tauri-apps/cli"},
         "bundle_active": tauri_conf.get("bundle", {}).get("active") is True,
         "bundle_targets_all": tauri_conf.get("bundle", {}).get("targets") == "all",
         "window_size_present": len(tauri_conf.get("app", {}).get("windows", [])) >= 1,
@@ -101,7 +118,6 @@ def build_report(root: Path, platform_name: str) -> Dict[str, Any]:
         "samples_parse": dashboard.get("ok") is True and review.get("ok") is True and settings.get("ok") is True,
         "settings_no_key_values": settings.get("safety", {}).get("no_api_key_values") is True,
         "settings_no_network": settings.get("runtime", {}).get("network_enabled") is False,
-        "no_node_package_required": not (root / "tauri-app/package.json").exists(),
     }
 
     if platform_name.lower().startswith("win"):
@@ -115,6 +131,7 @@ def build_report(root: Path, platform_name: str) -> Dict[str, Any]:
         "platform": platform_name,
         "tauri_version": tauri_version,
         "cargo_version": cargo_version,
+        "package_version": package_version,
         "file_presence": file_presence,
         "module_links": module_links,
         "command_registration": command_registration,
@@ -125,7 +142,7 @@ def build_report(root: Path, platform_name: str) -> Dict[str, Any]:
             "no_api_keys": True,
             "no_network_provider_calls": True,
             "no_shell_execution": checks["no_shell_execution"],
-            "no_web_server_dependency": checks["no_before_build_web_server"] and checks["no_node_package_required"],
+            "no_web_server_dependency": checks["no_before_build_web_server"] and checks["package_metadata_has_no_web_server_dependency"],
         },
     }
 
