@@ -2,8 +2,8 @@
 
 Cross-sport prediction/value-betting research lab with a Rust-first runtime direction and a Python research/backfill layer.
 
-Current merged milestone: **v27 — Parquet+ZSTD storage-scale path**.
-Next target: **v28 — real-source acquisition catalog and local sync plan**.
+Current merged milestone: **v28 — real-source acquisition catalog and local sync plan**.
+Next target: **v29 — feature priority and live data contract**.
 
 OmniBet is not meant to be a simple score predictor. The project is building a local-first sports intelligence pipeline:
 
@@ -27,7 +27,7 @@ raw data sources
 - `cpp-core/` — early std-only proof core kept for portability experiments.
 - `data/` — tiny deterministic samples only.
 - `data_packs/` — compressed JSONL.GZ packs used by CI/Rust readers.
-- `docs/` — milestone docs from v4 through v28.
+- `docs/` — milestone docs from v4 through v29.
 
 ## What works now
 
@@ -38,6 +38,8 @@ raw data sources
 - Wyscout-style public match/event adapter.
 - Multi-source identity candidate reports.
 - Real-source acquisition catalog and local sync plan.
+- Core feature-priority contract.
+- Live data point-in-time snapshot contract.
 - Compressed JSONL.GZ data packs and Python/Rust verification.
 - Optional local Parquet+ZSTD warehouse-pack exporter for heavy data.
 - Phase-aware football market registry.
@@ -87,19 +89,6 @@ python verify_data_pack.py \
   --pack-dir ../build/v26_smoke/packs/football_v26_tiny_smoke
 ```
 
-Local-scale shape:
-
-```bash
-cd python_lab
-python local_backfill_runner.py \
-  --out ../build/local_backfills/v26_run \
-  --pack-name football_v26_local_backfill \
-  --football-data-dir ../data/external/football-data \
-  --statsbomb-dir ../data/external/statsbomb-open-data/data \
-  --openfootball-dir ../data/external/openfootball \
-  --wyscout-dir ../data/external/wyscout-style
-```
-
 See [`docs/v26_local_backfill.md`](docs/v26_local_backfill.md).
 
 ## v27 Parquet+ZSTD storage path
@@ -115,9 +104,6 @@ python export_parquet_zstd_pack.py \
   --out-dir ../build/local_backfills/v26_run/parquet_zstd_pack \
   --pack-name football_v27_local_parquet_zstd \
   --zstd-level 6
-
-python check_parquet_pack.py \
-  --pack-dir ../build/local_backfills/v26_run/parquet_zstd_pack
 ```
 
 See [`docs/v27_parquet_zstd_storage.md`](docs/v27_parquet_zstd_storage.md).
@@ -134,16 +120,43 @@ python source_acquisition_catalog.py \
   --write-shell-plan ../build/v28_sync_sources_plan.sh
 ```
 
-The catalog covers:
+See [`docs/v28_source_acquisition.md`](docs/v28_source_acquisition.md).
+
+## v29 feature priority and live data contract
+
+v29 locks the core feature policy:
 
 ```text
-StatsBomb Open Data
-Football-Data.co.uk
-OpenFootball World Cup / football.db
-The Odds API as optional paid odds source
+core engine:
+  must-have + high-value + refined medium-value
+
+experimental only:
+  travel / attendance / pitch condition until ablation proves value
+
+postponed:
+  weather / social media / vague sentiment / rumors
 ```
 
-See [`docs/v28_source_acquisition.md`](docs/v28_source_acquisition.md).
+It also defines live data as append-only point-in-time snapshots:
+
+```text
+live_fixture_snapshots
+live_event_snapshots
+live_lineup_snapshots
+live_stat_snapshots
+live_odds_snapshots
+```
+
+CI-safe report:
+
+```bash
+cd python_lab
+python feature_live_contract.py \
+  --out ../reports/ci_v29_feature_live_contract.json \
+  --write-config ../configs/feature_live_contract.v29.json
+```
+
+See [`docs/v29_feature_live_contract.md`](docs/v29_feature_live_contract.md).
 
 ## Storage direction
 
@@ -152,8 +165,6 @@ Current CI/local-smoke codec:
 ```text
 JSONL.GZ + manifest.json
 ```
-
-This is deterministic, easy to verify, and already used by Rust pack readers.
 
 Preferred local heavy analytical codec:
 
