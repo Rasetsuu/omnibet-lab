@@ -1,0 +1,39 @@
+{
+  "version": "omnibet.review_ui.v53_v54",
+  "mode": "desktop_first_offline_review_ui",
+  "milestones": {
+    "v53": "unknown market review UI",
+    "v54": "provider identity review UI"
+  },
+  "frontend_files": [
+    "tauri-app/src/index.html",
+    "tauri-app/src/api.js",
+    "tauri-app/src/app.js",
+    "tauri-app/src/review.js",
+    "tauri-app/src/review-data.sample.json"
+  ],
+  "tauri_commands": [
+    "load_review_report"
+  ],
+  "review_report_paths": [
+    "build/v53_v54_review_data.json",
+    "reports/ci_v53_v54_review_ui.json",
+    "tauri-app/src/review-data.sample.json"
+  ],
+  "pages": [
+    "Unknown Market Review",
+    "Provider Identity Review"
+  ],
+  "decision_policy": {
+    "ui_actions_local_only": true,
+    "persist_mappings": false,
+    "ambiguous_identity_auto_merge": false
+  },
+  "ci_policy": {
+    "network_calls": false,
+    "api_key_required": false,
+    "live_provider_calls": false,
+    "recommendation_output": false
+  },
+  "smoke_script": "python_lab/review_ui_smoke.py"
+}
