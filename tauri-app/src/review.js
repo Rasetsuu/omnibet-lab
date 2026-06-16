@@ -1,4 +1,4 @@
-import { loadReviewReport } from './api.js';
+import { loadReviewReport, saveReviewDecision } from './api.js';
 import { esc, table } from './dashboard.js';
 
 let localReviewState = new Map();
@@ -13,11 +13,11 @@ function unwrapReviewPayload(payload) {
   return payload;
 }
 
-function actionButtons(reviewId) {
+function actionButtons(reviewType, reviewId) {
   return `
-    <button class="review-action" data-review-id="${esc(reviewId)}" data-decision="accepted_local">Accept</button>
-    <button class="review-action" data-review-id="${esc(reviewId)}" data-decision="rejected_local">Reject</button>
-    <button class="review-action" data-review-id="${esc(reviewId)}" data-decision="needs_review">Needs review</button>
+    <button class="review-action" data-review-type="${esc(reviewType)}" data-review-id="${esc(reviewId)}" data-decision="accepted">Accept</button>
+    <button class="review-action" data-review-type="${esc(reviewType)}" data-review-id="${esc(reviewId)}" data-decision="rejected">Reject</button>
+    <button class="review-action" data-review-type="${esc(reviewType)}" data-review-id="${esc(reviewId)}" data-decision="needs_review">Needs review</button>
   `;
 }
 
@@ -26,17 +26,20 @@ function withLocalDecision(row) {
   return { ...row, local_decision: localReviewState.get(id) || row.decision || 'needs_review' };
 }
 
-export function applyLocalReviewAction(reviewId, decision) {
+export async function applyLocalReviewAction(reviewType, reviewId, decision) {
   localReviewState.set(reviewId, decision);
   document.querySelectorAll(`[data-local-decision-for="${CSS.escape(reviewId)}"]`).forEach(el => {
     el.textContent = decision;
   });
+  const result = await saveReviewDecision(reviewType, reviewId, decision, 'desktop review button');
+  const out = document.getElementById('out');
+  if (out) out.textContent = JSON.stringify(result, null, 2);
 }
 
 function bindLocalReviewActions(root = document) {
   root.querySelectorAll('.review-action').forEach(btn => {
     btn.addEventListener('click', () => {
-      applyLocalReviewAction(btn.dataset.reviewId, btn.dataset.decision);
+      applyLocalReviewAction(btn.dataset.reviewType, btn.dataset.reviewId, btn.dataset.decision);
     });
   });
 }
@@ -45,6 +48,7 @@ function renderUnknownRows(rows) {
   if (!rows || rows.length === 0) return '<div class="muted">No unknown rows.</div>';
   return rows.map(row => {
     const r = withLocalDecision(row);
+    const reviewType = r.review_type || 'unknown_market';
     return `
       <div class="card review-card">
         <h3>${esc(r.raw_name)}</h3>
@@ -53,7 +57,7 @@ function renderUnknownRows(rows) {
         <p><b>Candidate:</b> ${esc(r.candidate_id || 'none yet')} · <b>Confidence:</b> ${esc(r.confidence)}</p>
         <p><b>Decision:</b> <span data-local-decision-for="${esc(r.review_id)}">${esc(r.local_decision)}</span></p>
         <p class="muted">${esc(r.reason)}</p>
-        <div>${actionButtons(r.review_id)}</div>
+        <div>${actionButtons(reviewType, r.review_id)}</div>
       </div>
     `;
   }).join('');
@@ -63,6 +67,7 @@ function renderIdentityQueue(rows) {
   if (!rows || rows.length === 0) return '<div class="muted">No identity review rows.</div>';
   return rows.map(row => {
     const r = withLocalDecision(row);
+    const reviewType = r.review_type || 'provider_identity';
     return `
       <div class="card review-card">
         <h3>${esc(r.raw_name)}</h3>
@@ -70,7 +75,7 @@ function renderIdentityQueue(rows) {
         <p><b>Candidate:</b> ${esc(r.candidate_canonical_id)} · <b>Confidence:</b> ${esc(r.confidence)}</p>
         <p><b>Decision:</b> <span data-local-decision-for="${esc(r.review_id)}">${esc(r.local_decision)}</span></p>
         <p class="muted">${esc(r.reason)}</p>
-        <div>${actionButtons(r.review_id)}</div>
+        <div>${actionButtons(reviewType, r.review_id)}</div>
       </div>
     `;
   }).join('');
@@ -85,7 +90,7 @@ export function renderReviewData(data) {
 
   const unknownHtml = `
     <h3>Unknown market review</h3>
-    <p class="muted">Local UI-only decisions. Persistence comes in a later milestone.</p>
+    <p class="muted">Persisted locally to the review decision store. Production alias promotion still comes later.</p>
     <div id="review-unknown-markets">${renderUnknownRows(unknown)}</div>
   `;
   setHtml('page-unknowns', unknownHtml);
@@ -93,7 +98,7 @@ export function renderReviewData(data) {
 
   const identityHtml = `
     <h3>Provider identity review</h3>
-    <p class="muted">Ambiguous teams, players, and events stay review-only until persisted by a later milestone.</p>
+    <p class="muted">Persisted locally to the review decision store. Ambiguous rows are not auto-merged.</p>
     <div id="review-identity-candidates">${renderIdentityQueue(reviewQueue)}</div>
     <h3>Auto-match candidate preview</h3>
     ${table(candidatePreview, [
