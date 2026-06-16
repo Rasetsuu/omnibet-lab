@@ -2,8 +2,8 @@
 
 Cross-sport prediction/value-betting research lab with a Rust-first runtime direction and a Python research/backfill layer.
 
-Current merged milestone: **v29 — feature priority and live data contract**.
-Next target: **v30 — bookmaker odds and Bet Builder market contract**.
+Current merged milestone: **v30 — bookmaker odds and Bet Builder market contract**.
+Next target: **v31 — provider candidate matrix and dynamic market discovery schema**.
 
 OmniBet is not meant to be a simple score predictor. The project is building a local-first sports intelligence pipeline:
 
@@ -27,7 +27,7 @@ raw data sources
 - `cpp-core/` — early std-only proof core kept for portability experiments.
 - `data/` — tiny deterministic samples only.
 - `data_packs/` — compressed JSONL.GZ packs used by CI/Rust readers.
-- `docs/` — milestone docs from v4 through v30.
+- `docs/` — milestone docs from v4 through v31.
 
 ## What works now
 
@@ -41,6 +41,7 @@ raw data sources
 - Core feature-priority contract.
 - Live data point-in-time snapshot contract.
 - Bookmaker odds / Bet Builder market contract.
+- Provider candidate matrix and dynamic market discovery schema.
 - Compressed JSONL.GZ data packs and Python/Rust verification.
 - Optional local Parquet+ZSTD warehouse-pack exporter for heavy data.
 - Phase-aware football market registry.
@@ -77,49 +78,25 @@ The value is structural: the market-evaluation loop exists.
 
 v26 adds a local-only historical backfill runner while keeping CI deterministic.
 
-Tiny CI smoke:
-
 ```bash
 cd python_lab
 python local_backfill_runner.py \
   --preset tiny-smoke \
   --out ../build/v26_smoke \
   --pack-name football_v26_tiny_smoke
-
-python verify_data_pack.py \
-  --pack-dir ../build/v26_smoke/packs/football_v26_tiny_smoke
 ```
 
 See [`docs/v26_local_backfill.md`](docs/v26_local_backfill.md).
 
 ## v27 Parquet+ZSTD storage path
 
-v27 keeps JSONL.GZ as the CI/Rust baseline but adds an optional local heavy storage path:
-
-```bash
-python -m pip install -r requirements-storage.txt
-
-cd python_lab
-python export_parquet_zstd_pack.py \
-  --db ../build/local_backfills/v26_run/omnibet_v26_backfill.sqlite \
-  --out-dir ../build/local_backfills/v26_run/parquet_zstd_pack \
-  --pack-name football_v27_local_parquet_zstd \
-  --zstd-level 6
-```
+v27 keeps JSONL.GZ as the CI/Rust baseline but adds an optional local heavy storage path.
 
 See [`docs/v27_parquet_zstd_storage.md`](docs/v27_parquet_zstd_storage.md).
 
 ## v28 real-source acquisition catalog
 
-v28 records the real data-source plan in repo-owned, CI-checked form:
-
-```bash
-cd python_lab
-python source_acquisition_catalog.py \
-  --out ../reports/ci_v28_source_catalog.json \
-  --write-example-config ../configs/source_acquisition.v28.example.json \
-  --write-shell-plan ../build/v28_sync_sources_plan.sh
-```
+v28 records the real data-source plan in repo-owned, CI-checked form.
 
 See [`docs/v28_source_acquisition.md`](docs/v28_source_acquisition.md).
 
@@ -127,40 +104,37 @@ See [`docs/v28_source_acquisition.md`](docs/v28_source_acquisition.md).
 
 v29 locks the core feature policy and defines live data as append-only point-in-time snapshots.
 
-```bash
-cd python_lab
-python feature_live_contract.py \
-  --out ../reports/ci_v29_feature_live_contract.json \
-  --write-config ../configs/feature_live_contract.v29.json
-```
-
 See [`docs/v29_feature_live_contract.md`](docs/v29_feature_live_contract.md).
 
 ## v30 bookmaker odds and Bet Builder market contract
 
 v30 normalizes Romanian `cota/cote` as decimal odds and defines sportsbook market rows, Bet Builder legs, and same-game correlation warnings.
 
-```bash
-cd python_lab
-python bookmaker_market_contract.py \
-  --out ../reports/ci_v30_bookmaker_market_contract.json \
-  --write-config ../configs/bookmaker_market_contract.v30.json
-```
+See [`docs/v30_bookmaker_market_contract.md`](docs/v30_bookmaker_market_contract.md).
 
-Source policy:
+## v31 provider matrix and market discovery schema
+
+v31 separates manual/reference sportsbooks from official automation sources and defines dynamic market discovery.
 
 ```text
-Flashscore:
-  manual/reference or permissioned API only; no scraper in repo
+Manual/reference sportsbooks:
+  Superbet, Betano, Unibet, Bet365, Fortuna, Casa Pariurilor, Mozzart, Betfair, Pinnacle
 
-Superbet:
-  manual/user-provided snapshots first; permissioned/API source later if available; no CI scraping
-
-Preferred automation:
-  licensed API/feed provider
+Official/API candidates:
+  The Odds API, API-Football, Sportmonks, Betfair Exchange API,
+  Pinnacle API if access is granted, football-data.org, OpenLigaDB
 ```
 
-See [`docs/v30_bookmaker_market_contract.md`](docs/v30_bookmaker_market_contract.md).
+CI-safe report:
+
+```bash
+cd python_lab
+python provider_market_discovery.py \
+  --out ../reports/ci_v31_provider_market_discovery.json \
+  --write-config ../configs/provider_market_discovery.v31.json
+```
+
+See [`docs/v31_provider_market_discovery.md`](docs/v31_provider_market_discovery.md).
 
 ## Storage direction
 

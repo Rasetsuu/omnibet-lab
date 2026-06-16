@@ -1,0 +1,57 @@
+{
+  "version": "omnibet.provider_market_discovery.v31",
+  "manual_reference_sportsbooks": [
+    "superbet",
+    "betano",
+    "unibet",
+    "bet365",
+    "fortuna",
+    "casa_pariurilor",
+    "mozzart",
+    "betfair",
+    "pinnacle"
+  ],
+  "official_api_candidates": [
+    "the_odds_api",
+    "api_football",
+    "sportmonks",
+    "betfair_exchange_api",
+    "pinnacle_api_if_access",
+    "football_data_org",
+    "openligadb"
+  ],
+  "automation_policy": {
+    "preferred": "official API/feed provider",
+    "sportsbook_websites": "manual/reference or permissioned/API only",
+    "ci": "no API keys, no network calls, no scraping"
+  },
+  "raw_market_snapshot_required_fields": [
+    "raw_market_snapshot_id",
+    "observed_at",
+    "provider_id",
+    "bookmaker",
+    "provider_sport_key",
+    "provider_event_id",
+    "match_id",
+    "raw_market_key",
+    "raw_market_name",
+    "raw_selection_key",
+    "raw_selection_name",
+    "decimal_odds",
+    "line_raw",
+    "line_value",
+    "team_name_raw",
+    "team_id",
+    "player_name_raw",
+    "player_id",
+    "period_raw",
+    "settlement_scope_guess",
+    "mapped_market_id",
+    "mapping_confidence",
+    "needs_mapping",
+    "suspended",
+    "last_update",
+    "payload_sha256"
+  ],
+  "unknown_market_policy": "preserve raw snapshot with needs_mapping=true; review and add parser/mapping rule later"
+}

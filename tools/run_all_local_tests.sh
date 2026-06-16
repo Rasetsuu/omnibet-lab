@@ -192,6 +192,15 @@ log "v30 bookmaker odds and bet builder market contract"
     | tee ../reports/ci_v30_bookmaker_market_contract_stdout.json
 )
 
+log "v31 provider matrix and market discovery schema"
+(
+  cd python_lab
+  python provider_market_discovery.py \
+    --out ../reports/ci_v31_provider_market_discovery.json \
+    --write-config ../configs/provider_market_discovery.v31.json \
+    | tee ../reports/ci_v31_provider_market_discovery_stdout.json
+)
+
 log "rust tests"
 (
   cd rust-core
