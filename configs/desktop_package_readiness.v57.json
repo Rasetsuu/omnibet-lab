@@ -1,0 +1,31 @@
+{
+  "version": "omnibet.desktop_package_readiness.v57",
+  "desktop_app_version": "0.4.0",
+  "mode": "cross_platform_static_package_readiness",
+  "target_platforms": [
+    "ubuntu-latest",
+    "windows-latest"
+  ],
+  "checks": [
+    "tauri config parses",
+    "Cargo and Tauri versions match",
+    "frontendDist points to static src directory",
+    "no beforeBuildCommand web server dependency",
+    "frontend modules exist and are linked",
+    "Rust/Tauri commands are registered",
+    "local workflow allowlist exists",
+    "no shell execution markers",
+    "PathBuf/Path based local path handling",
+    "Windows/Linux Python selection",
+    "sample JSON payloads parse"
+  ],
+  "ci_policy": {
+    "api_key_required": false,
+    "network_provider_calls": false,
+    "live_provider_calls": false,
+    "shell_execution": false,
+    "web_server_required": false,
+    "recommendation_output": false
+  },
+  "smoke_script": "python_lab/desktop_package_readiness_smoke.py"
+}
