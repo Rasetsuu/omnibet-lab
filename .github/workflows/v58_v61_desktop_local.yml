@@ -1,0 +1,55 @@
+name: OmniBet v58-v61 Desktop Local Foundation
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  linux-local-foundation:
+    name: v58-v61 local foundation Linux
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Run v58-v61 local foundation smoke
+        run: |
+          mkdir -p reports
+          python python_lab/desktop_local_foundation_smoke.py --root . --platform-name Linux --out reports/ci_v58_v61_desktop_local_foundation_linux.json
+      - name: Upload local foundation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v58-v61-desktop-local-foundation-linux
+          path: reports/ci_v58_v61_desktop_local_foundation_linux.json
+          if-no-files-found: warn
+
+  windows-local-foundation:
+    name: v58-v61 local foundation Windows
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Run v58-v61 local foundation smoke
+        run: python python_lab/desktop_local_foundation_smoke.py --root . --platform-name Windows --out reports/ci_v58_v61_desktop_local_foundation_windows.json
+      - name: Upload local foundation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v58-v61-desktop-local-foundation-windows
+          path: reports/ci_v58_v61_desktop_local_foundation_windows.json
+          if-no-files-found: warn
