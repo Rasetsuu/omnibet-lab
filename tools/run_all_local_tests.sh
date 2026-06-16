@@ -118,7 +118,7 @@ log "v20 data-scale smoke + v21 phase lab + v22 training export + v24 walk-forwa
   python verify_data_pack.py --pack-dir ../data_packs/football_phase_training_v1 | tee ../reports/ci_verify_phase_training_pack.json
 )
 
-log "v23 multi-source adapter smoke"
+log "v23 multi-source adapter smoke + v25 odds CLV walk-forward"
 (
   cd python_lab
   python multisource_lab.py \
@@ -131,6 +131,13 @@ log "v23 multi-source adapter smoke"
     --pack-name football_multisource_v1 \
     --out ../reports/ci_v23_multisource.json \
     | tee ../reports/ci_v23_multisource_stdout.json
+  python odds_walk_forward_backtest.py \
+    --db ../build/omnibet_v23_multisource.sqlite \
+    --out ../reports/ci_v25_odds_clv_backtest.json \
+    --min-train 1 \
+    --min-bets 1 \
+    --min-edge 0.0 \
+    | tee ../reports/ci_v25_odds_clv_backtest_stdout.json
   python verify_data_pack.py --pack-dir ../data_packs/football_multisource_v1 | tee ../reports/ci_verify_multisource_pack.json
 )
 
