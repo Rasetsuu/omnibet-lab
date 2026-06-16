@@ -79,11 +79,13 @@ def main() -> None:
     statsbomb_verify = load_json(reports / "ci_verify_statsbomb_sample_pack.json")
     statsbomb_scale_verify = load_json(reports / "ci_verify_statsbomb_scale_pack.json")
     phase_training_verify = load_json(reports / "ci_verify_phase_training_pack.json")
+    multisource_verify = load_json(reports / "ci_verify_multisource_pack.json")
     synth = load_json(reports / "v13_synthetic_event_pipeline.json")
     statsbomb = load_json(reports / "v14_statsbomb_public_sample.json")
     statsbomb_scale = load_json(reports / "ci_v20_data_scale.json")
     phase_lab = load_json(reports / "ci_v21_phase_lab.json")
     train_export = load_json(reports / "ci_v22_train_export.json")
+    multisource = load_json(reports / "ci_v23_multisource.json")
     rust_trained = load_json(reports / "ci_rust_trained_model.json")
     market_registry = load_json(reports / "ci_market_registry_football.json")
     event_compare = load_json(reports / "ci_event_aware_compare.json")
@@ -147,6 +149,24 @@ def main() -> None:
         "trust_decision": trained_rust_report.get("trust_decision"),
     }
 
+    multi_required = multisource.get("required_positive", {}) if isinstance(multisource, dict) else {}
+    multi_pack = multisource.get("pack_summary", {}) if isinstance(multisource, dict) else {}
+    multisource_summary = {
+        "ok": bool(multisource.get("ok")) and bool(multisource_verify.get("ok")),
+        "source_count": multi_required.get("source_count"),
+        "matches_norm": multi_required.get("matches_norm"),
+        "match_events": multi_required.get("match_events"),
+        "odds_snapshots": multi_required.get("odds_snapshots"),
+        "identity_candidates": multi_required.get("identity_candidates"),
+        "multi_source_identity_candidates": multi_required.get("multi_source_identity_candidates"),
+        "pack_rows": multi_required.get("pack_rows"),
+        "compressed_bytes": multi_required.get("compressed_bytes"),
+        "compression_ratio": multi_pack.get("overall_compression_ratio"),
+        "matches_by_source": multisource.get("source_counts", {}).get("matches_by_source"),
+        "events_by_source": multisource.get("source_counts", {}).get("events_by_source"),
+        "odds_by_source": multisource.get("source_counts", {}).get("odds_by_source"),
+    }
+
     paper_summary = {
         "ok": bool(paper.get("ok")),
         "paper_bets_written": paper.get("paper_bets_written"),
@@ -190,6 +210,7 @@ def main() -> None:
         "statsbomb_sample_pack_ok": bool(statsbomb_verify.get("ok")),
         "statsbomb_scale_pack_ok": bool(statsbomb_scale_verify.get("ok")),
         "phase_training_pack_ok": bool(phase_training_verify.get("ok")),
+        "multisource_pack_ok": bool(multisource_verify.get("ok")),
         "event_demo_counts": synthetic_counts,
         "statsbomb_public_sample_counts": statsbomb_counts,
         "statsbomb_selected_match_ids": statsbomb.get("sample", {}).get("selected_match_ids"),
@@ -199,6 +220,7 @@ def main() -> None:
         "event_aware_compare": event_compare_summary,
         "rust_linear_model": rust_linear_summary,
         "trained_model_export": trained_model_summary,
+        "multisource_adapters": multisource_summary,
         "paper_ledger": paper_summary,
         "model_compare": {
             "aligned_test_window": comparison.get("aligned_test_window"),
@@ -225,6 +247,7 @@ def main() -> None:
         and summary["statsbomb_sample_pack_ok"]
         and summary["statsbomb_scale_pack_ok"]
         and summary["phase_training_pack_ok"]
+        and summary["multisource_pack_ok"]
         and all_positive(summary["event_demo_counts"])
         and all_positive(summary["statsbomb_public_sample_counts"])
         and summary["statsbomb_scale"]["ok"]
@@ -248,6 +271,10 @@ def main() -> None:
         and int(summary["trained_model_export"]["python_test_rows"] or 0) > 0
         and int(summary["trained_model_export"]["rust_rows_tested"] or 0) > 0
         and summary["trained_model_export"]["trust_decision"] == "PAPER_ONLY"
+        and summary["multisource_adapters"]["ok"]
+        and int(summary["multisource_adapters"]["source_count"] or 0) >= 3
+        and int(summary["multisource_adapters"]["multi_source_identity_candidates"] or 0) > 0
+        and int(summary["multisource_adapters"]["compressed_bytes"] or 0) > 0
         and summary["paper_ledger"]["ok"]
         and int(summary["paper_ledger"]["paper_bets_written"] or 0) > 0
         and int(summary["paper_ledger"]["clv_rows_written"] or 0) > 0
