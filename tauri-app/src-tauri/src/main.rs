@@ -1,5 +1,6 @@
 use serde::Serialize;
 use serde_json::Value;
+use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
@@ -13,6 +14,16 @@ struct CliBridgePayload {
     stdout_json: Option<Value>,
     stdout_text: String,
     stderr_text: String,
+    note: String,
+}
+
+#[derive(Serialize)]
+struct DashboardLoadPayload {
+    ok: bool,
+    mode: &'static str,
+    path: String,
+    dashboard_json: Option<Value>,
+    error: String,
     note: String,
 }
 
@@ -91,9 +102,78 @@ fn run_allowed_cli(bin: &'static str, args: Vec<String>) -> CliBridgePayload {
     }
 }
 
+fn dashboard_candidate_paths(path_hint: Option<String>) -> Vec<PathBuf> {
+    let root = repo_root();
+    let mut paths = Vec::new();
+    if let Some(hint) = path_hint {
+        if !hint.trim().is_empty() {
+            paths.push(root.join(hint));
+        }
+    }
+    paths.push(root.join("build").join("v49_dashboard_data.json"));
+    paths.push(root.join("reports").join("ci_v49_dashboard_data.json"));
+    paths.push(root.join("tauri-app").join("src").join("dashboard-data.sample.json"));
+    paths
+}
+
+fn load_first_dashboard_json(path_hint: Option<String>) -> DashboardLoadPayload {
+    for path in dashboard_candidate_paths(path_hint) {
+        if !path.exists() {
+            continue;
+        }
+        let text = match fs::read_to_string(&path) {
+            Ok(text) => text,
+            Err(e) => {
+                return DashboardLoadPayload {
+                    ok: false,
+                    mode: "read_error",
+                    path: path.display().to_string(),
+                    dashboard_json: None,
+                    error: e.to_string(),
+                    note: "Failed to read local dashboard JSON.".to_string(),
+                };
+            }
+        };
+        let value = match serde_json::from_str::<Value>(&text) {
+            Ok(value) => value,
+            Err(e) => {
+                return DashboardLoadPayload {
+                    ok: false,
+                    mode: "parse_error",
+                    path: path.display().to_string(),
+                    dashboard_json: None,
+                    error: e.to_string(),
+                    note: "Local dashboard JSON could not be parsed.".to_string(),
+                };
+            }
+        };
+        return DashboardLoadPayload {
+            ok: true,
+            mode: "local_dashboard_json",
+            path: path.display().to_string(),
+            dashboard_json: Some(value),
+            error: String::new(),
+            note: "Loaded local offline dashboard JSON through the Tauri bridge.".to_string(),
+        };
+    }
+    DashboardLoadPayload {
+        ok: false,
+        mode: "missing_dashboard_json",
+        path: String::new(),
+        dashboard_json: None,
+        error: "no allowlisted dashboard JSON path exists".to_string(),
+        note: "Generate build/v49_dashboard_data.json or keep bundled dashboard-data.sample.json available.".to_string(),
+    }
+}
+
 #[tauri::command]
 fn ping() -> String {
     "omnibet-tauri-ok".to_string()
+}
+
+#[tauri::command]
+fn load_dashboard_report(path_hint: Option<String>) -> DashboardLoadPayload {
+    load_first_dashboard_json(path_hint)
 }
 
 #[tauri::command]
@@ -134,7 +214,13 @@ fn value_report(home_team: String, away_team: String) -> CliBridgePayload {
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![ping, pack_summary, predict_fixture, value_report])
+        .invoke_handler(tauri::generate_handler![
+            ping,
+            load_dashboard_report,
+            pack_summary,
+            predict_fixture,
+            value_report
+        ])
         .run(tauri::generate_context!())
         .expect("error while running OmniBet Lab Tauri app");
 }
