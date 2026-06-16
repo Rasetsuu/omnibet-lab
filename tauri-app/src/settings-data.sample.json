@@ -1,21 +1,29 @@
 {
   "ok": true,
-  "version": "omnibet.settings.v55.sample",
+  "version": "omnibet.settings.v61.sample",
   "mode": "offline_desktop_settings",
   "paths": {
-    "data_dir": "data",
-    "reports_dir": "reports",
-    "build_dir": "build",
-    "feature_pack_dir": "build/v46_feature_export_pack",
-    "dashboard_report": "build/v49_dashboard_data.json",
-    "review_report": "build/v53_v54_review_data.json"
+    "local_root": ".omnibet-local",
+    "local_contract": "configs/local_data_contract.v61.json",
+    "configs_dir": ".omnibet-local/configs",
+    "reports_dir": ".omnibet-local/reports",
+    "build_dir": ".omnibet-local/build",
+    "exports_dir": ".omnibet-local/exports",
+    "review_decisions_dir": ".omnibet-local/review_decisions",
+    "logs_dir": ".omnibet-local/logs",
+    "feature_pack_dir": ".omnibet-local/build/v46_feature_export_pack",
+    "dashboard_report": ".omnibet-local/build/v49_dashboard_data.json",
+    "review_report": ".omnibet-local/build/v53_v54_review_data.json",
+    "review_decisions": ".omnibet-local/review_decisions/review_decisions.jsonl"
   },
   "runtime": {
     "offline_mode": true,
     "network_enabled": false,
     "shell_execution_enabled": false,
     "theme": "dark",
-    "platform_note": "Tauri/Rust desktop path for Windows and Linux."
+    "platform_note": "Tauri/Rust desktop path for Windows and Linux.",
+    "python_override_env": "OMNIBET_PYTHON",
+    "local_root_env": "OMNIBET_HOME"
   },
   "providers": [
     {
@@ -37,32 +45,44 @@
     {
       "workflow_id": "generate_dashboard_report",
       "label": "Generate dashboard report",
-      "description": "Run the offline dashboard data smoke and write build/v49_dashboard_data.json."
+      "description": "Run the offline dashboard data smoke and write the local dashboard report.",
+      "expected_report": ".omnibet-local/build/v49_dashboard_data.json",
+      "refresh_hint": "dashboard"
     },
     {
       "workflow_id": "generate_review_report",
       "label": "Generate review report",
-      "description": "Run the offline review UI smoke and write build/v53_v54_review_data.json."
+      "description": "Run the offline review UI smoke and write the local review report.",
+      "expected_report": ".omnibet-local/build/v53_v54_review_data.json",
+      "refresh_hint": "review"
     },
     {
       "workflow_id": "run_leak_guard",
       "label": "Run leak guard",
-      "description": "Run the offline no-future-leak smoke."
+      "description": "Run the offline no-future-leak smoke.",
+      "expected_report": ".omnibet-local/reports/local_v40_leak_guard.json",
+      "refresh_hint": "features"
     },
     {
       "workflow_id": "run_feature_export",
       "label": "Run feature export",
-      "description": "Export feature snapshots into a local compressed pack."
+      "description": "Export feature snapshots into a local compressed pack.",
+      "expected_report": ".omnibet-local/reports/local_v46_feature_export_pack.json",
+      "refresh_hint": "features"
     },
     {
       "workflow_id": "run_settlement_truth",
       "label": "Run settlement truth",
-      "description": "Run the offline settlement truth smoke."
+      "description": "Run the offline settlement truth smoke.",
+      "expected_report": ".omnibet-local/reports/local_v38_settlement_truth.json",
+      "refresh_hint": "settlement"
     },
     {
       "workflow_id": "run_first_model_pass",
       "label": "Run first model pass",
-      "description": "Run the toy/offline first model pass smoke."
+      "description": "Run the toy/offline first model pass smoke.",
+      "expected_report": ".omnibet-local/reports/local_v47_first_model_pass.json",
+      "refresh_hint": "models"
     }
   ],
   "safety": {
@@ -70,6 +90,7 @@
     "no_api_key_values": true,
     "no_network": true,
     "no_recommendation_output": true,
-    "allowlisted_workflows_only": true
+    "allowlisted_workflows_only": true,
+    "review_decisions_local_only": true
   }
 }
