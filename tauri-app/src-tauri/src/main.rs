@@ -27,6 +27,16 @@ struct DashboardLoadPayload {
     note: String,
 }
 
+#[derive(Serialize)]
+struct ReviewLoadPayload {
+    ok: bool,
+    mode: &'static str,
+    path: String,
+    review_json: Option<Value>,
+    error: String,
+    note: String,
+}
+
 fn repo_root() -> PathBuf {
     std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."))
 }
@@ -116,6 +126,20 @@ fn dashboard_candidate_paths(path_hint: Option<String>) -> Vec<PathBuf> {
     paths
 }
 
+fn review_candidate_paths(path_hint: Option<String>) -> Vec<PathBuf> {
+    let root = repo_root();
+    let mut paths = Vec::new();
+    if let Some(hint) = path_hint {
+        if !hint.trim().is_empty() {
+            paths.push(root.join(hint));
+        }
+    }
+    paths.push(root.join("build").join("v53_v54_review_data.json"));
+    paths.push(root.join("reports").join("ci_v53_v54_review_ui.json"));
+    paths.push(root.join("tauri-app").join("src").join("review-data.sample.json"));
+    paths
+}
+
 fn load_first_dashboard_json(path_hint: Option<String>) -> DashboardLoadPayload {
     for path in dashboard_candidate_paths(path_hint) {
         if !path.exists() {
@@ -124,46 +148,40 @@ fn load_first_dashboard_json(path_hint: Option<String>) -> DashboardLoadPayload 
         let text = match fs::read_to_string(&path) {
             Ok(text) => text,
             Err(e) => {
-                return DashboardLoadPayload {
-                    ok: false,
-                    mode: "read_error",
-                    path: path.display().to_string(),
-                    dashboard_json: None,
-                    error: e.to_string(),
-                    note: "Failed to read local dashboard JSON.".to_string(),
-                };
+                return DashboardLoadPayload { ok: false, mode: "read_error", path: path.display().to_string(), dashboard_json: None, error: e.to_string(), note: "Failed to read local dashboard JSON.".to_string() };
             }
         };
         let value = match serde_json::from_str::<Value>(&text) {
             Ok(value) => value,
             Err(e) => {
-                return DashboardLoadPayload {
-                    ok: false,
-                    mode: "parse_error",
-                    path: path.display().to_string(),
-                    dashboard_json: None,
-                    error: e.to_string(),
-                    note: "Local dashboard JSON could not be parsed.".to_string(),
-                };
+                return DashboardLoadPayload { ok: false, mode: "parse_error", path: path.display().to_string(), dashboard_json: None, error: e.to_string(), note: "Local dashboard JSON could not be parsed.".to_string() };
             }
         };
-        return DashboardLoadPayload {
-            ok: true,
-            mode: "local_dashboard_json",
-            path: path.display().to_string(),
-            dashboard_json: Some(value),
-            error: String::new(),
-            note: "Loaded local offline dashboard JSON through the Tauri bridge.".to_string(),
+        return DashboardLoadPayload { ok: true, mode: "local_dashboard_json", path: path.display().to_string(), dashboard_json: Some(value), error: String::new(), note: "Loaded local offline dashboard JSON through the Tauri bridge.".to_string() };
+    }
+    DashboardLoadPayload { ok: false, mode: "missing_dashboard_json", path: String::new(), dashboard_json: None, error: "no allowlisted dashboard JSON path exists".to_string(), note: "Generate build/v49_dashboard_data.json or keep bundled dashboard-data.sample.json available.".to_string() }
+}
+
+fn load_first_review_json(path_hint: Option<String>) -> ReviewLoadPayload {
+    for path in review_candidate_paths(path_hint) {
+        if !path.exists() {
+            continue;
+        }
+        let text = match fs::read_to_string(&path) {
+            Ok(text) => text,
+            Err(e) => {
+                return ReviewLoadPayload { ok: false, mode: "read_error", path: path.display().to_string(), review_json: None, error: e.to_string(), note: "Failed to read local review JSON.".to_string() };
+            }
         };
+        let value = match serde_json::from_str::<Value>(&text) {
+            Ok(value) => value,
+            Err(e) => {
+                return ReviewLoadPayload { ok: false, mode: "parse_error", path: path.display().to_string(), review_json: None, error: e.to_string(), note: "Local review JSON could not be parsed.".to_string() };
+            }
+        };
+        return ReviewLoadPayload { ok: true, mode: "local_review_json", path: path.display().to_string(), review_json: Some(value), error: String::new(), note: "Loaded local offline review JSON through the Tauri bridge.".to_string() };
     }
-    DashboardLoadPayload {
-        ok: false,
-        mode: "missing_dashboard_json",
-        path: String::new(),
-        dashboard_json: None,
-        error: "no allowlisted dashboard JSON path exists".to_string(),
-        note: "Generate build/v49_dashboard_data.json or keep bundled dashboard-data.sample.json available.".to_string(),
-    }
+    ReviewLoadPayload { ok: false, mode: "missing_review_json", path: String::new(), review_json: None, error: "no allowlisted review JSON path exists".to_string(), note: "Generate build/v53_v54_review_data.json or keep bundled review-data.sample.json available.".to_string() }
 }
 
 #[tauri::command]
@@ -174,6 +192,11 @@ fn ping() -> String {
 #[tauri::command]
 fn load_dashboard_report(path_hint: Option<String>) -> DashboardLoadPayload {
     load_first_dashboard_json(path_hint)
+}
+
+#[tauri::command]
+fn load_review_report(path_hint: Option<String>) -> ReviewLoadPayload {
+    load_first_review_json(path_hint)
 }
 
 #[tauri::command]
@@ -217,6 +240,7 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             ping,
             load_dashboard_report,
+            load_review_report,
             pack_summary,
             predict_fixture,
             value_report
