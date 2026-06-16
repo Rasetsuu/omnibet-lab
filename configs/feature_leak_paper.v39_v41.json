@@ -1,0 +1,43 @@
+{
+  "version": "omnibet.feature_leak_paper.v39_v41",
+  "mode": "offline_sample_only_for_ci",
+  "inputs": {
+    "odds_sample": "data/samples/the_odds_api_event_markets_sample.json",
+    "state_sample": "data/samples/api_football_live_state_sample.json",
+    "link_manifest": "data/samples/provider_event_link_sample.v37.json"
+  },
+  "v39": {
+    "smoke_script": "python_lab/feature_snapshot_smoke.py",
+    "created_tables": [
+      "event_feature_snapshots",
+      "market_feature_snapshots"
+    ],
+    "pre_event_market_policy": "no final score or settlement fields"
+  },
+  "v40": {
+    "smoke_script": "python_lab/leak_guard_smoke.py",
+    "checks": [
+      "pre-event rows contain no final truth",
+      "model-eligible rows contain no settlement fields",
+      "post-event evaluation rows are not model eligible",
+      "feature cutoff does not exceed commence time"
+    ]
+  },
+  "v41": {
+    "smoke_script": "python_lab/offline_paper_eval_smoke.py",
+    "evaluation_policy": "mapped and settled rows only",
+    "skipped_rows": [
+      "unmapped markets",
+      "unsupported markets",
+      "unknown markets"
+    ]
+  },
+  "ci_policy": {
+    "network_calls": false,
+    "api_key_required": false,
+    "paid_quota_usage": false,
+    "website_automation": false,
+    "model_quality_claim": false,
+    "recommendation_output": false
+  }
+}
