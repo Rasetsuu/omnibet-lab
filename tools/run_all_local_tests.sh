@@ -111,6 +111,22 @@ log "v20 data-scale smoke + v21 phase lab + v22 training export"
   python verify_data_pack.py --pack-dir ../data_packs/football_phase_training_v1 | tee ../reports/ci_verify_phase_training_pack.json
 )
 
+log "v23 multi-source adapter smoke"
+(
+  cd python_lab
+  python multisource_lab.py \
+    --db ../build/omnibet_v23_multisource.sqlite \
+    --football-data-csv ../data/unified_intl_matches.csv \
+    --openfootball-json ../data/samples/openfootball_sample.json \
+    --wyscout-matches ../data/samples/wyscout_public_sample_matches.json \
+    --wyscout-events ../data/samples/wyscout_public_sample_events.json \
+    --pack-dir ../data_packs/football_multisource_v1 \
+    --pack-name football_multisource_v1 \
+    --out ../reports/ci_v23_multisource.json \
+    | tee ../reports/ci_v23_multisource_stdout.json
+  python verify_data_pack.py --pack-dir ../data_packs/football_multisource_v1 | tee ../reports/ci_verify_multisource_pack.json
+)
+
 log "rust tests"
 (
   cd rust-core
@@ -125,6 +141,7 @@ log "rust pack verify"
   cargo run --bin omnibet-pack -- verify ../data_packs/football_statsbomb_sample_v1 | tee ../reports/ci_rust_statsbomb_pack_verify.json
   cargo run --bin omnibet-pack -- verify ../data_packs/football_statsbomb_scale_v1 | tee ../reports/ci_rust_statsbomb_scale_pack_verify.json
   cargo run --bin omnibet-pack -- verify ../data_packs/football_phase_training_v1 | tee ../reports/ci_rust_phase_training_pack_verify.json
+  cargo run --bin omnibet-pack -- verify ../data_packs/football_multisource_v1 | tee ../reports/ci_rust_multisource_pack_verify.json
 )
 
 log "rust model/runtime smoke"
