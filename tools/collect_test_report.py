@@ -83,6 +83,8 @@ def main() -> None:
     statsbomb = load_json(reports / "v14_statsbomb_public_sample.json")
     statsbomb_scale = load_json(reports / "ci_v20_data_scale.json")
     phase_lab = load_json(reports / "ci_v21_phase_lab.json")
+    train_export = load_json(reports / "ci_v22_train_export.json")
+    rust_trained = load_json(reports / "ci_rust_trained_model.json")
     market_registry = load_json(reports / "ci_market_registry_football.json")
     event_compare = load_json(reports / "ci_event_aware_compare.json")
     rust_linear = load_json(reports / "ci_rust_event_linear_model.json")
@@ -101,6 +103,7 @@ def main() -> None:
     baseline = comparison.get("baseline", {}) if isinstance(comparison, dict) else {}
     gold = comparison.get("gold_feature_heuristic", {}) if isinstance(comparison, dict) else {}
     linear_report = rust_linear.get("linear_model_backtest", {}) if isinstance(rust_linear, dict) else {}
+    trained_rust_report = rust_trained.get("linear_model_backtest", {}) if isinstance(rust_trained, dict) else {}
 
     synthetic_counts = counts_from_v13(synth)
     statsbomb_counts = counts_from_statsbomb(statsbomb)
@@ -129,6 +132,19 @@ def main() -> None:
         "accuracy": linear_report.get("accuracy"),
         "log_loss": linear_report.get("log_loss"),
         "brier": linear_report.get("brier"),
+    }
+
+    trained_model_summary = {
+        "ok": bool(train_export.get("ok")) and bool(rust_trained.get("ok")) and bool(trained_rust_report.get("ok")),
+        "phase_aware": train_export.get("phase_aware"),
+        "settlement_scope": train_export.get("settlement_scope"),
+        "model_path": train_export.get("model_path"),
+        "rows_total": train_export.get("rows_total"),
+        "python_test_rows": train_export.get("test", {}).get("rows"),
+        "python_test_log_loss": train_export.get("test", {}).get("log_loss"),
+        "rust_rows_tested": trained_rust_report.get("rows_tested"),
+        "rust_log_loss": trained_rust_report.get("log_loss"),
+        "trust_decision": trained_rust_report.get("trust_decision"),
     }
 
     paper_summary = {
@@ -182,6 +198,7 @@ def main() -> None:
         "market_phase_registry": market_phase,
         "event_aware_compare": event_compare_summary,
         "rust_linear_model": rust_linear_summary,
+        "trained_model_export": trained_model_summary,
         "paper_ledger": paper_summary,
         "model_compare": {
             "aligned_test_window": comparison.get("aligned_test_window"),
@@ -225,6 +242,12 @@ def main() -> None:
         and summary["rust_linear_model"]["ok"]
         and int(summary["rust_linear_model"]["rows_tested"] or 0) > 0
         and summary["rust_linear_model"]["trust_decision"] == "PAPER_ONLY"
+        and summary["trained_model_export"]["ok"]
+        and summary["trained_model_export"]["phase_aware"] is True
+        and summary["trained_model_export"]["settlement_scope"] == "regulation_time"
+        and int(summary["trained_model_export"]["python_test_rows"] or 0) > 0
+        and int(summary["trained_model_export"]["rust_rows_tested"] or 0) > 0
+        and summary["trained_model_export"]["trust_decision"] == "PAPER_ONLY"
         and summary["paper_ledger"]["ok"]
         and int(summary["paper_ledger"]["paper_bets_written"] or 0) > 0
         and int(summary["paper_ledger"]["clv_rows_written"] or 0) > 0
