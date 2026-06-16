@@ -1,0 +1,29 @@
+{
+  "version": "omnibet.feature_live_contract.v29",
+  "core_engine_tiers": [
+    "must_have",
+    "high_value",
+    "refined_medium"
+  ],
+  "experimental_tiers": [
+    "experimental_medium"
+  ],
+  "postponed_tiers": [
+    "postponed"
+  ],
+  "postponed_by_default": [
+    "weather",
+    "social_media_sentiment",
+    "vague_news_sentiment",
+    "rumors"
+  ],
+  "live_snapshot_tables": [
+    "live_fixture_snapshots",
+    "live_event_snapshots",
+    "live_lineup_snapshots",
+    "live_stat_snapshots",
+    "live_odds_snapshots"
+  ],
+  "leakage_rule": "Only use snapshots with observed_at <= evaluation_time.",
+  "ci_policy": "No API keys, no live network calls, contract/report only."
+}
