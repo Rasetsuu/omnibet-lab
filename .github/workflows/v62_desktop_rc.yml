@@ -1,0 +1,35 @@
+name: OmniBet v62 Desktop RC Packaging
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  desktop-rc-packaging:
+    name: v62 desktop RC packaging
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Run v62 desktop RC packaging smoke
+        run: |
+          mkdir -p reports build/desktop_rc_v62
+          python python_lab/desktop_rc_packaging_smoke.py --root . --out-dir build/desktop_rc_v62 --out reports/ci_v62_desktop_rc_packaging.json
+      - name: Upload desktop RC artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v62-desktop-rc
+          path: |
+            reports/ci_v62_desktop_rc_packaging.json
+            build/desktop_rc_v62/omnibet-lab-desktop-0.6.0-rc.1.zip
+            build/desktop_rc_v62/omnibet-lab-desktop-0.6.0-rc.1/RELEASE_MANIFEST.json
+          if-no-files-found: warn
