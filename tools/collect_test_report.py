@@ -51,6 +51,19 @@ def all_positive(d: Dict[str, Any]) -> bool:
     return all(int(v or 0) > 0 for v in d.values())
 
 
+def market_phase_summary(markets: list) -> Dict[str, Any]:
+    football = [m for m in markets if m.get("sport") == "football"]
+    scopes = sorted({m.get("settlement_scope") for m in football})
+    return {
+        "football_market_count": len(football),
+        "settlement_scopes": scopes,
+        "extra_time_markets": sum(1 for m in football if "extra_time" in str(m.get("settlement_scope")) or any("extra_time" in p for p in m.get("phase_scope", []))),
+        "penalty_markets": sum(1 for m in football if "penalty" in str(m.get("settlement_scope")) or any("penalty" in p for p in m.get("phase_scope", []))),
+        "qualification_markets": sum(1 for m in football if m.get("settlement_scope") == "qualification"),
+        "all_football_scoped": all(bool(m.get("settlement_scope")) and m.get("settlement_scope") != "sport_default" for m in football),
+    }
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
@@ -65,9 +78,12 @@ def main() -> None:
     event_verify = load_json(reports / "ci_verify_event_demo_pack.json")
     statsbomb_verify = load_json(reports / "ci_verify_statsbomb_sample_pack.json")
     statsbomb_scale_verify = load_json(reports / "ci_verify_statsbomb_scale_pack.json")
+    phase_training_verify = load_json(reports / "ci_verify_phase_training_pack.json")
     synth = load_json(reports / "v13_synthetic_event_pipeline.json")
     statsbomb = load_json(reports / "v14_statsbomb_public_sample.json")
     statsbomb_scale = load_json(reports / "ci_v20_data_scale.json")
+    phase_lab = load_json(reports / "ci_v21_phase_lab.json")
+    market_registry = load_json(reports / "ci_market_registry_football.json")
     event_compare = load_json(reports / "ci_event_aware_compare.json")
     rust_linear = load_json(reports / "ci_rust_event_linear_model.json")
     rust_compare = load_json(reports / "ci_rust_compare.json")
@@ -91,6 +107,8 @@ def main() -> None:
     scale_required = statsbomb_scale.get("required_positive", {}) if isinstance(statsbomb_scale, dict) else {}
     scale_pack = statsbomb_scale.get("pack_summary", {}) if isinstance(statsbomb_scale, dict) else {}
     scale_quality = statsbomb_scale.get("quality", {}) if isinstance(statsbomb_scale, dict) else {}
+    markets = market_registry if isinstance(market_registry, list) else market_registry.get("markets", [])
+    market_phase = market_phase_summary(markets)
 
     event_compare_summary = {
         "ok": bool(event_compare.get("ok")),
@@ -137,6 +155,16 @@ def main() -> None:
         "storage_plan": statsbomb_scale.get("storage_plan"),
     }
 
+    phase_summary = {
+        "ok": bool(phase_lab.get("ok")) and bool(phase_training_verify.get("ok")),
+        "phase_feature_rows": phase_lab.get("phase_feature_rows"),
+        "matches_with_extra_time": phase_lab.get("matches_with_extra_time"),
+        "matches_with_penalties": phase_lab.get("matches_with_penalties"),
+        "max_minute_seen": phase_lab.get("max_minute_seen"),
+        "selftest_ok": phase_lab.get("selftest", {}).get("ok"),
+        "note": phase_lab.get("note"),
+    }
+
     summary = {
         "ok": True,
         "git_sha": git_rev(root),
@@ -145,10 +173,13 @@ def main() -> None:
         "event_demo_pack_ok": bool(event_verify.get("ok")),
         "statsbomb_sample_pack_ok": bool(statsbomb_verify.get("ok")),
         "statsbomb_scale_pack_ok": bool(statsbomb_scale_verify.get("ok")),
+        "phase_training_pack_ok": bool(phase_training_verify.get("ok")),
         "event_demo_counts": synthetic_counts,
         "statsbomb_public_sample_counts": statsbomb_counts,
         "statsbomb_selected_match_ids": statsbomb.get("sample", {}).get("selected_match_ids"),
         "statsbomb_scale": scale_summary,
+        "football_phase_lab": phase_summary,
+        "market_phase_registry": market_phase,
         "event_aware_compare": event_compare_summary,
         "rust_linear_model": rust_linear_summary,
         "paper_ledger": paper_summary,
@@ -176,11 +207,19 @@ def main() -> None:
         and summary["event_demo_pack_ok"]
         and summary["statsbomb_sample_pack_ok"]
         and summary["statsbomb_scale_pack_ok"]
+        and summary["phase_training_pack_ok"]
         and all_positive(summary["event_demo_counts"])
         and all_positive(summary["statsbomb_public_sample_counts"])
         and summary["statsbomb_scale"]["ok"]
         and all_positive({k: v for k, v in scale_required.items() if k != "compressed_bytes"})
         and int(scale_required.get("compressed_bytes") or 0) > 0
+        and summary["football_phase_lab"]["ok"]
+        and int(summary["football_phase_lab"]["phase_feature_rows"] or 0) > 0
+        and summary["football_phase_lab"]["selftest_ok"] is True
+        and summary["market_phase_registry"]["all_football_scoped"]
+        and int(summary["market_phase_registry"]["extra_time_markets"] or 0) > 0
+        and int(summary["market_phase_registry"]["penalty_markets"] or 0) > 0
+        and int(summary["market_phase_registry"]["qualification_markets"] or 0) > 0
         and summary["event_aware_compare"]["ok"]
         and int(summary["event_aware_compare"]["event_history_rows"] or 0) > 0
         and summary["rust_linear_model"]["ok"]

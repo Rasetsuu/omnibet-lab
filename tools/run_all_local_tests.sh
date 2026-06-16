@@ -21,6 +21,12 @@ log "python compile"
   python -m py_compile *.py adapters/*.py
 )
 
+log "market registry phase scope"
+(
+  cd python_lab
+  python market_registry.py --sport football --json ../reports/ci_market_registry_football.json | tee ../reports/ci_market_registry_football_stdout.json
+)
+
 log "UI wiring check"
 python tools/check_ui_wiring.py --root "$ROOT" --out reports/ci_ui_wiring.json
 
@@ -73,7 +79,7 @@ log "StatsBomb public sample pipeline"
     | tee ../reports/ci_event_aware_compare_stdout.json
 )
 
-log "v20 data-scale smoke"
+log "v20 data-scale smoke + v21 phase lab"
 (
   cd python_lab
   python statsbomb_scale_pipeline.py \
@@ -86,7 +92,17 @@ log "v20 data-scale smoke"
     --report-name ci_v20_data_scale.json \
     --max-matches 16 \
     | tee ../reports/ci_v20_data_scale_stdout.json
+  python football_phase_lab.py \
+    --db ../build/omnibet_v20_statsbomb_scale.sqlite \
+    --out ../reports/ci_v21_phase_lab.json \
+    | tee ../reports/ci_v21_phase_lab_stdout.json
+  python export_data_pack.py \
+    --db ../build/omnibet_v20_statsbomb_scale.sqlite \
+    --out-dir ../data_packs/football_phase_training_v1 \
+    --pack-name football_phase_training_v1 \
+    | tee ../reports/ci_export_phase_training_pack.json
   python verify_data_pack.py --pack-dir ../data_packs/football_statsbomb_scale_v1 | tee ../reports/ci_verify_statsbomb_scale_pack.json
+  python verify_data_pack.py --pack-dir ../data_packs/football_phase_training_v1 | tee ../reports/ci_verify_phase_training_pack.json
 )
 
 log "rust tests"
@@ -102,6 +118,7 @@ log "rust pack verify"
   cargo run --bin omnibet-pack -- verify ../data_packs/football_event_demo_v1 | tee ../reports/ci_rust_event_pack_verify.json
   cargo run --bin omnibet-pack -- verify ../data_packs/football_statsbomb_sample_v1 | tee ../reports/ci_rust_statsbomb_pack_verify.json
   cargo run --bin omnibet-pack -- verify ../data_packs/football_statsbomb_scale_v1 | tee ../reports/ci_rust_statsbomb_scale_pack_verify.json
+  cargo run --bin omnibet-pack -- verify ../data_packs/football_phase_training_v1 | tee ../reports/ci_rust_phase_training_pack_verify.json
 )
 
 log "rust model/runtime smoke"

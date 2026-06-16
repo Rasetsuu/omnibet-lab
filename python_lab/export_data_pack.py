@@ -43,7 +43,7 @@ DEFAULT_TABLES = [
     "competitions", "seasons", "teams", "players",
     "matches_norm", "match_events", "lineups", "odds_snapshots",
     "gold_team_snapshots", "gold_match_features", "gold_goal_timing_features",
-    "gold_player_snapshots", "gold_market_features",
+    "gold_match_phase_features", "gold_player_snapshots", "gold_market_features",
 ]
 
 
