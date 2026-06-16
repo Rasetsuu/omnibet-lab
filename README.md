@@ -2,8 +2,8 @@
 
 Cross-sport prediction/value-betting research lab with a Rust-first runtime direction and a Python research/backfill layer.
 
-Current merged milestone: **v30 — bookmaker odds and Bet Builder market contract**.
-Next target: **v31 — provider candidate matrix and dynamic market discovery schema**.
+Current merged milestone: **v31 — provider candidate matrix and dynamic market discovery schema**.
+Next target: **v32 — raw market snapshot warehouse tables and unknown market queue**.
 
 OmniBet is not meant to be a simple score predictor. The project is building a local-first sports intelligence pipeline:
 
@@ -27,7 +27,7 @@ raw data sources
 - `cpp-core/` — early std-only proof core kept for portability experiments.
 - `data/` — tiny deterministic samples only.
 - `data_packs/` — compressed JSONL.GZ packs used by CI/Rust readers.
-- `docs/` — milestone docs from v4 through v31.
+- `docs/` — milestone docs from v4 through v32.
 
 ## What works now
 
@@ -42,6 +42,7 @@ raw data sources
 - Live data point-in-time snapshot contract.
 - Bookmaker odds / Bet Builder market contract.
 - Provider candidate matrix and dynamic market discovery schema.
+- Raw market snapshot warehouse tables and unknown market queue.
 - Compressed JSONL.GZ data packs and Python/Rust verification.
 - Optional local Parquet+ZSTD warehouse-pack exporter for heavy data.
 - Phase-aware football market registry.
@@ -116,25 +117,38 @@ See [`docs/v30_bookmaker_market_contract.md`](docs/v30_bookmaker_market_contract
 
 v31 separates manual/reference sportsbooks from official automation sources and defines dynamic market discovery.
 
-```text
-Manual/reference sportsbooks:
-  Superbet, Betano, Unibet, Bet365, Fortuna, Casa Pariurilor, Mozzart, Betfair, Pinnacle
+See [`docs/v31_provider_market_discovery.md`](docs/v31_provider_market_discovery.md).
 
-Official/API candidates:
-  The Odds API, API-Football, Sportmonks, Betfair Exchange API,
-  Pinnacle API if access is granted, football-data.org, OpenLigaDB
+## v32 raw market snapshot warehouse
+
+v32 makes market discovery real SQLite storage:
+
+```text
+raw_market_snapshots
+market_mapping_rules
+unknown_market_queue
 ```
 
-CI-safe report:
+CI-safe smoke:
 
 ```bash
 cd python_lab
-python provider_market_discovery.py \
-  --out ../reports/ci_v31_provider_market_discovery.json \
-  --write-config ../configs/provider_market_discovery.v31.json
+python market_snapshot_smoke.py \
+  --db ../build/omnibet_v32_market_smoke.sqlite \
+  --out ../reports/ci_v32_market_snapshot_smoke.json
 ```
 
-See [`docs/v31_provider_market_discovery.md`](docs/v31_provider_market_discovery.md).
+The design rule is:
+
+```text
+Hardcode stable contracts only:
+  table names, required fields, known market families, settlement scopes, safety rules
+
+Keep provider/bookmaker data dynamic:
+  raw market names, selections, provider keys, event ids, lines, players, teams, unknown labels
+```
+
+See [`docs/v32_market_snapshot_warehouse.md`](docs/v32_market_snapshot_warehouse.md).
 
 ## Storage direction
 
