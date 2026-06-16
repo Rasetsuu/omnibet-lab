@@ -1,0 +1,46 @@
+{
+  "version": "omnibet.desktop_gui_bridge.v50_v52",
+  "mode": "desktop_first_offline_gui",
+  "milestones": {
+    "v50": "GUI architecture cleanup",
+    "v51": "Tauri dashboard report command",
+    "v52": "desktop navigation layout"
+  },
+  "frontend_files": [
+    "tauri-app/src/index.html",
+    "tauri-app/src/styles.css",
+    "tauri-app/src/api.js",
+    "tauri-app/src/dashboard.js",
+    "tauri-app/src/app.js"
+  ],
+  "tauri_commands": [
+    "load_dashboard_report",
+    "ping",
+    "pack_summary",
+    "predict_fixture",
+    "value_report"
+  ],
+  "dashboard_report_paths": [
+    "build/v49_dashboard_data.json",
+    "reports/ci_v49_dashboard_data.json",
+    "tauri-app/src/dashboard-data.sample.json"
+  ],
+  "pages": [
+    "Dashboard",
+    "Events",
+    "Markets",
+    "Unknown Queue",
+    "Features",
+    "Settlement",
+    "Accounting",
+    "Models",
+    "Settings"
+  ],
+  "ci_policy": {
+    "network_calls": false,
+    "api_key_required": false,
+    "live_provider_calls": false,
+    "recommendation_output": false
+  },
+  "smoke_script": "python_lab/desktop_gui_bridge_smoke.py"
+}
