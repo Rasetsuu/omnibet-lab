@@ -219,6 +219,15 @@ log "v33 canonical resolver smoke"
     | tee ../reports/ci_v33_canonical_resolver_smoke_stdout.json
 )
 
+log "v34 market alias apply smoke"
+(
+  cd python_lab
+  python market_alias_apply_smoke.py \
+    --db ../build/omnibet_v34_market_alias_apply.sqlite \
+    --out ../reports/ci_v34_market_alias_apply.json \
+    | tee ../reports/ci_v34_market_alias_apply_stdout.json
+)
+
 log "rust tests"
 (
   cd rust-core
