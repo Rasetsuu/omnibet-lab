@@ -2,8 +2,8 @@
 
 Cross-sport prediction/value-betting research lab with a Rust-first runtime direction and a Python research/backfill layer.
 
-Current merged milestone: **v25 — odds/CLV walk-forward paper backtest**.
-Next target: **v26 — local-scale historical data backfill runner**.
+Current merged milestone: **v26 — local-scale historical data backfill runner**.
+Next target: **v27 — Parquet+ZSTD storage-scale path**.
 
 OmniBet is not meant to be a simple score predictor. The project is building a local-first sports intelligence pipeline:
 
@@ -27,7 +27,7 @@ raw data sources
 - `cpp-core/` — early std-only proof core kept for portability experiments.
 - `data/` — tiny deterministic samples only.
 - `data_packs/` — compressed JSONL.GZ packs used by CI/Rust readers.
-- `docs/` — milestone docs from v4 through v26.
+- `docs/` — milestone docs from v4 through v27.
 
 ## What works now
 
@@ -38,6 +38,7 @@ raw data sources
 - Wyscout-style public match/event adapter.
 - Multi-source identity candidate reports.
 - Compressed JSONL.GZ data packs and Python/Rust verification.
+- Optional local Parquet+ZSTD warehouse-pack exporter for heavy data.
 - Phase-aware football market registry.
 - Extra-time / penalties / qualification modeling contract.
 - `gold_match_phase_features`.
@@ -100,6 +101,36 @@ python local_backfill_runner.py \
 
 See [`docs/v26_local_backfill.md`](docs/v26_local_backfill.md).
 
+## v27 Parquet+ZSTD storage path
+
+v27 keeps JSONL.GZ as the CI/Rust baseline but adds an optional local heavy storage path:
+
+```bash
+python -m pip install -r requirements-storage.txt
+
+cd python_lab
+python export_parquet_zstd_pack.py \
+  --db ../build/local_backfills/v26_run/omnibet_v26_backfill.sqlite \
+  --out-dir ../build/local_backfills/v26_run/parquet_zstd_pack \
+  --pack-name football_v27_local_parquet_zstd \
+  --zstd-level 6
+
+python check_parquet_pack.py \
+  --pack-dir ../build/local_backfills/v26_run/parquet_zstd_pack
+```
+
+CI only runs dependency-free plan mode:
+
+```bash
+cd python_lab
+python export_parquet_zstd_pack.py \
+  --plan-only \
+  --db ../build/v26_smoke/omnibet_v26_backfill.sqlite \
+  --out ../reports/ci_v27_parquet_zstd_plan.json
+```
+
+See [`docs/v27_parquet_zstd_storage.md`](docs/v27_parquet_zstd_storage.md).
+
 ## Storage direction
 
 Current CI/local-smoke codec:
@@ -110,11 +141,11 @@ JSONL.GZ + manifest.json
 
 This is deterministic, easy to verify, and already used by Rust pack readers.
 
-For large future event/player/odds history, the next storage milestone should add:
+Preferred local heavy analytical codec:
 
 ```text
 Parquet + ZSTD
-DuckDB/Polars-compatible partitioned layout
+DuckDB/Polars/PyArrow-compatible layout
 source manifests + hashes + license metadata
 ```
 
