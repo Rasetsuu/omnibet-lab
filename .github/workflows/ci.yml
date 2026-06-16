@@ -32,6 +32,16 @@ jobs:
       - name: Run OmniBet full local test harness
         run: bash tools/run_all_local_tests.sh
 
+      - name: Run v38 outcome truth smoke
+        run: |
+          cd python_lab
+          python settlement_truth_smoke.py \
+            --db ../build/omnibet_v38_settlement_truth.sqlite \
+            --odds-input ../data/samples/the_odds_api_event_markets_sample.json \
+            --state-input ../data/samples/api_football_live_state_sample.json \
+            --link-input ../data/samples/provider_event_link_sample.v37.json \
+            --out ../reports/ci_v38_settlement_truth.json
+
       - name: Upload CI reports
         if: always()
         uses: actions/upload-artifact@v4
