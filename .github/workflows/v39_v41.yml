@@ -1,0 +1,64 @@
+name: OmniBet v39-v41 Smokes
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    name: v39-v41 smoke checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Python compile
+        run: |
+          cd python_lab
+          python -m py_compile *.py adapters/*.py
+
+      - name: Run v39 feature snapshot smoke
+        run: |
+          cd python_lab
+          python feature_snapshot_smoke.py \
+            --db ../build/omnibet_v39_feature_snapshots.sqlite \
+            --odds-input ../data/samples/the_odds_api_event_markets_sample.json \
+            --state-input ../data/samples/api_football_live_state_sample.json \
+            --link-input ../data/samples/provider_event_link_sample.v37.json \
+            --out ../reports/ci_v39_feature_snapshots.json
+
+      - name: Run v40 leak guard smoke
+        run: |
+          cd python_lab
+          python leak_guard_smoke.py \
+            --db ../build/omnibet_v40_leak_guard.sqlite \
+            --odds-input ../data/samples/the_odds_api_event_markets_sample.json \
+            --state-input ../data/samples/api_football_live_state_sample.json \
+            --link-input ../data/samples/provider_event_link_sample.v37.json \
+            --out ../reports/ci_v40_leak_guard.json
+
+      - name: Run v41 result accounting smoke
+        run: |
+          cd python_lab
+          python offline_result_accounting_smoke.py \
+            --db ../build/omnibet_v41_result_accounting.sqlite \
+            --odds-input ../data/samples/the_odds_api_event_markets_sample.json \
+            --state-input ../data/samples/api_football_live_state_sample.json \
+            --link-input ../data/samples/provider_event_link_sample.v37.json \
+            --out ../reports/ci_v41_result_accounting.json
+
+      - name: Upload smoke reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v39-v41-smoke-reports
+          path: reports/ci_v*.json
+          if-no-files-found: warn
