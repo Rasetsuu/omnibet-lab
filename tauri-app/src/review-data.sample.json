@@ -1,0 +1,68 @@
+{
+  "ok": true,
+  "version": "omnibet.review.v53_v54.sample",
+  "canonical_event_id": "canonical_event:france_senegal_2026_demo",
+  "sections": {
+    "unknown_market_review": [
+      {
+        "review_id": "unknown:000",
+        "provider_id": "the_odds_api_offline_sample",
+        "source_name": "Example Bookmaker A",
+        "raw_name": "special combo unknown",
+        "raw_selection": "France win + player shot + team corners",
+        "source_ref": "sample:unknown:000",
+        "price": 2.9,
+        "candidate_id": null,
+        "confidence": 0.0,
+        "decision": "needs_review",
+        "reason": "No exact high-confidence alias exists yet."
+      }
+    ],
+    "provider_identity_review": {
+      "review_queue": [
+        {
+          "review_id": "identity_review:000",
+          "canonical_entity_type": "team",
+          "provider_id": "example_uncertain_provider",
+          "provider_entity_id": "team-uncertain-1",
+          "raw_name": "France U21",
+          "normalized_name": "france u21",
+          "candidate_canonical_id": "canonical_team:france",
+          "confidence": 0.72,
+          "decision": "needs_review",
+          "reason": "youth/national-team suffix is ambiguous and must not auto-merge"
+        }
+      ],
+      "candidate_preview": [
+        {
+          "canonical_entity_type": "team",
+          "canonical_id": "canonical_team:france",
+          "provider_id": "api_football_offline_sample",
+          "raw_name": "France",
+          "match_strategy": "normalized_exact_team_with_provider_id",
+          "confidence": 1.0,
+          "decision": "auto_match",
+          "reason": "exact normalized team name with provider id"
+        },
+        {
+          "canonical_entity_type": "player",
+          "canonical_id": "canonical_player:kylian_mbappe",
+          "provider_id": "the_odds_api_offline_sample",
+          "raw_name": "Kylian Mbappe",
+          "match_strategy": "normalized_player_prop_description",
+          "confidence": 1.0,
+          "decision": "auto_match",
+          "reason": "player prop description matched to canonical player"
+        }
+      ],
+      "identity_report_ok": true
+    }
+  },
+  "safety": {
+    "offline_only": true,
+    "no_keys": true,
+    "no_network": true,
+    "local_actions_only": true,
+    "no_persistence_yet": true
+  }
+}

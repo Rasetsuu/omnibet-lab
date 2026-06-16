@@ -1,5 +1,6 @@
 import { fixtureTeams, invokeCommand } from './api.js';
 import { loadAndRenderDashboard } from './dashboard.js';
+import { loadAndRenderReviews } from './review.js';
 
 function out(x) {
   const el = document.getElementById('out');
@@ -30,6 +31,8 @@ function bind() {
 
   document.getElementById('load-dashboard-report')?.addEventListener('click', () => safeRun(() => loadAndRenderDashboard(null)));
   document.getElementById('load-dashboard-sample')?.addEventListener('click', () => safeRun(() => loadAndRenderDashboard('tauri-app/src/dashboard-data.sample.json')));
+  document.getElementById('load-review-report')?.addEventListener('click', () => safeRun(() => loadAndRenderReviews(null)));
+  document.getElementById('load-review-sample')?.addEventListener('click', () => safeRun(() => loadAndRenderReviews('tauri-app/src/review-data.sample.json')));
   document.getElementById('ping-button')?.addEventListener('click', () => safeRun(() => invokeCommand('ping')));
   document.getElementById('pack-summary-button')?.addEventListener('click', () => safeRun(() => invokeCommand('pack_summary')));
   document.getElementById('detailed-pack-summary-button')?.addEventListener('click', () => safeRun(() => invokeCommand('pack_summary')));

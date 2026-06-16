@@ -1,0 +1,43 @@
+name: OmniBet v53-v54 Review UI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    name: v53-v54 review UI smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Python compile
+        run: |
+          cd python_lab
+          python -m py_compile *.py adapters/*.py
+
+      - name: Run v53-v54 review UI smoke
+        run: |
+          python python_lab/review_ui_smoke.py \
+            --root . \
+            --review-out build/v53_v54_review_data.json \
+            --out reports/ci_v53_v54_review_ui.json
+
+      - name: Upload review UI report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v53-v54-review-ui-report
+          path: |
+            reports/ci_v53_v54_review_ui.json
+            build/v53_v54_review_data.json
+          if-no-files-found: warn

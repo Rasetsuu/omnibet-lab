@@ -11,6 +11,19 @@ export const fallbackDashboard = {
   }
 };
 
+export const fallbackReview = {
+  ok: true,
+  version: 'omnibet.review.v53_v54_fallback',
+  sections: {
+    unknown_market_review: [{ review_id: 'unknown:fallback', provider_id: 'fallback_provider', source_name: 'Example', raw_name: 'special combo unknown', raw_selection: 'example unknown combo', candidate_id: null, confidence: 0.0, decision: 'needs_review', reason: 'Fallback review preview.' }],
+    provider_identity_review: {
+      review_queue: [{ review_id: 'identity:fallback', canonical_entity_type: 'team', provider_id: 'fallback_provider', raw_name: 'France U21', candidate_canonical_id: 'canonical_team:france', confidence: 0.72, decision: 'needs_review', reason: 'Ambiguous suffix requires review.' }],
+      candidate_preview: [],
+      identity_report_ok: true
+    }
+  }
+};
+
 const fallback = {
   ping: () => 'browser-preview-ok',
   pack_summary: () => ({ ok: true, format: 'omnibet.pack.v1', pack_name: 'browser preview', total_rows: 0, note: 'Open in Tauri for backend command invocation.' }),
@@ -22,6 +35,13 @@ const fallback = {
       if (res.ok) return await res.json();
     } catch (_) {}
     return fallbackDashboard;
+  },
+  load_review_report: async () => {
+    try {
+      const res = await fetch('review-data.sample.json', { cache: 'no-store' });
+      if (res.ok) return await res.json();
+    } catch (_) {}
+    return fallbackReview;
   }
 };
 
@@ -35,6 +55,10 @@ export async function invokeCommand(name, args = {}) {
 
 export async function loadDashboardReport(pathHint = null) {
   return await invokeCommand('load_dashboard_report', { pathHint });
+}
+
+export async function loadReviewReport(pathHint = null) {
+  return await invokeCommand('load_review_report', { pathHint });
 }
 
 export function fixtureTeams() {
