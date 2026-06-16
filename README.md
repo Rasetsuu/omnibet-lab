@@ -2,8 +2,8 @@
 
 Cross-sport prediction/value-betting research lab with a Rust-first runtime direction and a Python research/backfill layer.
 
-Current merged milestone: **v28 — real-source acquisition catalog and local sync plan**.
-Next target: **v29 — feature priority and live data contract**.
+Current merged milestone: **v29 — feature priority and live data contract**.
+Next target: **v30 — bookmaker odds and Bet Builder market contract**.
 
 OmniBet is not meant to be a simple score predictor. The project is building a local-first sports intelligence pipeline:
 
@@ -27,7 +27,7 @@ raw data sources
 - `cpp-core/` — early std-only proof core kept for portability experiments.
 - `data/` — tiny deterministic samples only.
 - `data_packs/` — compressed JSONL.GZ packs used by CI/Rust readers.
-- `docs/` — milestone docs from v4 through v29.
+- `docs/` — milestone docs from v4 through v30.
 
 ## What works now
 
@@ -40,6 +40,7 @@ raw data sources
 - Real-source acquisition catalog and local sync plan.
 - Core feature-priority contract.
 - Live data point-in-time snapshot contract.
+- Bookmaker odds / Bet Builder market contract.
 - Compressed JSONL.GZ data packs and Python/Rust verification.
 - Optional local Parquet+ZSTD warehouse-pack exporter for heavy data.
 - Phase-aware football market registry.
@@ -124,30 +125,7 @@ See [`docs/v28_source_acquisition.md`](docs/v28_source_acquisition.md).
 
 ## v29 feature priority and live data contract
 
-v29 locks the core feature policy:
-
-```text
-core engine:
-  must-have + high-value + refined medium-value
-
-experimental only:
-  travel / attendance / pitch condition until ablation proves value
-
-postponed:
-  weather / social media / vague sentiment / rumors
-```
-
-It also defines live data as append-only point-in-time snapshots:
-
-```text
-live_fixture_snapshots
-live_event_snapshots
-live_lineup_snapshots
-live_stat_snapshots
-live_odds_snapshots
-```
-
-CI-safe report:
+v29 locks the core feature policy and defines live data as append-only point-in-time snapshots.
 
 ```bash
 cd python_lab
@@ -157,6 +135,32 @@ python feature_live_contract.py \
 ```
 
 See [`docs/v29_feature_live_contract.md`](docs/v29_feature_live_contract.md).
+
+## v30 bookmaker odds and Bet Builder market contract
+
+v30 normalizes Romanian `cota/cote` as decimal odds and defines sportsbook market rows, Bet Builder legs, and same-game correlation warnings.
+
+```bash
+cd python_lab
+python bookmaker_market_contract.py \
+  --out ../reports/ci_v30_bookmaker_market_contract.json \
+  --write-config ../configs/bookmaker_market_contract.v30.json
+```
+
+Source policy:
+
+```text
+Flashscore:
+  manual/reference or permissioned API only; no scraper in repo
+
+Superbet:
+  manual/user-provided snapshots first; permissioned/API source later if available; no CI scraping
+
+Preferred automation:
+  licensed API/feed provider
+```
+
+See [`docs/v30_bookmaker_market_contract.md`](docs/v30_bookmaker_market_contract.md).
 
 ## Storage direction
 

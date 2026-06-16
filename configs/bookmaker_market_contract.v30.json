@@ -1,0 +1,34 @@
+{
+  "version": "omnibet.bookmaker_market_contract.v30",
+  "language_notes": {
+    "cota": "decimal odd / price",
+    "cote": "odds / prices",
+    "bet_builder": "same-game parlay / same-match accumulator"
+  },
+  "core_market_families": [
+    "football_1x2_regulation",
+    "football_total_goals_regulation",
+    "football_asian_handicap_regulation",
+    "football_corners_regulation",
+    "football_cards_regulation",
+    "football_player_shots_regulation",
+    "football_anytime_scorer_regulation"
+  ],
+  "source_policy": {
+    "flashscore": "manual/reference or permissioned API only; no scraper in repo",
+    "superbet": "manual/user-provided snapshots first; permissioned/API source later if available; no CI scraping",
+    "preferred_automation": "licensed API/feed provider"
+  },
+  "bet_builder_policy": {
+    "same_match_legs_are_correlated": true,
+    "do_not_multiply_leg_odds_as_truth": true,
+    "required_output_tags": [
+      "bookmaker_quote",
+      "model_joint_probability",
+      "model_edge",
+      "correlation_warning",
+      "paper_only"
+    ]
+  },
+  "ci_policy": "No API keys, no network calls, no website scraping; contract/report only."
+}
