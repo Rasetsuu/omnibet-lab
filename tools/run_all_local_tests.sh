@@ -183,6 +183,15 @@ log "v29 feature priority and live data contract"
     | tee ../reports/ci_v29_feature_live_contract_stdout.json
 )
 
+log "v30 bookmaker odds and bet builder market contract"
+(
+  cd python_lab
+  python bookmaker_market_contract.py \
+    --out ../reports/ci_v30_bookmaker_market_contract.json \
+    --write-config ../configs/bookmaker_market_contract.v30.json \
+    | tee ../reports/ci_v30_bookmaker_market_contract_stdout.json
+)
+
 log "rust tests"
 (
   cd rust-core
