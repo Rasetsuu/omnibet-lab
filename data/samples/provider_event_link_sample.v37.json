@@ -1,0 +1,24 @@
+{
+  "canonical_event_id": "canonical_event:france_senegal_2026_demo",
+  "sport": "football",
+  "competition": "FIFA World Cup",
+  "commence_time": "2026-06-16T20:00:00Z",
+  "home_team_name": "France",
+  "away_team_name": "Senegal",
+  "provider_links": [
+    {
+      "provider_id": "the_odds_api_offline_sample",
+      "provider_event_id": "toa_event_france_senegal_demo",
+      "provider_match_id": "the_odds_api_offline_sample:toa_event_france_senegal_demo",
+      "link_strategy": "offline_fixture_sample_manifest",
+      "confidence": 1.0
+    },
+    {
+      "provider_id": "api_football_offline_sample",
+      "provider_event_id": "123456",
+      "provider_match_id": "api_football_fixture:123456",
+      "link_strategy": "offline_fixture_sample_manifest",
+      "confidence": 1.0
+    }
+  ]
+}
