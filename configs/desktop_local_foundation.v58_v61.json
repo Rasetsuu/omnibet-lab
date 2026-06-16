@@ -1,6 +1,6 @@
 {
-  "version": "omnibet.desktop_local_foundation.v58_v61",
-  "desktop_app_version": "0.5.0",
+  "version": "omnibet.desktop_local_foundation.v58_v61_plus_v62",
+  "desktop_app_version": "0.6.0-rc.1",
   "mode": "desktop_local_first_foundation",
   "milestones": {
     "v58": "Tauri/Rust build preflight",
