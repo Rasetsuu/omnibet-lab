@@ -64,8 +64,10 @@ def main() -> None:
     core_verify = load_json(reports / "ci_verify_core_pack.json")
     event_verify = load_json(reports / "ci_verify_event_demo_pack.json")
     statsbomb_verify = load_json(reports / "ci_verify_statsbomb_sample_pack.json")
+    statsbomb_scale_verify = load_json(reports / "ci_verify_statsbomb_scale_pack.json")
     synth = load_json(reports / "v13_synthetic_event_pipeline.json")
     statsbomb = load_json(reports / "v14_statsbomb_public_sample.json")
+    statsbomb_scale = load_json(reports / "ci_v20_data_scale.json")
     event_compare = load_json(reports / "ci_event_aware_compare.json")
     rust_linear = load_json(reports / "ci_rust_event_linear_model.json")
     rust_compare = load_json(reports / "ci_rust_compare.json")
@@ -86,6 +88,9 @@ def main() -> None:
 
     synthetic_counts = counts_from_v13(synth)
     statsbomb_counts = counts_from_statsbomb(statsbomb)
+    scale_required = statsbomb_scale.get("required_positive", {}) if isinstance(statsbomb_scale, dict) else {}
+    scale_pack = statsbomb_scale.get("pack_summary", {}) if isinstance(statsbomb_scale, dict) else {}
+    scale_quality = statsbomb_scale.get("quality", {}) if isinstance(statsbomb_scale, dict) else {}
 
     event_compare_summary = {
         "ok": bool(event_compare.get("ok")),
@@ -118,6 +123,20 @@ def main() -> None:
         "negative_clv_rows": paper.get("negative_clv_rows"),
     }
 
+    scale_summary = {
+        "ok": bool(statsbomb_scale.get("ok")) and bool(statsbomb_scale_verify.get("ok")),
+        "profile": statsbomb_scale.get("profile"),
+        "matches_norm": scale_required.get("matches_norm"),
+        "match_events": scale_required.get("match_events"),
+        "lineups": scale_required.get("lineups"),
+        "players": scale_required.get("players"),
+        "pack_rows": scale_required.get("pack_rows"),
+        "compressed_bytes": scale_required.get("compressed_bytes"),
+        "overall_compression_ratio": scale_pack.get("overall_compression_ratio"),
+        "event_match_coverage": scale_quality.get("event_match_coverage"),
+        "storage_plan": statsbomb_scale.get("storage_plan"),
+    }
+
     summary = {
         "ok": True,
         "git_sha": git_rev(root),
@@ -125,9 +144,11 @@ def main() -> None:
         "core_pack_ok": bool(core_verify.get("ok")),
         "event_demo_pack_ok": bool(event_verify.get("ok")),
         "statsbomb_sample_pack_ok": bool(statsbomb_verify.get("ok")),
+        "statsbomb_scale_pack_ok": bool(statsbomb_scale_verify.get("ok")),
         "event_demo_counts": synthetic_counts,
         "statsbomb_public_sample_counts": statsbomb_counts,
         "statsbomb_selected_match_ids": statsbomb.get("sample", {}).get("selected_match_ids"),
+        "statsbomb_scale": scale_summary,
         "event_aware_compare": event_compare_summary,
         "rust_linear_model": rust_linear_summary,
         "paper_ledger": paper_summary,
@@ -154,8 +175,12 @@ def main() -> None:
         and summary["core_pack_ok"]
         and summary["event_demo_pack_ok"]
         and summary["statsbomb_sample_pack_ok"]
+        and summary["statsbomb_scale_pack_ok"]
         and all_positive(summary["event_demo_counts"])
         and all_positive(summary["statsbomb_public_sample_counts"])
+        and summary["statsbomb_scale"]["ok"]
+        and all_positive({k: v for k, v in scale_required.items() if k != "compressed_bytes"})
+        and int(scale_required.get("compressed_bytes") or 0) > 0
         and summary["event_aware_compare"]["ok"]
         and int(summary["event_aware_compare"]["event_history_rows"] or 0) > 0
         and summary["rust_linear_model"]["ok"]
