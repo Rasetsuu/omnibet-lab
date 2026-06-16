@@ -1,0 +1,31 @@
+{
+  "version": "omnibet.dashboard.v49",
+  "mode": "offline_dashboard_preview",
+  "ui": {
+    "entry": "tauri-app/src/index.html",
+    "static_sample": "tauri-app/src/dashboard-data.sample.json",
+    "required_markers": [
+      "dashboard-events",
+      "dashboard-markets",
+      "dashboard-unknowns",
+      "dashboard-features",
+      "dashboard-settlement",
+      "dashboard-accounting"
+    ]
+  },
+  "sections": [
+    "events",
+    "market_snapshots",
+    "unknown_market_queue",
+    "feature_snapshot_preview",
+    "settlement_report",
+    "result_accounting_report"
+  ],
+  "smoke_script": "python_lab/dashboard_data_smoke.py",
+  "ci_policy": {
+    "network_calls": false,
+    "api_key_required": false,
+    "live_provider_calls": false,
+    "recommendation_output": false
+  }
+}
