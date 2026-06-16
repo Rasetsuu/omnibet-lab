@@ -8,7 +8,7 @@ import re
 from pathlib import Path
 from typing import Any, Dict
 
-EXPECTED_DESKTOP_VERSION = "0.5.0"
+EXPECTED_DESKTOP_VERSION = "0.6.0-rc.1"
 
 FRONTEND_FILES = [
     "tauri-app/src/index.html",
@@ -133,7 +133,7 @@ def build_report(root: Path, platform_name: str) -> Dict[str, Any]:
 
     return {
         "ok": all(checks.values()),
-        "milestone": "v58_v61_desktop_local_foundation_preflight",
+        "milestone": "v62_desktop_rc_package_readiness_preflight",
         "platform": platform_name,
         "tauri_version": tauri_version,
         "cargo_version": cargo_version,
@@ -157,7 +157,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
     ap.add_argument("--platform-name", default=os.environ.get("RUNNER_OS", os.name))
-    ap.add_argument("--out", default="reports/ci_v58_v61_desktop_local_foundation.json")
+    ap.add_argument("--out", default="reports/ci_v62_desktop_package_readiness.json")
     args = ap.parse_args()
     report = build_report(Path(args.root), args.platform_name)
     write_json(Path(args.out), report)
