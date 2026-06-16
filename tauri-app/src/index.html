@@ -18,6 +18,7 @@
         <button class="nav-button" data-page="events">Events</button>
         <button class="nav-button" data-page="markets">Markets</button>
         <button class="nav-button" data-page="unknowns">Unknown Queue</button>
+        <button class="nav-button" data-page="identity-review">Identity Review</button>
         <button class="nav-button" data-page="features">Features</button>
         <button class="nav-button" data-page="settlement">Settlement</button>
         <button class="nav-button" data-page="accounting">Accounting</button>
@@ -39,6 +40,8 @@
         <div class="topbar-actions">
           <button id="load-dashboard-report">Load local dashboard report</button>
           <button id="load-dashboard-sample">Load bundled sample</button>
+          <button id="load-review-report">Load local review report</button>
+          <button id="load-review-sample">Load review sample</button>
         </div>
       </header>
 
@@ -66,8 +69,17 @@
       </section>
 
       <section id="unknowns" class="page" data-page-panel="unknowns">
-        <h2>Unknown Queue</h2>
-        <div id="page-unknowns" class="card"><div class="muted">Load a dashboard report first.</div></div>
+        <h2>Unknown Market Review</h2>
+        <p class="muted">v53 local review UI. Decisions are UI-only until a later persistence milestone.</p>
+        <div id="review-unknown-markets-panel" class="card"><div class="muted">Load a review report first.</div></div>
+        <div id="page-unknowns" class="card"><div class="muted">Load a dashboard or review report first.</div></div>
+      </section>
+
+      <section id="identity-review" class="page" data-page-panel="identity-review">
+        <h2>Provider Identity Review</h2>
+        <p class="muted">v54 local review UI for provider team/player/event identity candidates.</p>
+        <div id="review-identity-candidates-panel" class="card"><div class="muted">Load a review report first.</div></div>
+        <div id="page-identity-review" class="card"><div class="muted">Load a review report first.</div></div>
       </section>
 
       <section id="features" class="page" data-page-panel="features">
@@ -98,6 +110,7 @@
         <div class="card">
           <p>Desktop settings placeholder.</p>
           <p class="muted">Default dashboard lookup order: build/v49_dashboard_data.json, reports/ci_v49_dashboard_data.json, tauri-app/src/dashboard-data.sample.json.</p>
+          <p class="muted">Default review lookup order: build/v53_v54_review_data.json, reports/ci_v53_v54_review_ui.json, tauri-app/src/review-data.sample.json.</p>
         </div>
       </section>
 
@@ -135,6 +148,7 @@
 
   <script type="module" src="api.js"></script>
   <script type="module" src="dashboard.js"></script>
+  <script type="module" src="review.js"></script>
   <script type="module" src="app.js"></script>
 </body>
 </html>
