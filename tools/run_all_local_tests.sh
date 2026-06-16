@@ -164,6 +164,16 @@ log "v27 Parquet+ZSTD storage plan"
     | tee ../reports/ci_v27_parquet_zstd_plan_stdout.json
 )
 
+log "v28 real-source acquisition catalog"
+(
+  cd python_lab
+  python source_acquisition_catalog.py \
+    --out ../reports/ci_v28_source_catalog.json \
+    --write-example-config ../configs/source_acquisition.v28.example.json \
+    --write-shell-plan ../build/v28_sync_sources_plan.sh \
+    | tee ../reports/ci_v28_source_catalog_stdout.json
+)
+
 log "rust tests"
 (
   cd rust-core
