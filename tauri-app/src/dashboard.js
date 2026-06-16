@@ -16,6 +16,11 @@ function setHtml(id, html) {
   if (el) el.innerHTML = html;
 }
 
+function unwrapDashboardPayload(payload) {
+  if (payload && payload.dashboard_json) return payload.dashboard_json;
+  return payload;
+}
+
 export function renderDashboard(data) {
   const sections = data.sections || {};
   const events = sections.events || [];
@@ -97,7 +102,8 @@ export function renderDashboard(data) {
 }
 
 export async function loadAndRenderDashboard(pathHint = null) {
-  const data = await loadDashboardReport(pathHint);
+  const payload = await loadDashboardReport(pathHint);
+  const data = unwrapDashboardPayload(payload);
   renderDashboard(data);
-  return { ok: true, loaded: data.version, sections: Object.keys(data.sections || {}) };
+  return { ok: true, loaded: data.version, bridge_mode: payload?.mode || 'browser_fallback', sections: Object.keys(data.sections || {}) };
 }
