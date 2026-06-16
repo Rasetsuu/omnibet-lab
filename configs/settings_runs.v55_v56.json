@@ -1,0 +1,39 @@
+{
+  "version": "omnibet.settings_runs.v55_v56",
+  "mode": "desktop_first_offline_settings_and_runs",
+  "milestones": {
+    "v55": "desktop settings page",
+    "v56": "allowlisted local workflow controls"
+  },
+  "frontend_files": [
+    "tauri-app/src/index.html",
+    "tauri-app/src/api.js",
+    "tauri-app/src/app.js",
+    "tauri-app/src/settings.js",
+    "tauri-app/src/settings-data.sample.json"
+  ],
+  "tauri_commands": [
+    "load_app_settings",
+    "run_local_workflow"
+  ],
+  "allowlisted_workflows": [
+    "generate_dashboard_report",
+    "generate_review_report",
+    "run_leak_guard",
+    "run_feature_export",
+    "run_settlement_truth",
+    "run_first_model_pass"
+  ],
+  "settings_paths": [
+    "configs/desktop_settings.local.json",
+    "tauri-app/src/settings-data.sample.json"
+  ],
+  "ci_policy": {
+    "network_calls": false,
+    "api_key_values_in_ui": false,
+    "shell_execution": false,
+    "live_provider_calls": false,
+    "recommendation_output": false
+  },
+  "smoke_script": "python_lab/settings_runs_smoke.py"
+}
