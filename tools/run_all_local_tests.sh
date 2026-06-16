@@ -248,6 +248,18 @@ log "v36 API-Football offline adapter smoke"
     | tee ../reports/ci_v36_api_football_offline_stdout.json
 )
 
+log "v37 provider event timeline smoke"
+(
+  cd python_lab
+  python provider_event_timeline_smoke.py \
+    --db ../build/omnibet_v37_provider_event_timeline.sqlite \
+    --odds-input ../data/samples/the_odds_api_event_markets_sample.json \
+    --state-input ../data/samples/api_football_live_state_sample.json \
+    --link-input ../data/samples/provider_event_link_sample.v37.json \
+    --out ../reports/ci_v37_provider_event_timeline.json \
+    | tee ../reports/ci_v37_provider_event_timeline_stdout.json
+)
+
 log "rust tests"
 (
   cd rust-core
