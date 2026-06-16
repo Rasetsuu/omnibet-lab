@@ -24,6 +24,23 @@ export const fallbackReview = {
   }
 };
 
+export const fallbackSettings = {
+  ok: true,
+  version: 'omnibet.settings.v55_fallback',
+  paths: { data_dir: 'data', reports_dir: 'reports', build_dir: 'build', feature_pack_dir: 'build/v46_feature_export_pack' },
+  runtime: { offline_mode: true, network_enabled: false, shell_execution_enabled: false, theme: 'dark' },
+  providers: [
+    { provider_id: 'the_odds_api', enabled: false, api_key_env: 'ODDS_API_KEY', key_status_only: 'not_checked_in_fallback', live_calls_in_ci: false },
+    { provider_id: 'api_football', enabled: false, api_key_env: 'API_FOOTBALL_KEY', key_status_only: 'not_checked_in_fallback', live_calls_in_ci: false }
+  ],
+  local_workflows: [
+    { workflow_id: 'generate_dashboard_report', label: 'Generate dashboard report', description: 'Offline dashboard report generation.' },
+    { workflow_id: 'generate_review_report', label: 'Generate review report', description: 'Offline review report generation.' },
+    { workflow_id: 'run_leak_guard', label: 'Run leak guard', description: 'Offline leak guard.' }
+  ],
+  safety: { paper_only: true, no_api_key_values: true, no_network: true, no_recommendation_output: true, allowlisted_workflows_only: true }
+};
+
 const fallback = {
   ping: () => 'browser-preview-ok',
   pack_summary: () => ({ ok: true, format: 'omnibet.pack.v1', pack_name: 'browser preview', total_rows: 0, note: 'Open in Tauri for backend command invocation.' }),
@@ -42,7 +59,15 @@ const fallback = {
       if (res.ok) return await res.json();
     } catch (_) {}
     return fallbackReview;
-  }
+  },
+  load_app_settings: async () => {
+    try {
+      const res = await fetch('settings-data.sample.json', { cache: 'no-store' });
+      if (res.ok) return await res.json();
+    } catch (_) {}
+    return fallbackSettings;
+  },
+  run_local_workflow: async ({ workflowId }) => ({ ok: true, mode: 'browser_preview_no_execution', workflow_id: workflowId, note: 'Open in Tauri to run allowlisted local workflows.' })
 };
 
 export async function invokeCommand(name, args = {}) {
@@ -59,6 +84,14 @@ export async function loadDashboardReport(pathHint = null) {
 
 export async function loadReviewReport(pathHint = null) {
   return await invokeCommand('load_review_report', { pathHint });
+}
+
+export async function loadAppSettings(pathHint = null) {
+  return await invokeCommand('load_app_settings', { pathHint });
+}
+
+export async function runLocalWorkflow(workflowId) {
+  return await invokeCommand('run_local_workflow', { workflowId });
 }
 
 export function fixtureTeams() {

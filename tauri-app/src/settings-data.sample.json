@@ -1,0 +1,75 @@
+{
+  "ok": true,
+  "version": "omnibet.settings.v55.sample",
+  "mode": "offline_desktop_settings",
+  "paths": {
+    "data_dir": "data",
+    "reports_dir": "reports",
+    "build_dir": "build",
+    "feature_pack_dir": "build/v46_feature_export_pack",
+    "dashboard_report": "build/v49_dashboard_data.json",
+    "review_report": "build/v53_v54_review_data.json"
+  },
+  "runtime": {
+    "offline_mode": true,
+    "network_enabled": false,
+    "shell_execution_enabled": false,
+    "theme": "dark",
+    "platform_note": "Tauri/Rust desktop path for Windows and Linux."
+  },
+  "providers": [
+    {
+      "provider_id": "the_odds_api",
+      "enabled": false,
+      "api_key_env": "ODDS_API_KEY",
+      "key_status_only": "not_checked_in_sample",
+      "live_calls_in_ci": false
+    },
+    {
+      "provider_id": "api_football",
+      "enabled": false,
+      "api_key_env": "API_FOOTBALL_KEY",
+      "key_status_only": "not_checked_in_sample",
+      "live_calls_in_ci": false
+    }
+  ],
+  "local_workflows": [
+    {
+      "workflow_id": "generate_dashboard_report",
+      "label": "Generate dashboard report",
+      "description": "Run the offline dashboard data smoke and write build/v49_dashboard_data.json."
+    },
+    {
+      "workflow_id": "generate_review_report",
+      "label": "Generate review report",
+      "description": "Run the offline review UI smoke and write build/v53_v54_review_data.json."
+    },
+    {
+      "workflow_id": "run_leak_guard",
+      "label": "Run leak guard",
+      "description": "Run the offline no-future-leak smoke."
+    },
+    {
+      "workflow_id": "run_feature_export",
+      "label": "Run feature export",
+      "description": "Export feature snapshots into a local compressed pack."
+    },
+    {
+      "workflow_id": "run_settlement_truth",
+      "label": "Run settlement truth",
+      "description": "Run the offline settlement truth smoke."
+    },
+    {
+      "workflow_id": "run_first_model_pass",
+      "label": "Run first model pass",
+      "description": "Run the toy/offline first model pass smoke."
+    }
+  ],
+  "safety": {
+    "paper_only": true,
+    "no_api_key_values": true,
+    "no_network": true,
+    "no_recommendation_output": true,
+    "allowlisted_workflows_only": true
+  }
+}
