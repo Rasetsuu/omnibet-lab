@@ -2,8 +2,8 @@
 
 Cross-sport prediction/value-betting research lab with a Rust-first runtime direction and a Python research/backfill layer.
 
-Current merged milestone: **v35 — The Odds API offline event-market adapter skeleton**.
-Next target: **v36 — API-Football offline live-state adapter skeleton**.
+Current merged milestone: **v36 — API-Football offline live-state adapter skeleton**.
+Next target: **v37 — offline provider event timeline join**.
 
 OmniBet is not meant to be a simple score predictor. The project is building a local-first sports intelligence pipeline:
 
@@ -27,7 +27,7 @@ raw data sources
 - `cpp-core/` — early std-only proof core kept for portability experiments.
 - `data/` — tiny deterministic samples only.
 - `data_packs/` — compressed JSONL.GZ packs used by CI/Rust readers.
-- `docs/` — milestone docs from v4 through v36.
+- `docs/` — milestone docs from v4 through v37.
 
 ## What works now
 
@@ -47,6 +47,7 @@ raw data sources
 - Safe market alias application to raw snapshots.
 - The Odds API-style offline event-market adapter skeleton.
 - API-Football-style offline live-state adapter skeleton.
+- Offline provider event timeline join.
 - Compressed JSONL.GZ data packs and Python/Rust verification.
 - Optional local Parquet+ZSTD warehouse-pack exporter for heavy data.
 - Phase-aware football market registry.
@@ -157,27 +158,33 @@ See [`docs/v35_the_odds_api_offline_adapter.md`](docs/v35_the_odds_api_offline_a
 
 v36 adds the first provider-style offline adapter skeleton for fixture state, lineups, events, and statistics.
 
+See [`docs/v36_api_football_offline_adapter.md`](docs/v36_api_football_offline_adapter.md).
+
+## v37 provider event timeline
+
+v37 joins the v35 odds sample and v36 match-state sample into one canonical event timeline.
+
 ```bash
 cd python_lab
-python api_football_offline_smoke.py \
-  --db ../build/omnibet_v36_api_football_offline.sqlite \
-  --input ../data/samples/api_football_live_state_sample.json \
-  --out ../reports/ci_v36_api_football_offline.json
+python provider_event_timeline_smoke.py \
+  --db ../build/omnibet_v37_provider_event_timeline.sqlite \
+  --odds-input ../data/samples/the_odds_api_event_markets_sample.json \
+  --state-input ../data/samples/api_football_live_state_sample.json \
+  --link-input ../data/samples/provider_event_link_sample.v37.json \
+  --out ../reports/ci_v37_provider_event_timeline.json
 ```
 
-It proves the match-state ingestion path without live API usage:
+It proves the offline join path:
 
 ```text
-local fixture-state sample
-→ bronze raw payload
-→ teams / players
-→ matches_norm
-→ lineups
-→ match_events
-→ statistics coverage report
+v35 odds/event-market sample
++ v36 fixture/live-state sample
+→ provider_event_links
+→ provider_event_timeline
+→ match_state / match_event / odds_market timeline rows
 ```
 
-See [`docs/v36_api_football_offline_adapter.md`](docs/v36_api_football_offline_adapter.md).
+See [`docs/v37_provider_event_timeline.md`](docs/v37_provider_event_timeline.md).
 
 ## Storage direction
 
