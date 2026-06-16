@@ -118,7 +118,7 @@ def build_report(root: Path, db: Path, source_a: Path, source_b: Path, links: Pa
         "markers_in_html": all(m in html for m in markers),
         "module_linked": 'src="review.js"' in html,
         "api_command": "load_review_report" in api,
-        "app_bindings": "loadReviewReport" in app and "load-review-report" in app,
+        "app_bindings": "loadAndRenderReviews" in app and "load-review-report" in app,
         "local_actions": "applyLocalReviewAction" in review_js and "review-action" in review_js,
         "tauri_command": "fn load_review_report" in rust and "load_review_report" in rust and "generate_handler!" in rust,
         "allowlisted_paths": "v53_v54_review_data.json" in rust and "review-data.sample.json" in rust,
