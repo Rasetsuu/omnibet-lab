@@ -2,8 +2,8 @@
 
 Cross-sport prediction/value-betting research lab with a Rust-first runtime direction and a Python research/backfill layer.
 
-Current merged milestone: **v36 — API-Football offline live-state adapter skeleton**.
-Next target: **v37 — offline provider event timeline join**.
+Current merged milestone: **v37 — offline provider event timeline join**.
+Next target: **v38 — settlement and outcome truth skeleton**.
 
 OmniBet is not meant to be a simple score predictor. The project is building a local-first sports intelligence pipeline:
 
@@ -27,7 +27,7 @@ raw data sources
 - `cpp-core/` — early std-only proof core kept for portability experiments.
 - `data/` — tiny deterministic samples only.
 - `data_packs/` — compressed JSONL.GZ packs used by CI/Rust readers.
-- `docs/` — milestone docs from v4 through v37.
+- `docs/` — milestone docs from v4 through v38.
 
 ## What works now
 
@@ -48,6 +48,7 @@ raw data sources
 - The Odds API-style offline event-market adapter skeleton.
 - API-Football-style offline live-state adapter skeleton.
 - Offline provider event timeline join.
+- Settlement and outcome truth skeleton.
 - Compressed JSONL.GZ data packs and Python/Rust verification.
 - Optional local Parquet+ZSTD warehouse-pack exporter for heavy data.
 - Phase-aware football market registry.
@@ -164,27 +165,34 @@ See [`docs/v36_api_football_offline_adapter.md`](docs/v36_api_football_offline_a
 
 v37 joins the v35 odds sample and v36 match-state sample into one canonical event timeline.
 
+See [`docs/v37_provider_event_timeline.md`](docs/v37_provider_event_timeline.md).
+
+## v38 settlement and outcome truth
+
+v38 adds the first deterministic market-grading skeleton over the v37 timeline.
+
 ```bash
 cd python_lab
-python provider_event_timeline_smoke.py \
-  --db ../build/omnibet_v37_provider_event_timeline.sqlite \
+python settlement_truth_smoke.py \
+  --db ../build/omnibet_v38_settlement_truth.sqlite \
   --odds-input ../data/samples/the_odds_api_event_markets_sample.json \
   --state-input ../data/samples/api_football_live_state_sample.json \
   --link-input ../data/samples/provider_event_link_sample.v37.json \
-  --out ../reports/ci_v37_provider_event_timeline.json
+  --out ../reports/ci_v38_settlement_truth.json
 ```
 
-It proves the offline join path:
+It proves:
 
 ```text
-v35 odds/event-market sample
-+ v36 fixture/live-state sample
-→ provider_event_links
-→ provider_event_timeline
-→ match_state / match_event / odds_market timeline rows
+v37 timeline builds
+settlement_rules are written
+outcome_truth rows are written
+1X2 / totals / corners / shots-on-target / handicap examples are evaluated
+player prop without player truth is unsupported
+unknown combo market remains unmapped
 ```
 
-See [`docs/v37_provider_event_timeline.md`](docs/v37_provider_event_timeline.md).
+See [`docs/v38_settlement_truth.md`](docs/v38_settlement_truth.md).
 
 ## Storage direction
 
