@@ -18,9 +18,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Python compile
-        run: |
-          cd python_lab
-          python -m py_compile *.py adapters/*.py
+        run: python python_lab/compile_python_sources.py
       - name: Run v57 package readiness smoke
         run: |
           mkdir -p reports
@@ -45,12 +43,9 @@ jobs:
         with:
           python-version: "3.12"
       - name: Python compile
-        run: |
-          cd python_lab
-          python -m py_compile *.py adapters/*.py
+        run: python python_lab/compile_python_sources.py
       - name: Run v57 package readiness smoke
         run: |
-          mkdir reports
           python python_lab/desktop_package_readiness_smoke.py --root . --platform-name Windows --out reports/ci_v57_desktop_package_readiness_windows.json
       - name: Upload readiness report
         if: always()
