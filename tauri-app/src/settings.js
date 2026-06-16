@@ -40,8 +40,10 @@ function renderWorkflowButtons(workflows = []) {
     <div class="card workflow-card">
       <h3>${esc(w.label)}</h3>
       <p class="muted">${esc(w.description)}</p>
-      <p>${badge(w.workflow_id)}</p>
+      <p>${badge(w.workflow_id)} ${w.refresh_hint ? badge('refresh: ' + w.refresh_hint) : ''}</p>
+      <p class="muted">Expected report: ${esc(w.expected_report || 'reported by workflow result')}</p>
       <button class="local-workflow-button" data-workflow-id="${esc(w.workflow_id)}">Run local workflow</button>
+      <div class="workflow-status" id="workflow-status-${esc(w.workflow_id)}">state: idle</div>
     </div>
   `).join('');
 }
@@ -62,13 +64,28 @@ export function renderSettings(data) {
   bindWorkflowButtons();
 }
 
+function updateWorkflowStatus(workflowId, text) {
+  const el = document.getElementById(`workflow-status-${workflowId}`);
+  if (el) el.textContent = text;
+}
+
 function bindWorkflowButtons() {
   document.querySelectorAll('.local-workflow-button').forEach(btn => {
     btn.addEventListener('click', async () => {
       const workflowId = btn.dataset.workflowId;
-      const result = await runLocalWorkflow(workflowId);
-      const out = document.getElementById('out');
-      if (out) out.textContent = JSON.stringify(result, null, 2);
+      btn.disabled = true;
+      updateWorkflowStatus(workflowId, 'state: running');
+      try {
+        const result = await runLocalWorkflow(workflowId);
+        const state = result.state || (result.ok ? 'completed' : 'failed');
+        updateWorkflowStatus(workflowId, `state: ${state}; report: ${result.report_path_hint || 'n/a'}; refresh: ${result.refresh_hint || 'none'}`);
+        const out = document.getElementById('out');
+        if (out) out.textContent = JSON.stringify(result, null, 2);
+      } catch (err) {
+        updateWorkflowStatus(workflowId, `state: failed; ${String(err)}`);
+      } finally {
+        btn.disabled = false;
+      }
     });
   });
 }

@@ -1,0 +1,36 @@
+{
+  "version": "omnibet.desktop_local_foundation.v58_v61",
+  "desktop_app_version": "0.5.0",
+  "mode": "desktop_local_first_foundation",
+  "milestones": {
+    "v58": "Tauri/Rust build preflight",
+    "v59": "persisted review decisions",
+    "v60": "workflow run UX metadata",
+    "v61": "local data directory contract"
+  },
+  "local_data_contract": "configs/local_data_contract.v61.json",
+  "review_decision_store": ".omnibet-local/review_decisions/review_decisions.jsonl",
+  "workflow_run_log": ".omnibet-local/logs/workflow_runs.jsonl",
+  "tauri_commands": [
+    "save_review_decision",
+    "run_local_workflow",
+    "load_app_settings"
+  ],
+  "workflow_result_fields": [
+    "state",
+    "started_at_unix",
+    "finished_at_unix",
+    "report_path_hint",
+    "refresh_hint",
+    "stdout_preview",
+    "stderr_preview"
+  ],
+  "ci_policy": {
+    "api_key_required": false,
+    "network_provider_calls": false,
+    "live_provider_calls": false,
+    "shell_execution": false,
+    "recommendation_output": false
+  },
+  "smoke_script": "python_lab/desktop_local_foundation_smoke.py"
+}

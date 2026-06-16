@@ -8,6 +8,8 @@ import re
 from pathlib import Path
 from typing import Any, Dict
 
+EXPECTED_DESKTOP_VERSION = "0.5.0"
+
 FRONTEND_FILES = [
     "tauri-app/src/index.html",
     "tauri-app/src/styles.css",
@@ -27,6 +29,7 @@ REQUIRED_COMMANDS = [
     "load_review_report",
     "load_app_settings",
     "run_local_workflow",
+    "save_review_decision",
     "pack_summary",
     "predict_fixture",
     "value_report",
@@ -95,7 +98,7 @@ def build_report(root: Path, platform_name: str) -> Dict[str, Any]:
         "tauri_config_valid_json": isinstance(tauri_conf, dict),
         "product_name_present": tauri_conf.get("productName") == "OmniBet Lab",
         "identifier_present": tauri_conf.get("identifier") == "local.omnibet.lab",
-        "cargo_tauri_and_package_versions_match": cargo_version == tauri_version == package_version == "0.4.0",
+        "cargo_tauri_and_package_versions_match": cargo_version == tauri_version == package_version == EXPECTED_DESKTOP_VERSION,
         "frontend_dist_static_src": tauri_conf.get("build", {}).get("frontendDist") == "../src",
         "no_before_build_web_server": tauri_conf.get("build", {}).get("beforeBuildCommand") == "" and tauri_conf.get("build", {}).get("beforeDevCommand") == "",
         "package_metadata_has_no_web_server_dependency": package_has_no_web_server(package),
@@ -108,6 +111,9 @@ def build_report(root: Path, platform_name: str) -> Dict[str, Any]:
         "paper_only_marker": "PAPER_ONLY" in html,
         "all_commands_registered": all(command_registration.values()),
         "workflow_allowlist_present": all(workflow_allowlist.values()),
+        "review_decision_persistence_present": "review_decisions/review_decisions.jsonl" in rust and "save_review_decision" in rust,
+        "local_data_contract_present": "OMNIBET_HOME" in rust and ".omnibet-local" in rust,
+        "workflow_ux_fields_present": all(s in rust for s in ["state", "started_at_unix", "finished_at_unix", "report_path_hint", "refresh_hint", "stdout_preview", "stderr_preview"]),
         "no_shell_execution": ".shell" not in rust and "cmd /C" not in rust and "sh -c" not in rust,
         "direct_command_invocation": "Command::new" in rust,
         "pathbuf_used": "PathBuf" in rust and "Path::new" in rust,
@@ -127,7 +133,7 @@ def build_report(root: Path, platform_name: str) -> Dict[str, Any]:
 
     return {
         "ok": all(checks.values()),
-        "milestone": "v57_windows_linux_desktop_package_readiness",
+        "milestone": "v58_v61_desktop_local_foundation_preflight",
         "platform": platform_name,
         "tauri_version": tauri_version,
         "cargo_version": cargo_version,
@@ -151,7 +157,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
     ap.add_argument("--platform-name", default=os.environ.get("RUNNER_OS", os.name))
-    ap.add_argument("--out", default="reports/ci_v57_desktop_package_readiness.json")
+    ap.add_argument("--out", default="reports/ci_v58_v61_desktop_local_foundation.json")
     args = ap.parse_args()
     report = build_report(Path(args.root), args.platform_name)
     write_json(Path(args.out), report)

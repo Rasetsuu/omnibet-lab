@@ -15,9 +15,9 @@ export const fallbackReview = {
   ok: true,
   version: 'omnibet.review.v53_v54_fallback',
   sections: {
-    unknown_market_review: [{ review_id: 'unknown:fallback', provider_id: 'fallback_provider', source_name: 'Example', raw_name: 'special combo unknown', raw_selection: 'example unknown combo', candidate_id: null, confidence: 0.0, decision: 'needs_review', reason: 'Fallback review preview.' }],
+    unknown_market_review: [{ review_id: 'unknown:fallback', review_type: 'unknown_market', provider_id: 'fallback_provider', source_name: 'Example', raw_name: 'special combo unknown', raw_selection: 'example unknown combo', candidate_id: null, confidence: 0.0, decision: 'needs_review', reason: 'Fallback review preview.' }],
     provider_identity_review: {
-      review_queue: [{ review_id: 'identity:fallback', canonical_entity_type: 'team', provider_id: 'fallback_provider', raw_name: 'France U21', candidate_canonical_id: 'canonical_team:france', confidence: 0.72, decision: 'needs_review', reason: 'Ambiguous suffix requires review.' }],
+      review_queue: [{ review_id: 'identity:fallback', review_type: 'provider_identity', canonical_entity_type: 'team', provider_id: 'fallback_provider', raw_name: 'France U21', candidate_canonical_id: 'canonical_team:france', confidence: 0.72, decision: 'needs_review', reason: 'Ambiguous suffix requires review.' }],
       candidate_preview: [],
       identity_report_ok: true
     }
@@ -26,19 +26,19 @@ export const fallbackReview = {
 
 export const fallbackSettings = {
   ok: true,
-  version: 'omnibet.settings.v55_fallback',
-  paths: { data_dir: 'data', reports_dir: 'reports', build_dir: 'build', feature_pack_dir: 'build/v46_feature_export_pack' },
-  runtime: { offline_mode: true, network_enabled: false, shell_execution_enabled: false, theme: 'dark' },
+  version: 'omnibet.settings.v61_fallback',
+  paths: { local_root: '.omnibet-local', reports_dir: '.omnibet-local/reports', build_dir: '.omnibet-local/build', review_decisions: '.omnibet-local/review_decisions/review_decisions.jsonl' },
+  runtime: { offline_mode: true, network_enabled: false, shell_execution_enabled: false, theme: 'dark', local_root_env: 'OMNIBET_HOME' },
   providers: [
     { provider_id: 'the_odds_api', enabled: false, api_key_env: 'ODDS_API_KEY', key_status_only: 'not_checked_in_fallback', live_calls_in_ci: false },
     { provider_id: 'api_football', enabled: false, api_key_env: 'API_FOOTBALL_KEY', key_status_only: 'not_checked_in_fallback', live_calls_in_ci: false }
   ],
   local_workflows: [
-    { workflow_id: 'generate_dashboard_report', label: 'Generate dashboard report', description: 'Offline dashboard report generation.' },
-    { workflow_id: 'generate_review_report', label: 'Generate review report', description: 'Offline review report generation.' },
-    { workflow_id: 'run_leak_guard', label: 'Run leak guard', description: 'Offline leak guard.' }
+    { workflow_id: 'generate_dashboard_report', label: 'Generate dashboard report', description: 'Offline dashboard report generation.', refresh_hint: 'dashboard' },
+    { workflow_id: 'generate_review_report', label: 'Generate review report', description: 'Offline review report generation.', refresh_hint: 'review' },
+    { workflow_id: 'run_leak_guard', label: 'Run leak guard', description: 'Offline leak guard.', refresh_hint: 'features' }
   ],
-  safety: { paper_only: true, no_api_key_values: true, no_network: true, no_recommendation_output: true, allowlisted_workflows_only: true }
+  safety: { paper_only: true, no_api_key_values: true, no_network: true, no_recommendation_output: true, allowlisted_workflows_only: true, review_decisions_local_only: true }
 };
 
 const fallback = {
@@ -67,7 +67,8 @@ const fallback = {
     } catch (_) {}
     return fallbackSettings;
   },
-  run_local_workflow: async ({ workflowId }) => ({ ok: true, mode: 'browser_preview_no_execution', workflow_id: workflowId, note: 'Open in Tauri to run allowlisted local workflows.' })
+  run_local_workflow: async ({ workflowId }) => ({ ok: true, state: 'completed', mode: 'browser_preview_no_execution', workflow_id: workflowId, started_at: new Date().toISOString(), finished_at: new Date().toISOString(), report_path_hint: null, refresh_hint: null, stdout_preview: '', stderr_preview: '', note: 'Open in Tauri to run allowlisted local workflows.' }),
+  save_review_decision: async ({ reviewType, reviewId, decision, reason }) => ({ ok: true, mode: 'browser_preview_no_persistence', review_type: reviewType, review_id: reviewId, decision, reason, note: 'Open in Tauri to persist review decisions.' })
 };
 
 export async function invokeCommand(name, args = {}) {
@@ -92,6 +93,10 @@ export async function loadAppSettings(pathHint = null) {
 
 export async function runLocalWorkflow(workflowId) {
   return await invokeCommand('run_local_workflow', { workflowId });
+}
+
+export async function saveReviewDecision(reviewType, reviewId, decision, reason = 'desktop review decision') {
+  return await invokeCommand('save_review_decision', { reviewType, reviewId, decision, reason });
 }
 
 export function fixtureTeams() {

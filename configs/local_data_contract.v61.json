@@ -1,0 +1,29 @@
+{
+  "version": "omnibet.local_data_contract.v61",
+  "mode": "desktop_local_first",
+  "root_env": "OMNIBET_HOME",
+  "default_root": ".omnibet-local",
+  "directories": {
+    "configs": "configs",
+    "reports": "reports",
+    "build": "build",
+    "exports": "exports",
+    "review_decisions": "review_decisions",
+    "logs": "logs",
+    "cache": "cache"
+  },
+  "files": {
+    "settings": "configs/desktop_settings.local.json",
+    "dashboard_report": "build/v49_dashboard_data.json",
+    "review_report": "build/v53_v54_review_data.json",
+    "review_decisions_jsonl": "review_decisions/review_decisions.jsonl",
+    "workflow_runs_jsonl": "logs/workflow_runs.jsonl"
+  },
+  "policy": {
+    "offline_default": true,
+    "api_key_values_in_files": false,
+    "live_provider_calls_in_ci": false,
+    "shell_execution": false,
+    "portable_mode_supported": true
+  }
+}
