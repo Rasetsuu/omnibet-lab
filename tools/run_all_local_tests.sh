@@ -116,7 +116,7 @@ log "v23 multi-source adapter smoke"
   cd python_lab
   python multisource_lab.py \
     --db ../build/omnibet_v23_multisource.sqlite \
-    --football-data-csv ../data/unified_intl_matches.csv \
+    --football-data-csv ../data/samples/football_data_odds_sample.csv \
     --openfootball-json ../data/samples/openfootball_sample.json \
     --wyscout-matches ../data/samples/wyscout_public_sample_matches.json \
     --wyscout-events ../data/samples/wyscout_public_sample_events.json \
