@@ -1,0 +1,26 @@
+{
+  "version": "omnibet.market_snapshot_warehouse.v32",
+  "stable_hardcoded_contracts": [
+    "raw_market_snapshots",
+    "market_mapping_rules",
+    "unknown_market_queue",
+    "required schema fields",
+    "known market-family IDs",
+    "settlement-scope enums",
+    "safety rules"
+  ],
+  "dynamic_provider_data": [
+    "raw market names",
+    "raw selection names",
+    "provider market keys",
+    "bookmaker event IDs",
+    "lines",
+    "player names",
+    "team names",
+    "period labels",
+    "unknown market labels"
+  ],
+  "unknown_market_policy": "preserve raw snapshot with needs_mapping=true; review and map later without mutating original snapshot",
+  "ci_policy": "local deterministic smoke only; no API keys, no provider calls, no website automation",
+  "smoke_script": "python_lab/market_snapshot_smoke.py"
+}
