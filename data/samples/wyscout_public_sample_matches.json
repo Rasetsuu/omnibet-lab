@@ -1,0 +1,24 @@
+[
+  {
+    "wyId": 1001,
+    "label": "Spain - Cape Verde, 2 - 0",
+    "dateutc": "2024-08-10 19:00:00",
+    "competitionId": 900,
+    "seasonId": 2024,
+    "teamsData": {
+      "10": {"teamId": 10, "side": "home", "score": 2, "team": {"name": "Spain"}},
+      "20": {"teamId": 20, "side": "away", "score": 0, "team": {"name": "Cape Verde"}}
+    }
+  },
+  {
+    "wyId": 1002,
+    "label": "Germany - Japan, 1 - 1",
+    "dateutc": "2024-08-11 20:00:00",
+    "competitionId": 900,
+    "seasonId": 2024,
+    "teamsData": {
+      "30": {"teamId": 30, "side": "home", "score": 1, "team": {"name": "Germany"}},
+      "40": {"teamId": 40, "side": "away", "score": 1, "team": {"name": "Japan"}}
+    }
+  }
+]
