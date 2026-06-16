@@ -201,6 +201,15 @@ log "v31 provider matrix and market discovery schema"
     | tee ../reports/ci_v31_provider_market_discovery_stdout.json
 )
 
+log "v32 raw market snapshot warehouse smoke"
+(
+  cd python_lab
+  python market_snapshot_smoke.py \
+    --db ../build/omnibet_v32_market_smoke.sqlite \
+    --out ../reports/ci_v32_market_snapshot_smoke.json \
+    | tee ../reports/ci_v32_market_snapshot_smoke_stdout.json
+)
+
 log "rust tests"
 (
   cd rust-core
