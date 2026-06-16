@@ -1,0 +1,29 @@
+{
+  "version": "omnibet.the_odds_api_adapter.v35",
+  "mode": "offline_sample_only_for_ci",
+  "provider_id": "the_odds_api_offline_sample",
+  "sample_path": "data/samples/the_odds_api_event_markets_sample.json",
+  "api_key_env_for_future_live_use": "ODDS_API_KEY",
+  "ci_policy": {
+    "network_calls": false,
+    "api_key_required": false,
+    "paid_quota_usage": false,
+    "website_automation": false
+  },
+  "market_key_aliases": {
+    "h2h": "1X2",
+    "totals": "Total goals",
+    "spreads": "Asian handicap",
+    "corners": "Corners",
+    "shots_on_target": "Shots on target",
+    "player_shots_on_target": "Player shots on target"
+  },
+  "mapping_policy": {
+    "exact_high_confidence_aliases_only": true,
+    "auto_threshold": 0.95,
+    "fuzzy_market_auto_mapping": false,
+    "preserve_unknowns": true,
+    "preserve_raw_snapshots": true
+  },
+  "smoke_script": "python_lab/the_odds_api_offline_smoke.py"
+}
