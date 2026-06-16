@@ -1,0 +1,45 @@
+{
+  "version": "omnibet.source_acquisition.v28.example",
+  "local_root": "data/external",
+  "enabled_sources": [
+    "statsbomb_open_data",
+    "football_data_uk",
+    "openfootball_worldcup"
+  ],
+  "paid_sources_disabled_by_default": [
+    "the_odds_api"
+  ],
+  "notes": [
+    "Do not commit downloaded raw datasets to Git.",
+    "Run v26 local backfill after syncing the enabled sources.",
+    "Run v27 Parquet+ZSTD export after local backfill succeeds.",
+    "Paid/API-key sources must stay out of CI."
+  ],
+  "sources": {
+    "statsbomb_open_data": {
+      "enabled": true,
+      "homepage": "https://github.com/statsbomb/open-data",
+      "local_path": "data/external/statsbomb-open-data",
+      "v26_argument": "--statsbomb-dir data/external/statsbomb-open-data/data"
+    },
+    "football_data_uk": {
+      "enabled": true,
+      "homepage": "https://www.football-data.co.uk/data.php",
+      "local_path": "data/external/football-data",
+      "v26_argument": "--football-data-dir data/external/football-data"
+    },
+    "openfootball_worldcup": {
+      "enabled": true,
+      "homepage": "https://github.com/openfootball/worldcup",
+      "local_path": "data/external/openfootball/worldcup",
+      "v26_argument": "--openfootball-dir data/external/openfootball"
+    },
+    "the_odds_api": {
+      "enabled": false,
+      "homepage": "https://the-odds-api.com/liveapi/guides/v4/",
+      "local_path": "data/external/the-odds-api",
+      "v26_argument": "--odds-dir data/external/the-odds-api",
+      "env_required": ["THE_ODDS_API_KEY"]
+    }
+  }
+}
