@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """
-OmniBet Lab v4 warehouse helpers.
+OmniBet Lab v4+ warehouse helpers.
 
 This creates a source-neutral warehouse:
 - source_registry / update_runs / raw_source_blobs for sync bookkeeping
 - bronze_blobs for raw API/CSV payloads
 - normalized matches/teams/players/events/odds skeletons
+- dynamic raw bookmaker/provider market snapshots for market discovery
 - adapter watermarks for incremental updates
 
 The warehouse is intentionally conservative:
@@ -184,6 +185,78 @@ CREATE TABLE IF NOT EXISTS odds_snapshots (
     is_live INTEGER,
     raw_json TEXT
 );
+
+CREATE TABLE IF NOT EXISTS raw_market_snapshots (
+    raw_market_snapshot_id TEXT PRIMARY KEY,
+    observed_at TEXT NOT NULL,
+    provider_id TEXT NOT NULL,
+    bookmaker TEXT,
+    provider_sport_key TEXT,
+    provider_event_id TEXT,
+    match_id TEXT,
+    raw_market_key TEXT,
+    raw_market_name TEXT,
+    raw_selection_key TEXT,
+    raw_selection_name TEXT,
+    decimal_odds REAL,
+    line_raw TEXT,
+    line_value REAL,
+    team_name_raw TEXT,
+    team_id TEXT,
+    player_name_raw TEXT,
+    player_id TEXT,
+    period_raw TEXT,
+    settlement_scope_guess TEXT,
+    mapped_market_id TEXT,
+    mapping_confidence REAL,
+    needs_mapping INTEGER NOT NULL DEFAULT 1,
+    suspended INTEGER NOT NULL DEFAULT 0,
+    last_update TEXT,
+    payload_sha256 TEXT NOT NULL,
+    raw_json TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_raw_market_event_time
+    ON raw_market_snapshots(provider_id, provider_event_id, observed_at);
+CREATE INDEX IF NOT EXISTS idx_raw_market_mapping
+    ON raw_market_snapshots(needs_mapping, mapped_market_id, raw_market_name, raw_selection_name);
+CREATE INDEX IF NOT EXISTS idx_raw_market_match_market
+    ON raw_market_snapshots(match_id, mapped_market_id, observed_at);
+
+CREATE TABLE IF NOT EXISTS market_mapping_rules (
+    mapping_rule_id TEXT PRIMARY KEY,
+    provider_id TEXT,
+    bookmaker TEXT,
+    raw_market_key TEXT,
+    raw_market_name_pattern TEXT,
+    raw_selection_name_pattern TEXT,
+    mapped_market_id TEXT NOT NULL,
+    settlement_scope TEXT,
+    parser_hint_json TEXT,
+    confidence REAL NOT NULL DEFAULT 1.0,
+    enabled INTEGER NOT NULL DEFAULT 1,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    notes TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_market_mapping_provider
+    ON market_mapping_rules(provider_id, bookmaker, enabled);
+
+CREATE VIEW IF NOT EXISTS unknown_market_queue AS
+SELECT
+    raw_market_name,
+    raw_selection_name,
+    provider_id,
+    bookmaker,
+    provider_sport_key,
+    COUNT(*) AS snapshot_count,
+    MIN(observed_at) AS first_observed_at,
+    MAX(observed_at) AS last_observed_at,
+    MIN(provider_event_id) AS example_provider_event_id,
+    MIN(match_id) AS example_match_id
+FROM raw_market_snapshots
+WHERE needs_mapping = 1 OR mapped_market_id IS NULL OR mapped_market_id = ''
+GROUP BY raw_market_name, raw_selection_name, provider_id, bookmaker, provider_sport_key;
 """
 
 
@@ -243,6 +316,14 @@ DEFAULT_SOURCES = [
         "min_interval_minutes": 30,
         "notes": "NBA.com stats/live endpoints via Python package. Respect NBA.com Terms of Use.",
     },
+]
+
+
+WAREHOUSE_COUNT_TABLES = [
+    "source_registry", "update_runs", "adapter_watermarks", "raw_source_blobs",
+    "bronze_blobs", "competitions", "seasons", "teams", "players",
+    "matches_norm", "match_events", "lineups", "odds_snapshots",
+    "raw_market_snapshots", "market_mapping_rules", "unknown_market_queue",
 ]
 
 
@@ -309,10 +390,51 @@ def store_bronze(con: sqlite3.Connection, source_id: str, entity_type: str, payl
     return blob_id
 
 
+def store_raw_market_snapshot(con: sqlite3.Connection, snapshot: Dict[str, Any]) -> str:
+    raw_json = json.dumps(snapshot.get("raw_json", snapshot), ensure_ascii=False, sort_keys=True)
+    payload_sha256 = snapshot.get("payload_sha256") or sha_text(raw_json)
+    snapshot_id = snapshot.get("raw_market_snapshot_id") or f"{snapshot.get('provider_id', 'provider')}:{snapshot.get('provider_event_id', 'event')}:{snapshot.get('raw_market_key', 'market')}:{snapshot.get('raw_selection_key', 'selection')}:{payload_sha256[:12]}"
+    con.execute(
+        """INSERT OR REPLACE INTO raw_market_snapshots
+           (raw_market_snapshot_id, observed_at, provider_id, bookmaker, provider_sport_key, provider_event_id,
+            match_id, raw_market_key, raw_market_name, raw_selection_key, raw_selection_name, decimal_odds,
+            line_raw, line_value, team_name_raw, team_id, player_name_raw, player_id, period_raw,
+            settlement_scope_guess, mapped_market_id, mapping_confidence, needs_mapping, suspended,
+            last_update, payload_sha256, raw_json)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+        (
+            snapshot_id,
+            snapshot.get("observed_at") or utc_now(),
+            snapshot["provider_id"],
+            snapshot.get("bookmaker"),
+            snapshot.get("provider_sport_key"),
+            snapshot.get("provider_event_id"),
+            snapshot.get("match_id"),
+            snapshot.get("raw_market_key"),
+            snapshot.get("raw_market_name"),
+            snapshot.get("raw_selection_key"),
+            snapshot.get("raw_selection_name"),
+            snapshot.get("decimal_odds"),
+            snapshot.get("line_raw"),
+            snapshot.get("line_value"),
+            snapshot.get("team_name_raw"),
+            snapshot.get("team_id"),
+            snapshot.get("player_name_raw"),
+            snapshot.get("player_id"),
+            snapshot.get("period_raw"),
+            snapshot.get("settlement_scope_guess"),
+            snapshot.get("mapped_market_id"),
+            snapshot.get("mapping_confidence"),
+            int(bool(snapshot.get("needs_mapping", not snapshot.get("mapped_market_id")))),
+            int(bool(snapshot.get("suspended", False))),
+            snapshot.get("last_update"),
+            payload_sha256,
+            raw_json,
+        ),
+    )
+    con.commit()
+    return snapshot_id
+
+
 def table_counts(con: sqlite3.Connection) -> Dict[str, int]:
-    tables = [
-        "source_registry", "update_runs", "adapter_watermarks", "raw_source_blobs",
-        "bronze_blobs", "competitions", "seasons", "teams", "players",
-        "matches_norm", "match_events", "lineups", "odds_snapshots",
-    ]
-    return {t: int(con.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0]) for t in tables}
+    return {t: int(con.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0]) for t in WAREHOUSE_COUNT_TABLES}
