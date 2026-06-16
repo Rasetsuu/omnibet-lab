@@ -7,6 +7,7 @@ from pathlib import Path
 
 COMMANDS = ["ping", "pack_summary", "predict_fixture", "value_report"]
 TABS = ["simple", "detailed", "advanced", "builder"]
+ALLOWLIST = ["omnibet-pack", "omnibet-infer", "omnibet-value", "omnibet-model"]
 
 
 def main() -> None:
@@ -28,11 +29,20 @@ def main() -> None:
         "model_trust_present": "model_trust" in page or "model_trust" in rust,
         "no_profit_claim": "profit guarantee" not in page.lower(),
     }
+    bridge = {
+        "uses_process_command": "std::process::Command" in rust and "Command::new" in rust,
+        "has_allowlist": all(x in rust for x in ALLOWLIST),
+        "has_cli_missing_mode": "cli_missing" in rust,
+        "has_blocked_mode": "blocked" in rust,
+        "forces_low_trust_value": '"0.25".to_string()' in rust,
+        "no_shell_import": "use std::process::Command" in rust,
+    }
     out = {
-        "ok": all(commands.values()) and all(tabs.values()) and all(safety.values()),
+        "ok": all(commands.values()) and all(tabs.values()) and all(safety.values()) and all(bridge.values()),
         "commands": commands,
         "tabs": tabs,
         "safety": safety,
+        "bridge": bridge,
     }
     out_path = root / args.out
     out_path.parent.mkdir(parents=True, exist_ok=True)
