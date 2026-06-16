@@ -1,0 +1,89 @@
+{
+  "id": "toa_event_france_senegal_demo",
+  "sport_key": "soccer_fifa_world_cup",
+  "sport_title": "FIFA World Cup",
+  "commence_time": "2026-06-16T20:00:00Z",
+  "home_team": "France",
+  "away_team": "Senegal",
+  "bookmakers": [
+    {
+      "key": "example_bookmaker_a",
+      "title": "Example Bookmaker A",
+      "last_update": "2026-06-16T18:00:00Z",
+      "markets": [
+        {
+          "key": "h2h",
+          "last_update": "2026-06-16T18:00:00Z",
+          "outcomes": [
+            {"name": "France", "price": 1.50},
+            {"name": "Draw", "price": 4.50},
+            {"name": "Senegal", "price": 6.50}
+          ]
+        },
+        {
+          "key": "totals",
+          "last_update": "2026-06-16T18:00:00Z",
+          "outcomes": [
+            {"name": "Over", "price": 1.91, "point": 2.5},
+            {"name": "Under", "price": 1.91, "point": 2.5}
+          ]
+        },
+        {
+          "key": "corners",
+          "last_update": "2026-06-16T18:00:00Z",
+          "outcomes": [
+            {"name": "Over", "price": 1.87, "point": 9.5},
+            {"name": "Under", "price": 1.95, "point": 9.5}
+          ]
+        },
+        {
+          "key": "shots_on_target",
+          "last_update": "2026-06-16T18:00:00Z",
+          "outcomes": [
+            {"name": "Over", "price": 1.92, "point": 8.5},
+            {"name": "Under", "price": 1.88, "point": 8.5}
+          ]
+        },
+        {
+          "key": "special_combo_unknown",
+          "last_update": "2026-06-16T18:00:00Z",
+          "outcomes": [
+            {"name": "France win + player shot + team corners", "price": 2.90}
+          ]
+        }
+      ]
+    },
+    {
+      "key": "example_bookmaker_b",
+      "title": "Example Bookmaker B",
+      "last_update": "2026-06-16T18:01:00Z",
+      "markets": [
+        {
+          "key": "h2h",
+          "last_update": "2026-06-16T18:01:00Z",
+          "outcomes": [
+            {"name": "France", "price": 1.52},
+            {"name": "Draw", "price": 4.40},
+            {"name": "Senegal", "price": 6.25}
+          ]
+        },
+        {
+          "key": "spreads",
+          "last_update": "2026-06-16T18:01:00Z",
+          "outcomes": [
+            {"name": "France", "price": 1.84, "point": -1.0},
+            {"name": "Senegal", "price": 2.00, "point": 1.0}
+          ]
+        },
+        {
+          "key": "player_shots_on_target",
+          "last_update": "2026-06-16T18:01:00Z",
+          "outcomes": [
+            {"name": "Kylian Mbappe Over", "price": 1.78, "point": 1.5, "description": "Kylian Mbappe"},
+            {"name": "Kylian Mbappe Under", "price": 2.05, "point": 1.5, "description": "Kylian Mbappe"}
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -2,8 +2,8 @@
 
 Cross-sport prediction/value-betting research lab with a Rust-first runtime direction and a Python research/backfill layer.
 
-Current merged milestone: **v33 — canonical resolver and alias mapping engine**.
-Next target: **v34 — safe market alias apply engine**.
+Current merged milestone: **v34 — safe market alias apply engine**.
+Next target: **v35 — The Odds API offline event-market adapter skeleton**.
 
 OmniBet is not meant to be a simple score predictor. The project is building a local-first sports intelligence pipeline:
 
@@ -27,7 +27,7 @@ raw data sources
 - `cpp-core/` — early std-only proof core kept for portability experiments.
 - `data/` — tiny deterministic samples only.
 - `data_packs/` — compressed JSONL.GZ packs used by CI/Rust readers.
-- `docs/` — milestone docs from v4 through v34.
+- `docs/` — milestone docs from v4 through v35.
 
 ## What works now
 
@@ -45,6 +45,7 @@ raw data sources
 - Raw market snapshot warehouse tables and unknown market queue.
 - Canonical resolver tables and alias-mapping smoke.
 - Safe market alias application to raw snapshots.
+- The Odds API-style offline event-market adapter skeleton.
 - Compressed JSONL.GZ data packs and Python/Rust verification.
 - Optional local Parquet+ZSTD warehouse-pack exporter for heavy data.
 - Phase-aware football market registry.
@@ -143,23 +144,32 @@ See [`docs/v33_canonical_resolver.md`](docs/v33_canonical_resolver.md).
 
 v34 applies exact high-confidence market aliases onto raw market snapshots while preserving unknown markets.
 
+See [`docs/v34_market_alias_apply.md`](docs/v34_market_alias_apply.md).
+
+## v35 The Odds API offline adapter
+
+v35 adds the first provider-style offline adapter skeleton.
+
 ```bash
 cd python_lab
-python market_alias_apply_smoke.py \
-  --db ../build/omnibet_v34_market_alias_apply.sqlite \
-  --out ../reports/ci_v34_market_alias_apply.json
+python the_odds_api_offline_smoke.py \
+  --db ../build/omnibet_v35_the_odds_api_offline.sqlite \
+  --input ../data/samples/the_odds_api_event_markets_sample.json \
+  --out ../reports/ci_v35_the_odds_api_offline.json
 ```
 
-The smoke proves:
+It proves the provider pipeline without any live API call:
 
 ```text
-Cornere / Lovituri de colț -> total corners
-Shots and shots on target remain separate
-Final and To qualify remain separate
-unknown market remains in unknown_market_queue
+local event-market sample
+→ raw_market_snapshots
+→ safe exact market aliases
+→ mapped_market_id when safe
+→ unknown_market_queue when unknown
+→ provider coverage report
 ```
 
-See [`docs/v34_market_alias_apply.md`](docs/v34_market_alias_apply.md).
+See [`docs/v35_the_odds_api_offline_adapter.md`](docs/v35_the_odds_api_offline_adapter.md).
 
 ## Storage direction
 

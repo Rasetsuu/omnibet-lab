@@ -228,6 +228,16 @@ log "v34 market alias apply smoke"
     | tee ../reports/ci_v34_market_alias_apply_stdout.json
 )
 
+log "v35 The Odds API offline adapter smoke"
+(
+  cd python_lab
+  python the_odds_api_offline_smoke.py \
+    --db ../build/omnibet_v35_the_odds_api_offline.sqlite \
+    --input ../data/samples/the_odds_api_event_markets_sample.json \
+    --out ../reports/ci_v35_the_odds_api_offline.json \
+    | tee ../reports/ci_v35_the_odds_api_offline_stdout.json
+)
+
 log "rust tests"
 (
   cd rust-core
