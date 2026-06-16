@@ -21,10 +21,18 @@ DEFAULT_RAW_BASE = "https://" + "raw.githubusercontent.com" + "/statsbomb/open-d
 DEFAULT_SMOKE_PAIR = (9, 281)  # Bundesliga 2023/2024, compact but event-rich.
 
 
-def fetch_json(url: str, timeout: int = 60) -> Any:
-    req = urllib.request.Request(url, headers={"User-Agent": "omnibet-lab-v20-scale"})
-    with urllib.request.urlopen(req, timeout=timeout) as resp:
-        return json.loads(resp.read().decode("utf-8"))
+def fetch_json(url: str, timeout: int = 60, retries: int = 4, backoff: float = 0.6) -> Any:
+    last_error: Exception | None = None
+    for attempt in range(retries):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "omnibet-lab-v20-scale"})
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                return json.loads(resp.read().decode("utf-8"))
+        except Exception as e:
+            last_error = e
+            if attempt + 1 < retries:
+                time.sleep(backoff * (attempt + 1))
+    raise last_error or RuntimeError(f"failed to fetch {url}")
 
 
 def write_json(path: Path, obj: Any) -> None:
@@ -220,7 +228,7 @@ def run(args: argparse.Namespace) -> Dict[str, Any]:
             "current_ci_codec": "jsonl.gzip",
             "current_role": "portable deterministic CI pack and Rust reader input",
             "next_large_local_codec": "parquet.zstd or duckdb external tables",
-            "sqlite_role": "metadata/cache/recent app state, not giant historical lake",
+            "sqlite_role": "metadata/cache/recent state, not giant historical lake",
             "full_import_command": "python statsbomb_scale_pipeline.py --profile full --max-matches 0 --pack-name football_statsbomb_full_v1",
         },
     }
