@@ -42,6 +42,8 @@
           <button id="load-dashboard-sample">Load bundled sample</button>
           <button id="load-review-report">Load local review report</button>
           <button id="load-review-sample">Load review sample</button>
+          <button id="load-settings-report">Load settings</button>
+          <button id="load-settings-sample">Load settings sample</button>
         </div>
       </header>
 
@@ -106,12 +108,15 @@
       </section>
 
       <section id="settings" class="page" data-page-panel="settings">
-        <h2>Settings</h2>
-        <div class="card">
-          <p>Desktop settings placeholder.</p>
-          <p class="muted">Default dashboard lookup order: build/v49_dashboard_data.json, reports/ci_v49_dashboard_data.json, tauri-app/src/dashboard-data.sample.json.</p>
-          <p class="muted">Default review lookup order: build/v53_v54_review_data.json, reports/ci_v53_v54_review_ui.json, tauri-app/src/review-data.sample.json.</p>
+        <h2>Settings and Local Runs</h2>
+        <p class="muted">v55-v56 settings and allowlisted local workflow controls. API key values are never displayed.</p>
+        <div class="grid">
+          <div id="settings-paths" class="card"><h3>Local paths</h3><div class="muted">Load settings first.</div></div>
+          <div id="settings-runtime" class="card"><h3>Runtime</h3><div class="muted">Load settings first.</div></div>
+          <div id="settings-providers" class="card"><h3>Providers</h3><div class="muted">Load settings first.</div></div>
+          <div id="settings-safety" class="card"><h3>Safety</h3><div class="muted">Load settings first.</div></div>
         </div>
+        <div id="local-run-buttons" class="card"><h3>Local workflow controls</h3><div class="muted">Load settings first.</div></div>
       </section>
 
       <section id="simple" class="page" data-page-panel="simple">
@@ -149,6 +154,7 @@
   <script type="module" src="api.js"></script>
   <script type="module" src="dashboard.js"></script>
   <script type="module" src="review.js"></script>
+  <script type="module" src="settings.js"></script>
   <script type="module" src="app.js"></script>
 </body>
 </html>
