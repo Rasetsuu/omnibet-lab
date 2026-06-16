@@ -154,6 +154,16 @@ log "v26 local backfill tiny smoke"
     | tee ../reports/ci_verify_v26_backfill_pack.json
 )
 
+log "v27 Parquet+ZSTD storage plan"
+(
+  cd python_lab
+  python export_parquet_zstd_pack.py \
+    --plan-only \
+    --db ../build/v26_smoke/omnibet_v26_backfill.sqlite \
+    --out ../reports/ci_v27_parquet_zstd_plan.json \
+    | tee ../reports/ci_v27_parquet_zstd_plan_stdout.json
+)
+
 log "rust tests"
 (
   cd rust-core

@@ -1,0 +1,7 @@
+# Optional local-scale storage/analytics dependencies.
+# The CI harness does not install these; v27 plan mode stays dependency-free.
+# Install locally before exporting heavy Parquet+ZSTD packs:
+#   python -m pip install -r requirements-storage.txt
+pyarrow>=16.0.0
+duckdb>=1.0.0
+polars>=1.0.0
