@@ -2,8 +2,8 @@
 
 Cross-sport prediction/value-betting research lab with a Rust-first runtime direction and a Python research/backfill layer.
 
-Current merged milestone: **v31 — provider candidate matrix and dynamic market discovery schema**.
-Next target: **v32 — raw market snapshot warehouse tables and unknown market queue**.
+Current merged milestone: **v32 — raw market snapshot warehouse tables and unknown market queue**.
+Next target: **v33 — canonical resolver and alias mapping engine**.
 
 OmniBet is not meant to be a simple score predictor. The project is building a local-first sports intelligence pipeline:
 
@@ -27,7 +27,7 @@ raw data sources
 - `cpp-core/` — early std-only proof core kept for portability experiments.
 - `data/` — tiny deterministic samples only.
 - `data_packs/` — compressed JSONL.GZ packs used by CI/Rust readers.
-- `docs/` — milestone docs from v4 through v32.
+- `docs/` — milestone docs from v4 through v33.
 
 ## What works now
 
@@ -43,6 +43,7 @@ raw data sources
 - Bookmaker odds / Bet Builder market contract.
 - Provider candidate matrix and dynamic market discovery schema.
 - Raw market snapshot warehouse tables and unknown market queue.
+- Canonical resolver tables and alias-mapping smoke.
 - Compressed JSONL.GZ data packs and Python/Rust verification.
 - Optional local Parquet+ZSTD warehouse-pack exporter for heavy data.
 - Phase-aware football market registry.
@@ -129,26 +130,38 @@ market_mapping_rules
 unknown_market_queue
 ```
 
+See [`docs/v32_market_snapshot_warehouse.md`](docs/v32_market_snapshot_warehouse.md).
+
+## v33 canonical resolver
+
+v33 adds canonical storage and alias resolution for teams, players, markets, and selections:
+
+```text
+canonical_teams / team_aliases
+canonical_players / player_aliases
+canonical_markets / market_aliases
+canonical_selections / selection_aliases
+resolver_mapping_candidates
+resolver_mapping_decisions
+resolver_review_queue
+```
+
 CI-safe smoke:
 
 ```bash
 cd python_lab
-python market_snapshot_smoke.py \
-  --db ../build/omnibet_v32_market_smoke.sqlite \
-  --out ../reports/ci_v32_market_snapshot_smoke.json
+python canonical_resolver_smoke.py \
+  --db ../build/omnibet_v33_resolver_smoke.sqlite \
+  --out ../reports/ci_v33_canonical_resolver_smoke.json
 ```
 
-The design rule is:
+Key safety rule:
 
 ```text
-Hardcode stable contracts only:
-  table names, required fields, known market families, settlement scopes, safety rules
-
-Keep provider/bookmaker data dynamic:
-  raw market names, selections, provider keys, event ids, lines, players, teams, unknown labels
+Never train on uncertain mappings. Prefer missing data over false merges.
 ```
 
-See [`docs/v32_market_snapshot_warehouse.md`](docs/v32_market_snapshot_warehouse.md).
+See [`docs/v33_canonical_resolver.md`](docs/v33_canonical_resolver.md).
 
 ## Storage direction
 
