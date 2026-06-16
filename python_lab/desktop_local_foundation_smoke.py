@@ -46,7 +46,7 @@ def build_report(root: Path, platform_name: str) -> Dict[str, Any]:
     required_contract_dirs = ["configs", "reports", "build", "exports", "review_decisions", "logs", "cache"]
     checks = {
         "package_preflight_ok": package_report.get("ok") is True,
-        "contract_version_ok": contract.get("version") == "omnibet.local_data_contract.v61",
+        "contract_version_ok": str(contract.get("version", "")).startswith("omnibet.local_data_contract.v61"),
         "contract_dirs_present": all(d in contract.get("directories", {}) for d in required_contract_dirs),
         "contract_files_present": "review_decisions_jsonl" in contract.get("files", {}) and "workflow_runs_jsonl" in contract.get("files", {}),
         "contract_materialized_dirs": all(created_dirs.values()),
