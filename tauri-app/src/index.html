@@ -4,32 +4,55 @@
   <meta charset="utf-8"/>
   <title>OmniBet Lab Desktop</title>
   <style>
-    body { font-family: system-ui, sans-serif; margin: 2rem; max-width: 1100px; background:#101216; color:#f2f2f2; }
+    :root { color-scheme: dark; }
+    body { font-family: system-ui, sans-serif; margin: 2rem; max-width: 1180px; background:#101216; color:#f2f2f2; }
     .card { border: 1px solid #303846; border-radius: 12px; padding: 1rem; margin: 1rem 0; background:#171b22; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
     button { padding: .6rem .9rem; border-radius: 8px; border: 1px solid #506070; background:#202838; color:#fff; cursor:pointer; }
     input { padding: .55rem; border-radius: 8px; border: 1px solid #506070; background:#0f131a; color:#fff; }
-    .tabs button { margin-right: .4rem; }
-    pre { white-space: pre-wrap; background:#0b0e13; padding:1rem; border-radius:10px; overflow:auto; }
+    .tabs button { margin-right: .4rem; margin-bottom: .4rem; }
+    pre { white-space: pre-wrap; background:#0b0e13; padding:1rem; border-radius:10px; overflow:auto; max-height: 420px; }
     .warn { color:#ffd479; }
+    .ok { color:#9fe870; }
+    .muted { color:#a7b0bf; }
+    table { width:100%; border-collapse: collapse; font-size: 0.92rem; }
+    th, td { border-bottom: 1px solid #303846; padding: .45rem; text-align:left; vertical-align: top; }
+    th { color:#9ecbff; }
+    .pill { display:inline-block; padding:.15rem .45rem; border-radius: 999px; border: 1px solid #3b4658; background:#111722; margin:.1rem; }
   </style>
 </head>
 <body>
   <h1>OmniBet Lab Desktop</h1>
-  <p class="warn">v18 desktop wiring preview. All value/bet-builder output is paper-only until the model trust gate says otherwise.</p>
+  <p class="warn">v49 dashboard skeleton. Offline research preview only; no live provider calls and no recommendation output.</p>
 
   <div class="tabs card">
+    <button onclick="showTab('dashboard')">Dashboard</button>
     <button onclick="showTab('simple')">Simple</button>
     <button onclick="showTab('detailed')">Detailed</button>
     <button onclick="showTab('advanced')">Advanced</button>
-    <button onclick="showTab('builder')">Bet Builder</button>
+    <button onclick="showTab('builder')">Market Builder</button>
   </div>
 
-  <section id="simple" class="card tab">
+  <section id="dashboard" class="card tab">
+    <h2>Provider Pipeline Dashboard</h2>
+    <p class="muted">Loads static sample data in browser preview. In future builds this panel can read generated local reports through the Tauri bridge.</p>
+    <button onclick="loadDashboard()">Load Dashboard Sample</button>
+    <div class="grid">
+      <div id="dashboard-events" class="card"><h3>Event list</h3><div class="muted">Not loaded.</div></div>
+      <div id="dashboard-markets" class="card"><h3>Market snapshots</h3><div class="muted">Not loaded.</div></div>
+      <div id="dashboard-unknowns" class="card"><h3>Unknown market queue</h3><div class="muted">Not loaded.</div></div>
+      <div id="dashboard-features" class="card"><h3>Feature snapshot preview</h3><div class="muted">Not loaded.</div></div>
+      <div id="dashboard-settlement" class="card"><h3>Settlement report</h3><div class="muted">Not loaded.</div></div>
+      <div id="dashboard-accounting" class="card"><h3>Result accounting report</h3><div class="muted">Not loaded.</div></div>
+    </div>
+  </section>
+
+  <section id="simple" class="card tab" hidden>
     <h2>Simple</h2>
     <p>Quick fixture check.</p>
     <input id="home" value="Spain" />
     <input id="away" value="Cape Verde" />
-    <button onclick="predictFixture()">Predict</button>
+    <button onclick="predictFixture()">Preview</button>
   </section>
 
   <section id="detailed" class="card tab" hidden>
@@ -44,9 +67,9 @@
   </section>
 
   <section id="builder" class="card tab" hidden>
-    <h2>Bet Builder</h2>
-    <p class="warn">This panel is intentionally paper-only in v18.</p>
-    <button onclick="valueReport()">Generate Paper Value Report</button>
+    <h2>Market Builder</h2>
+    <p class="warn">Research-only preview. No live execution, no recommendation output.</p>
+    <button onclick="valueReport()">Generate Offline Report Preview</button>
   </section>
 
   <div class="card">
@@ -55,11 +78,24 @@
   </div>
 
 <script>
+const fallbackDashboard = {
+  ok: true,
+  version: 'omnibet.dashboard.v49.fallback',
+  sections: {
+    events: [{canonical_event_id:'fallback:event', home_team_name:'France', away_team_name:'Senegal', competition:'FIFA World Cup', commence_time:'2026-06-16T20:00:00Z', provider_links:[], match_state:[{match_status:'FT', home_score:2, away_score:1}]}],
+    market_snapshots: [{bookmaker:'Example', raw_market_name:'1X2', raw_selection_name:'France', mapped_market_id:'football_1x2_regulation', decimal_odds:1.5, needs_mapping:0}],
+    unknown_market_queue: [{raw_market_name:'special combo unknown', raw_selection_name:'example unknown combo'}],
+    feature_snapshot_preview: {counts:[{snapshot_stage:'pre_event_market', rows:14, model_eligible_rows:13}], rows:[]},
+    settlement_report: {counts:[{settlement_status:'settled', settlement_result:'win', rows:5}], rows:[]},
+    result_accounting_report: {counts:[{settlement_result:'win', rows:5, paper_units:4.2}], rows:[], note:'Fallback preview.'}
+  }
+};
+
 const fallback = {
   ping: () => 'browser-preview-ok',
   pack_summary: () => ({ok:true, format:'omnibet.pack.v1', pack_name:'browser preview', total_rows:0, note:'Open in Tauri for backend command invocation.'}),
-  predict_fixture: ({homeTeam, awayTeam}) => ({ok:true, home_team:homeTeam, away_team:awayTeam, model_trust:0.25, decision_mode:'PAPER_ONLY', note:'Browser fallback preview.'}),
-  value_report: ({homeTeam, awayTeam}) => ({ok:true, fixture:`${homeTeam} vs ${awayTeam}`, mode:'paper_only', paper_only:true, note:'Browser fallback preview; no staking labels.'})
+  predict_fixture: ({homeTeam, awayTeam}) => ({ok:true, home_team:homeTeam, away_team:awayTeam, model_trust:0.25, decision_mode:'RESEARCH_PREVIEW', note:'Browser fallback preview.'}),
+  value_report: ({homeTeam, awayTeam}) => ({ok:true, fixture:`${homeTeam} vs ${awayTeam}`, mode:'offline_preview', note:'Browser fallback preview; no recommendation output.'})
 };
 
 async function invokeCommand(name, args = {}) {
@@ -76,6 +112,48 @@ async function ping() { out(await invokeCommand('ping')); }
 async function packSummary() { out(await invokeCommand('pack_summary')); }
 async function predictFixture() { out(await invokeCommand('predict_fixture', teams())); }
 async function valueReport() { out(await invokeCommand('value_report', teams())); }
+
+function esc(value) {
+  return String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+}
+
+function table(rows, cols) {
+  if (!rows || rows.length === 0) return '<div class="muted">No rows.</div>';
+  const head = '<tr>' + cols.map(c => `<th>${esc(c.label)}</th>`).join('') + '</tr>';
+  const body = rows.map(r => '<tr>' + cols.map(c => `<td>${esc(r[c.key])}</td>`).join('') + '</tr>').join('');
+  return `<table>${head}${body}</table>`;
+}
+
+function renderDashboard(data) {
+  const s = data.sections;
+  const event = s.events[0] || {};
+  document.getElementById('dashboard-events').innerHTML = `<h3>Event list</h3><p><b>${esc(event.home_team_name)} vs ${esc(event.away_team_name)}</b></p><p>${esc(event.competition)} · ${esc(event.commence_time)}</p><p>${(event.provider_links || []).map(x => `<span class="pill">${esc(x.provider_id)}</span>`).join('')}</p>`;
+  document.getElementById('dashboard-markets').innerHTML = '<h3>Market snapshots</h3>' + table(s.market_snapshots, [
+    {key:'bookmaker', label:'Bookmaker'}, {key:'raw_market_name', label:'Market'}, {key:'raw_selection_name', label:'Selection'}, {key:'mapped_market_id', label:'Mapped'}, {key:'decimal_odds', label:'Odds'}
+  ]);
+  document.getElementById('dashboard-unknowns').innerHTML = '<h3>Unknown market queue</h3>' + table(s.unknown_market_queue, [
+    {key:'raw_market_name', label:'Market'}, {key:'raw_selection_name', label:'Selection'}, {key:'bookmaker', label:'Bookmaker'}
+  ]);
+  document.getElementById('dashboard-features').innerHTML = '<h3>Feature snapshot preview</h3>' + table((s.feature_snapshot_preview || {}).counts, [
+    {key:'snapshot_stage', label:'Stage'}, {key:'rows', label:'Rows'}, {key:'model_eligible_rows', label:'Model eligible'}
+  ]);
+  document.getElementById('dashboard-settlement').innerHTML = '<h3>Settlement report</h3>' + table((s.settlement_report || {}).counts, [
+    {key:'settlement_status', label:'Status'}, {key:'settlement_result', label:'Result'}, {key:'rows', label:'Rows'}
+  ]);
+  document.getElementById('dashboard-accounting').innerHTML = '<h3>Result accounting report</h3>' + table((s.result_accounting_report || {}).counts, [
+    {key:'settlement_result', label:'Result'}, {key:'rows', label:'Rows'}, {key:'paper_units', label:'Units'}
+  ]) + `<p class="muted">${esc((s.result_accounting_report || {}).note || '')}</p>`;
+}
+
+async function loadDashboard() {
+  let data = fallbackDashboard;
+  try {
+    const res = await fetch('dashboard-data.sample.json', {cache: 'no-store'});
+    if (res.ok) data = await res.json();
+  } catch (_) {}
+  renderDashboard(data);
+  out({ok:true, loaded:data.version, sections:Object.keys(data.sections)});
+}
 </script>
 </body>
 </html>
