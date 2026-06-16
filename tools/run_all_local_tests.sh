@@ -79,7 +79,7 @@ log "StatsBomb public sample pipeline"
     | tee ../reports/ci_event_aware_compare_stdout.json
 )
 
-log "v20 data-scale smoke + v21 phase lab + v22 training export"
+log "v20 data-scale smoke + v21 phase lab + v22 training export + v24 walk-forward"
 (
   cd python_lab
   python statsbomb_scale_pipeline.py \
@@ -102,6 +102,13 @@ log "v20 data-scale smoke + v21 phase lab + v22 training export"
     --out-report ../reports/ci_v22_train_export.json \
     --model-trust 0.35 \
     | tee ../reports/ci_v22_train_export_stdout.json
+  python walk_forward_backtest.py \
+    --db ../build/omnibet_v20_statsbomb_scale.sqlite \
+    --out ../reports/ci_v24_walk_forward.json \
+    --min-train 6 \
+    --min-test-rows 4 \
+    --model-trust 0.35 \
+    | tee ../reports/ci_v24_walk_forward_stdout.json
   python export_data_pack.py \
     --db ../build/omnibet_v20_statsbomb_scale.sqlite \
     --out-dir ../data_packs/football_phase_training_v1 \
