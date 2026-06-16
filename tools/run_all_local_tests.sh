@@ -174,6 +174,15 @@ log "v28 real-source acquisition catalog"
     | tee ../reports/ci_v28_source_catalog_stdout.json
 )
 
+log "v29 feature priority and live data contract"
+(
+  cd python_lab
+  python feature_live_contract.py \
+    --out ../reports/ci_v29_feature_live_contract.json \
+    --write-config ../configs/feature_live_contract.v29.json \
+    | tee ../reports/ci_v29_feature_live_contract_stdout.json
+)
+
 log "rust tests"
 (
   cd rust-core
