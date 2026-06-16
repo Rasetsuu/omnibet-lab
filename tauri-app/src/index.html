@@ -23,7 +23,7 @@
 </head>
 <body>
   <h1>OmniBet Lab Desktop</h1>
-  <p class="warn">v49 dashboard skeleton. Offline research preview only; no live provider calls and no recommendation output.</p>
+  <p class="warn">v49 dashboard skeleton. PAPER_ONLY offline research preview; no live provider calls and no recommendation output.</p>
 
   <div class="tabs card">
     <button onclick="showTab('dashboard')">Dashboard</button>
@@ -68,7 +68,7 @@
 
   <section id="builder" class="card tab" hidden>
     <h2>Market Builder</h2>
-    <p class="warn">Research-only preview. No live execution, no recommendation output.</p>
+    <p class="warn">PAPER_ONLY research preview. No live execution, no recommendation output.</p>
     <button onclick="valueReport()">Generate Offline Report Preview</button>
   </section>
 
@@ -94,8 +94,8 @@ const fallbackDashboard = {
 const fallback = {
   ping: () => 'browser-preview-ok',
   pack_summary: () => ({ok:true, format:'omnibet.pack.v1', pack_name:'browser preview', total_rows:0, note:'Open in Tauri for backend command invocation.'}),
-  predict_fixture: ({homeTeam, awayTeam}) => ({ok:true, home_team:homeTeam, away_team:awayTeam, model_trust:0.25, decision_mode:'RESEARCH_PREVIEW', note:'Browser fallback preview.'}),
-  value_report: ({homeTeam, awayTeam}) => ({ok:true, fixture:`${homeTeam} vs ${awayTeam}`, mode:'offline_preview', note:'Browser fallback preview; no recommendation output.'})
+  predict_fixture: ({homeTeam, awayTeam}) => ({ok:true, home_team:homeTeam, away_team:awayTeam, model_trust:0.25, decision_mode:'PAPER_ONLY', note:'Browser fallback preview.'}),
+  value_report: ({homeTeam, awayTeam}) => ({ok:true, fixture:`${homeTeam} vs ${awayTeam}`, mode:'PAPER_ONLY_OFFLINE_PREVIEW', note:'Browser fallback preview; no recommendation output.'})
 };
 
 async function invokeCommand(name, args = {}) {
