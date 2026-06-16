@@ -1,0 +1,68 @@
+{
+  "ok": true,
+  "version": "omnibet.dashboard.v49.sample",
+  "mode": "static_browser_preview",
+  "safety": {
+    "offline_samples_only": true,
+    "no_api_keys": true,
+    "no_network": true,
+    "no_recommendation_output": true
+  },
+  "sections": {
+    "events": [
+      {
+        "canonical_event_id": "canonical_event:france_senegal_2026_demo",
+        "home_team_name": "France",
+        "away_team_name": "Senegal",
+        "competition": "FIFA World Cup",
+        "commence_time": "2026-06-16T20:00:00Z",
+        "provider_links": [
+          {"provider_id": "the_odds_api_offline_sample", "provider_event_id": "toa_event_france_senegal_demo", "confidence": 1.0},
+          {"provider_id": "api_football_offline_sample", "provider_event_id": "123456", "confidence": 1.0}
+        ],
+        "match_state": [
+          {"match_status": "FT", "home_score": 2, "away_score": 1, "observed_at": "2026-06-16T20:00:00+00:00"}
+        ]
+      }
+    ],
+    "market_snapshots": [
+      {"bookmaker": "Example Bookmaker A", "raw_market_name": "1X2", "raw_selection_name": "France", "mapped_market_id": "football_1x2_regulation", "decimal_odds": 1.5, "needs_mapping": 0},
+      {"bookmaker": "Example Bookmaker A", "raw_market_name": "Total goals", "raw_selection_name": "Over", "mapped_market_id": "football_total_goals_regulation", "line_value": 2.5, "decimal_odds": 1.91, "needs_mapping": 0},
+      {"bookmaker": "Example Bookmaker A", "raw_market_name": "special combo unknown", "raw_selection_name": "France win + player shot + team corners", "mapped_market_id": null, "decimal_odds": 2.9, "needs_mapping": 1}
+    ],
+    "unknown_market_queue": [
+      {"raw_market_name": "special combo unknown", "raw_selection_name": "France win + player shot + team corners", "bookmaker": "Example Bookmaker A", "decimal_odds": 2.9}
+    ],
+    "feature_snapshot_preview": {
+      "counts": [
+        {"snapshot_stage": "pre_event_market", "rows": 14, "model_eligible_rows": 13},
+        {"snapshot_stage": "post_event_evaluation", "rows": 14, "model_eligible_rows": 0}
+      ],
+      "rows": [
+        {"snapshot_stage": "pre_event_market", "mapped_market_id": "football_1x2_regulation", "raw_selection_name": "France", "decimal_odds": 1.5, "implied_probability": 0.66666667, "model_eligible": 1}
+      ]
+    },
+    "settlement_report": {
+      "counts": [
+        {"settlement_status": "settled", "settlement_result": "win", "rows": 5},
+        {"settlement_status": "settled", "settlement_result": "loss", "rows": 6},
+        {"settlement_status": "settled", "settlement_result": "push", "rows": 2},
+        {"settlement_status": "unmapped", "settlement_result": "unsettled", "rows": 1}
+      ],
+      "rows": [
+        {"mapped_market_id": "football_1x2_regulation", "raw_selection_name": "France", "settlement_result": "win", "settlement_status": "settled", "reason": "graded from regulation winner"}
+      ]
+    },
+    "result_accounting_report": {
+      "counts": [
+        {"settlement_result": "win", "rows": 5, "paper_units": 4.2},
+        {"settlement_result": "loss", "rows": 6, "paper_units": -6.0},
+        {"settlement_result": "push", "rows": 2, "paper_units": 0.0}
+      ],
+      "rows": [
+        {"mapped_market_id": "football_1x2_regulation", "raw_selection_name": "France", "decimal_odds": 1.5, "settlement_result": "win", "paper_unit_result": 0.5}
+      ],
+      "note": "Offline accounting over mapped settled sample rows only; no recommendation output."
+    }
+  }
+}
