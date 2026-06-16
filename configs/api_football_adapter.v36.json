@@ -1,0 +1,23 @@
+{
+  "version": "omnibet.api_football_adapter.v36",
+  "mode": "offline_sample_only_for_ci",
+  "provider_id": "api_football_offline_sample",
+  "sample_path": "data/samples/api_football_live_state_sample.json",
+  "api_key_env_for_future_live_use": "API_FOOTBALL_KEY",
+  "ci_policy": {
+    "network_calls": false,
+    "api_key_required": false,
+    "paid_quota_usage": false,
+    "website_automation": false,
+    "betting_output": false
+  },
+  "writes_tables": [
+    "teams",
+    "players",
+    "matches_norm",
+    "lineups",
+    "match_events",
+    "bronze_blobs"
+  ],
+  "smoke_script": "python_lab/api_football_offline_smoke.py"
+}

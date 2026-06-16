@@ -2,8 +2,8 @@
 
 Cross-sport prediction/value-betting research lab with a Rust-first runtime direction and a Python research/backfill layer.
 
-Current merged milestone: **v34 — safe market alias apply engine**.
-Next target: **v35 — The Odds API offline event-market adapter skeleton**.
+Current merged milestone: **v35 — The Odds API offline event-market adapter skeleton**.
+Next target: **v36 — API-Football offline live-state adapter skeleton**.
 
 OmniBet is not meant to be a simple score predictor. The project is building a local-first sports intelligence pipeline:
 
@@ -27,7 +27,7 @@ raw data sources
 - `cpp-core/` — early std-only proof core kept for portability experiments.
 - `data/` — tiny deterministic samples only.
 - `data_packs/` — compressed JSONL.GZ packs used by CI/Rust readers.
-- `docs/` — milestone docs from v4 through v35.
+- `docs/` — milestone docs from v4 through v36.
 
 ## What works now
 
@@ -46,6 +46,7 @@ raw data sources
 - Canonical resolver tables and alias-mapping smoke.
 - Safe market alias application to raw snapshots.
 - The Odds API-style offline event-market adapter skeleton.
+- API-Football-style offline live-state adapter skeleton.
 - Compressed JSONL.GZ data packs and Python/Rust verification.
 - Optional local Parquet+ZSTD warehouse-pack exporter for heavy data.
 - Phase-aware football market registry.
@@ -148,28 +149,35 @@ See [`docs/v34_market_alias_apply.md`](docs/v34_market_alias_apply.md).
 
 ## v35 The Odds API offline adapter
 
-v35 adds the first provider-style offline adapter skeleton.
+v35 adds the first provider-style offline adapter skeleton for event odds/markets.
+
+See [`docs/v35_the_odds_api_offline_adapter.md`](docs/v35_the_odds_api_offline_adapter.md).
+
+## v36 API-Football offline adapter
+
+v36 adds the first provider-style offline adapter skeleton for fixture state, lineups, events, and statistics.
 
 ```bash
 cd python_lab
-python the_odds_api_offline_smoke.py \
-  --db ../build/omnibet_v35_the_odds_api_offline.sqlite \
-  --input ../data/samples/the_odds_api_event_markets_sample.json \
-  --out ../reports/ci_v35_the_odds_api_offline.json
+python api_football_offline_smoke.py \
+  --db ../build/omnibet_v36_api_football_offline.sqlite \
+  --input ../data/samples/api_football_live_state_sample.json \
+  --out ../reports/ci_v36_api_football_offline.json
 ```
 
-It proves the provider pipeline without any live API call:
+It proves the match-state ingestion path without live API usage:
 
 ```text
-local event-market sample
-→ raw_market_snapshots
-→ safe exact market aliases
-→ mapped_market_id when safe
-→ unknown_market_queue when unknown
-→ provider coverage report
+local fixture-state sample
+→ bronze raw payload
+→ teams / players
+→ matches_norm
+→ lineups
+→ match_events
+→ statistics coverage report
 ```
 
-See [`docs/v35_the_odds_api_offline_adapter.md`](docs/v35_the_odds_api_offline_adapter.md).
+See [`docs/v36_api_football_offline_adapter.md`](docs/v36_api_football_offline_adapter.md).
 
 ## Storage direction
 

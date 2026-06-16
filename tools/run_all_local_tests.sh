@@ -238,6 +238,16 @@ log "v35 The Odds API offline adapter smoke"
     | tee ../reports/ci_v35_the_odds_api_offline_stdout.json
 )
 
+log "v36 API-Football offline adapter smoke"
+(
+  cd python_lab
+  python api_football_offline_smoke.py \
+    --db ../build/omnibet_v36_api_football_offline.sqlite \
+    --input ../data/samples/api_football_live_state_sample.json \
+    --out ../reports/ci_v36_api_football_offline.json \
+    | tee ../reports/ci_v36_api_football_offline_stdout.json
+)
+
 log "rust tests"
 (
   cd rust-core
