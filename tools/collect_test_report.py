@@ -86,6 +86,7 @@ def main() -> None:
     phase_lab = load_json(reports / "ci_v21_phase_lab.json")
     train_export = load_json(reports / "ci_v22_train_export.json")
     multisource = load_json(reports / "ci_v23_multisource.json")
+    walk_forward = load_json(reports / "ci_v24_walk_forward.json")
     rust_trained = load_json(reports / "ci_rust_trained_model.json")
     market_registry = load_json(reports / "ci_market_registry_football.json")
     event_compare = load_json(reports / "ci_event_aware_compare.json")
@@ -167,6 +168,22 @@ def main() -> None:
         "odds_by_source": multisource.get("source_counts", {}).get("odds_by_source"),
     }
 
+    wf = walk_forward.get("walk_forward_report", {}) if isinstance(walk_forward, dict) else {}
+    walk_forward_summary = {
+        "ok": bool(walk_forward.get("ok")) and bool(wf.get("ok")),
+        "target_market": walk_forward.get("target_market"),
+        "settlement_scope": walk_forward.get("settlement_scope"),
+        "rows_total": walk_forward.get("rows_total"),
+        "rows_tested": wf.get("rows_tested"),
+        "walk_log_loss": wf.get("walk_forward", {}).get("log_loss"),
+        "baseline_log_loss": wf.get("expanding_prior_baseline", {}).get("log_loss"),
+        "log_loss_minus_baseline": wf.get("deltas", {}).get("log_loss_minus_baseline"),
+        "walk_accuracy": wf.get("walk_forward", {}).get("accuracy"),
+        "baseline_accuracy": wf.get("expanding_prior_baseline", {}).get("accuracy"),
+        "trust_decision": walk_forward.get("trust_decision"),
+        "leakage_guard": walk_forward.get("leakage_guard"),
+    }
+
     paper_summary = {
         "ok": bool(paper.get("ok")),
         "paper_bets_written": paper.get("paper_bets_written"),
@@ -220,6 +237,7 @@ def main() -> None:
         "event_aware_compare": event_compare_summary,
         "rust_linear_model": rust_linear_summary,
         "trained_model_export": trained_model_summary,
+        "walk_forward_backtest": walk_forward_summary,
         "multisource_adapters": multisource_summary,
         "paper_ledger": paper_summary,
         "model_compare": {
@@ -271,6 +289,10 @@ def main() -> None:
         and int(summary["trained_model_export"]["python_test_rows"] or 0) > 0
         and int(summary["trained_model_export"]["rust_rows_tested"] or 0) > 0
         and summary["trained_model_export"]["trust_decision"] == "PAPER_ONLY"
+        and summary["walk_forward_backtest"]["ok"]
+        and summary["walk_forward_backtest"]["settlement_scope"] == "regulation_time"
+        and int(summary["walk_forward_backtest"]["rows_tested"] or 0) > 0
+        and summary["walk_forward_backtest"]["trust_decision"] == "PAPER_ONLY"
         and summary["multisource_adapters"]["ok"]
         and int(summary["multisource_adapters"]["source_count"] or 0) >= 3
         and int(summary["multisource_adapters"]["multi_source_identity_candidates"] or 0) > 0
