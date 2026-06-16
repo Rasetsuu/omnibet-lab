@@ -1,0 +1,45 @@
+name: OmniBet v49 Dashboard
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    name: v49 dashboard smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Python compile
+        run: |
+          cd python_lab
+          python -m py_compile *.py adapters/*.py
+
+      - name: Run v49 dashboard data smoke
+        run: |
+          cd python_lab
+          python dashboard_data_smoke.py \
+            --db ../build/omnibet_v49_dashboard.sqlite \
+            --dashboard-out ../build/v49_dashboard_data.json \
+            --ui-path ../tauri-app/src/index.html \
+            --out ../reports/ci_v49_dashboard_data.json
+
+      - name: Upload dashboard reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v49-dashboard-reports
+          path: |
+            reports/ci_v49_dashboard_data.json
+            build/v49_dashboard_data.json
+          if-no-files-found: warn
