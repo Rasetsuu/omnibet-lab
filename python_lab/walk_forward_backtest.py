@@ -1,165 +1,170 @@
 #!/usr/bin/env python3
-"""Honest walk-forward backtest for OmniBet football baseline.
-
-This is intentionally simple and transparent. It retrains the baseline from
-only historical rows before each match, then scores the next match. That makes
-it much more honest than the in-sample v0 test.
-"""
-
 from __future__ import annotations
 
 import argparse
-import csv
+import json
 import math
-from collections import defaultdict
-from dataclasses import dataclass
+import sqlite3
 from pathlib import Path
+from typing import List, Tuple
+
+from train_linear_model import CLASSES, FEATURES, actual_class, brier, feature_value, log_loss, predict, train
 
 
-def canonical(name: str) -> str:
-    name = (name or "").strip()
-    aliases = {
-        "usa": "USA",
-        "united states": "USA",
-        "united states of america": "USA",
-        "czech republic": "Czechia",
-        "turkey": "Turkiye",
-        "türkiye": "Turkiye",
-        "cabo verde": "Cape Verde",
-        "cape verde islands": "Cape Verde",
-        "curacao": "Curacao",
-        "curaçao": "Curacao",
-        "dr congo": "DR Congo",
-        "congo dr": "DR Congo",
-        "korea republic": "South Korea",
-    }
-    return aliases.get(name.lower(), name)
+def load_rows(db: Path) -> List[dict]:
+    con = sqlite3.connect(str(db))
+    rows = con.execute(
+        """SELECT match_id, match_date, home_team_name, away_team_name,
+                  target_home_goals, target_away_goals, features_json
+           FROM gold_match_features
+           WHERE target_home_goals IS NOT NULL AND target_away_goals IS NOT NULL
+           ORDER BY match_date, match_id"""
+    ).fetchall()
+    con.close()
+    out = []
+    for mid, date, home, away, hg, ag, fj in rows:
+        f = json.loads(fj)
+        out.append({
+            "match_id": mid,
+            "date": date,
+            "home": home,
+            "away": away,
+            "score": [hg, ag],
+            "x": [feature_value(f, spec) for spec in FEATURES],
+            "y": actual_class(int(hg), int(ag)),
+        })
+    return out
 
 
-@dataclass
-class Row:
-    date: str
-    home: str
-    away: str
-    hg: float
-    ag: float
+def normalize_with_train(train_x: List[List[float]], rows_x: List[List[float]]) -> Tuple[List[List[float]], List[float], List[float]]:
+    cols = len(train_x[0])
+    means = [sum(row[j] for row in train_x) / len(train_x) for j in range(cols)]
+    stds = []
+    for j in range(cols):
+        var = sum((row[j] - means[j]) ** 2 for row in train_x) / max(1, len(train_x) - 1)
+        stds.append(math.sqrt(var) if var > 1e-12 else 1.0)
+    norm = [[(row[j] - means[j]) / stds[j] for j in range(cols)] for row in rows_x]
+    return norm, means, stds
 
 
-@dataclass
-class Agg:
-    m: float = 0.0
-    gf: float = 0.0
-    ga: float = 0.0
+def denorm(intercept_n: List[float], weights_n: List[List[float]], means: List[float], stds: List[float]) -> Tuple[List[float], List[List[float]]]:
+    weights = [[weights_n[j][c] / stds[j] for c in range(3)] for j in range(len(weights_n))]
+    intercept = intercept_n[:]
+    for c in range(3):
+        intercept[c] -= sum((means[j] / stds[j]) * weights_n[j][c] for j in range(len(means)))
+    return intercept, weights
 
 
-@dataclass
-class Model:
-    teams: dict[str, Agg]
-    avg_g: float
+def baseline_probs(train_rows: List[dict]) -> List[float]:
+    counts = [1.0, 1.0, 1.0]
+    for r in train_rows:
+        counts[r["y"]] += 1.0
+    s = sum(counts)
+    return [x / s for x in counts]
 
 
-def load_rows(path: Path) -> list[Row]:
-    out: list[Row] = []
-    with path.open(newline="", encoding="utf-8") as f:
-        r = csv.DictReader(f)
-        for x in r:
-            try:
-                hg = float(x["home_goals"])
-                ag = float(x["away_goals"])
-            except Exception:
-                continue
-            out.append(Row(x.get("date", ""), canonical(x["home_team"]), canonical(x["away_team"]), hg, ag))
-    return sorted(out, key=lambda x: x.date)
+def evaluate_walk(rows: List[dict], args: argparse.Namespace) -> dict:
+    preds = []
+    for idx in range(args.min_train, len(rows)):
+        train_rows = rows[:idx]
+        test_row = rows[idx]
+        x_train_raw = [r["x"] for r in train_rows]
+        x_train_norm, means, stds = normalize_with_train(x_train_raw, x_train_raw)
+        y_train = [r["y"] for r in train_rows]
+        intercept_n, weights_n = train(x_train_norm, y_train, args.epochs, args.lr, args.l2)
+        intercept, weights = denorm(intercept_n, weights_n, means, stds)
+        p = predict(test_row["x"], intercept, weights)
+        bp = baseline_probs(train_rows)
+        pick_idx = max(range(3), key=lambda c: p[c])
+        base_pick_idx = max(range(3), key=lambda c: bp[c])
+        rec = {
+            "step": idx - args.min_train + 1,
+            "train_rows": idx,
+            "match_id": test_row["match_id"],
+            "date": test_row["date"],
+            "home": test_row["home"],
+            "away": test_row["away"],
+            "score": test_row["score"],
+            "actual": CLASSES[test_row["y"]],
+            "walk_pick": CLASSES[pick_idx],
+            "walk_probs": p,
+            "walk_log_loss": log_loss(p, test_row["y"]),
+            "walk_brier": brier(p, test_row["y"]),
+            "baseline_pick": CLASSES[base_pick_idx],
+            "baseline_probs": bp,
+            "baseline_log_loss": log_loss(bp, test_row["y"]),
+            "baseline_brier": brier(bp, test_row["y"]),
+        }
+        preds.append(rec)
+    return summarize(preds)
 
 
-def fit(rows: list[Row]) -> Model:
-    teams: dict[str, Agg] = defaultdict(Agg)
-    total_goals = 0.0
-    for x in rows:
-        total_goals += x.hg + x.ag
-        h = teams[x.home]
-        a = teams[x.away]
-        h.m += 1; h.gf += x.hg; h.ga += x.ag
-        a.m += 1; a.gf += x.ag; a.ga += x.hg
-    avg = total_goals / max(1.0, 2.0 * len(rows))
-    return Model(dict(teams), max(0.1, avg))
-
-
-def clamp(x: float, lo: float, hi: float) -> float:
-    return max(lo, min(hi, x))
-
-
-def poisson(k: int, lam: float) -> float:
-    p = math.exp(-lam)
-    for i in range(k):
-        p *= lam / (i + 1)
-    return p
-
-
-def predict(model: Model, home: str, away: str):
-    z = Agg()
-    h = model.teams.get(home, z)
-    a = model.teams.get(away, z)
-    hm = max(1.0, h.m)
-    am = max(1.0, a.m)
-    avg = model.avg_g
-    h_att = clamp((h.gf / hm) / avg, 0.35, 3.2)
-    h_def = clamp((h.ga / hm) / avg, 0.35, 3.2)
-    a_att = clamp((a.gf / am) / avg, 0.35, 3.2)
-    a_def = clamp((a.ga / am) / avg, 0.35, 3.2)
-    lh = clamp(avg * h_att * math.sqrt(a_def), 0.05, 4.5)
-    la = clamp(avg * a_att * math.sqrt(h_def), 0.05, 4.5)
-    hp = dp = ap = o25 = 0.0
-    for i in range(8):
-        for j in range(8):
-            p = poisson(i, lh) * poisson(j, la)
-            if i > j:
-                hp += p
-            elif i == j:
-                dp += p
-            else:
-                ap += p
-            if i + j >= 3:
-                o25 += p
-    s = hp + dp + ap
-    if s:
-        hp, dp, ap = hp / s, dp / s, ap / s
-    return {"H": hp, "D": dp, "A": ap, "O25": o25, "lambda_home": lh, "lambda_away": la}
-
-
-def evaluate(rows: list[Row], min_train: int) -> dict[str, float]:
-    n = correct = correct_o25 = 0
-    logloss = brier = 0.0
-    for i in range(min_train, len(rows)):
-        model = fit(rows[:i])
-        x = rows[i]
-        pred = predict(model, x.home, x.away)
-        actual = "H" if x.hg > x.ag else "A" if x.ag > x.hg else "D"
-        pick = max(("H", "D", "A"), key=lambda k: pred[k])
-        p_actual = max(1e-12, pred[actual])
-        correct += int(pick == actual)
-        correct_o25 += int((pred["O25"] >= 0.5) == (x.hg + x.ag >= 3))
-        logloss += -math.log(p_actual)
-        brier += sum((pred[k] - (1.0 if k == actual else 0.0)) ** 2 for k in ("H", "D", "A"))
-        n += 1
+def summarize(preds: List[dict]) -> dict:
+    if not preds:
+        return {"rows_tested": 0, "ok": False}
+    n = len(preds)
+    walk_acc = sum(1 for r in preds if r["walk_pick"] == r["actual"]) / n
+    base_acc = sum(1 for r in preds if r["baseline_pick"] == r["actual"]) / n
+    walk_ll = sum(r["walk_log_loss"] for r in preds) / n
+    base_ll = sum(r["baseline_log_loss"] for r in preds) / n
+    walk_brier = sum(r["walk_brier"] for r in preds) / n
+    base_brier = sum(r["baseline_brier"] for r in preds) / n
     return {
-        "matches": n,
-        "1x2_accuracy": correct / n if n else 0,
-        "over25_accuracy": correct_o25 / n if n else 0,
-        "log_loss": logloss / n if n else 0,
-        "brier_1x2": brier / n if n else 0,
+        "ok": True,
+        "rows_tested": n,
+        "walk_forward": {"accuracy": walk_acc, "log_loss": walk_ll, "brier": walk_brier},
+        "expanding_prior_baseline": {"accuracy": base_acc, "log_loss": base_ll, "brier": base_brier},
+        "deltas": {
+            "log_loss_minus_baseline": walk_ll - base_ll,
+            "brier_minus_baseline": walk_brier - base_brier,
+            "accuracy_minus_baseline": walk_acc - base_acc,
+        },
+        "samples": preds[:8],
     }
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--data", default="../data/unified_intl_matches.csv")
-    ap.add_argument("--min-train", type=int, default=80)
+def run(args: argparse.Namespace) -> dict:
+    rows = load_rows(Path(args.db))
+    wf = evaluate_walk(rows, args)
+    report = {
+        "ok": bool(wf.get("ok")) and int(wf.get("rows_tested") or 0) >= args.min_test_rows,
+        "warning": "Small CI walk-forward smoke. This validates no-future-leak evaluation shape, not betting edge.",
+        "db": str(args.db),
+        "target_market": "football.1x2",
+        "settlement_scope": "regulation_time",
+        "phase_scope": ["regulation_first_half", "regulation_first_half_stoppage", "regulation_second_half", "regulation_second_half_stoppage"],
+        "model_trust": args.model_trust,
+        "trust_decision": "PAPER_ONLY" if args.model_trust < 0.5 else "TRUSTED_FOR_STAKING_LABELS",
+        "rows_total": len(rows),
+        "min_train": args.min_train,
+        "min_test_rows": args.min_test_rows,
+        "walk_forward_report": wf,
+        "leakage_guard": {
+            "train_window": "expanding_past_only",
+            "test_window": "next_future_match_only",
+            "ordered_by": "match_date, match_id",
+        },
+    }
+    Path(args.out).parent.mkdir(parents=True, exist_ok=True)
+    Path(args.out).write_text(json.dumps(report, indent=2), encoding="utf-8")
+    print(json.dumps(report, indent=2))
+    if not report["ok"]:
+        raise SystemExit(1)
+    return report
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser(description="Run small expanding-window walk-forward backtest.")
+    ap.add_argument("--db", default="../build/omnibet_v20_statsbomb_scale.sqlite")
+    ap.add_argument("--out", default="../reports/ci_v24_walk_forward.json")
+    ap.add_argument("--min-train", type=int, default=6)
+    ap.add_argument("--min-test-rows", type=int, default=4)
+    ap.add_argument("--epochs", type=int, default=250)
+    ap.add_argument("--lr", type=float, default=0.08)
+    ap.add_argument("--l2", type=float, default=0.03)
+    ap.add_argument("--model-trust", type=float, default=0.35)
     args = ap.parse_args()
-    rows = load_rows(Path(args.data))
-    result = evaluate(rows, args.min_train)
-    for k, v in result.items():
-        print(f"{k}: {v:.4f}" if isinstance(v, float) else f"{k}: {v}")
+    run(args)
 
 
 if __name__ == "__main__":
