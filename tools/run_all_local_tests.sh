@@ -210,6 +210,15 @@ log "v32 raw market snapshot warehouse smoke"
     | tee ../reports/ci_v32_market_snapshot_smoke_stdout.json
 )
 
+log "v33 canonical resolver smoke"
+(
+  cd python_lab
+  python canonical_resolver_smoke.py \
+    --db ../build/omnibet_v33_resolver_smoke.sqlite \
+    --out ../reports/ci_v33_canonical_resolver_smoke.json \
+    | tee ../reports/ci_v33_canonical_resolver_smoke_stdout.json
+)
+
 log "rust tests"
 (
   cd rust-core
