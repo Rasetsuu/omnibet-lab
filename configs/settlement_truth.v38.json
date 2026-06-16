@@ -1,0 +1,39 @@
+{
+  "version": "omnibet.settlement_truth.v38",
+  "mode": "offline_sample_only_for_ci",
+  "inputs": {
+    "odds_sample": "data/samples/the_odds_api_event_markets_sample.json",
+    "state_sample": "data/samples/api_football_live_state_sample.json",
+    "link_manifest": "data/samples/provider_event_link_sample.v37.json"
+  },
+  "created_tables_by_smoke": [
+    "settlement_rules",
+    "outcome_truth",
+    "settlement_evaluations"
+  ],
+  "supported_initial_markets": [
+    "football_1x2_regulation",
+    "football_total_goals_regulation",
+    "football_corners_total_regulation",
+    "football_shots_on_target_total_regulation",
+    "football_asian_handicap_regulation"
+  ],
+  "unsupported_initial_markets": [
+    "football_player_shots_on_target_regulation",
+    "unknown_special_combo_markets"
+  ],
+  "ci_policy": {
+    "network_calls": false,
+    "api_key_required": false,
+    "paid_quota_usage": false,
+    "website_automation": false,
+    "prediction_output": false,
+    "model_quality_claim": false
+  },
+  "truth_policy": {
+    "unsupported_markets_are_not_guessed": true,
+    "unknown_markets_remain_preserved": true,
+    "deterministic_truth_only": true
+  },
+  "smoke_script": "python_lab/settlement_truth_smoke.py"
+}
