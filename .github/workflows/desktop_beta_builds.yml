@@ -50,9 +50,26 @@ jobs:
         working-directory: tauri-app
         run: npm install
 
-      - name: Build desktop app
+      - name: Build portable desktop app
         working-directory: tauri-app
-        run: npm run build
+        run: npm run build -- --no-bundle
+
+      - name: Stage portable artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build/desktop-downloads/package
+          if [ "${{ runner.os }}" = "Windows" ]; then
+            cp tauri-app/src-tauri/target/release/omnibet_lab.exe build/desktop-downloads/package/OmniBet-Lab-windows.exe
+          else
+            cp tauri-app/src-tauri/target/release/omnibet_lab build/desktop-downloads/package/omnibet-lab-linux
+            chmod +x build/desktop-downloads/package/omnibet-lab-linux
+          fi
+          cat > build/desktop-downloads/package/README_RUN.txt <<'EOF'
+          OmniBet Lab Desktop beta portable build.
+          Run the included executable from this directory.
+          Paper-only local/offline research preview.
+          EOF
 
       - name: Prepare artifact manifest
         shell: bash
@@ -60,7 +77,7 @@ jobs:
           mkdir -p build/desktop-downloads
           python python_lab/desktop_build_manifest.py \
             --root . \
-            --bundle-dir tauri-app/src-tauri/target/release/bundle \
+            --bundle-dir build/desktop-downloads/package \
             --out build/desktop-downloads/DESKTOP_BUILD_MANIFEST.json \
             --platform "${{ runner.os }}" \
             --build-label "$BUILD_LABEL"
@@ -70,6 +87,6 @@ jobs:
         with:
           name: omnibet-desktop-${{ runner.os }}-${{ env.BUILD_LABEL }}
           path: |
-            tauri-app/src-tauri/target/release/bundle/**
+            build/desktop-downloads/package/**
             build/desktop-downloads/DESKTOP_BUILD_MANIFEST.json
           if-no-files-found: error
