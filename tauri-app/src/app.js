@@ -8,6 +8,7 @@ import { exportLocalImportBundle, runLocalImportPreview } from './local_import.j
 import { exportForecastSnapshot, loadAndRenderUpcomingFixtures, predictSelectedUpcomingFixture } from './upcoming.js';
 import { importExternalFixtureCacheToUpcoming, loadAndRenderExternalData } from './external_data.js';
 import { loadAndRenderBetaWorkflow } from './beta_workflow.js';
+import { loadAndRenderBetaReleaseTrain } from './beta_release_train.js';
 
 function out(x) {
   const el = document.getElementById('out');
@@ -51,6 +52,7 @@ function bind() {
   document.getElementById('load-upcoming-fixtures')?.addEventListener('click', () => safeRun(() => loadAndRenderUpcomingFixtures()));
   document.getElementById('load-external-data')?.addEventListener('click', () => safeRun(() => loadAndRenderExternalData()));
   document.getElementById('load-beta-workflow')?.addEventListener('click', () => safeRun(() => loadAndRenderBetaWorkflow()));
+  document.getElementById('load-beta-release-train')?.addEventListener('click', () => safeRun(() => loadAndRenderBetaReleaseTrain()));
   document.getElementById('load-desktop-beta')?.addEventListener('click', () => safeRun(() => loadAndRenderDesktopBeta()));
   document.getElementById('import-external-fixtures')?.addEventListener('click', () => safeRun(() => importExternalFixtureCacheToUpcoming()));
   document.getElementById('predict-selected-upcoming-fixture')?.addEventListener('click', () => safeRun(() => predictSelectedUpcomingFixture()));
