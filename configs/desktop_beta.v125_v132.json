@@ -1,0 +1,24 @@
+{
+  "version": "omnibet.desktop_beta.v125_v132",
+  "mode": "desktop_beta_product_layer",
+  "milestones": {
+    "v125": "desktop import wizard shell",
+    "v126": "local data and coverage dashboard payload",
+    "v127": "model/evaluation dashboard payload",
+    "v128": "report/log viewer payload",
+    "v129": "backup/export/import local app data contract",
+    "v130": "desktop beta package manifest",
+    "v131": "release checklist",
+    "v132": "beta readiness smoke"
+  },
+  "outputs": {
+    "desktop_sample": "tauri-app/src/desktop-beta.sample.json",
+    "ci_report": "reports/ci_v125_v132_desktop_beta.json"
+  },
+  "policy": {
+    "offline_first": true,
+    "local_files_only": true,
+    "credential_values": false
+  },
+  "smoke_script": "python_lab/desktop_beta_smoke.py"
+}
