@@ -1,0 +1,15 @@
+{
+  "ok": true,
+  "version": "omnibet.rust_core.sample.v116.placeholder",
+  "modules": {
+    "core": "rust-core/src/local_data_core.rs"
+  },
+  "status": {
+    "row_schema": true,
+    "dedupe": true,
+    "training_rows": true,
+    "metrics": true,
+    "calibration": true,
+    "coverage": true
+  }
+}
