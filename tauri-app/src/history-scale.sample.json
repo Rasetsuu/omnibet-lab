@@ -1,0 +1,72 @@
+{
+  "ok": true,
+  "version": "omnibet.history_scale.sample.v102.placeholder",
+  "manifest": {
+    "ok": true,
+    "schema": "omnibet.history_scale_manifest.v95_v102",
+    "row_counts": {
+      "csv_rows": 1937,
+      "json_rows": 1081,
+      "imported_rows": 3018,
+      "deduped_rows": 3016,
+      "training_rows": 3016,
+      "evaluation_rows": 756,
+      "covered_competitions": 14,
+      "min_seasons": 10
+    },
+    "policy": {
+      "offline_only": true,
+      "local_files_only": true
+    }
+  },
+  "history_scale": {
+    "ok": true,
+    "schema": "omnibet.history_scale_payload.v102",
+    "coverage": {
+      "schema": "omnibet.history_coverage.v100",
+      "covered_count": 14,
+      "trainable_universe_count": 55,
+      "coverage_ratio": 0.254545,
+      "min_seasons": 10,
+      "max_seasons": 11,
+      "covered_competitions": [
+        "arg_primera",
+        "bra_serie_a",
+        "eng_premier",
+        "esp_laliga",
+        "fra_ligue1",
+        "ger_bundesliga",
+        "ita_serie_a",
+        "jpn_j1",
+        "mex_liga_mx",
+        "ned_eredivisie",
+        "por_primeira",
+        "uefa_champions",
+        "uefa_europa",
+        "usa_mls"
+      ]
+    },
+    "integrity": {
+      "schema": "omnibet.history_integrity.v101",
+      "input_rows": 3018,
+      "deduped_rows": 3016,
+      "duplicate_rows": [
+        {"source_id": "source_csv", "source_event_id": "eng_premier:2016:007"},
+        {"source_id": "source_json", "source_event_id": "bra_serie_a:2017:011"}
+      ],
+      "missing_hash_rows": [],
+      "ok": true
+    },
+    "training_rows": 3016,
+    "evaluation_rows": 756,
+    "per_competition_eval": [
+      {"competition_id": "eng_premier", "rows": 66, "brier": 0.21, "accuracy_at_0_5": 0.68},
+      {"competition_id": "esp_laliga", "rows": 66, "brier": 0.22, "accuracy_at_0_5": 0.66},
+      {"competition_id": "ger_bundesliga", "rows": 66, "brier": 0.2, "accuracy_at_0_5": 0.7}
+    ],
+    "policy": {
+      "offline_only": true,
+      "local_files_only": true
+    }
+  }
+}
