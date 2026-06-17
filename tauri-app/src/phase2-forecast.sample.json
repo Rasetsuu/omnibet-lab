@@ -1,0 +1,102 @@
+{
+  "ok": true,
+  "version": "omnibet.phase2.ui.sample.v72.placeholder",
+  "manifest": {
+    "ok": true,
+    "schema": "omnibet.phase2_forecast_manifest.v67_v72",
+    "row_counts": {
+      "historical_events": 66,
+      "training_rows": 66,
+      "backtest_rows": 22
+    },
+    "quality": {
+      "forecast_metrics": {
+        "rows": 22,
+        "brier": 0.22,
+        "logloss": 0.64,
+        "accuracy_at_0_5": 0.68
+      },
+      "baseline_metrics": {
+        "rows": 22,
+        "brier": 0.25,
+        "logloss": 0.69,
+        "accuracy_at_0_5": 0.55
+      },
+      "calibration": {
+        "expected_calibration_error": 0.12
+      }
+    },
+    "safety": {
+      "paper_only": true,
+      "no_recommendation_output": true,
+      "offline_only": true,
+      "no_live_calls": true
+    }
+  },
+  "registry": {
+    "ok": true,
+    "schema": "omnibet.model_registry.v71",
+    "model_id": "offline_logistic_baseline_v1",
+    "version": "v71.phase2.offline.1",
+    "model_family": "transparent_logistic_scorecard",
+    "target": "home_win_binary"
+  },
+  "backtest": {
+    "split": {
+      "strategy": "chronological",
+      "train_before": "2025-01-01T00:00:00Z",
+      "train_rows": 44,
+      "test_rows": 22
+    },
+    "forecast_metrics": {
+      "rows": 22,
+      "brier": 0.22,
+      "logloss": 0.64,
+      "accuracy_at_0_5": 0.68
+    },
+    "baseline_metrics": {
+      "rows": 22,
+      "brier": 0.25,
+      "logloss": 0.69,
+      "accuracy_at_0_5": 0.55
+    },
+    "rows": [
+      {
+        "event_id": "hist:2025:00",
+        "kickoff_utc": "2025-01-01T18:00:00Z",
+        "home": "France",
+        "away": "Senegal",
+        "label_home_win": 1,
+        "forecast_probability": 0.63,
+        "baseline_probability": 0.52,
+        "top_factors": [
+          {"name": "rating_diff", "value": 0.56, "impact": 0.81},
+          {"name": "form_diff", "value": 0.26, "impact": 0.29},
+          {"name": "rest_diff", "value": 0.14, "impact": 0.05}
+        ]
+      }
+    ]
+  },
+  "calibration": {
+    "bins": [
+      {"bin": "0.4-0.6", "rows": 8, "avg_probability": 0.52, "observed_rate": 0.5, "gap": 0.02},
+      {"bin": "0.6-0.8", "rows": 14, "avg_probability": 0.68, "observed_rate": 0.71, "gap": -0.03}
+    ],
+    "expected_calibration_error": 0.12,
+    "metric_note": "Lower is better; sample is tiny and offline."
+  },
+  "explanation": {
+    "ok": true,
+    "schema": "omnibet.prediction_explanation.v72",
+    "mode": "paper_only_offline_forecast_explanation",
+    "model_id": "offline_logistic_baseline_v1",
+    "desktop_panels": ["model-card", "backtest-metrics", "calibration", "example-explanations"],
+    "explanation_note": "Probabilities are research forecasts, not recommendations. Sample is tiny and only validates the pipeline shape."
+  },
+  "safety": {
+    "paper_only": true,
+    "no_recommendation_output": true,
+    "offline_only": true,
+    "no_live_calls": true
+  }
+}

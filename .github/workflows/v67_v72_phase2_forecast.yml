@@ -1,0 +1,36 @@
+name: OmniBet v67-v72 Phase2 Forecast
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  phase2-forecast:
+    name: v67-v72 phase2 forecast smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Run phase2 forecast smoke
+        run: |
+          mkdir -p reports build/phase2_forecast_v67_v72
+          python python_lab/phase2_forecast_smoke.py --root . --out-dir build/phase2_forecast_v67_v72 --ui-sample tauri-app/src/phase2-forecast.sample.json --out reports/ci_v67_v72_phase2_forecast.json
+      - name: Upload phase2 forecast report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v67-v72-phase2-forecast-report
+          path: |
+            reports/ci_v67_v72_phase2_forecast.json
+            build/phase2_forecast_v67_v72/phase2_manifest.v67_v72.json
+            build/phase2_forecast_v67_v72/model_registry.v71.json
+            build/phase2_forecast_v67_v72/prediction_explanation.v72.json
+          if-no-files-found: warn

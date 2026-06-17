@@ -1,0 +1,42 @@
+{
+  "version": "omnibet.phase2_forecast_quality.v67_v72",
+  "mode": "offline_forecast_quality_phase",
+  "milestones": {
+    "v67": "historical importer",
+    "v68": "settled training dataset builder",
+    "v69": "chronological backtest engine",
+    "v70": "calibration metrics",
+    "v71": "model registry",
+    "v72": "prediction explanation UI"
+  },
+  "outputs": {
+    "manifest": "build/phase2_forecast_v67_v72/phase2_manifest.v67_v72.json",
+    "historical_events": "build/phase2_forecast_v67_v72/historical_events.v67.jsonl.gz",
+    "training_rows": "build/phase2_forecast_v67_v72/settled_training_rows.v68.jsonl.gz",
+    "backtest": "build/phase2_forecast_v67_v72/chronological_backtest.v69.json",
+    "calibration": "build/phase2_forecast_v67_v72/calibration_metrics.v70.json",
+    "model_registry": "build/phase2_forecast_v67_v72/model_registry.v71.json",
+    "explanation_payload": "build/phase2_forecast_v67_v72/prediction_explanation.v72.json",
+    "desktop_sample": "tauri-app/src/phase2-forecast.sample.json"
+  },
+  "quality_metrics": [
+    "brier",
+    "logloss",
+    "accuracy_at_0_5",
+    "expected_calibration_error"
+  ],
+  "ui_panels": [
+    "model-card-panel",
+    "model-backtest-panel",
+    "model-calibration-panel",
+    "model-explanations-panel"
+  ],
+  "ci_policy": {
+    "offline_only": true,
+    "api_key_required": false,
+    "live_calls": false,
+    "recommendation_output": false,
+    "shell_execution": false
+  },
+  "smoke_script": "python_lab/phase2_forecast_smoke.py"
+}

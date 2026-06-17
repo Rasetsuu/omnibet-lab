@@ -44,6 +44,7 @@
           <button id="load-review-sample">Load review sample</button>
           <button id="load-settings-report">Load settings</button>
           <button id="load-settings-sample">Load settings sample</button>
+          <button id="load-phase2-forecast">Load model phase sample</button>
         </div>
       </header>
 
@@ -101,8 +102,14 @@
 
       <section id="models" class="page" data-page-panel="models">
         <h2>Models</h2>
+        <p class="warn">PAPER_ONLY forecast research. Probabilities are not recommendations.</p>
+        <div class="grid">
+          <div id="model-card-panel" class="card"><h3>Model registry</h3><div class="muted">Load model phase sample first.</div></div>
+          <div id="model-backtest-panel" class="card"><h3>Chronological backtest</h3><div class="muted">Load model phase sample first.</div></div>
+          <div id="model-calibration-panel" class="card"><h3>Calibration</h3><div class="muted">Load model phase sample first.</div></div>
+        </div>
+        <div id="model-explanations-panel" class="card"><h3>Example explanations</h3><div class="muted">Load model phase sample first.</div></div>
         <div class="card">
-          <p class="muted">Future desktop page for calibration, toy/offline metrics, and model-pack inspection.</p>
           <button id="pack-summary-button">Load Pack Summary</button>
         </div>
       </section>
@@ -155,6 +162,7 @@
   <script type="module" src="dashboard.js"></script>
   <script type="module" src="review.js"></script>
   <script type="module" src="settings.js"></script>
+  <script type="module" src="models.js"></script>
   <script type="module" src="app.js"></script>
 </body>
 </html>
