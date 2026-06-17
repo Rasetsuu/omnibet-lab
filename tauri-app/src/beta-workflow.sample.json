@@ -1,0 +1,60 @@
+{
+  "ok": true,
+  "version": "omnibet.beta_workflow.sample.v173_v180",
+  "schema": "omnibet.beta_workflow.v173_v180",
+  "workflow_state": {
+    "local_import_ready": true,
+    "external_cache_ready": true,
+    "upcoming_fixture_ready": true,
+    "prediction_preview_ready": true,
+    "forecast_snapshot_ready": true,
+    "downloadable_build_workflow_ready": true
+  },
+  "steps": [
+    {
+      "step_id": "import_history",
+      "label": "Import local history",
+      "page": "Desktop Beta",
+      "status": "ready"
+    },
+    {
+      "step_id": "load_cached_fixtures",
+      "label": "Load cached fixture data",
+      "page": "External Data",
+      "status": "ready"
+    },
+    {
+      "step_id": "select_upcoming_fixture",
+      "label": "Select upcoming fixture",
+      "page": "Upcoming",
+      "status": "ready"
+    },
+    {
+      "step_id": "preview_prediction",
+      "label": "Preview local prediction",
+      "page": "Upcoming",
+      "status": "ready"
+    },
+    {
+      "step_id": "export_forecast_snapshot",
+      "label": "Export forecast snapshot",
+      "page": "Upcoming",
+      "status": "ready"
+    }
+  ],
+  "readiness": {
+    "completed_parts": 5,
+    "remaining_before_live_beta": [
+      "run downloadable build workflow when ready",
+      "test app manually on Windows and Linux",
+      "connect permitted production sources only after manual review"
+    ]
+  },
+  "boundaries": {
+    "paper_only": true,
+    "local_offline_first": true,
+    "no_automatic_external_calls": true,
+    "no_secret_values": true,
+    "not_final_product": true
+  }
+}
