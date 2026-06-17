@@ -23,6 +23,7 @@
         <button class="nav-button" data-page="settlement">Settlement</button>
         <button class="nav-button" data-page="accounting">Accounting</button>
         <button class="nav-button" data-page="models">Models</button>
+        <button class="nav-button" data-page="desktop-beta">Desktop Beta</button>
         <button class="nav-button" data-page="settings">Settings</button>
         <button class="nav-button" data-page="simple">Simple</button>
         <button class="nav-button" data-page="detailed">Detailed</button>
@@ -45,6 +46,7 @@
           <button id="load-settings-report">Load settings</button>
           <button id="load-settings-sample">Load settings sample</button>
           <button id="load-phase2-forecast">Load model phase sample</button>
+          <button id="load-desktop-beta">Load desktop beta</button>
         </div>
       </header>
 
@@ -114,6 +116,12 @@
         </div>
       </section>
 
+      <section id="desktop-beta" class="page" data-page-panel="desktop-beta">
+        <h2>Desktop Beta</h2>
+        <p class="warn">PAPER_ONLY local desktop beta. Import, report, backup, and checklist panels are local/offline only.</p>
+        <div id="desktop-beta-panel" class="card"><div class="muted">Load desktop beta sample first.</div></div>
+      </section>
+
       <section id="settings" class="page" data-page-panel="settings">
         <h2>Settings and Local Runs</h2>
         <p class="muted">v55-v56 settings and allowlisted local workflow controls. API key values are never displayed.</p>
@@ -163,6 +171,7 @@
   <script type="module" src="review.js"></script>
   <script type="module" src="settings.js"></script>
   <script type="module" src="models.js"></script>
+  <script type="module" src="desktop_beta.js"></script>
   <script type="module" src="app.js"></script>
 </body>
 </html>

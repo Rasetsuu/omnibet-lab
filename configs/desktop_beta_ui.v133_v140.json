@@ -1,0 +1,22 @@
+{
+  "version": "omnibet.desktop_beta_ui.v133_v140",
+  "mode": "desktop_beta_ui_integration",
+  "milestones": {
+    "v133": "desktop beta navigation/page shell",
+    "v134": "import wizard UI render",
+    "v135": "coverage dashboard UI render",
+    "v136": "evaluation dashboard UI render",
+    "v137": "report/log viewer UI render",
+    "v138": "local bundle UI render",
+    "v139": "release checklist UI render",
+    "v140": "desktop beta UI integration smoke"
+  },
+  "outputs": {
+    "ci_report": "reports/ci_v133_v140_desktop_beta_ui.json"
+  },
+  "policy": {
+    "paper_only": true,
+    "local_sample_only": true
+  },
+  "smoke_script": "python_lab/desktop_beta_ui_smoke.py"
+}
