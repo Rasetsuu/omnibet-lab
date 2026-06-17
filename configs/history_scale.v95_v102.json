@@ -1,0 +1,23 @@
+{
+  "version": "omnibet.history_scale.v95_v102",
+  "mode": "offline_history_scale",
+  "milestones": {
+    "v95": "source file registry",
+    "v96": "season CSV importer",
+    "v97": "JSON importer contract",
+    "v98": "event-detail bridge contract",
+    "v99": "dataset versioning and manifests",
+    "v100": "competition coverage payload",
+    "v101": "integrity report",
+    "v102": "larger per-competition training/evaluation run"
+  },
+  "outputs": {
+    "desktop_sample": "tauri-app/src/history-scale.sample.json",
+    "ci_report": "reports/ci_v95_v102_history_scale.json"
+  },
+  "policy": {
+    "offline_only": true,
+    "local_files_only": true
+  },
+  "smoke_script": "python_lab/history_scale_smoke.py"
+}
