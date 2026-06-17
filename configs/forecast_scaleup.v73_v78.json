@@ -1,0 +1,43 @@
+{
+  "version": "omnibet.forecast_scaleup.v73_v78",
+  "mode": "offline_forecast_scaleup",
+  "milestones": {
+    "v73": "larger historical dataset importer",
+    "v74": "rolling-origin evaluation",
+    "v75": "model comparison report",
+    "v76": "feature ablation report",
+    "v77": "calibration and stability summary",
+    "v78": "expanded desktop model-lab payload"
+  },
+  "outputs": {
+    "manifest": "build/forecast_scaleup_v73_v78/forecast_scaleup_manifest.v73_v78.json",
+    "history": "build/forecast_scaleup_v73_v78/historical_events_scaled.v73.jsonl.gz",
+    "training": "build/forecast_scaleup_v73_v78/settled_training_scaled.v73_v74.jsonl.gz",
+    "rolling": "build/forecast_scaleup_v73_v78/rolling_origin_eval.v74.json",
+    "comparison": "build/forecast_scaleup_v73_v78/model_comparison.v75.json",
+    "ablation": "build/forecast_scaleup_v73_v78/feature_ablation.v76.json",
+    "stability": "build/forecast_scaleup_v73_v78/calibration_stability.v77.json",
+    "model_lab": "build/forecast_scaleup_v73_v78/model_lab_payload.v78.json",
+    "desktop_sample": "tauri-app/src/model-lab.sample.json"
+  },
+  "models": [
+    "baseline_rate",
+    "rating_only",
+    "rating_form",
+    "full_scorecard"
+  ],
+  "metrics": [
+    "brier",
+    "logloss",
+    "accuracy_at_0_5",
+    "expected_calibration_error"
+  ],
+  "ci_policy": {
+    "offline_only": true,
+    "api_key_required": false,
+    "live_calls": false,
+    "recommendation_output": false,
+    "shell_execution": false
+  },
+  "smoke_script": "python_lab/forecast_scaleup_smoke.py"
+}
