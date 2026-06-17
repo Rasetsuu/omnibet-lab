@@ -1,0 +1,63 @@
+{
+  "ok": true,
+  "version": "omnibet.quality.sample.v110.placeholder",
+  "manifest": {
+    "ok": true,
+    "schema": "omnibet.quality_manifest.v103_v110",
+    "row_counts": {
+      "matches": 2856,
+      "features": 2856,
+      "evaluation_rows": 1008,
+      "competitions": 14,
+      "calibration_rows": 56
+    },
+    "feature_keys": [
+      "rating_diff_pre",
+      "form_diff_pre",
+      "home_away_strength_diff_pre",
+      "rest_diff_pre",
+      "congestion_diff_pre",
+      "promotion_status_diff",
+      "kind_continental"
+    ],
+    "policy": {
+      "offline_only": true,
+      "pre_event_features_only": true
+    }
+  },
+  "quality_layer": {
+    "ok": true,
+    "schema": "omnibet.quality_payload.v110",
+    "feature_rows": 2856,
+    "evaluation_rows": 1008,
+    "competitions": [
+      "eng_premier",
+      "esp_laliga",
+      "ita_serie_a",
+      "ger_bundesliga",
+      "fra_ligue1",
+      "por_primeira",
+      "ned_eredivisie",
+      "usa_mls",
+      "bra_serie_a",
+      "arg_primera",
+      "mex_liga_mx",
+      "jpn_j1",
+      "uefa_champions",
+      "uefa_europa"
+    ],
+    "per_competition_eval": [
+      {"competition_id": "eng_premier", "rows": 80, "brier": 0.21, "accuracy_at_0_5": 0.69},
+      {"competition_id": "esp_laliga", "rows": 80, "brier": 0.22, "accuracy_at_0_5": 0.67},
+      {"competition_id": "uefa_champions", "rows": 56, "brier": 0.23, "accuracy_at_0_5": 0.64}
+    ],
+    "calibration": [
+      {"competition_id": "eng_premier", "bin": "0.25-0.50", "rows": 24, "avg_probability": 0.42, "observed_rate": 0.38, "lower_95": 0.18, "upper_95": 0.58},
+      {"competition_id": "eng_premier", "bin": "0.50-0.75", "rows": 42, "avg_probability": 0.61, "observed_rate": 0.64, "lower_95": 0.49, "upper_95": 0.79}
+    ],
+    "policy": {
+      "offline_only": true,
+      "pre_event_features_only": true
+    }
+  }
+}
