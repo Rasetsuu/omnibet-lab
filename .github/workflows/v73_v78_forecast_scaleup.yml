@@ -1,0 +1,37 @@
+name: OmniBet v73-v78 Forecast Scale-Up
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  forecast-scaleup:
+    name: v73-v78 forecast scale-up smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Run forecast scale-up smoke
+        run: |
+          mkdir -p reports build/forecast_scaleup_v73_v78
+          python python_lab/forecast_scaleup_smoke.py --out-dir build/forecast_scaleup_v73_v78 --ui-sample tauri-app/src/model-lab.sample.json --out reports/ci_v73_v78_forecast_scaleup.json
+      - name: Upload forecast scale-up report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v73-v78-forecast-scaleup-report
+          path: |
+            reports/ci_v73_v78_forecast_scaleup.json
+            build/forecast_scaleup_v73_v78/forecast_scaleup_manifest.v73_v78.json
+            build/forecast_scaleup_v73_v78/model_comparison.v75.json
+            build/forecast_scaleup_v73_v78/calibration_stability.v77.json
+            build/forecast_scaleup_v73_v78/model_lab_payload.v78.json
+          if-no-files-found: warn
