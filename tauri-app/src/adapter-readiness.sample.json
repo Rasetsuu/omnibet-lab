@@ -1,0 +1,62 @@
+{
+  "ok": true,
+  "version": "omnibet.adapter_readiness.sample.v94.placeholder",
+  "manifest": {
+    "ok": true,
+    "schema": "omnibet.data_foundation_manifest.v87_v94",
+    "row_counts": {
+      "result_rows": 361,
+      "market_rows": 540,
+      "training_rows": 360,
+      "evaluation_rows": 180,
+      "covered_competitions": 6
+    },
+    "policy": {
+      "offline_only": true,
+      "no_website_automation": true,
+      "local_files_only": true
+    }
+  },
+  "adapter_readiness": {
+    "ok": true,
+    "schema": "omnibet.adapter_readiness_payload.v94",
+    "coverage": {
+      "schema": "omnibet.competition_coverage.v90",
+      "covered_competitions": [
+        "bra_serie_a",
+        "eng_premier",
+        "esp_laliga",
+        "ger_bundesliga",
+        "uefa_champions",
+        "usa_mls"
+      ],
+      "covered_count": 6,
+      "coverage_ratio": 0.1
+    },
+    "integrity": {
+      "schema": "omnibet.import_integrity.v91",
+      "result_rows": 361,
+      "market_rows": 540,
+      "unique_result_events": 360,
+      "market_linked_events": 180,
+      "duplicate_rows": [
+        {"source_id": "source_01", "source_event_id": "eng_premier:2021:05"}
+      ],
+      "unmapped_competitions": [],
+      "missing_hash_rows": [],
+      "ok": true
+    },
+    "training_rows": 360,
+    "evaluation_rows": 180,
+    "per_competition_eval": [
+      {"competition_id": "eng_premier", "rows": 30, "brier": 0.21, "accuracy_at_0_5": 0.7},
+      {"competition_id": "esp_laliga", "rows": 30, "brier": 0.22, "accuracy_at_0_5": 0.67},
+      {"competition_id": "ger_bundesliga", "rows": 30, "brier": 0.2, "accuracy_at_0_5": 0.73}
+    ],
+    "policy": {
+      "offline_only": true,
+      "no_website_automation": true,
+      "local_files_only": true
+    }
+  }
+}
