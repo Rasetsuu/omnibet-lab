@@ -1,0 +1,43 @@
+{
+  "ok": true,
+  "version": "omnibet.upcoming_fixtures.sample.v157",
+  "schema": "omnibet.upcoming_fixtures.v157",
+  "generated_at": "2026-06-17T00:00:00Z",
+  "fixtures": [
+    {
+      "fixture_id": "local:eng_premier:2026-08-15:arsenal-chelsea",
+      "competition_id": "eng_premier",
+      "competition_name": "England Premier League",
+      "kickoff_utc": "2026-08-15T16:30:00Z",
+      "home_name": "Arsenal",
+      "away_name": "Chelsea",
+      "status": "scheduled",
+      "source": "local_sample"
+    },
+    {
+      "fixture_id": "local:esp_laliga:2026-08-16:barcelona-real-madrid",
+      "competition_id": "esp_laliga",
+      "competition_name": "Spain LaLiga",
+      "kickoff_utc": "2026-08-16T19:00:00Z",
+      "home_name": "Barcelona",
+      "away_name": "Real Madrid",
+      "status": "scheduled",
+      "source": "local_sample"
+    },
+    {
+      "fixture_id": "local:uefa_champions:2026-09-18:psg-bayern",
+      "competition_id": "uefa_champions",
+      "competition_name": "UEFA Champions League",
+      "kickoff_utc": "2026-09-18T20:00:00Z",
+      "home_name": "Paris SG",
+      "away_name": "Bayern Munich",
+      "status": "scheduled",
+      "source": "local_sample"
+    }
+  ],
+  "policy": {
+    "offline_first": true,
+    "local_fixture_source": true,
+    "no_credentials": true
+  }
+}
