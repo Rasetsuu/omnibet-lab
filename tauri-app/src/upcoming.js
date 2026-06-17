@@ -78,6 +78,16 @@ function renderSnapshot(snapshot) {
   `;
 }
 
+function downloadJson(obj, filename) {
+  const blob = new Blob([JSON.stringify(obj, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 export function renderUpcomingFixtures(fixtures) {
   const panel = document.getElementById('upcoming-fixtures-panel');
   if (!panel) return fixtures;
@@ -111,4 +121,11 @@ export async function predictSelectedUpcomingFixture() {
   window.__omnibetLastForecastSnapshot = snapshot;
   renderSnapshot(snapshot);
   return snapshot;
+}
+
+export function exportForecastSnapshot() {
+  const snapshot = window.__omnibetLastForecastSnapshot;
+  if (!snapshot) throw new Error('Create a forecast snapshot first.');
+  downloadJson(snapshot, 'omnibet-forecast-snapshot.json');
+  return { ok: true, exported: true, schema: snapshot.schema };
 }
