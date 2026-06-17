@@ -24,30 +24,12 @@ FRONTEND_FILES = [
     "tauri-app/src/settings-data.sample.json",
     "tauri-app/src/phase2-forecast.sample.json",
     "tauri-app/src/model-lab.sample.json",
+    "tauri-app/src/competition-lab.sample.json",
 ]
 
-REQUIRED_COMMANDS = [
-    "ping",
-    "load_dashboard_report",
-    "load_review_report",
-    "load_app_settings",
-    "run_local_workflow",
-    "save_review_decision",
-    "pack_summary",
-    "predict_fixture",
-    "value_report",
-]
-
+REQUIRED_COMMANDS = ["ping", "load_dashboard_report", "load_review_report", "load_app_settings", "run_local_workflow", "save_review_decision", "pack_summary", "predict_fixture", "value_report"]
 REQUIRED_MODULES = ["api.js", "dashboard.js", "review.js", "settings.js", "models.js", "app.js"]
-
-REQUIRED_WORKFLOWS = [
-    "generate_dashboard_report",
-    "generate_review_report",
-    "run_leak_guard",
-    "run_feature_export",
-    "run_settlement_truth",
-    "run_first_model_pass",
-]
+REQUIRED_WORKFLOWS = ["generate_dashboard_report", "generate_review_report", "run_leak_guard", "run_feature_export", "run_settlement_truth", "run_first_model_pass"]
 
 
 def write_json(path: Path, obj: Dict[str, Any]) -> None:
@@ -70,12 +52,8 @@ def load_package_json(root: Path) -> Dict[str, Any]:
 
 
 def package_has_no_web_server(package: Dict[str, Any]) -> bool:
-    scripts = package.get("scripts", {}) if isinstance(package, dict) else {}
-    deps = package.get("dependencies", {}) if isinstance(package, dict) else {}
-    dev_deps = package.get("devDependencies", {}) if isinstance(package, dict) else {}
-    forbidden_words = ["vite", "webpack", "next", "serve", "http-server", "dev-server"]
-    combined = json.dumps({"scripts": scripts, "dependencies": deps, "devDependencies": dev_deps}).lower()
-    return not any(word in combined for word in forbidden_words)
+    combined = json.dumps({"scripts": package.get("scripts", {}), "dependencies": package.get("dependencies", {}), "devDependencies": package.get("devDependencies", {})}).lower()
+    return not any(word in combined for word in ["vite", "webpack", "next", "serve", "http-server", "dev-server"])
 
 
 def build_report(root: Path, platform_name: str) -> Dict[str, Any]:
@@ -88,6 +66,7 @@ def build_report(root: Path, platform_name: str) -> Dict[str, Any]:
     dashboard = json.loads(read(root, "tauri-app/src/dashboard-data.sample.json"))
     phase2 = json.loads(read(root, "tauri-app/src/phase2-forecast.sample.json"))
     model_lab = json.loads(read(root, "tauri-app/src/model-lab.sample.json"))
+    comp_lab = json.loads(read(root, "tauri-app/src/competition-lab.sample.json"))
     package = load_package_json(root)
 
     file_presence = {rel: (root / rel).exists() for rel in FRONTEND_FILES}
@@ -121,6 +100,7 @@ def build_report(root: Path, platform_name: str) -> Dict[str, Any]:
         "workflow_ux_fields_present": all(s in rust for s in ["state", "started_at_unix", "finished_at_unix", "report_path_hint", "refresh_hint", "stdout_preview", "stderr_preview"]),
         "model_phase_sample_present": phase2.get("ok") is True and phase2.get("registry", {}).get("schema") == "omnibet.model_registry.v71",
         "model_lab_sample_present": model_lab.get("ok") is True and model_lab.get("model_lab", {}).get("schema") == "omnibet.model_lab_payload.v78",
+        "competition_lab_sample_present": comp_lab.get("ok") is True and comp_lab.get("competition_lab", {}).get("schema") == "omnibet.competition_model_lab.v86",
         "no_shell_execution": ".shell" not in rust and "cmd /C" not in rust and "sh -c" not in rust,
         "direct_command_invocation": "Command::new" in rust,
         "pathbuf_used": "PathBuf" in rust and "Path::new" in rust,
@@ -128,36 +108,12 @@ def build_report(root: Path, platform_name: str) -> Dict[str, Any]:
         "linux_python_branch": '"python3".to_string()' in rust,
         "python_env_override": "OMNIBET_PYTHON" in rust,
         "cli_dir_env_override": "OMNIBET_CLI_DIR" in rust,
-        "samples_parse": dashboard.get("ok") is True and review.get("ok") is True and settings.get("ok") is True and phase2.get("ok") is True and model_lab.get("ok") is True,
+        "samples_parse": all(x.get("ok") is True for x in [dashboard, review, settings, phase2, model_lab, comp_lab]),
         "settings_no_key_values": settings.get("safety", {}).get("no_api_key_values") is True,
         "settings_no_network": settings.get("runtime", {}).get("network_enabled") is False,
     }
-
-    if platform_name.lower().startswith("win"):
-        checks["platform_specific_python_choice_visible"] = "cfg!(windows)" in rust
-    else:
-        checks["platform_specific_python_choice_visible"] = '"python3".to_string()' in rust
-
-    return {
-        "ok": all(checks.values()),
-        "milestone": "v73_v78_forecast_scaleup_package_readiness",
-        "platform": platform_name,
-        "tauri_version": tauri_version,
-        "cargo_version": cargo_version,
-        "package_version": package_version,
-        "file_presence": file_presence,
-        "module_links": module_links,
-        "command_registration": command_registration,
-        "workflow_allowlist": workflow_allowlist,
-        "acceptance": checks,
-        "safety": {
-            "offline_static_checks_only": True,
-            "no_api_keys": True,
-            "no_network_provider_calls": True,
-            "no_shell_execution": checks["no_shell_execution"],
-            "no_web_server_dependency": checks["no_before_build_web_server"] and checks["package_metadata_has_no_web_server_dependency"],
-        },
-    }
+    checks["platform_specific_python_choice_visible"] = "cfg!(windows)" in rust if platform_name.lower().startswith("win") else '"python3".to_string()' in rust
+    return {"ok": all(checks.values()), "milestone": "v79_v86_competition_core_package_readiness", "platform": platform_name, "tauri_version": tauri_version, "cargo_version": cargo_version, "package_version": package_version, "file_presence": file_presence, "module_links": module_links, "command_registration": command_registration, "workflow_allowlist": workflow_allowlist, "acceptance": checks, "safety": {"offline_static_checks_only": True, "no_api_keys": True, "no_network_provider_calls": True, "no_shell_execution": checks["no_shell_execution"], "no_web_server_dependency": checks["no_before_build_web_server"] and checks["package_metadata_has_no_web_server_dependency"]}}
 
 
 def main() -> None:
