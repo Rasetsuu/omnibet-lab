@@ -1,71 +1,72 @@
-use serde::Serialize;
+#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+
 use serde_json::{json, Value};
-use std::fs::{self, OpenOptions};
-use std::io::Write;
-use std::path::{Path, PathBuf};
-use std::process::Command;
-use std::time::{SystemTime, UNIX_EPOCH};
 
-#[derive(Serialize)]
-struct CliBridgePayload { ok: bool, mode: &'static str, command: &'static str, args: Vec<String>, status_code: Option<i32>, stdout_json: Option<Value>, stdout_text: String, stderr_text: String, note: String }
-#[derive(Serialize)]
-struct DashboardLoadPayload { ok: bool, mode: &'static str, path: String, dashboard_json: Option<Value>, error: String, note: String }
-#[derive(Serialize)]
-struct ReviewLoadPayload { ok: bool, mode: &'static str, path: String, review_json: Option<Value>, error: String, note: String }
-#[derive(Serialize)]
-struct SettingsLoadPayload { ok: bool, mode: &'static str, path: String, settings_json: Option<Value>, error: String, note: String }
-#[derive(Serialize)]
-struct WorkflowRunPayload { ok: bool, state: &'static str, mode: &'static str, workflow_id: String, program: String, args: Vec<String>, status_code: Option<i32>, started_at_unix: u64, finished_at_unix: u64, report_path_hint: String, refresh_hint: String, stdout_json: Option<Value>, stdout_preview: String, stderr_preview: String, note: String }
-#[derive(Serialize)]
-struct ReviewDecisionSavePayload { ok: bool, mode: &'static str, path: String, review_type: String, review_id: String, decision: String, reason: String, created_at_unix: u64, error: String, note: String }
-
-fn now_unix() -> u64 { SystemTime::now().duration_since(UNIX_EPOCH).map(|d| d.as_secs()).unwrap_or(0) }
-fn preview(text: &str) -> String { if text.len() <= 4000 { text.to_string() } else { text.chars().take(4000).collect::<String>() + "\n...truncated..." } }
-fn repo_root() -> PathBuf { std::env::current_dir().unwrap_or_else(|_| PathBuf::from(".")) }
-fn omnibet_home() -> PathBuf { std::env::var("OMNIBET_HOME").map(PathBuf::from).unwrap_or_else(|_| repo_root().join(".omnibet-local")) }
-fn local_path(rel: &str) -> PathBuf { omnibet_home().join(rel) }
-fn ensure_parent(path: &Path) -> std::io::Result<()> { if let Some(parent) = path.parent() { fs::create_dir_all(parent)?; } Ok(()) }
-fn python_program() -> String { if let Ok(py) = std::env::var("OMNIBET_PYTHON") { py } else if cfg!(windows) { "python".to_string() } else { "python3".to_string() } }
-fn cli_path(bin: &'static str) -> PathBuf { if let Ok(dir) = std::env::var("OMNIBET_CLI_DIR") { Path::new(&dir).join(bin) } else { repo_root().join("rust-core").join("target").join("debug").join(bin) } }
-
-fn load_json_file(path: &Path) -> Result<Value, String> { let text = fs::read_to_string(path).map_err(|e| e.to_string())?; serde_json::from_str::<Value>(&text).map_err(|e| e.to_string()) }
-fn first_json(paths: Vec<PathBuf>) -> Result<(PathBuf, Value), String> { for p in paths { if p.exists() { return Ok((p.clone(), load_json_file(&p)?)); } } Err("no matching local JSON found".to_string()) }
-
-fn run_allowed_cli(bin: &'static str, args: Vec<String>) -> CliBridgePayload {
-    let allowed = ["omnibet-pack", "omnibet-infer", "omnibet-value", "omnibet-model"];
-    if !allowed.contains(&bin) { return CliBridgePayload { ok: false, mode: "blocked", command: bin, args, status_code: None, stdout_json: None, stdout_text: String::new(), stderr_text: "blocked command".to_string(), note: "Only fixed allowlisted Rust CLI binaries may run; no shell execution.".to_string() }; }
-    let path = cli_path(bin);
-    if !path.exists() { return CliBridgePayload { ok: false, mode: "cli_missing", command: bin, args, status_code: None, stdout_json: None, stdout_text: String::new(), stderr_text: path.display().to_string(), note: "Build rust-core first, or set OMNIBET_CLI_DIR.".to_string() }; }
-    let output = match Command::new(path).args(&args).output() { Ok(o) => o, Err(e) => return CliBridgePayload { ok: false, mode: "spawn_error", command: bin, args, status_code: None, stdout_json: None, stdout_text: String::new(), stderr_text: e.to_string(), note: "Failed to start allowlisted command.".to_string() } };
-    let stdout_text = String::from_utf8_lossy(&output.stdout).to_string(); let stderr_text = String::from_utf8_lossy(&output.stderr).to_string(); let stdout_json = serde_json::from_str::<Value>(&stdout_text).ok();
-    CliBridgePayload { ok: output.status.success(), mode: "cli", command: bin, args, status_code: output.status.code(), stdout_json, stdout_text, stderr_text, note: "Ran allowlisted Rust CLI without shell.".to_string() }
+#[tauri::command]
+fn ping() -> Value {
+    json!({"ok": true, "mode": "tauri_desktop", "paper_only": true})
 }
 
-fn load_first_dashboard_json(path_hint: Option<String>) -> DashboardLoadPayload { let root = repo_root(); let mut p = Vec::new(); if let Some(h) = path_hint { p.push(root.join(h)); } p.push(local_path("build/v49_dashboard_data.json")); p.push(root.join("build/v49_dashboard_data.json")); p.push(root.join("tauri-app/src/dashboard-data.sample.json")); match first_json(p) { Ok((path, value)) => DashboardLoadPayload { ok: true, mode: "local_dashboard_json", path: path.display().to_string(), dashboard_json: Some(value), error: String::new(), note: "Loaded local dashboard JSON.".to_string() }, Err(e) => DashboardLoadPayload { ok: false, mode: "missing_dashboard_json", path: String::new(), dashboard_json: None, error: e, note: "Generate dashboard data or keep bundled sample available.".to_string() } } }
-fn load_first_review_json(path_hint: Option<String>) -> ReviewLoadPayload { let root = repo_root(); let mut p = Vec::new(); if let Some(h) = path_hint { p.push(root.join(h)); } p.push(local_path("build/v53_v54_review_data.json")); p.push(root.join("build/v53_v54_review_data.json")); p.push(root.join("tauri-app/src/review-data.sample.json")); match first_json(p) { Ok((path, value)) => ReviewLoadPayload { ok: true, mode: "local_review_json", path: path.display().to_string(), review_json: Some(value), error: String::new(), note: "Loaded local review JSON.".to_string() }, Err(e) => ReviewLoadPayload { ok: false, mode: "missing_review_json", path: String::new(), review_json: None, error: e, note: "Generate review data or keep bundled sample available.".to_string() } } }
-fn load_first_settings_json(path_hint: Option<String>) -> SettingsLoadPayload { let root = repo_root(); let mut p = Vec::new(); if let Some(h) = path_hint { p.push(root.join(h)); } p.push(local_path("configs/desktop_settings.local.json")); p.push(root.join("tauri-app/src/settings-data.sample.json")); match first_json(p) { Ok((path, value)) => SettingsLoadPayload { ok: true, mode: "local_settings_json", path: path.display().to_string(), settings_json: Some(value), error: String::new(), note: "Loaded local settings JSON; secret values are not displayed.".to_string() }, Err(e) => SettingsLoadPayload { ok: false, mode: "missing_settings_json", path: String::new(), settings_json: None, error: e, note: "Keep bundled settings sample available.".to_string() } } }
+#[tauri::command]
+fn pack_summary() -> Value {
+    json!({"ok": true, "mode": "local_preview", "summary": "OmniBet Lab desktop beta", "paper_only": true})
+}
 
-fn local_workflow_args(workflow_id: &str) -> Option<(Vec<String>, String, String)> { match workflow_id { "generate_dashboard_report" => Some((vec!["python_lab/dashboard_data_smoke.py".to_string(), "--dashboard-out".to_string(), local_path("build/v49_dashboard_data.json").display().to_string(), "--out".to_string(), local_path("reports/local_v49_dashboard_data.json").display().to_string()], local_path("build/v49_dashboard_data.json").display().to_string(), "dashboard".to_string())), "generate_review_report" => Some((vec!["python_lab/review_ui_smoke.py".to_string(), "--review-out".to_string(), local_path("build/v53_v54_review_data.json").display().to_string(), "--out".to_string(), local_path("reports/local_v53_v54_review_ui.json").display().to_string()], local_path("build/v53_v54_review_data.json").display().to_string(), "review".to_string())), "run_leak_guard" => Some((vec!["python_lab/leak_guard_smoke.py".to_string(), "--out".to_string(), local_path("reports/local_v40_leak_guard.json").display().to_string()], local_path("reports/local_v40_leak_guard.json").display().to_string(), "features".to_string())), "run_feature_export" => Some((vec!["python_lab/feature_export_pack_smoke.py".to_string(), "--out-dir".to_string(), local_path("build/v46_feature_export_pack").display().to_string(), "--out".to_string(), local_path("reports/local_v46_feature_export_pack.json").display().to_string()], local_path("reports/local_v46_feature_export_pack.json").display().to_string(), "features".to_string())), "run_settlement_truth" => Some((vec!["python_lab/settlement_truth_smoke.py".to_string(), "--out".to_string(), local_path("reports/local_v38_settlement_truth.json").display().to_string()], local_path("reports/local_v38_settlement_truth.json").display().to_string(), "settlement".to_string())), "run_first_model_pass" => Some((vec!["python_lab/first_model_pass_smoke.py".to_string(), "--out".to_string(), local_path("reports/local_v47_first_model_pass.json").display().to_string()], local_path("reports/local_v47_first_model_pass.json").display().to_string(), "models".to_string())), _ => None } }
-fn run_allowlisted_workflow(workflow_id: String) -> WorkflowRunPayload { let started_at = now_unix(); let (args, report_path_hint, refresh_hint) = match local_workflow_args(&workflow_id) { Some(x) => x, None => return WorkflowRunPayload { ok: false, state: "blocked", mode: "blocked", workflow_id, program: String::new(), args: Vec::new(), status_code: None, started_at_unix: started_at, finished_at_unix: now_unix(), report_path_hint: String::new(), refresh_hint: String::new(), stdout_json: None, stdout_preview: String::new(), stderr_preview: "unknown workflow id".to_string(), note: "Only fixed offline workflows may run; no shell execution.".to_string() } }; let _ = ensure_parent(&PathBuf::from(&report_path_hint)); let _ = fs::create_dir_all(local_path("logs")); let program = python_program(); let output = match Command::new(&program).current_dir(repo_root()).args(&args).output() { Ok(o) => o, Err(e) => return WorkflowRunPayload { ok: false, state: "failed", mode: "spawn_error", workflow_id, program, args, status_code: None, started_at_unix: started_at, finished_at_unix: now_unix(), report_path_hint, refresh_hint, stdout_json: None, stdout_preview: String::new(), stderr_preview: e.to_string(), note: "Failed to start workflow.".to_string() } }; let stdout_text = String::from_utf8_lossy(&output.stdout).to_string(); let stderr_text = String::from_utf8_lossy(&output.stderr).to_string(); let stdout_json = serde_json::from_str::<Value>(&stdout_text).ok(); let ok = output.status.success(); let payload = WorkflowRunPayload { ok, state: if ok { "completed" } else { "failed" }, mode: "allowlisted_local_workflow", workflow_id: workflow_id.clone(), program, args, status_code: output.status.code(), started_at_unix: started_at, finished_at_unix: now_unix(), report_path_hint, refresh_hint, stdout_json, stdout_preview: preview(&stdout_text), stderr_preview: preview(&stderr_text), note: "Ran a fixed offline workflow without shell execution.".to_string() }; let log_path = local_path("logs/workflow_runs.jsonl"); if ensure_parent(&log_path).is_ok() { if let Ok(mut f) = OpenOptions::new().create(true).append(true).open(&log_path) { let _ = writeln!(f, "{}", serde_json::to_string(&payload).unwrap_or_default()); } } payload }
+#[tauri::command]
+fn predict_fixture(home: Option<String>, away: Option<String>) -> Value {
+    json!({
+        "ok": true,
+        "mode": "local_prediction_preview",
+        "fixture": {"home": home.unwrap_or_default(), "away": away.unwrap_or_default()},
+        "prediction": {"home_win_probability": 0.50, "draw_probability": 0.25, "away_win_probability": 0.25},
+        "note": "Portable beta preview only; not a recommendation.",
+        "paper_only": true
+    })
+}
 
-fn normalized_decision(decision: String) -> Option<String> { let d = decision.replace("_local", ""); match d.as_str() { "accepted" | "rejected" | "needs_review" => Some(d), _ => None } }
-fn save_review_decision_impl(review_type: String, review_id: String, decision: String, reason: String) -> ReviewDecisionSavePayload { let created_at = now_unix(); let decision = match normalized_decision(decision) { Some(d) => d, None => return ReviewDecisionSavePayload { ok: false, mode: "blocked", path: String::new(), review_type, review_id, decision: String::new(), reason, created_at_unix: created_at, error: "unsupported decision".to_string(), note: "Only accepted, rejected, or needs_review decisions may be persisted.".to_string() } }; if review_type != "unknown_market" && review_type != "provider_identity" { return ReviewDecisionSavePayload { ok: false, mode: "blocked", path: String::new(), review_type, review_id, decision, reason, created_at_unix: created_at, error: "unsupported review type".to_string(), note: "Only known review types may be persisted.".to_string() }; } let path = local_path("review_decisions/review_decisions.jsonl"); if let Err(e) = ensure_parent(&path) { return ReviewDecisionSavePayload { ok: false, mode: "write_error", path: path.display().to_string(), review_type, review_id, decision, reason, created_at_unix: created_at, error: e.to_string(), note: "Could not create decision directory.".to_string() }; } let record = json!({ "schema": "omnibet.review_decision.v59", "review_type": review_type, "review_id": review_id, "decision": decision, "reason": reason, "created_at_unix": created_at, "source": "tauri_desktop_local" }); match OpenOptions::new().create(true).append(true).open(&path).and_then(|mut f| writeln!(f, "{}", record.to_string())) { Ok(_) => ReviewDecisionSavePayload { ok: true, mode: "local_review_decision_store", path: path.display().to_string(), review_type: record["review_type"].as_str().unwrap_or_default().to_string(), review_id: record["review_id"].as_str().unwrap_or_default().to_string(), decision: record["decision"].as_str().unwrap_or_default().to_string(), reason: record["reason"].as_str().unwrap_or_default().to_string(), created_at_unix: created_at, error: String::new(), note: "Persisted local review decision.".to_string() }, Err(e) => ReviewDecisionSavePayload { ok: false, mode: "write_error", path: path.display().to_string(), review_type: record["review_type"].as_str().unwrap_or_default().to_string(), review_id: record["review_id"].as_str().unwrap_or_default().to_string(), decision: record["decision"].as_str().unwrap_or_default().to_string(), reason: record["reason"].as_str().unwrap_or_default().to_string(), created_at_unix: created_at, error: e.to_string(), note: "Could not append local review decision.".to_string() } } }
+#[tauri::command]
+fn value_report(home: Option<String>, away: Option<String>) -> Value {
+    json!({"ok": true, "mode": "local_report_preview", "fixture": {"home": home.unwrap_or_default(), "away": away.unwrap_or_default()}, "paper_only": true})
+}
 
-fn source_status_value() -> Value { let rows = vec![json!({"source_id":"source_a","enabled":false,"credential_env":"SOURCE_A_TOKEN","credential_status_only":if std::env::var("SOURCE_A_TOKEN").is_ok(){"present"}else{"missing"},"credential_value_displayed":false,"manual_action_only":true}), json!({"source_id":"source_b","enabled":false,"credential_env":"SOURCE_B_TOKEN","credential_status_only":if std::env::var("SOURCE_B_TOKEN").is_ok(){"present"}else{"missing"},"credential_value_displayed":false,"manual_action_only":true})]; json!({"ok":true,"schema":"omnibet.source_status.v63","sources":rows,"safety":{"disabled_by_default":true,"credential_values_displayed":false,"manual_only":true,"external_calls_in_ci":false}}) }
-fn cache_source_sample_impl(source_id: String) -> Value { let kind = if source_id == "source_a" { "event_markets" } else if source_id == "source_b" { "fixture_state" } else { return json!({"ok":false,"source_id":source_id,"error":"unknown source"}); }; let out_dir = local_path(&format!("cache/source_snapshots/{}", source_id)); let _ = fs::create_dir_all(&out_dir); let payload_path = out_dir.join(format!("{}.sample.json", kind)); let manifest_path = out_dir.join("snapshot_manifest.json"); let payload = json!({"ok":true,"source_id":source_id,"snapshot_kind":kind,"source_mode":"offline_sample_cache"}); let _ = fs::write(&payload_path, serde_json::to_string_pretty(&payload).unwrap_or_default()); let manifest = json!({"ok":true,"schema":"omnibet.cached_source_snapshot.v65","source_id":source_id,"snapshot_kind":kind,"source_mode":"offline_sample_cache","manual_action_required":true,"external_call_performed":false,"payload_path":payload_path.display().to_string(),"created_at_unix":now_unix(),"safety":{"credential_value_stored":false,"external_call":false,"ci_safe":true}}); let _ = fs::write(&manifest_path, serde_json::to_string_pretty(&manifest).unwrap_or_default()); json!({"ok":true,"source_id":source_id,"manifest_path":manifest_path.display().to_string(),"payload_path":payload_path.display().to_string(),"manifest":manifest}) }
-fn promote_review_decisions_impl() -> Value { let store = local_path("review_decisions/review_decisions.jsonl"); let out = local_path("exports/mapping_rule_candidates.v66.json"); let mut candidates = Vec::new(); if let Ok(text) = fs::read_to_string(&store) { for line in text.lines().filter(|l| !l.trim().is_empty()) { if let Ok(v) = serde_json::from_str::<Value>(line) { if v["decision"] == "accepted" { let kind = v["review_type"].as_str().unwrap_or("unknown"); if kind == "unknown_market" || kind == "provider_identity" { candidates.push(json!({"candidate_kind":format!("{}_mapping_candidate", kind),"review_id":v["review_id"],"candidate_status":"candidate_only_not_production","source_decision":"accepted","reason":v["reason"]})); } } } } } let _ = ensure_parent(&out); let report = json!({"ok":true,"schema":"omnibet.review_promotion.v66","candidate_rows":candidates.len(),"production_rows_written":0,"candidates":candidates,"safety":{"candidate_only":true,"production_mapping_mutated":false,"credential_values_included":false,"external_calls":false}}); let _ = fs::write(&out, serde_json::to_string_pretty(&report).unwrap_or_default()); report }
+#[tauri::command]
+fn load_dashboard_report(path_hint: Option<String>) -> Value {
+    json!({"ok": true, "mode": "packaged_fallback", "path_hint": path_hint, "dashboard_json": null})
+}
 
-#[tauri::command] fn ping() -> String { "omnibet-tauri-ok".to_string() }
-#[tauri::command] fn load_dashboard_report(path_hint: Option<String>) -> DashboardLoadPayload { load_first_dashboard_json(path_hint) }
-#[tauri::command] fn load_review_report(path_hint: Option<String>) -> ReviewLoadPayload { load_first_review_json(path_hint) }
-#[tauri::command] fn load_app_settings(path_hint: Option<String>) -> SettingsLoadPayload { load_first_settings_json(path_hint) }
-#[tauri::command] fn run_local_workflow(workflow_id: String) -> WorkflowRunPayload { run_allowlisted_workflow(workflow_id) }
-#[tauri::command] fn save_review_decision(review_type: String, review_id: String, decision: String, reason: String) -> ReviewDecisionSavePayload { save_review_decision_impl(review_type, review_id, decision, reason) }
-#[tauri::command] fn source_status() -> Value { source_status_value() }
-#[tauri::command] fn cache_source_sample(source_id: String) -> Value { cache_source_sample_impl(source_id) }
-#[tauri::command] fn promote_review_decisions() -> Value { promote_review_decisions_impl() }
-#[tauri::command] fn pack_summary() -> CliBridgePayload { run_allowed_cli("omnibet-pack", vec!["summary".to_string(), "data_packs/football_core_v1".to_string()]) }
-#[tauri::command] fn predict_fixture(home_team: String, away_team: String) -> CliBridgePayload { run_allowed_cli("omnibet-infer", vec!["predict".to_string(), "data_packs/football_core_v1".to_string(), home_team, away_team]) }
-#[tauri::command] fn value_report(home_team: String, away_team: String) -> CliBridgePayload { run_allowed_cli("omnibet-value", vec!["report".to_string(), "data_packs/football_core_v1".to_string(), home_team, away_team, "data/sample_prices.csv".to_string(), "0.25".to_string()]) }
+#[tauri::command]
+fn load_review_report(path_hint: Option<String>) -> Value {
+    json!({"ok": true, "mode": "packaged_fallback", "path_hint": path_hint, "review_json": null})
+}
 
-fn main() { tauri::Builder::default().invoke_handler(tauri::generate_handler![ping, load_dashboard_report, load_review_report, load_app_settings, run_local_workflow, save_review_decision, source_status, cache_source_sample, promote_review_decisions, pack_summary, predict_fixture, value_report]).run(tauri::generate_context!()).expect("error while running OmniBet Lab Tauri app"); }
+#[tauri::command]
+fn load_app_settings(path_hint: Option<String>) -> Value {
+    json!({"ok": true, "mode": "packaged_fallback", "path_hint": path_hint, "settings_json": {"paper_only": true}})
+}
+
+#[tauri::command]
+fn run_local_workflow(workflow_id: String) -> Value {
+    json!({"ok": true, "state": "preview_only", "workflow_id": workflow_id, "paper_only": true})
+}
+
+#[tauri::command]
+fn save_review_decision(review_type: String, review_id: String, decision: String, reason: String) -> Value {
+    json!({"ok": true, "mode": "preview_only", "review_type": review_type, "review_id": review_id, "decision": decision, "reason": reason})
+}
+
+fn main() {
+    tauri::Builder::default()
+        .invoke_handler(tauri::generate_handler![
+            ping,
+            pack_summary,
+            predict_fixture,
+            value_report,
+            load_dashboard_report,
+            load_review_report,
+            load_app_settings,
+            run_local_workflow,
+            save_review_decision
+        ])
+        .run(tauri::generate_context!())
+        .expect("error while running OmniBet Lab desktop beta");
+}
