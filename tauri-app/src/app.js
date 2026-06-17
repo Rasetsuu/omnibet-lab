@@ -4,6 +4,7 @@ import { loadAndRenderReviews } from './review.js';
 import { loadAndRenderSettings } from './settings.js';
 import { loadAndRenderPhase2Forecast } from './models.js';
 import { loadAndRenderDesktopBeta } from './desktop_beta.js';
+import { exportLocalImportBundle, runLocalImportPreview } from './local_import.js';
 
 function out(x) {
   const el = document.getElementById('out');
@@ -27,6 +28,11 @@ async function safeRun(fn) {
   }
 }
 
+function selectedLocalImportFile() {
+  const input = document.getElementById('local-import-file');
+  return input?.files?.[0] || null;
+}
+
 function bind() {
   document.querySelectorAll('.nav-button').forEach(btn => {
     btn.addEventListener('click', () => showPage(btn.dataset.page));
@@ -40,6 +46,8 @@ function bind() {
   document.getElementById('load-settings-sample')?.addEventListener('click', () => safeRun(() => loadAndRenderSettings('tauri-app/src/settings-data.sample.json')));
   document.getElementById('load-phase2-forecast')?.addEventListener('click', () => safeRun(() => loadAndRenderPhase2Forecast()));
   document.getElementById('load-desktop-beta')?.addEventListener('click', () => safeRun(() => loadAndRenderDesktopBeta()));
+  document.getElementById('run-local-import-preview')?.addEventListener('click', () => safeRun(() => runLocalImportPreview(selectedLocalImportFile())));
+  document.getElementById('export-local-import-bundle')?.addEventListener('click', () => safeRun(() => exportLocalImportBundle()));
   document.getElementById('ping-button')?.addEventListener('click', () => safeRun(() => invokeCommand('ping')));
   document.getElementById('pack-summary-button')?.addEventListener('click', () => safeRun(() => invokeCommand('pack_summary')));
   document.getElementById('detailed-pack-summary-button')?.addEventListener('click', () => safeRun(() => invokeCommand('pack_summary')));
