@@ -1,0 +1,70 @@
+{
+  "ok": true,
+  "version": "omnibet.external_data.sample.v165_v172",
+  "schema": "omnibet.external_data_contracts.v165_v172",
+  "capabilities": [
+    {
+      "capability_id": "upcoming_fixtures",
+      "label": "Upcoming fixtures",
+      "mode": "manual_opt_in",
+      "cache_kind": "fixture_cache",
+      "enabled_by_default": false
+    },
+    {
+      "capability_id": "results_history",
+      "label": "Historical results",
+      "mode": "manual_opt_in",
+      "cache_kind": "history_cache",
+      "enabled_by_default": false
+    }
+  ],
+  "connectors": [
+    {
+      "connector_id": "official_fixture_file",
+      "label": "Official fixture file",
+      "capabilities": ["upcoming_fixtures"],
+      "status": "local_sample_only",
+      "requires_secret_value": false,
+      "manual_refresh_only": true
+    },
+    {
+      "connector_id": "permitted_history_file",
+      "label": "Permitted history file",
+      "capabilities": ["results_history"],
+      "status": "local_sample_only",
+      "requires_secret_value": false,
+      "manual_refresh_only": true
+    }
+  ],
+  "fixture_cache_sample": {
+    "schema": "omnibet.external_fixture_cache.v167",
+    "connector_id": "official_fixture_file",
+    "cached_at": "2026-06-17T00:00:00Z",
+    "rows": [
+      {
+        "external_id": "official_fixture_file:eng:001",
+        "competition": "eng_premier",
+        "league_name": "England Premier League",
+        "kickoff": "2026-08-22T14:00:00Z",
+        "home": "Liverpool",
+        "away": "Manchester City",
+        "status": "scheduled"
+      },
+      {
+        "external_id": "official_fixture_file:ita:002",
+        "competition": "ita_serie_a",
+        "league_name": "Italy Serie A",
+        "kickoff": "2026-08-23T18:45:00Z",
+        "home": "Inter",
+        "away": "Milan",
+        "status": "scheduled"
+      }
+    ]
+  },
+  "policy": {
+    "manual_opt_in": true,
+    "local_cache_first": true,
+    "no_secret_values": true,
+    "no_ci_network_calls": true
+  }
+}

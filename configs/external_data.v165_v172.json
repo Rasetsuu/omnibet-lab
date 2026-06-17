@@ -1,0 +1,24 @@
+{
+  "version": "omnibet.external_data.v165_v172",
+  "mode": "local_external_data_contracts",
+  "milestones": {
+    "v165": "capability registry",
+    "v166": "upcoming data contract",
+    "v167": "cached sample contract",
+    "v168": "desktop page",
+    "v169": "manual controls",
+    "v170": "cache to fixture shape",
+    "v171": "UI smoke",
+    "v172": "CI-gated merge"
+  },
+  "outputs": {
+    "sample": "tauri-app/src/external-data.sample.json",
+    "ci_report": "reports/ci_v165_v172_external_data_ui.json"
+  },
+  "policy": {
+    "manual_opt_in": true,
+    "local_cache_first": true,
+    "credential_values": false
+  },
+  "smoke_script": "python_lab/external_data_ui_smoke.py"
+}

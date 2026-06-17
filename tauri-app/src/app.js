@@ -6,6 +6,7 @@ import { loadAndRenderPhase2Forecast } from './models.js';
 import { loadAndRenderDesktopBeta } from './desktop_beta.js';
 import { exportLocalImportBundle, runLocalImportPreview } from './local_import.js';
 import { loadAndRenderUpcomingFixtures, predictSelectedUpcomingFixture } from './upcoming.js';
+import { importExternalFixtureCacheToUpcoming, loadAndRenderExternalData } from './external_data.js';
 
 function out(x) {
   const el = document.getElementById('out');
@@ -47,7 +48,9 @@ function bind() {
   document.getElementById('load-settings-sample')?.addEventListener('click', () => safeRun(() => loadAndRenderSettings('tauri-app/src/settings-data.sample.json')));
   document.getElementById('load-phase2-forecast')?.addEventListener('click', () => safeRun(() => loadAndRenderPhase2Forecast()));
   document.getElementById('load-upcoming-fixtures')?.addEventListener('click', () => safeRun(() => loadAndRenderUpcomingFixtures()));
+  document.getElementById('load-external-data')?.addEventListener('click', () => safeRun(() => loadAndRenderExternalData()));
   document.getElementById('load-desktop-beta')?.addEventListener('click', () => safeRun(() => loadAndRenderDesktopBeta()));
+  document.getElementById('import-external-fixtures')?.addEventListener('click', () => safeRun(() => importExternalFixtureCacheToUpcoming()));
   document.getElementById('predict-selected-upcoming-fixture')?.addEventListener('click', () => safeRun(() => predictSelectedUpcomingFixture()));
   document.getElementById('run-local-import-preview')?.addEventListener('click', () => safeRun(() => runLocalImportPreview(selectedLocalImportFile())));
   document.getElementById('export-local-import-bundle')?.addEventListener('click', () => safeRun(() => exportLocalImportBundle()));
