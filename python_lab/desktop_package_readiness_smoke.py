@@ -25,7 +25,6 @@ FRONTEND_FILES = [
     "tauri-app/src/phase2-forecast.sample.json",
     "tauri-app/src/model-lab.sample.json",
     "tauri-app/src/competition-lab.sample.json",
-    "tauri-app/src/league-universe.sample.json",
 ]
 
 REQUIRED_COMMANDS = ["ping", "load_dashboard_report", "load_review_report", "load_app_settings", "run_local_workflow", "save_review_decision", "pack_summary", "predict_fixture", "value_report"]
@@ -68,7 +67,6 @@ def build_report(root: Path, platform_name: str) -> Dict[str, Any]:
     phase2 = json.loads(read(root, "tauri-app/src/phase2-forecast.sample.json"))
     model_lab = json.loads(read(root, "tauri-app/src/model-lab.sample.json"))
     comp_lab = json.loads(read(root, "tauri-app/src/competition-lab.sample.json"))
-    league_universe = json.loads(read(root, "tauri-app/src/league-universe.sample.json"))
     package = load_package_json(root)
 
     file_presence = {rel: (root / rel).exists() for rel in FRONTEND_FILES}
@@ -103,7 +101,6 @@ def build_report(root: Path, platform_name: str) -> Dict[str, Any]:
         "model_phase_sample_present": phase2.get("ok") is True and phase2.get("registry", {}).get("schema") == "omnibet.model_registry.v71",
         "model_lab_sample_present": model_lab.get("ok") is True and model_lab.get("model_lab", {}).get("schema") == "omnibet.model_lab_payload.v78",
         "competition_lab_sample_present": comp_lab.get("ok") is True and comp_lab.get("competition_lab", {}).get("schema") == "omnibet.competition_model_lab.v86",
-        "league_universe_sample_present": league_universe.get("ok") is True and league_universe.get("row_counts", {}).get("total", 0) >= 45,
         "no_shell_execution": ".shell" not in rust and "cmd /C" not in rust and "sh -c" not in rust,
         "direct_command_invocation": "Command::new" in rust,
         "pathbuf_used": "PathBuf" in rust and "Path::new" in rust,
@@ -111,12 +108,12 @@ def build_report(root: Path, platform_name: str) -> Dict[str, Any]:
         "linux_python_branch": '"python3".to_string()' in rust,
         "python_env_override": "OMNIBET_PYTHON" in rust,
         "cli_dir_env_override": "OMNIBET_CLI_DIR" in rust,
-        "samples_parse": all(x.get("ok") is True for x in [dashboard, review, settings, phase2, model_lab, comp_lab, league_universe]),
+        "samples_parse": all(x.get("ok") is True for x in [dashboard, review, settings, phase2, model_lab, comp_lab]),
         "settings_no_key_values": settings.get("safety", {}).get("no_api_key_values") is True,
         "settings_no_network": settings.get("runtime", {}).get("network_enabled") is False,
     }
     checks["platform_specific_python_choice_visible"] = "cfg!(windows)" in rust if platform_name.lower().startswith("win") else '"python3".to_string()' in rust
-    return {"ok": all(checks.values()), "milestone": "v86b_league_universe_package_readiness", "platform": platform_name, "tauri_version": tauri_version, "cargo_version": cargo_version, "package_version": package_version, "file_presence": file_presence, "module_links": module_links, "command_registration": command_registration, "workflow_allowlist": workflow_allowlist, "acceptance": checks, "safety": {"offline_static_checks_only": True, "no_api_keys": True, "no_network_provider_calls": True, "no_shell_execution": checks["no_shell_execution"], "no_web_server_dependency": checks["no_before_build_web_server"] and checks["package_metadata_has_no_web_server_dependency"]}}
+    return {"ok": all(checks.values()), "milestone": "v79_v86_competition_core_package_readiness", "platform": platform_name, "tauri_version": tauri_version, "cargo_version": cargo_version, "package_version": package_version, "file_presence": file_presence, "module_links": module_links, "command_registration": command_registration, "workflow_allowlist": workflow_allowlist, "acceptance": checks, "safety": {"offline_static_checks_only": True, "no_api_keys": True, "no_network_provider_calls": True, "no_shell_execution": checks["no_shell_execution"], "no_web_server_dependency": checks["no_before_build_web_server"] and checks["package_metadata_has_no_web_server_dependency"]}}
 
 
 def main() -> None:
