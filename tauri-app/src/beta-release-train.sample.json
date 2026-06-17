@@ -1,0 +1,154 @@
+{
+  "ok": true,
+  "schema": "omnibet.beta_release_train.v181_v228",
+  "version": "0.6.0-rc.1-beta-train",
+  "generated_at": "2026-06-17T00:00:00Z",
+  "phases": [
+    {
+      "phase_id": "phase_1_qa_stabilization",
+      "range": "v181-v188",
+      "label": "QA and stabilization",
+      "status": "ready_for_smoke",
+      "milestones": [
+        "QA checklist sample",
+        "happy-path sample data",
+        "workflow status panel",
+        "bundle verification smoke",
+        "snapshot verification smoke",
+        "known limits note",
+        "release candidate readiness smoke",
+        "CI-gated merge"
+      ]
+    },
+    {
+      "phase_id": "phase_2_build_readiness",
+      "range": "v189-v196",
+      "label": "Build validation and readiness",
+      "status": "manual_workflow_ready",
+      "milestones": [
+        "manual build workflow exists",
+        "artifact manifest exists",
+        "checksum manifest exists",
+        "Windows artifact naming",
+        "Linux artifact naming",
+        "manual run checklist",
+        "artifact verification checklist",
+        "release readiness gate"
+      ]
+    },
+    {
+      "phase_id": "phase_3_local_persistence",
+      "range": "v197-v204",
+      "label": "Local persistence contract",
+      "status": "contract_ready",
+      "milestones": [
+        "local app data layout",
+        "import bundle location",
+        "forecast snapshot location",
+        "workflow state location",
+        "backup bundle location",
+        "manifest verification",
+        "restore checklist",
+        "persistence smoke"
+      ]
+    },
+    {
+      "phase_id": "phase_4_evaluation_path",
+      "range": "v205-v212",
+      "label": "Evaluation path",
+      "status": "sample_ready",
+      "milestones": [
+        "real-file import readiness",
+        "chronological split contract",
+        "per-competition metrics contract",
+        "calibration summary contract",
+        "forecast snapshot comparison contract",
+        "known-limits report",
+        "evaluation QA smoke",
+        "model quality gate"
+      ]
+    },
+    {
+      "phase_id": "phase_5_setup_contracts",
+      "range": "v213-v220",
+      "label": "Setup contracts",
+      "status": "manual_opt_in_ready",
+      "milestones": [
+        "source capability checklist",
+        "local cache contract",
+        "credential metadata only",
+        "manual refresh contract",
+        "fixture cache mapping",
+        "history cache mapping",
+        "setup warning UI",
+        "setup smoke"
+      ]
+    },
+    {
+      "phase_id": "phase_6_beta_release_prep",
+      "range": "v221-v228",
+      "label": "Beta release prep",
+      "status": "prep_ready",
+      "milestones": [
+        "release notes final draft",
+        "known limits section",
+        "manual test checklist",
+        "artifact checklist",
+        "tag naming contract",
+        "download instructions",
+        "post-release verification",
+        "beta release gate"
+      ]
+    }
+  ],
+  "qa_checklist": [
+    "Load Desktop Beta sample",
+    "Run local import preview",
+    "Export local import bundle",
+    "Load External Data sample",
+    "Import cached fixtures into Upcoming",
+    "Select upcoming fixture",
+    "Run prediction preview",
+    "Export forecast snapshot",
+    "Load Beta Workflow sample",
+    "Load Beta Release Train sample"
+  ],
+  "local_persistence_contract": {
+    "root": ".omnibet-local",
+    "directories": [
+      "imports",
+      "forecasts",
+      "workflow_state",
+      "exports",
+      "cache",
+      "logs"
+    ],
+    "files": {
+      "latest_import_bundle": "imports/latest-import-bundle.json",
+      "latest_forecast_snapshot": "forecasts/latest-forecast-snapshot.json",
+      "workflow_state": "workflow_state/beta-workflow-state.json",
+      "release_train_state": "workflow_state/beta-release-train-state.json"
+    }
+  },
+  "evaluation_contract": {
+    "split": "chronological",
+    "metrics": ["brier", "accuracy_at_0_5", "calibration_bins"],
+    "scope": "per_competition_and_global",
+    "minimum_gate": "report_only_until_real_history_is_validated"
+  },
+  "release_gate": {
+    "ci_green": true,
+    "desktop_smokes_green": true,
+    "manual_build_workflow_present": true,
+    "manual_os_test_required": true,
+    "tag_template": "desktop-beta-0.6.0-rc.1"
+  },
+  "boundaries": {
+    "paper_only": true,
+    "local_first": true,
+    "manual_opt_in": true,
+    "no_automatic_external_calls": true,
+    "no_secret_values": true,
+    "not_final_product": true
+  }
+}
