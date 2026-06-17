@@ -18,14 +18,15 @@ jobs:
           python-version: "3.12"
       - name: Run league universe smoke
         run: |
-          mkdir -p reports build/v87 build/v95 build/v103
-          python -m py_compile python_lab/league_universe_smoke.py python_lab/v87_smoke.py python_lab/history_scale_smoke.py python_lab/quality_layer_smoke.py python_lab/rust_core_smoke.py python_lab/runtime_smoke.py
+          mkdir -p reports build/v87 build/v95 build/v103 build/v125
+          python -m py_compile python_lab/league_universe_smoke.py python_lab/v87_smoke.py python_lab/history_scale_smoke.py python_lab/quality_layer_smoke.py python_lab/rust_core_smoke.py python_lab/runtime_smoke.py python_lab/desktop_beta_smoke.py
           python python_lab/league_universe_smoke.py --out reports/ci_v86b_league_universe.json --sample tauri-app/src/league-universe.sample.json
           python python_lab/v87_smoke.py --out-dir build/v87 --ui-sample tauri-app/src/v87.sample.json --out reports/ci_v87.json
           python python_lab/history_scale_smoke.py --out-dir build/v95 --ui-sample tauri-app/src/v95.sample.json --out reports/ci_v95.json
           python python_lab/quality_layer_smoke.py --out-dir build/v103 --ui-sample tauri-app/src/v103.sample.json --out reports/ci_v103.json
           python python_lab/rust_core_smoke.py --root . --ui-sample tauri-app/src/v111.sample.json --out reports/ci_v111.json
           python python_lab/runtime_smoke.py --root . --ui-sample tauri-app/src/v117.sample.json --out reports/ci_v117.json
+          python python_lab/desktop_beta_smoke.py --out-dir build/v125 --ui-sample tauri-app/src/v125.sample.json --out reports/ci_v125.json
       - name: Upload league universe report
         if: always()
         uses: actions/upload-artifact@v4
@@ -38,4 +39,5 @@ jobs:
             reports/ci_v103.json
             reports/ci_v111.json
             reports/ci_v117.json
+            reports/ci_v125.json
           if-no-files-found: warn
