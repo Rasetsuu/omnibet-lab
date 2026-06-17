@@ -23,6 +23,7 @@ FRONTEND_FILES = [
     "tauri-app/src/review-data.sample.json",
     "tauri-app/src/settings-data.sample.json",
     "tauri-app/src/phase2-forecast.sample.json",
+    "tauri-app/src/model-lab.sample.json",
 ]
 
 REQUIRED_COMMANDS = [
@@ -86,6 +87,7 @@ def build_report(root: Path, platform_name: str) -> Dict[str, Any]:
     review = json.loads(read(root, "tauri-app/src/review-data.sample.json"))
     dashboard = json.loads(read(root, "tauri-app/src/dashboard-data.sample.json"))
     phase2 = json.loads(read(root, "tauri-app/src/phase2-forecast.sample.json"))
+    model_lab = json.loads(read(root, "tauri-app/src/model-lab.sample.json"))
     package = load_package_json(root)
 
     file_presence = {rel: (root / rel).exists() for rel in FRONTEND_FILES}
@@ -118,6 +120,7 @@ def build_report(root: Path, platform_name: str) -> Dict[str, Any]:
         "local_data_contract_present": "OMNIBET_HOME" in rust and ".omnibet-local" in rust,
         "workflow_ux_fields_present": all(s in rust for s in ["state", "started_at_unix", "finished_at_unix", "report_path_hint", "refresh_hint", "stdout_preview", "stderr_preview"]),
         "model_phase_sample_present": phase2.get("ok") is True and phase2.get("registry", {}).get("schema") == "omnibet.model_registry.v71",
+        "model_lab_sample_present": model_lab.get("ok") is True and model_lab.get("model_lab", {}).get("schema") == "omnibet.model_lab_payload.v78",
         "no_shell_execution": ".shell" not in rust and "cmd /C" not in rust and "sh -c" not in rust,
         "direct_command_invocation": "Command::new" in rust,
         "pathbuf_used": "PathBuf" in rust and "Path::new" in rust,
@@ -125,7 +128,7 @@ def build_report(root: Path, platform_name: str) -> Dict[str, Any]:
         "linux_python_branch": '"python3".to_string()' in rust,
         "python_env_override": "OMNIBET_PYTHON" in rust,
         "cli_dir_env_override": "OMNIBET_CLI_DIR" in rust,
-        "samples_parse": dashboard.get("ok") is True and review.get("ok") is True and settings.get("ok") is True and phase2.get("ok") is True,
+        "samples_parse": dashboard.get("ok") is True and review.get("ok") is True and settings.get("ok") is True and phase2.get("ok") is True and model_lab.get("ok") is True,
         "settings_no_key_values": settings.get("safety", {}).get("no_api_key_values") is True,
         "settings_no_network": settings.get("runtime", {}).get("network_enabled") is False,
     }
@@ -137,7 +140,7 @@ def build_report(root: Path, platform_name: str) -> Dict[str, Any]:
 
     return {
         "ok": all(checks.values()),
-        "milestone": "v67_v72_phase2_package_readiness_preflight",
+        "milestone": "v73_v78_forecast_scaleup_package_readiness",
         "platform": platform_name,
         "tauri_version": tauri_version,
         "cargo_version": cargo_version,
