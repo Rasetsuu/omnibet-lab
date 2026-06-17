@@ -27,6 +27,7 @@ INCLUDE_FILES = [
     "tauri-app/src/review-data.sample.json",
     "tauri-app/src/settings-data.sample.json",
     "tauri-app/src/phase2-forecast.sample.json",
+    "tauri-app/src/model-lab.sample.json",
     "tauri-app/src-tauri/tauri.conf.json",
     "tauri-app/src-tauri/Cargo.toml",
     "tauri-app/src-tauri/src/main.rs",
@@ -136,7 +137,7 @@ def build_package(root: Path, out_dir: Path) -> Dict[str, Any]:
         generated.append({"path": rel, "bytes": path.stat().st_size, "sha256": sha256_file(path)})
     manifest = {
         "ok": True,
-        "schema": "omnibet.desktop_rc_manifest.v62_plus_v72",
+        "schema": "omnibet.desktop_rc_manifest.v62_plus_v78",
         "package_name": PACKAGE_NAME,
         "desktop_version": EXPECTED_DESKTOP_VERSION,
         "release_kind": "portable_rc_layout",
@@ -145,8 +146,8 @@ def build_package(root: Path, out_dir: Path) -> Dict[str, Any]:
         "package_preflight_ok": preflight.get("ok"),
         "included_files": included,
         "generated_docs": generated,
-        "entrypoints": {"tauri_frontend": "tauri-app/src/index.html", "phase2_ui_sample": "tauri-app/src/phase2-forecast.sample.json"},
-        "known_limits": ["not a signed installer", "no runtime binary included", "phase2 sample is small and offline"],
+        "entrypoints": {"tauri_frontend": "tauri-app/src/index.html", "phase2_ui_sample": "tauri-app/src/phase2-forecast.sample.json", "model_lab_sample": "tauri-app/src/model-lab.sample.json"},
+        "known_limits": ["not a signed installer", "no runtime binary included", "model lab sample is offline"],
         "safety": {"paper_only": True, "offline_default": True, "no_secret_values": True, "no_recommendation_output": True},
     }
     manifest_path = release_root / "RELEASE_MANIFEST.json"
@@ -168,11 +169,12 @@ def build_report(root: Path, out_dir: Path) -> Dict[str, Any]:
         "version_rc": manifest.get("desktop_version") == EXPECTED_DESKTOP_VERSION,
         "has_required_sources": len(manifest.get("included_files", [])) == len(INCLUDE_FILES),
         "has_phase2_asset": any(x.get("path") == "tauri-app/src/phase2-forecast.sample.json" for x in manifest.get("included_files", [])),
+        "has_model_lab_asset": any(x.get("path") == "tauri-app/src/model-lab.sample.json" for x in manifest.get("included_files", [])),
         "no_binary_claim": manifest.get("contains_runtime_binary") is False,
         "no_installer_claim": manifest.get("contains_signed_installer") is False,
         "checksums_present": bool(package.get("zip_sha256")) and bool(manifest.get("manifest_sha256")),
     }
-    return {"ok": all(checks.values()), "milestone": "v62_plus_v72_desktop_rc_packaging", "package_name": package["package_name"], "release_dir": package["release_dir"], "zip_path": package["zip_path"], "zip_sha256": package["zip_sha256"], "manifest_path": package["manifest_path"], "acceptance": checks, "safety": manifest["safety"], "known_limits": manifest["known_limits"]}
+    return {"ok": all(checks.values()), "milestone": "v62_plus_v78_desktop_rc_packaging", "package_name": package["package_name"], "release_dir": package["release_dir"], "zip_path": package["zip_path"], "zip_sha256": package["zip_sha256"], "manifest_path": package["manifest_path"], "acceptance": checks, "safety": manifest["safety"], "known_limits": manifest["known_limits"]}
 
 
 def main() -> None:
