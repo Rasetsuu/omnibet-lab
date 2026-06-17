@@ -1,0 +1,40 @@
+{
+  "ok": true,
+  "schema": "omnibet.league_universe.v86b.placeholder",
+  "row_counts": {
+    "total": 62,
+    "core_train": 15,
+    "trainable": 55,
+    "reference_only": 7,
+    "groups": {
+      "europe": 18,
+      "europe_uk": 6,
+      "americas": 11,
+      "asia_oceania": 5,
+      "africa": 2,
+      "special": 20
+    }
+  },
+  "selection_policy": {
+    "include": [
+      "high-signal tier-1 domestic leagues",
+      "major UK depth",
+      "major Americas leagues",
+      "continental/special competitions",
+      "selected high-signal non-Europe leagues"
+    ],
+    "exclude_by_default": [
+      "youth",
+      "reserve",
+      "low-signal lower divisions",
+      "duplicate regional cups",
+      "women competitions until separate model path exists"
+    ],
+    "footystats_role": "reference_index_only_not_scrape_target"
+  },
+  "safety": {
+    "offline_only": true,
+    "no_website_automation": true,
+    "manual_or_permitted_sources_only": true
+  }
+}
