@@ -1,0 +1,63 @@
+{
+  "version": "omnibet.competition_core.v79_v86",
+  "mode": "offline_competition_aware_core",
+  "milestones": {
+    "v79": "competition registry and schema",
+    "v80": "competition-aware historical import contract",
+    "v81": "per-competition priors and calibration",
+    "v82": "per-competition rolling evaluation",
+    "v83": "source coverage matrix",
+    "v84": "adapter contracts",
+    "v85": "Rust eval/calibration skeleton",
+    "v86": "Rust report reader skeleton"
+  },
+  "outputs": {
+    "manifest": "build/competition_phase_v79_v86/competition_phase_manifest.v79_v86.json",
+    "registry": "build/competition_phase_v79_v86/competition_registry.v79.json",
+    "history": "build/competition_phase_v79_v86/competition_history.v80.jsonl.gz",
+    "training": "build/competition_phase_v79_v86/competition_training.v80.jsonl.gz",
+    "per_competition_eval": "build/competition_phase_v79_v86/per_competition_eval.v82.json",
+    "source_matrix": "build/competition_phase_v79_v86/source_coverage_matrix.v83.json",
+    "adapter_contracts": "build/competition_phase_v79_v86/adapter_contracts.v84.json",
+    "model_lab": "build/competition_phase_v79_v86/competition_model_lab.v86.json",
+    "desktop_sample": "tauri-app/src/competition-lab.sample.json"
+  },
+  "competition_ids": [
+    "eng_premier",
+    "esp_laliga",
+    "ita_serie_a",
+    "ger_bundesliga",
+    "fra_ligue1",
+    "int_world"
+  ],
+  "source_coverage_human_map": [
+    "OpenFootball / football.json",
+    "football-data CSV",
+    "football-data.org",
+    "StatsBomb Open Data",
+    "Understat-style xG source",
+    "API-Football-style fixture/state source",
+    "The Odds API-style market source",
+    "Flashscore reference layer",
+    "Sofascore reference layer",
+    "Superbet reference layer",
+    "OddsPortal reference layer",
+    "Betfair exchange reference layer",
+    "Pinnacle reference layer",
+    "FBref reference layer",
+    "worldfootball.net reference layer"
+  ],
+  "rust_migration": {
+    "eval_core": "rust-core/src/competition_eval.rs",
+    "report_reader": "rust-core/src/competition_report.rs"
+  },
+  "ci_policy": {
+    "offline_only": true,
+    "credential_values": false,
+    "live_source_calls": false,
+    "website_automation": false,
+    "recommendation_output": false,
+    "production_mapping_mutation": false
+  },
+  "smoke_script": "python_lab/competition_core_smoke.py"
+}
