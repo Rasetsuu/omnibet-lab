@@ -1,0 +1,53 @@
+{
+  "version": "omnibet.league_universe.v86b",
+  "mode": "curated_competition_universe_before_real_adapters",
+  "reference_basis": {
+    "footystats_url": "https://footystats.org/leagues",
+    "role": "reference_index_only_not_scrape_target"
+  },
+  "selection_policy": {
+    "include": [
+      "high-signal tier-1 domestic leagues",
+      "major UK depth",
+      "major Americas leagues",
+      "continental/special competitions",
+      "selected high-signal non-Europe leagues"
+    ],
+    "exclude_by_default": [
+      "youth",
+      "reserve",
+      "low-signal lower divisions",
+      "duplicate regional cups",
+      "women competitions until separate model path exists"
+    ]
+  },
+  "scopes": {
+    "core_train": "highest priority default model universe",
+    "expanded_train": "trainable after source coverage exists",
+    "reference_only": "mapping/cross-checking, not default training yet"
+  },
+  "acceptance": {
+    "min_total_entries": 45,
+    "min_trainable_entries": 30,
+    "min_core_train_entries": 10,
+    "required_groups": [
+      "europe",
+      "europe_uk",
+      "americas",
+      "special",
+      "asia_oceania",
+      "africa"
+    ]
+  },
+  "outputs": {
+    "desktop_sample": "tauri-app/src/league-universe.sample.json",
+    "ci_report": "reports/ci_v86b_league_universe.json"
+  },
+  "ci_policy": {
+    "offline_only": true,
+    "website_automation": false,
+    "credential_values": false,
+    "recommendation_output": false
+  },
+  "smoke_script": "python_lab/league_universe_smoke.py"
+}
