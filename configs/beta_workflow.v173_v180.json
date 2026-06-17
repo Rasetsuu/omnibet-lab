@@ -1,0 +1,24 @@
+{
+  "version": "omnibet.beta_workflow.v173_v180",
+  "mode": "beta_workflow_hardening",
+  "milestones": {
+    "v173": "workflow overview sample",
+    "v174": "workflow state contract",
+    "v175": "snapshot export",
+    "v176": "workflow UI panel",
+    "v177": "workflow smoke",
+    "v178": "readiness checklist",
+    "v179": "boundary notes",
+    "v180": "CI-gated merge"
+  },
+  "outputs": {
+    "sample": "tauri-app/src/beta-workflow.sample.json",
+    "ci_report": "reports/ci_v173_v180_beta_workflow.json"
+  },
+  "policy": {
+    "paper_only": true,
+    "local_first": true,
+    "credential_values": false
+  },
+  "smoke_script": "python_lab/beta_workflow_smoke.py"
+}
