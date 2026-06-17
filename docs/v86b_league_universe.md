@@ -1,6 +1,6 @@
 # v86b Curated League Universe
 
-FootyStats is useful as a broad reference index because its leagues page exposes a huge global football catalogue, including popular competitions, country buckets, and continental/special competitions.
+A broad external league index is useful as a reference because it exposes a huge global football catalogue, including popular competitions, country buckets, and continental/special competitions.
 
 We should not import every league. The default universe is curated.
 
@@ -45,11 +45,11 @@ at least 10 core train entries
 Europe, UK, Americas, special, and non-Europe coverage
 ```
 
-## FootyStats role
+## Reference index role
 
 ```text
 reference/cross-check layer only
-not a scraping target
+not an automation target
 no website automation in CI
 manual/permitted snapshots only
 ```
