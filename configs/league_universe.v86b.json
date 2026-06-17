@@ -2,8 +2,8 @@
   "version": "omnibet.league_universe.v86b",
   "mode": "curated_competition_universe_before_real_adapters",
   "reference_basis": {
-    "footystats_url": "https://footystats.org/leagues",
-    "role": "reference_index_only_not_scrape_target"
+    "external_league_index": true,
+    "role": "reference_index_only_not_automation_target"
   },
   "selection_policy": {
     "include": [
