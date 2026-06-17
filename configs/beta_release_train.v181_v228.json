@@ -1,0 +1,23 @@
+{
+  "version": "omnibet.beta_release_train.v181_v228",
+  "mode": "six_phase_beta_release_train",
+  "phases": {
+    "phase_1": "v181-v188 QA and stabilization",
+    "phase_2": "v189-v196 build readiness",
+    "phase_3": "v197-v204 local persistence contract",
+    "phase_4": "v205-v212 evaluation path",
+    "phase_5": "v213-v220 setup contracts",
+    "phase_6": "v221-v228 beta release prep"
+  },
+  "outputs": {
+    "sample": "tauri-app/src/beta-release-train.sample.json",
+    "ci_report": "reports/ci_v181_v228_beta_release_train.json"
+  },
+  "policy": {
+    "paper_only": true,
+    "local_first": true,
+    "manual_opt_in": true,
+    "credential_values": false
+  },
+  "smoke_script": "python_lab/beta_release_train_smoke.py"
+}
