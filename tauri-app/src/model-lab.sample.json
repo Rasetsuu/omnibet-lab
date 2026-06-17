@@ -1,0 +1,73 @@
+{
+  "ok": true,
+  "version": "omnibet.model_lab.sample.v78.placeholder",
+  "manifest": {
+    "ok": true,
+    "schema": "omnibet.forecast_scaleup_manifest.v73_v78",
+    "row_counts": {
+      "history": 240,
+      "training": 240,
+      "rolling_folds": 24
+    },
+    "best_model": "full_scorecard",
+    "best_metrics": {
+      "model_id": "full_scorecard",
+      "folds": 6,
+      "avg_brier": 0.205,
+      "avg_logloss": 0.598,
+      "avg_accuracy_at_0_5": 0.708
+    },
+    "safety": {
+      "paper_only": true,
+      "offline_only": true,
+      "no_recommendation_output": true
+    }
+  },
+  "model_lab": {
+    "ok": true,
+    "schema": "omnibet.model_lab_payload.v78",
+    "best_model": "full_scorecard",
+    "models": [
+      {"model_id": "full_scorecard", "folds": 6, "avg_brier": 0.205, "avg_logloss": 0.598, "avg_accuracy_at_0_5": 0.708},
+      {"model_id": "rating_form", "folds": 6, "avg_brier": 0.214, "avg_logloss": 0.619, "avg_accuracy_at_0_5": 0.681},
+      {"model_id": "rating_only", "folds": 6, "avg_brier": 0.226, "avg_logloss": 0.642, "avg_accuracy_at_0_5": 0.655},
+      {"model_id": "baseline_rate", "folds": 6, "avg_brier": 0.249, "avg_logloss": 0.691, "avg_accuracy_at_0_5": 0.5}
+    ],
+    "ablation": [
+      {"comparison": "full_scorecard_vs_baseline_rate", "brier_delta": 0.044, "logloss_delta": 0.093, "interpretation": "positive means full_scorecard is better on this offline sample"},
+      {"comparison": "full_scorecard_vs_rating_only", "brier_delta": 0.021, "logloss_delta": 0.044, "interpretation": "positive means full_scorecard is better on this offline sample"},
+      {"comparison": "full_scorecard_vs_rating_form", "brier_delta": 0.009, "logloss_delta": 0.021, "interpretation": "positive means full_scorecard is better on this offline sample"}
+    ],
+    "stability": {
+      "model_id": "full_scorecard",
+      "calibration": {
+        "expected_calibration_error": 0.09,
+        "bins": [
+          {"bin": "0.4-0.6", "rows": 48, "avg_probability": 0.53, "observed_rate": 0.5, "gap": 0.03},
+          {"bin": "0.6-0.8", "rows": 80, "avg_probability": 0.68, "observed_rate": 0.71, "gap": -0.03}
+        ]
+      },
+      "fold_stability": {
+        "brier_min": 0.18,
+        "brier_max": 0.24,
+        "brier_range": 0.06,
+        "logloss_min": 0.55,
+        "logloss_max": 0.68,
+        "logloss_range": 0.13
+      }
+    },
+    "example_predictions": [
+      {"event_id": "scale:2025:00", "season": 2025, "home": "France", "away": "Senegal", "label_home_win": 1, "probability": 0.68, "top_factors": [{"name": "rating_diff", "value": 0.54, "impact": 0.729}]}
+    ],
+    "safety": {
+      "paper_only": true,
+      "offline_only": true,
+      "no_recommendation_output": true
+    }
+  },
+  "safety": {
+    "paper_only": true,
+    "offline_only": true,
+    "no_recommendation_output": true
+  }
+}
