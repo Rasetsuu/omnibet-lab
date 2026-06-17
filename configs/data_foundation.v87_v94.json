@@ -1,0 +1,24 @@
+{
+  "version": "omnibet.data_foundation.v87_v94",
+  "mode": "offline_local_data_foundation",
+  "milestones": {
+    "v87": "local input contracts",
+    "v88": "result sample",
+    "v89": "companion sample",
+    "v90": "competition coverage",
+    "v91": "integrity and dedupe",
+    "v92": "training rows",
+    "v93": "per-competition evaluation",
+    "v94": "desktop readiness payload"
+  },
+  "outputs": {
+    "desktop_sample": "tauri-app/src/adapter-readiness.sample.json",
+    "ci_report": "reports/ci_v87_v94_data_foundation.json"
+  },
+  "policy": {
+    "offline_only": true,
+    "local_files_only": true,
+    "website_automation": false
+  },
+  "smoke_script": "python_lab/data_foundation_smoke.py"
+}
