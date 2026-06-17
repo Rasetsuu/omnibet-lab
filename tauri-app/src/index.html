@@ -120,6 +120,18 @@
         <h2>Desktop Beta</h2>
         <p class="warn">PAPER_ONLY local desktop beta. Import, report, backup, and checklist panels are local/offline only.</p>
         <div id="desktop-beta-panel" class="card"><div class="muted">Load desktop beta sample first.</div></div>
+        <div id="local-import-workflow" class="card">
+          <h3>v141-v148 Local import workflow</h3>
+          <p class="muted">Choose a local CSV, JSON, or JSONL file, preview normalized rows, run integrity checks, and export a local import bundle.</p>
+          <input id="local-import-file" type="file" accept=".csv,.json,.jsonl" />
+          <button id="run-local-import-preview">Preview local import</button>
+          <button id="export-local-import-bundle">Export local bundle</button>
+          <div class="grid">
+            <div id="local-import-preview" class="card"><div class="muted">No import preview yet.</div></div>
+            <div id="local-import-integrity" class="card"><div class="muted">No integrity report yet.</div></div>
+            <div id="local-import-bundle" class="card"><div class="muted">No bundle manifest yet.</div></div>
+          </div>
+        </div>
       </section>
 
       <section id="settings" class="page" data-page-panel="settings">
@@ -172,6 +184,7 @@
   <script type="module" src="settings.js"></script>
   <script type="module" src="models.js"></script>
   <script type="module" src="desktop_beta.js"></script>
+  <script type="module" src="local_import.js"></script>
   <script type="module" src="app.js"></script>
 </body>
 </html>
