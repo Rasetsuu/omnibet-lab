@@ -1,0 +1,26 @@
+{
+  "version": "omnibet.desktop_downloads.v149_v156",
+  "desktop_version": "0.6.0-rc.1",
+  "mode": "manual_desktop_beta_builds",
+  "milestones": {
+    "v149": "beta build metadata and version manifest",
+    "v150": "Windows/Linux desktop build workflow",
+    "v151": "artifact naming and checksums",
+    "v152": "portable package manifest",
+    "v153": "GitHub Actions artifact upload",
+    "v154": "release notes draft",
+    "v155": "release readiness smoke",
+    "v156": "CI-gated merge"
+  },
+  "workflow": ".github/workflows/desktop_beta_builds.yml",
+  "manifest_generator": "python_lab/desktop_build_manifest.py",
+  "artifact_names": {
+    "windows": "omnibet-desktop-Windows-manual-beta",
+    "linux": "omnibet-desktop-Linux-manual-beta"
+  },
+  "policy": {
+    "manual_workflow": true,
+    "offline_first": true,
+    "credential_values": false
+  }
+}
