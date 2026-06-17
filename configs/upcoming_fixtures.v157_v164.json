@@ -1,0 +1,24 @@
+{
+  "version": "omnibet.upcoming_fixtures.v157_v164",
+  "mode": "local_upcoming_fixture_prediction_flow",
+  "milestones": {
+    "v157": "upcoming fixture sample contract",
+    "v158": "local upcoming fixture parser/loader",
+    "v159": "upcoming fixtures UI page",
+    "v160": "select fixture and fill prediction inputs",
+    "v161": "run local prediction preview from selected fixture",
+    "v162": "save forecast snapshot payload",
+    "v163": "upcoming fixture UI smoke",
+    "v164": "CI-gated merge"
+  },
+  "outputs": {
+    "sample": "tauri-app/src/upcoming-fixtures.sample.json",
+    "ci_report": "reports/ci_v157_v164_upcoming_fixture_ui.json"
+  },
+  "policy": {
+    "paper_only": true,
+    "local_fixture_source": true,
+    "credential_values": false
+  },
+  "smoke_script": "python_lab/upcoming_fixture_ui_smoke.py"
+}
