@@ -38,7 +38,8 @@
       "asia_oceania",
       "africa"
     ],
-    "default_before_v87_v94": true
+    "default_before_v87_v94": true,
+    "ci_metadata_neutralized": true
   },
   "outputs": {
     "desktop_sample": "tauri-app/src/league-universe.sample.json",
