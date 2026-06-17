@@ -24,6 +24,7 @@
         <button class="nav-button" data-page="accounting">Accounting</button>
         <button class="nav-button" data-page="models">Models</button>
         <button class="nav-button" data-page="upcoming">Upcoming</button>
+        <button class="nav-button" data-page="external-data">External Data</button>
         <button class="nav-button" data-page="desktop-beta">Desktop Beta</button>
         <button class="nav-button" data-page="settings">Settings</button>
         <button class="nav-button" data-page="simple">Simple</button>
@@ -48,6 +49,7 @@
           <button id="load-settings-sample">Load settings sample</button>
           <button id="load-phase2-forecast">Load model phase sample</button>
           <button id="load-upcoming-fixtures">Load upcoming fixtures</button>
+          <button id="load-external-data">Load external data</button>
           <button id="load-desktop-beta">Load desktop beta</button>
         </div>
       </header>
@@ -129,6 +131,17 @@
         <div id="upcoming-forecast-snapshot" class="card"><div class="muted">No forecast snapshot yet.</div></div>
       </section>
 
+      <section id="external-data" class="page" data-page-panel="external-data">
+        <h2>External Data</h2>
+        <p class="warn">Manual opt-in contracts only. Local cache first, no secret values, no automatic calls.</p>
+        <button id="import-external-fixtures">Import cached fixtures to Upcoming</button>
+        <div class="grid">
+          <div id="external-data-capabilities" class="card"><div class="muted">Load external data sample first.</div></div>
+          <div id="external-data-connectors" class="card"><div class="muted">Load external data sample first.</div></div>
+          <div id="external-data-cache" class="card"><div class="muted">Load external data sample first.</div></div>
+        </div>
+      </section>
+
       <section id="desktop-beta" class="page" data-page-panel="desktop-beta">
         <h2>Desktop Beta</h2>
         <p class="warn">PAPER_ONLY local desktop beta. Import, report, backup, and checklist panels are local/offline only.</p>
@@ -199,6 +212,7 @@
   <script type="module" src="desktop_beta.js"></script>
   <script type="module" src="local_import.js"></script>
   <script type="module" src="upcoming.js"></script>
+  <script type="module" src="external_data.js"></script>
   <script type="module" src="app.js"></script>
 </body>
 </html>
