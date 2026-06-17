@@ -1,0 +1,23 @@
+{
+  "version": "omnibet.runtime.v117_v124",
+  "mode": "rust_runtime_consolidation",
+  "milestones": {
+    "v117": "Rust local file loaders",
+    "v118": "Rust integrity and dedupe surface",
+    "v119": "Rust training-row builder surface",
+    "v120": "Rust coverage/report generator",
+    "v121": "Rust feature builder mirror",
+    "v122": "Rust walk-forward evaluator",
+    "v123": "Rust calibration/confidence report",
+    "v124": "desktop bridge readiness payload"
+  },
+  "outputs": {
+    "desktop_sample": "tauri-app/src/runtime.sample.json",
+    "ci_report": "reports/ci_v117_v124_runtime.json"
+  },
+  "policy": {
+    "python_orchestrates": true,
+    "rust_runtime_path_expanded": true
+  },
+  "smoke_script": "python_lab/runtime_smoke.py"
+}
