@@ -1,0 +1,21 @@
+{
+  "version": "omnibet.rust_core.v111_v116",
+  "mode": "rust_local_data_core",
+  "milestones": {
+    "v111": "Rust local row schemas",
+    "v112": "Rust integrity and dedupe checker",
+    "v113": "Rust training-row builder",
+    "v114": "Rust metrics and calibration evaluator",
+    "v115": "Rust coverage/report structs",
+    "v116": "desktop bridge readiness payload"
+  },
+  "outputs": {
+    "desktop_sample": "tauri-app/src/rust-core.sample.json",
+    "ci_report": "reports/ci_v111_v116_rust_core.json"
+  },
+  "policy": {
+    "python_orchestrates": true,
+    "rust_runtime_core_started": true
+  },
+  "smoke_script": "python_lab/rust_core_smoke.py"
+}
