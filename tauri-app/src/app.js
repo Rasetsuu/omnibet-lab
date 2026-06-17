@@ -2,6 +2,7 @@ import { fixtureTeams, invokeCommand } from './api.js';
 import { loadAndRenderDashboard } from './dashboard.js';
 import { loadAndRenderReviews } from './review.js';
 import { loadAndRenderSettings } from './settings.js';
+import { loadAndRenderPhase2Forecast } from './models.js';
 
 function out(x) {
   const el = document.getElementById('out');
@@ -36,6 +37,7 @@ function bind() {
   document.getElementById('load-review-sample')?.addEventListener('click', () => safeRun(() => loadAndRenderReviews('tauri-app/src/review-data.sample.json')));
   document.getElementById('load-settings-report')?.addEventListener('click', () => safeRun(() => loadAndRenderSettings(null)));
   document.getElementById('load-settings-sample')?.addEventListener('click', () => safeRun(() => loadAndRenderSettings('tauri-app/src/settings-data.sample.json')));
+  document.getElementById('load-phase2-forecast')?.addEventListener('click', () => safeRun(() => loadAndRenderPhase2Forecast()));
   document.getElementById('ping-button')?.addEventListener('click', () => safeRun(() => invokeCommand('ping')));
   document.getElementById('pack-summary-button')?.addEventListener('click', () => safeRun(() => invokeCommand('pack_summary')));
   document.getElementById('detailed-pack-summary-button')?.addEventListener('click', () => safeRun(() => invokeCommand('pack_summary')));
