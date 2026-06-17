@@ -106,7 +106,7 @@ def build_universe() -> Dict[str, Any]:
         "selection_policy": {
             "include": ["high-signal tier-1 domestic leagues", "major UK depth", "major Americas leagues", "continental/special competitions", "selected high-signal non-Europe leagues"],
             "exclude_by_default": ["youth", "reserve", "low-signal lower divisions", "duplicate regional cups", "women competitions until separate model path exists"],
-            "footystats_role": "reference_index_only_not_scrape_target",
+            "reference_index_role": "reference_index_only_not_automation_target",
         },
         "row_counts": {"total": len(LEAGUES), "core_train": len(core), "trainable": len(trainable), "reference_only": len(LEAGUES) - len(trainable), "groups": groups},
         "leagues": sorted(LEAGUES, key=lambda r: (-r["priority"], r["competition_id"])),
