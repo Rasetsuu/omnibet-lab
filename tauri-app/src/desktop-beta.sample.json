@@ -1,0 +1,59 @@
+{
+  "ok": true,
+  "version": "omnibet.desktop_beta.sample.v132.placeholder",
+  "desktop_beta": {
+    "ok": true,
+    "schema": "omnibet.desktop_beta_payload.v132",
+    "import_wizard": {
+      "schema": "omnibet.desktop_import_wizard.v125",
+      "steps": [
+        {"step_id": "choose_local_files", "label": "Choose local files", "required": true},
+        {"step_id": "map_competitions", "label": "Map competitions", "required": true},
+        {"step_id": "preview_rows", "label": "Preview rows", "required": true},
+        {"step_id": "run_integrity", "label": "Run integrity checks", "required": true},
+        {"step_id": "save_local_import", "label": "Save local import", "required": false}
+      ],
+      "accepted_file_kinds": ["csv", "jsonl"],
+      "policy": {"local_files_only": true, "no_credentials": true}
+    },
+    "coverage": {
+      "schema": "omnibet.desktop_coverage.v126",
+      "summary": {"covered_competitions": 6, "trainable_rows": 3016, "evaluation_rows": 756, "min_seasons": 10}
+    },
+    "evaluation": {
+      "schema": "omnibet.desktop_evaluation.v127",
+      "summary": {"model_family": "competition_runtime", "evaluation_rows": 756, "calibration_rows": 28}
+    },
+    "report_viewer": {
+      "schema": "omnibet.desktop_report_viewer.v128",
+      "reports": [
+        {"report_id": "coverage", "kind": "coverage", "severity": "info"},
+        {"report_id": "integrity", "kind": "integrity", "severity": "info"},
+        {"report_id": "evaluation", "kind": "evaluation", "severity": "info"}
+      ]
+    },
+    "backup_contract": {
+      "schema": "omnibet.local_backup_contract.v129",
+      "operations": ["export_local_bundle", "import_local_bundle", "verify_bundle_manifest"],
+      "policy": {"local_only": true, "no_secret_values": true}
+    },
+    "beta_manifest": {
+      "schema": "omnibet.desktop_beta_manifest.v130",
+      "version": "0.6.0-rc.1",
+      "release_kind": "desktop_beta_layout"
+    },
+    "release_checklist": {
+      "schema": "omnibet.release_checklist.v131",
+      "items": [
+        {"check_id": "ci_green", "required": true},
+        {"check_id": "package_ready", "required": true},
+        {"check_id": "rc_package", "required": true},
+        {"check_id": "runtime_core", "required": true},
+        {"check_id": "local_import", "required": true},
+        {"check_id": "backup_contract", "required": true},
+        {"check_id": "policy", "required": true}
+      ]
+    },
+    "policy": {"offline_first": true, "local_files_only": true, "no_credentials": true}
+  }
+}
