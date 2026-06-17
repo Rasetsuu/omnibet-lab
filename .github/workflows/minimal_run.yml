@@ -1,0 +1,12 @@
+name: Minimal Run
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  ok:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say ok
+        run: echo ok
