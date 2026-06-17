@@ -1,0 +1,23 @@
+{
+  "version": "omnibet.quality_layer.v103_v110",
+  "mode": "offline_quality_layer",
+  "milestones": {
+    "v103": "league-aware rating history",
+    "v104": "rolling team form by competition",
+    "v105": "home-away strength splits",
+    "v106": "rest and congestion features",
+    "v107": "promotion and status handling",
+    "v108": "competition kind handling",
+    "v109": "walk-forward per-competition evaluation",
+    "v110": "calibration and confidence bands"
+  },
+  "outputs": {
+    "desktop_sample": "tauri-app/src/quality-layer.sample.json",
+    "ci_report": "reports/ci_v103_v110_quality_layer.json"
+  },
+  "policy": {
+    "offline_only": true,
+    "pre_event_features_only": true
+  },
+  "smoke_script": "python_lab/quality_layer_smoke.py"
+}
