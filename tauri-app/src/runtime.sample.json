@@ -1,0 +1,26 @@
+{
+  "ok": true,
+  "version": "omnibet.runtime.sample.v124.placeholder",
+  "runtime_consolidation": {
+    "ok": true,
+    "schema": "omnibet.runtime_consolidation.v117_v124",
+    "modules": {
+      "runtime": "rust-core/src/local_runtime.rs",
+      "core": "rust-core/src/local_data_core.rs"
+    },
+    "implemented": {
+      "loader": true,
+      "integrity": true,
+      "training": true,
+      "coverage": true,
+      "features": true,
+      "walk_forward": true,
+      "calibration": true,
+      "bridge_payload": true
+    },
+    "policy": {
+      "python_orchestrates": true,
+      "rust_runtime_path_expanded": true
+    }
+  }
+}
