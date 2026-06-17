@@ -23,6 +23,7 @@
         <button class="nav-button" data-page="settlement">Settlement</button>
         <button class="nav-button" data-page="accounting">Accounting</button>
         <button class="nav-button" data-page="models">Models</button>
+        <button class="nav-button" data-page="upcoming">Upcoming</button>
         <button class="nav-button" data-page="desktop-beta">Desktop Beta</button>
         <button class="nav-button" data-page="settings">Settings</button>
         <button class="nav-button" data-page="simple">Simple</button>
@@ -46,6 +47,7 @@
           <button id="load-settings-report">Load settings</button>
           <button id="load-settings-sample">Load settings sample</button>
           <button id="load-phase2-forecast">Load model phase sample</button>
+          <button id="load-upcoming-fixtures">Load upcoming fixtures</button>
           <button id="load-desktop-beta">Load desktop beta</button>
         </div>
       </header>
@@ -114,6 +116,17 @@
         <div class="card">
           <button id="pack-summary-button">Load Pack Summary</button>
         </div>
+      </section>
+
+      <section id="upcoming" class="page" data-page-panel="upcoming">
+        <h2>Upcoming fixtures</h2>
+        <p class="warn">PAPER_ONLY local upcoming fixture flow. Load local fixtures, pick a match, then preview the selected fixture.</p>
+        <button id="predict-selected-upcoming-fixture">Predict selected fixture</button>
+        <div class="grid">
+          <div id="upcoming-fixtures-panel" class="card"><div class="muted">Load upcoming fixtures first.</div></div>
+          <div id="upcoming-selected-fixture" class="card"><div class="muted">No fixture selected.</div></div>
+        </div>
+        <div id="upcoming-forecast-snapshot" class="card"><div class="muted">No forecast snapshot yet.</div></div>
       </section>
 
       <section id="desktop-beta" class="page" data-page-panel="desktop-beta">
@@ -185,6 +198,7 @@
   <script type="module" src="models.js"></script>
   <script type="module" src="desktop_beta.js"></script>
   <script type="module" src="local_import.js"></script>
+  <script type="module" src="upcoming.js"></script>
   <script type="module" src="app.js"></script>
 </body>
 </html>
