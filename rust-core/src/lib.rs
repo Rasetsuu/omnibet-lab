@@ -1,3 +1,5 @@
+pub mod competition_eval;
+pub mod competition_report;
 pub mod gold_model;
 pub mod inference;
 pub mod linear_model;
@@ -6,6 +8,8 @@ pub mod pack;
 pub mod schema;
 pub mod typed_rows;
 
+pub use competition_eval::*;
+pub use competition_report::*;
 pub use gold_model::*;
 pub use inference::*;
 pub use linear_model::*;

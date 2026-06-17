@@ -1,0 +1,90 @@
+{
+  "ok": true,
+  "version": "omnibet.competition_lab.sample.v86.placeholder",
+  "manifest": {
+    "ok": true,
+    "schema": "omnibet.competition_phase_manifest.v79_v86",
+    "row_counts": {
+      "competitions": 6,
+      "history": 1296,
+      "training": 1296,
+      "eval_predictions": 3456,
+      "source_coverage_rows": 15
+    },
+    "best_model": "competition_tuned_scorecard",
+    "safety": {
+      "paper_only": true,
+      "offline_only": true,
+      "no_recommendation_output": true,
+      "no_external_calls": true
+    }
+  },
+  "competition_lab": {
+    "ok": true,
+    "schema": "omnibet.competition_model_lab.v86",
+    "best_model": "competition_tuned_scorecard",
+    "model_comparison": [
+      {"model_id": "competition_tuned_scorecard", "rows": 864, "brier": 0.205, "logloss": 0.598, "accuracy_at_0_5": 0.708, "calibration_ece": 0.08},
+      {"model_id": "competition_prior_scorecard", "rows": 864, "brier": 0.213, "logloss": 0.617, "accuracy_at_0_5": 0.69, "calibration_ece": 0.10},
+      {"model_id": "global_scorecard", "rows": 864, "brier": 0.222, "logloss": 0.638, "accuracy_at_0_5": 0.66, "calibration_ece": 0.12},
+      {"model_id": "global_baseline", "rows": 864, "brier": 0.249, "logloss": 0.691, "accuracy_at_0_5": 0.50, "calibration_ece": 0.18}
+    ],
+    "per_competition_eval": [
+      {"competition_id": "eng_premier", "model_id": "competition_tuned_scorecard", "rows": 144, "brier": 0.201, "logloss": 0.590, "accuracy_at_0_5": 0.715, "calibration_ece": 0.07},
+      {"competition_id": "esp_laliga", "model_id": "competition_tuned_scorecard", "rows": 144, "brier": 0.210, "logloss": 0.605, "accuracy_at_0_5": 0.701, "calibration_ece": 0.08},
+      {"competition_id": "ger_bundesliga", "model_id": "competition_tuned_scorecard", "rows": 144, "brier": 0.198, "logloss": 0.582, "accuracy_at_0_5": 0.722, "calibration_ece": 0.06}
+    ],
+    "per_competition_calibration": [
+      {"competition_id": "eng_premier", "expected_calibration_error": 0.07, "bins": [{"bin": "0.4-0.6", "rows": 40, "avg_probability": 0.52, "observed_rate": 0.50, "gap": 0.02}]},
+      {"competition_id": "esp_laliga", "expected_calibration_error": 0.08, "bins": [{"bin": "0.4-0.6", "rows": 44, "avg_probability": 0.51, "observed_rate": 0.48, "gap": 0.03}]}
+    ],
+    "source_coverage": [
+      {"source_id": "source_01", "status": "planned_or_reference", "manual_or_permitted_only": true},
+      {"source_id": "source_02", "status": "planned_or_reference", "manual_or_permitted_only": true},
+      {"source_id": "source_03", "status": "planned_or_reference", "manual_or_permitted_only": true}
+    ],
+    "adapter_contracts": {
+      "schema": "omnibet.adapter_contracts.v84",
+      "historical_result_fields": ["source_id", "competition_id", "season", "kickoff_utc", "home_name", "away_name", "home_score", "away_score", "source_event_id", "payload_sha256"],
+      "market_snapshot_fields": ["source_id", "competition_id", "source_event_id", "snapshot_time_utc", "market_name", "selection_name", "decimal_odds", "payload_sha256"]
+    },
+    "example_predictions": [
+      {"event_id": "comp:eng_premier:2026:00", "season": 2026, "competition_id": "eng_premier", "model_id": "competition_tuned_scorecard", "home": "Eng Team 1", "away": "Eng Team 4", "label_home_win": 1, "probability": 0.67, "top_factors": [{"name": "competition", "value": "eng_premier", "impact": 0.20}, {"name": "rating_diff", "value": 0.34, "impact": 0.34}]}
+    ],
+    "rust_migration": {
+      "eval_core_skeleton": "rust-core/src/competition_eval.rs",
+      "report_reader_skeleton": "rust-core/src/competition_report.rs"
+    },
+    "safety": {
+      "paper_only": true,
+      "offline_only": true,
+      "no_recommendation_output": true,
+      "no_external_calls": true
+    }
+  },
+  "model_lab": {
+    "ok": true,
+    "schema": "omnibet.model_lab_payload.v78",
+    "best_model": "competition_tuned_scorecard",
+    "models": [
+      {"model_id": "competition_tuned_scorecard", "rows": 864, "brier": 0.205, "logloss": 0.598, "accuracy_at_0_5": 0.708, "calibration_ece": 0.08}
+    ],
+    "ablation": [],
+    "stability": {},
+    "example_predictions": [
+      {"event_id": "comp:eng_premier:2026:00", "season": 2026, "competition_id": "eng_premier", "model_id": "competition_tuned_scorecard", "home": "Eng Team 1", "away": "Eng Team 4", "label_home_win": 1, "probability": 0.67, "top_factors": [{"name": "competition", "value": "eng_premier", "impact": 0.20}]}
+    ],
+    "safety": {
+      "paper_only": true,
+      "offline_only": true,
+      "no_recommendation_output": true,
+      "no_external_calls": true
+    }
+  },
+  "safety": {
+    "paper_only": true,
+    "offline_only": true,
+    "no_recommendation_output": true,
+    "no_external_calls": true
+  }
+}
