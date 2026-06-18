@@ -20,13 +20,8 @@ from typing import Any, Dict, List, Optional
 EXCLUDED_TREE_DIRS = {".git", "node_modules", "target", "__pycache__", ".pytest_cache", ".mypy_cache"}
 DEFAULT_TIMEOUT_SECONDS = 600
 FAILURE_TAIL_LINES = 140
-FALLBACK_ICON_PNG_B64 = (
-    "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeT"
-    "AAAAoElEQVR4nO3QMQ0AAAgDoGn/0U9lB4GkG8mB0WbYmQAAAAAAAAAAAAAAAAAAAAAAAAAA"
-    "AAAAAAAAAAAAAAAAAAAAAAAAAAAACsAeokewABoAUAAUAAUAAUAAUAAUAAUAAUAAUAAU"
-    "AAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAA"
-    "UAAUAAUAB0zgMAAeMUrHUAAAAASUVORK5CYII="
-)
+SUMMARY_TAIL_LINES = 70
+FALLBACK_ICON_PNG_B64 = "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAJ0lEQVR42u3BAQ0AAADCoPdPbQ43oAAAAAAAAAAAAAAAAAAAAIB3A0BAAAGveg7oAAAAAElFTkSuQmCC"
 
 
 def write_text(path: Path, text: str) -> None:
@@ -52,7 +47,7 @@ def ensure_tauri_fallback_icons(root: Path) -> Dict[str, Any]:
     icons_dir.mkdir(parents=True, exist_ok=True)
     png_path = icons_dir / "icon.png"
     ico_path = icons_dir / "icon.ico"
-    png_bytes = base64.b64decode(FALLBACK_ICON_PNG_B64)
+    png_bytes = base64.b64decode(FALLBACK_ICON_PNG_B64, validate=True)
     if not png_path.exists():
         png_path.write_bytes(png_bytes)
     if not ico_path.exists():
@@ -123,7 +118,7 @@ def tree_snapshot(root: Path, path: Path, max_entries: int = 500) -> str:
     return "\n".join(lines) + ("\n" if lines else "")
 
 
-def stream_pipe(pipe: Any, log_file: Any) -> None:
+def stream_pipe(pipe: object, log_file: object) -> None:
     """Stream command output into the per-command artifact log without flooding Actions console."""
     try:
         for line in iter(pipe.readline, ""):
@@ -230,6 +225,7 @@ def run_command(
         "ok": status == 0,
         "timed_out": timed_out,
         "log": rel(root, log_path),
+        "absolute_log": str(log_path),
     }
     print(
         f"DIAGNOSTIC_RESULT name={name} status={status} ok={status == 0} "
@@ -302,7 +298,7 @@ def main() -> None:
     generated_assets = ensure_tauri_fallback_icons(root)
 
     summary: Dict[str, Any] = {
-        "schema": "omnibet.desktop_build_diagnostics.v6",
+        "schema": "omnibet.desktop_build_diagnostics.v7",
         "root": str(root),
         "generated_assets": generated_assets,
         "platform": {
@@ -362,6 +358,12 @@ def main() -> None:
         summary_lines.append(
             f"FAIL name={cmd['name']} status={cmd['status']} timed_out={cmd['timed_out']} log={cmd['log']}"
         )
+        log_path = Path(str(cmd.get("absolute_log", "")))
+        tail = tail_text(log_path, SUMMARY_TAIL_LINES)
+        if tail:
+            summary_lines.append(f"--- tail {cmd['name']} begin ---")
+            summary_lines.append(tail[-2400:])
+            summary_lines.append(f"--- tail {cmd['name']} end ---")
     write_text(out_dir / "diagnostic-summary.txt", "\n".join(summary_lines) + "\n")
     print("DIAGNOSTIC_FINAL_SUMMARY_BEGIN", flush=True)
     print("\n".join(summary_lines), flush=True)
