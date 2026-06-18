@@ -81,9 +81,16 @@ jobs:
 
       - name: Install Linux desktop build dependencies
         if: runner.os == 'Linux'
+        timeout-minutes: 10
         run: |
-          sudo apt-get update
-          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev patchelf
+          set -euxo pipefail
+          sudo apt-get update -y
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            libgtk-3-dev \
+            libwebkit2gtk-4.1-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            patchelf
 
       - name: Run desktop build diagnostics
         id: diagnostics
