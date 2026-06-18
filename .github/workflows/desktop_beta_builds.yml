@@ -46,8 +46,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p build/desktop-downloads
-          cd tauri-app/src-tauri
-          cargo build --release 2>&1 | tee ../../build/desktop-downloads/build.log
+          cargo build --manifest-path tauri-app/src-tauri/Cargo.toml --release 2>&1 | tee build/desktop-downloads/build.log
 
       - name: Stage portable artifacts
         shell: bash
