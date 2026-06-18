@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+from collections import deque
 import json
 import os
 import platform
@@ -139,10 +140,13 @@ def tail_text(path: Path, max_lines: int = FAILURE_TAIL_LINES) -> str:
     if not path.exists():
         return ""
     try:
-        lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
+        ring: deque[str] = deque(maxlen=max_lines)
+        with path.open("r", encoding="utf-8", errors="replace") as handle:
+            for line in handle:
+                ring.append(line.rstrip("\n"))
+        return "\n".join(ring)
     except Exception as exc:  # pragma: no cover - diagnostics path
         return f"could not read log tail: {exc!r}"
-    return "\n".join(lines[-max_lines:])
 
 
 def run_command(
@@ -298,7 +302,7 @@ def main() -> None:
     generated_assets = ensure_tauri_fallback_icons(root)
 
     summary: Dict[str, Any] = {
-        "schema": "omnibet.desktop_build_diagnostics.v5",
+        "schema": "omnibet.desktop_build_diagnostics.v6",
         "root": str(root),
         "generated_assets": generated_assets,
         "platform": {
