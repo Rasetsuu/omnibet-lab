@@ -2,10 +2,12 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import json
 import os
 import platform
 import shutil
+import struct
 import subprocess
 import sys
 import threading
@@ -16,6 +18,13 @@ from typing import Any, Dict, List, Optional
 
 EXCLUDED_TREE_DIRS = {".git", "node_modules", "target", "__pycache__", ".pytest_cache", ".mypy_cache"}
 DEFAULT_TIMEOUT_SECONDS = 600
+FALLBACK_ICON_PNG_B64 = (
+    "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeT"
+    "AAAAoElEQVR4nO3QMQ0AAAgDoGn/0U9lB4GkG8mB0WbYmQAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    "AAAAAAAAAAAAAAAAAAAAAAAAAAAACsAeokewABoAUAAUAAUAAUAAUAAUAAUAAUAAUAAU"
+    "AAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAAUAA"
+    "UAAUAAUAB0zgMAAeMUrHUAAAAASUVORK5CYII="
+)
 
 
 def write_text(path: Path, text: str) -> None:
@@ -33,6 +42,26 @@ def rel(root: Path, path: Path) -> str:
         return str(path.resolve().relative_to(root.resolve())).replace("\\", "/")
     except Exception:
         return str(path)
+
+
+def ensure_tauri_fallback_icons(root: Path) -> Dict[str, Any]:
+    """Create tiny deterministic fallback icons for CI diagnostics when repo icons are absent."""
+    icons_dir = root / "tauri-app" / "src-tauri" / "icons"
+    icons_dir.mkdir(parents=True, exist_ok=True)
+    png_path = icons_dir / "icon.png"
+    ico_path = icons_dir / "icon.ico"
+    png_bytes = base64.b64decode(FALLBACK_ICON_PNG_B64)
+    if not png_path.exists():
+        png_path.write_bytes(png_bytes)
+    if not ico_path.exists():
+        # ICO container with one PNG-compressed 64x64 image. This is enough for tauri-build diagnostics.
+        header = struct.pack("<HHH", 0, 1, 1)
+        entry = struct.pack("<BBBBHHII", 64, 64, 0, 0, 1, 32, len(png_bytes), 22)
+        ico_path.write_bytes(header + entry + png_bytes)
+    return {
+        "icon_png": {"path": rel(root, png_path), "exists": png_path.exists(), "size_bytes": png_path.stat().st_size},
+        "icon_ico": {"path": rel(root, ico_path), "exists": ico_path.exists(), "size_bytes": ico_path.stat().st_size},
+    }
 
 
 def safe_env() -> Dict[str, str]:
@@ -249,10 +278,12 @@ def main() -> None:
     root = Path(args.root).resolve()
     out_dir = (root / args.out_dir).resolve()
     out_dir.mkdir(parents=True, exist_ok=True)
+    generated_assets = ensure_tauri_fallback_icons(root)
 
     summary: Dict[str, Any] = {
-        "schema": "omnibet.desktop_build_diagnostics.v3",
+        "schema": "omnibet.desktop_build_diagnostics.v4",
         "root": str(root),
+        "generated_assets": generated_assets,
         "platform": {
             "system": platform.system(),
             "release": platform.release(),
