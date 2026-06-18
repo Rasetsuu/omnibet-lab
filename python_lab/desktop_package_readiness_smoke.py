@@ -8,7 +8,7 @@ import re
 from pathlib import Path
 from typing import Any, Dict
 
-EXPECTED_DESKTOP_VERSION = "0.6.0-rc.1"
+EXPECTED_DESKTOP_VERSION = "0.6.0"
 
 FRONTEND_FILES = [
     "tauri-app/src/index.html",
@@ -113,7 +113,7 @@ def build_report(root: Path, platform_name: str) -> Dict[str, Any]:
         "settings_no_network": settings.get("runtime", {}).get("network_enabled") is False,
     }
     checks["platform_specific_python_choice_visible"] = "cfg!(windows)" in rust if platform_name.lower().startswith("win") else '"python3".to_string()' in rust
-    return {"ok": all(checks.values()), "milestone": "v79_v86_competition_core_package_readiness", "platform": platform_name, "tauri_version": tauri_version, "cargo_version": cargo_version, "package_version": package_version, "file_presence": file_presence, "module_links": module_links, "command_registration": command_registration, "workflow_allowlist": workflow_allowlist, "acceptance": checks, "safety": {"offline_static_checks_only": True, "no_api_keys": True, "no_network_provider_calls": True, "no_shell_execution": checks["no_shell_execution"], "no_web_server_dependency": checks["no_before_build_web_server"] and checks["package_metadata_has_no_web_server_dependency"]}}
+    return {"ok": all(checks.values()), "milestone": "v79_v86_competition_core_package_readiness", "platform": platform_name, "tauri_version": tauri_version, "cargo_version": cargo_version, "package_version": package_version, "expected_desktop_version": EXPECTED_DESKTOP_VERSION, "file_presence": file_presence, "module_links": module_links, "command_registration": command_registration, "workflow_allowlist": workflow_allowlist, "acceptance": checks, "safety": {"offline_static_checks_only": True, "no_api_keys": True, "no_network_provider_calls": True, "no_shell_execution": checks["no_shell_execution"], "no_web_server_dependency": checks["no_before_build_web_server"] and checks["package_metadata_has_no_web_server_dependency"]}}
 
 
 def main() -> None:

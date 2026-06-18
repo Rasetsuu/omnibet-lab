@@ -1,6 +1,6 @@
 {
   "version": "omnibet.desktop_package_readiness.v57_plus_v62",
-  "desktop_app_version": "0.6.0-rc.1",
+  "desktop_app_version": "0.6.0",
   "mode": "cross_platform_static_package_readiness",
   "target_platforms": [
     "ubuntu-latest",

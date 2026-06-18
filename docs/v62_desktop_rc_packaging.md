@@ -7,7 +7,7 @@ It creates a deterministic portable RC layout instead of a signed installer.
 ## Version
 
 ```text
-0.6.0-rc.1
+0.6.0
 ```
 
 Synced across:
@@ -23,7 +23,7 @@ tauri-app/package.json
 The packaging smoke creates:
 
 ```text
-build/desktop_rc_v62/omnibet-lab-desktop-0.6.0-rc.1/
+build/desktop_rc_v62/omnibet-lab-desktop-0.6.0/
   README_RUN.md
   WINDOWS.md
   LINUX.md
@@ -37,7 +37,7 @@ build/desktop_rc_v62/omnibet-lab-desktop-0.6.0-rc.1/
 and:
 
 ```text
-build/desktop_rc_v62/omnibet-lab-desktop-0.6.0-rc.1.zip
+build/desktop_rc_v62/omnibet-lab-desktop-0.6.0.zip
 ```
 
 ## Manifest

@@ -11,12 +11,15 @@ on:
     paths:
       - ".github/workflows/desktop_beta_debug.yml"
       - "tools/desktop_build_diagnostics.py"
+      - "tools/run_desktop_build_diagnostics.py"
       - "tauri-app/**"
       - "rust-core/**"
       - "python_lab/desktop_build_manifest.py"
 
 permissions:
   contents: read
+  issues: write
+  pull-requests: write
 
 jobs:
   desktop-diagnostics:
@@ -26,7 +29,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-22.04, windows-2022]
 
     steps:
       - name: Checkout
@@ -45,24 +48,30 @@ jobs:
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Install Linux desktop build dependencies
+      - name: Install Linux Tauri desktop dependencies
         if: runner.os == 'Linux'
-        timeout-minutes: 10
+        continue-on-error: true
+        timeout-minutes: 15
         run: |
-          set -euxo pipefail
-          sudo apt-get update -y
-          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-            libgtk-3-dev \
-            libwebkit2gtk-4.1-dev \
-            libayatana-appindicator3-dev \
-            librsvg2-dev \
-            patchelf
+          set -o pipefail
+          mkdir -p build/desktop-diagnostics
+          {
+            set -eux
+            sudo apt-get update -y -o Acquire::Retries=3
+            sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+              libgtk-3-dev \
+              libwebkit2gtk-4.1-dev \
+              libayatana-appindicator3-dev \
+              librsvg2-dev \
+              patchelf
+            pkg-config --modversion gdk-3.0
+          } 2>&1 | tee build/desktop-diagnostics/linux-deps.log
 
       - name: Run desktop build diagnostics
         id: diagnostics
         continue-on-error: true
         run: |
-          python tools/desktop_build_diagnostics.py --root . --out-dir build/desktop-diagnostics
+          python tools/run_desktop_build_diagnostics.py --root . --out-dir build/desktop-diagnostics
 
       - name: Upload desktop diagnostics
         if: always()
@@ -71,6 +80,53 @@ jobs:
           name: omnibet-desktop-diagnostics-${{ runner.os }}-${{ github.run_number }}
           path: build/desktop-diagnostics/**
           if-no-files-found: warn
+
+      - name: Post diagnostic summary comment
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const os = process.env.RUNNER_OS || '${{ runner.os }}';
+            const marker = `<!-- omnibet-desktop-diagnostics-${os} -->`;
+            const bodyMarker = `<!-- omnibet-pr-body-diagnostics-${os} -->`;
+            function tail(path, maxLines = 80) {
+              if (!fs.existsSync(path)) return '';
+              return fs.readFileSync(path, 'utf8').split(/\r?\n/).slice(-maxLines).join('\n');
+            }
+            let summary = tail('build/desktop-diagnostics/diagnostic-summary.txt', 80);
+            if (!summary) summary = 'diagnostic-summary.txt missing; diagnostics may have failed before summary creation.';
+            const linuxDeps = tail('build/desktop-diagnostics/linux-deps.log', 80);
+            let body = `${marker}\n### OmniBet desktop diagnostics (${os})\n\n`;
+            body += '```text\n' + summary.slice(-6000) + '\n```\n';
+            if (linuxDeps) {
+              body += '\n<details><summary>Linux dependency note/tail</summary>\n\n```text\n';
+              body += linuxDeps.slice(-6000);
+              body += '\n```\n</details>\n';
+            }
+            const issue_number = context.payload.pull_request.number;
+            const { owner, repo } = context.repo;
+            const comments = await github.rest.issues.listComments({ owner, repo, issue_number, per_page: 100 });
+            const existing = comments.data.find(comment => comment.body && comment.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body });
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number, body });
+            }
+
+            const pr = await github.rest.pulls.get({ owner, repo, pull_number: issue_number });
+            const originalBody = pr.data.body || '';
+            const blockStart = `${bodyMarker}-start`;
+            const blockEnd = `${bodyMarker}-end`;
+            const bodyBlock = `${blockStart}\n### Latest desktop diagnostics (${os})\n\n\`\`\`text\n${summary.slice(-3500)}\n\`\`\`\n${blockEnd}`;
+            const pattern = new RegExp(`${blockStart}[\\s\\S]*?${blockEnd}\\n?`, 'm');
+            let nextBody;
+            if (pattern.test(originalBody)) {
+              nextBody = originalBody.replace(pattern, `${bodyBlock}\n`);
+            } else {
+              nextBody = `${bodyBlock}\n\n${originalBody}`;
+            }
+            await github.rest.pulls.update({ owner, repo, pull_number: issue_number, body: nextBody });
 
       - name: Fail if diagnostics found build errors
         if: always()
