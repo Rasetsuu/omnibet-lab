@@ -58,11 +58,67 @@ jobs:
             librsvg2-dev \
             patchelf
 
+      - name: Prepare diagnostics directory
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p build/desktop-diagnostics
+          {
+            echo "runner_os=${{ runner.os }}"
+            echo "github_run_id=${{ github.run_id }}"
+            echo "github_run_number=${{ github.run_number }}"
+            echo "github_sha=${{ github.sha }}"
+            echo "github_ref=${{ github.ref }}"
+            echo "github_head_ref=${{ github.head_ref }}"
+            date -u +"created_at_utc=%Y-%m-%dT%H:%M:%SZ"
+          } > build/desktop-diagnostics/workflow-context.txt
+
+      - name: Validate diagnostics runner syntax
+        id: diagnostics_compile
+        continue-on-error: true
+        shell: bash
+        run: |
+          set +e
+          python -m py_compile tools/desktop_build_diagnostics.py > build/desktop-diagnostics/py-compile.log 2>&1
+          status=$?
+          cat build/desktop-diagnostics/py-compile.log
+          echo "$status" > build/desktop-diagnostics/py-compile-status.txt
+          exit "$status"
+
       - name: Run desktop build diagnostics
         id: diagnostics
         continue-on-error: true
+        shell: bash
         run: |
-          python tools/desktop_build_diagnostics.py --root . --out-dir build/desktop-diagnostics
+          set +e
+          python tools/desktop_build_diagnostics.py --root . --out-dir build/desktop-diagnostics > build/desktop-diagnostics/diagnostics-console.log 2>&1
+          status=$?
+          cat build/desktop-diagnostics/diagnostics-console.log
+          echo "$status" > build/desktop-diagnostics/diagnostics-run-status.txt
+          if [ ! -f build/desktop-diagnostics/build-status.json ]; then
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          out = Path("build/desktop-diagnostics")
+          compile_status = (out / "py-compile-status.txt").read_text(encoding="utf-8").strip() if (out / "py-compile-status.txt").exists() else "missing"
+          run_status = (out / "diagnostics-run-status.txt").read_text(encoding="utf-8").strip() if (out / "diagnostics-run-status.txt").exists() else "missing"
+          payload = {
+              "ok": False,
+              "schema": "omnibet.desktop_build_diagnostics.fallback.v1",
+              "failed_commands": [
+                  {
+                      "name": "desktop_build_diagnostics.py",
+                      "status": run_status,
+                      "compile_status": compile_status,
+                      "log": "build/desktop-diagnostics/diagnostics-console.log",
+                  }
+              ],
+              "note": "Fallback status written by GitHub Actions because the diagnostics runner did not produce build-status.json.",
+          }
+          (out / "build-status.json").write_text(json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8")
+          PY
+          fi
+          exit "$status"
 
       - name: Upload desktop diagnostics
         if: always()
@@ -70,7 +126,7 @@ jobs:
         with:
           name: omnibet-desktop-diagnostics-${{ runner.os }}-${{ github.run_number }}
           path: build/desktop-diagnostics/**
-          if-no-files-found: warn
+          if-no-files-found: error
 
       - name: Fail if diagnostics found build errors
         if: always()
@@ -81,7 +137,7 @@ jobs:
           from pathlib import Path
           path = Path("build/desktop-diagnostics/build-status.json")
           if not path.exists():
-              raise SystemExit("missing build-status.json")
+              raise SystemExit("missing build-status.json after fallback handling")
           status = json.loads(path.read_text(encoding="utf-8"))
           if not status.get("ok"):
               print("Failed diagnostic commands:")
