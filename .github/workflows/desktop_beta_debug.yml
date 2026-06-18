@@ -87,6 +87,7 @@ jobs:
             const fs = require('fs');
             const os = process.env.RUNNER_OS || '${{ runner.os }}';
             const marker = `<!-- omnibet-desktop-diagnostics-${os} -->`;
+            const bodyMarker = `<!-- omnibet-pr-body-diagnostics-${os} -->`;
             function tail(path, maxLines = 80) {
               if (!fs.existsSync(path)) return '';
               return fs.readFileSync(path, 'utf8').split(/\r?\n/).slice(-maxLines).join('\n');
@@ -110,6 +111,20 @@ jobs:
             } else {
               await github.rest.issues.createComment({ owner, repo, issue_number, body });
             }
+
+            const pr = await github.rest.pulls.get({ owner, repo, pull_number: issue_number });
+            const originalBody = pr.data.body || '';
+            const blockStart = `${bodyMarker}-start`;
+            const blockEnd = `${bodyMarker}-end`;
+            const bodyBlock = `${blockStart}\n### Latest desktop diagnostics (${os})\n\n\`\`\`text\n${summary.slice(-3500)}\n\`\`\`\n${blockEnd}`;
+            const pattern = new RegExp(`${blockStart}[\\s\\S]*?${blockEnd}\\n?`, 'm');
+            let nextBody;
+            if (pattern.test(originalBody)) {
+              nextBody = originalBody.replace(pattern, `${bodyBlock}\n`);
+            } else {
+              nextBody = `${bodyBlock}\n\n${originalBody}`;
+            }
+            await github.rest.pulls.update({ owner, repo, pull_number: issue_number, body: nextBody });
 
       - name: Fail if diagnostics found build errors
         if: always()
