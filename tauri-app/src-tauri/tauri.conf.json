@@ -11,6 +11,7 @@
   "app": {
     "windows": [
       {
+        "label": "main",
         "title": "OmniBet Lab",
         "width": 1200,
         "height": 800
@@ -19,6 +20,7 @@
   },
   "bundle": {
     "active": true,
-    "targets": "all"
+    "targets": "all",
+    "icon": []
   }
 }
