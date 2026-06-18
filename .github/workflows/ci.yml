@@ -54,7 +54,7 @@ jobs:
 
   desktop-diagnostics:
     name: desktop diagnostics (${{ matrix.os }})
-    if: github.event_name == 'workflow_dispatch' || github.head_ref == 'desktop-build-diagnostics' || github.ref_name == 'desktop-build-diagnostics'
+    if: github.event_name == 'workflow_dispatch' || github.head_ref == 'desktop-build-diagnostics' || github.ref_name == 'desktop-build-diagnostics' || github.head_ref == 'desktop-summary' || github.ref_name == 'desktop-summary'
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     strategy:
@@ -96,7 +96,11 @@ jobs:
         id: diagnostics
         continue-on-error: true
         run: |
-          python tools/desktop_build_diagnostics.py --root . --out-dir build/desktop-diagnostics
+          if [ -f tools/desktop_build_summary.py ]; then
+            python tools/desktop_build_summary.py --root . --out-dir build/desktop-diagnostics
+          else
+            python tools/desktop_build_diagnostics.py --root . --out-dir build/desktop-diagnostics
+          fi
 
       - name: Upload desktop diagnostics
         if: always()
