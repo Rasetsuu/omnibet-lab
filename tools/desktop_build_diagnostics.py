@@ -8,12 +8,14 @@ import platform
 import shutil
 import subprocess
 import sys
+import threading
 import time
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional
+from typing import Any, Dict, List, Optional
 
 
 EXCLUDED_TREE_DIRS = {".git", "node_modules", "target", "__pycache__", ".pytest_cache", ".mypy_cache"}
+DEFAULT_TIMEOUT_SECONDS = 600
 
 
 def write_text(path: Path, text: str) -> None:
@@ -90,6 +92,20 @@ def tree_snapshot(root: Path, path: Path, max_entries: int = 500) -> str:
     return "\n".join(lines) + ("\n" if lines else "")
 
 
+def stream_pipe(pipe: Any, log_file: Any) -> None:
+    try:
+        for line in iter(pipe.readline, ""):
+            log_file.write(line)
+            log_file.flush()
+            print(line, end="")
+            sys.stdout.flush()
+    finally:
+        try:
+            pipe.close()
+        except Exception:
+            pass
+
+
 def run_command(
     *,
     root: Path,
@@ -97,10 +113,12 @@ def run_command(
     name: str,
     command: str,
     cwd: Optional[Path] = None,
+    timeout_seconds: int = DEFAULT_TIMEOUT_SECONDS,
     env_extra: Optional[Dict[str, str]] = None,
 ) -> Dict[str, Any]:
     started = time.time()
     log_path = out_dir / f"{name}.log"
+    log_path.parent.mkdir(parents=True, exist_ok=True)
     cwd = cwd or root
     env = os.environ.copy()
     env.update(
@@ -117,64 +135,85 @@ def run_command(
         "name": name,
         "command": command,
         "cwd": rel(root, cwd),
+        "timeout_seconds": timeout_seconds,
         "started_at_unix": int(started),
     }
-    try:
-        proc = subprocess.run(
-            command,
-            cwd=str(cwd),
-            env=env,
-            shell=True,
-            text=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            errors="replace",
-        )
-        output = proc.stdout or ""
-        status = proc.returncode
-    except Exception as exc:  # pragma: no cover - diagnostics path
-        output = f"diagnostic command spawn failed: {exc!r}\n"
-        status = 997
+
+    timed_out = False
+    status = 998
+    with log_path.open("w", encoding="utf-8", errors="replace", buffering=1) as log_file:
+        log_file.write("# OmniBet desktop build diagnostic command\n")
+        log_file.write(json.dumps(header, indent=2, sort_keys=True))
+        log_file.write("\n\n")
+        log_file.flush()
+        print(f"\n===== {name} =====")
+        print(json.dumps(header, indent=2, sort_keys=True))
+        try:
+            proc = subprocess.Popen(
+                command,
+                cwd=str(cwd),
+                env=env,
+                shell=True,
+                text=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                errors="replace",
+            )
+            assert proc.stdout is not None
+            reader = threading.Thread(target=stream_pipe, args=(proc.stdout, log_file), daemon=True)
+            reader.start()
+            deadline = started + timeout_seconds
+            while proc.poll() is None:
+                if time.time() > deadline:
+                    timed_out = True
+                    log_file.write(f"\nTIMEOUT: killed after {timeout_seconds} seconds\n")
+                    log_file.flush()
+                    print(f"TIMEOUT: {name} killed after {timeout_seconds} seconds")
+                    proc.kill()
+                    break
+                time.sleep(1)
+            status = proc.wait(timeout=30)
+            reader.join(timeout=30)
+            if timed_out:
+                status = 124
+        except Exception as exc:  # pragma: no cover - diagnostics path
+            log_file.write(f"\ndiagnostic command spawn failed: {exc!r}\n")
+            log_file.flush()
+            print(f"diagnostic command spawn failed for {name}: {exc!r}")
+            status = 997
     finished = time.time()
-    write_text(
-        log_path,
-        "# OmniBet desktop build diagnostic command\n"
-        + json.dumps(header, indent=2, sort_keys=True)
-        + "\n\n"
-        + output,
-    )
     return {
         **header,
         "finished_at_unix": int(finished),
         "duration_seconds": round(finished - started, 3),
         "status": status,
         "ok": status == 0,
+        "timed_out": timed_out,
         "log": rel(root, log_path),
     }
 
 
 def command_plan(root: Path) -> List[Dict[str, Any]]:
-    src_tauri = root / "tauri-app" / "src-tauri"
     tauri_app = root / "tauri-app"
     manifest = "tauri-app/src-tauri/Cargo.toml"
     return [
-        {"name": "python-version", "command": f"{shlex_py()} --version"},
-        {"name": "node-version", "command": "node --version"},
-        {"name": "npm-version", "command": "npm --version"},
-        {"name": "rustc-version", "command": "rustc --version --verbose"},
-        {"name": "cargo-version", "command": "cargo --version --verbose"},
-        {"name": "cargo-metadata-tauri", "command": f"cargo metadata --manifest-path {manifest} --format-version 1", "cwd": root},
-        {"name": "cargo-check-tauri", "command": f"cargo check --manifest-path {manifest} -vv", "cwd": root},
-        {"name": "cargo-build-tauri-debug", "command": f"cargo build --manifest-path {manifest} -vv", "cwd": root},
-        {"name": "cargo-build-tauri-release", "command": f"cargo build --manifest-path {manifest} --release -vv", "cwd": root},
-        {"name": "npm-install-tauri", "command": "npm install --foreground-scripts --loglevel verbose", "cwd": tauri_app},
-        {"name": "npx-tauri-info", "command": "npx tauri info", "cwd": tauri_app},
-        {"name": "npm-build-tauri-no-bundle", "command": "npm run build -- --no-bundle", "cwd": tauri_app},
-        {"name": "npm-build-tauri-bundle", "command": "npm run build", "cwd": tauri_app},
+        {"name": "python-version", "command": f"{python_executable()} --version", "timeout_seconds": 60},
+        {"name": "node-version", "command": "node --version", "timeout_seconds": 60},
+        {"name": "npm-version", "command": "npm --version", "timeout_seconds": 60},
+        {"name": "rustc-version", "command": "rustc --version --verbose", "timeout_seconds": 60},
+        {"name": "cargo-version", "command": "cargo --version --verbose", "timeout_seconds": 60},
+        {"name": "cargo-metadata-tauri", "command": f"cargo metadata --manifest-path {manifest} --format-version 1", "cwd": root, "timeout_seconds": 180},
+        {"name": "cargo-check-tauri", "command": f"cargo check --manifest-path {manifest} -vv", "cwd": root, "timeout_seconds": 900},
+        {"name": "cargo-build-tauri-debug", "command": f"cargo build --manifest-path {manifest} -vv", "cwd": root, "timeout_seconds": 900},
+        {"name": "cargo-build-tauri-release", "command": f"cargo build --manifest-path {manifest} --release -vv", "cwd": root, "timeout_seconds": 1200},
+        {"name": "npm-install-tauri", "command": "npm install --foreground-scripts --loglevel verbose", "cwd": tauri_app, "timeout_seconds": 600},
+        {"name": "npx-tauri-info", "command": "npx tauri info", "cwd": tauri_app, "timeout_seconds": 300},
+        {"name": "npm-build-tauri-no-bundle", "command": "npm run build -- --no-bundle", "cwd": tauri_app, "timeout_seconds": 1200},
+        {"name": "npm-build-tauri-bundle", "command": "npm run build", "cwd": tauri_app, "timeout_seconds": 1200},
     ]
 
 
-def shlex_py() -> str:
+def python_executable() -> str:
     # On GitHub Actions this resolves to the active setup-python interpreter path.
     return sys.executable.replace("\\", "/")
 
@@ -215,7 +254,7 @@ def main() -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     summary: Dict[str, Any] = {
-        "schema": "omnibet.desktop_build_diagnostics.v1",
+        "schema": "omnibet.desktop_build_diagnostics.v2",
         "root": str(root),
         "platform": {
             "system": platform.system(),
@@ -250,6 +289,7 @@ def main() -> None:
             name=item["name"],
             command=item["command"],
             cwd=item.get("cwd"),
+            timeout_seconds=int(item.get("timeout_seconds", DEFAULT_TIMEOUT_SECONDS)),
         )
         summary["commands"].append(result)
         write_json(out_dir / "build-status.json", summary)
