@@ -11,6 +11,7 @@ on:
     paths:
       - ".github/workflows/desktop_beta_debug.yml"
       - "tools/desktop_build_diagnostics.py"
+      - "tools/run_desktop_build_diagnostics.py"
       - "tauri-app/**"
       - "rust-core/**"
       - "python_lab/desktop_build_manifest.py"
@@ -69,7 +70,7 @@ jobs:
         id: diagnostics
         continue-on-error: true
         run: |
-          python tools/desktop_build_diagnostics.py --root . --out-dir build/desktop-diagnostics
+          python tools/run_desktop_build_diagnostics.py --root . --out-dir build/desktop-diagnostics
 
       - name: Upload desktop diagnostics
         if: always()
