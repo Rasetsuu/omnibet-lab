@@ -27,6 +27,9 @@ FALLBACK_ICON_PNG_B64 = (
 )
 
 
+# Temporary PR #100 touch: force the desktop diagnostics workflow on this validation branch.
+
+
 def write_text(path: Path, text: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text, encoding="utf-8")
