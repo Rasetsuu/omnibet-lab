@@ -1,0 +1,60 @@
+name: OmniBet Desktop Build Summary
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/desktop_beta_summary.yml"
+      - "tools/desktop_build_summary.py"
+      - "tauri-app/**"
+      - "rust-core/**"
+
+permissions:
+  contents: read
+
+jobs:
+  desktop-summary:
+    name: desktop summary (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Linux desktop packages
+        if: runner.os == 'Linux'
+        timeout-minutes: 10
+        run: |
+          set -euxo pipefail
+          sudo apt-get update -y
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends libgtk-3-dev libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev patchelf
+
+      - name: Run concise desktop summary
+        run: |
+          python tools/desktop_build_summary.py --root . --out-dir build/desktop-diagnostics
+
+      - name: Upload desktop summary logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-desktop-summary-${{ runner.os }}-${{ github.run_number }}
+          path: build/desktop-diagnostics/**
+          if-no-files-found: warn
