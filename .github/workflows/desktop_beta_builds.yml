@@ -41,6 +41,18 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev patchelf
 
+      - name: Generate desktop icon
+        shell: bash
+        run: |
+          python - <<'PY'
+          import base64
+          from pathlib import Path
+          icon_png = "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAAAoElEQVR4nO3QMQ0AAAgDoGn/0U9lB4GkG8mB0WbYmQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKwB6iR7AAGgBQABQABQABQABQABQABQABQABQABQABQABQABQABQABQABQABQABQABQABQABQABQABQABQABQABQABQABQABQABQABQABQABQABQABQAHTOAwAB4xSsdQAAAABJRU5ErkJggg=="
+          out = Path("tauri-app/src-tauri/icons/icon.png")
+          out.parent.mkdir(parents=True, exist_ok=True)
+          out.write_bytes(base64.b64decode(icon_png))
+          PY
+
       - name: Build portable desktop app
         id: portable_build
         shell: bash
