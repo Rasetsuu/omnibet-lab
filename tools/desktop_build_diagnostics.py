@@ -203,9 +203,6 @@ def command_plan(root: Path) -> List[Dict[str, Any]]:
         {"name": "rustc-version", "command": "rustc --version --verbose", "timeout_seconds": 60},
         {"name": "cargo-version", "command": "cargo --version --verbose", "timeout_seconds": 60},
         {"name": "cargo-metadata-tauri", "command": f"cargo metadata --manifest-path {manifest} --format-version 1", "cwd": root, "timeout_seconds": 180},
-        {"name": "cargo-check-tauri", "command": f"cargo check --manifest-path {manifest} -vv", "cwd": root, "timeout_seconds": 900},
-        {"name": "cargo-build-tauri-debug", "command": f"cargo build --manifest-path {manifest} -vv", "cwd": root, "timeout_seconds": 900},
-        {"name": "cargo-build-tauri-release", "command": f"cargo build --manifest-path {manifest} --release -vv", "cwd": root, "timeout_seconds": 1200},
         {"name": "npm-install-tauri", "command": "npm install --foreground-scripts --loglevel verbose", "cwd": tauri_app, "timeout_seconds": 600},
         {"name": "npx-tauri-info", "command": "npx tauri info", "cwd": tauri_app, "timeout_seconds": 300},
         {"name": "npm-build-tauri-no-bundle", "command": "npm run build -- --no-bundle", "cwd": tauri_app, "timeout_seconds": 1200},
@@ -214,7 +211,6 @@ def command_plan(root: Path) -> List[Dict[str, Any]]:
 
 
 def python_executable() -> str:
-    # On GitHub Actions this resolves to the active setup-python interpreter path.
     return sys.executable.replace("\\", "/")
 
 
@@ -228,6 +224,7 @@ def file_probe(root: Path) -> Dict[str, Any]:
         "tauri-app/src-tauri/tauri.conf.json",
         "tauri-app/src-tauri/capabilities/default.json",
         "tauri-app/src-tauri/icons/icon.png",
+        "tauri-app/src-tauri/icons/icon.ico",
         "rust-core/Cargo.toml",
         "data/sample_prices.csv",
         "data/sample_odds_spain_cape_verde.csv",
@@ -254,7 +251,7 @@ def main() -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     summary: Dict[str, Any] = {
-        "schema": "omnibet.desktop_build_diagnostics.v2",
+        "schema": "omnibet.desktop_build_diagnostics.v3",
         "root": str(root),
         "platform": {
             "system": platform.system(),
