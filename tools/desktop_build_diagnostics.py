@@ -18,6 +18,7 @@ from typing import Any, Dict, List, Optional
 
 EXCLUDED_TREE_DIRS = {".git", "node_modules", "target", "__pycache__", ".pytest_cache", ".mypy_cache"}
 DEFAULT_TIMEOUT_SECONDS = 600
+FAILURE_TAIL_LINES = 140
 FALLBACK_ICON_PNG_B64 = (
     "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeT"
     "AAAAoElEQVR4nO3QMQ0AAAgDoGn/0U9lB4GkG8mB0WbYmQAAAAAAAAAAAAAAAAAAAAAAAAAA"
@@ -122,17 +123,26 @@ def tree_snapshot(root: Path, path: Path, max_entries: int = 500) -> str:
 
 
 def stream_pipe(pipe: Any, log_file: Any) -> None:
+    """Stream command output into the per-command artifact log without flooding Actions console."""
     try:
         for line in iter(pipe.readline, ""):
             log_file.write(line)
             log_file.flush()
-            print(line, end="")
-            sys.stdout.flush()
     finally:
         try:
             pipe.close()
         except Exception:
             pass
+
+
+def tail_text(path: Path, max_lines: int = FAILURE_TAIL_LINES) -> str:
+    if not path.exists():
+        return ""
+    try:
+        lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
+    except Exception as exc:  # pragma: no cover - diagnostics path
+        return f"could not read log tail: {exc!r}"
+    return "\n".join(lines[-max_lines:])
 
 
 def run_command(
@@ -170,13 +180,12 @@ def run_command(
 
     timed_out = False
     status = 998
+    print(f"DIAGNOSTIC_START name={name} cwd={header['cwd']} timeout={timeout_seconds}s", flush=True)
     with log_path.open("w", encoding="utf-8", errors="replace", buffering=1) as log_file:
         log_file.write("# OmniBet desktop build diagnostic command\n")
         log_file.write(json.dumps(header, indent=2, sort_keys=True))
         log_file.write("\n\n")
         log_file.flush()
-        print(f"\n===== {name} =====")
-        print(json.dumps(header, indent=2, sort_keys=True))
         try:
             proc = subprocess.Popen(
                 command,
@@ -197,7 +206,6 @@ def run_command(
                     timed_out = True
                     log_file.write(f"\nTIMEOUT: killed after {timeout_seconds} seconds\n")
                     log_file.flush()
-                    print(f"TIMEOUT: {name} killed after {timeout_seconds} seconds")
                     proc.kill()
                     break
                 time.sleep(1)
@@ -208,10 +216,9 @@ def run_command(
         except Exception as exc:  # pragma: no cover - diagnostics path
             log_file.write(f"\ndiagnostic command spawn failed: {exc!r}\n")
             log_file.flush()
-            print(f"diagnostic command spawn failed for {name}: {exc!r}")
             status = 997
     finished = time.time()
-    return {
+    result = {
         **header,
         "finished_at_unix": int(finished),
         "duration_seconds": round(finished - started, 3),
@@ -220,6 +227,16 @@ def run_command(
         "timed_out": timed_out,
         "log": rel(root, log_path),
     }
+    print(
+        f"DIAGNOSTIC_RESULT name={name} status={status} ok={status == 0} "
+        f"timed_out={timed_out} duration={result['duration_seconds']}s log={result['log']}",
+        flush=True,
+    )
+    if status != 0:
+        print(f"DIAGNOSTIC_FAILURE_TAIL_BEGIN name={name}", flush=True)
+        print(tail_text(log_path), flush=True)
+        print(f"DIAGNOSTIC_FAILURE_TAIL_END name={name}", flush=True)
+    return result
 
 
 def command_plan(root: Path) -> List[Dict[str, Any]]:
@@ -281,7 +298,7 @@ def main() -> None:
     generated_assets = ensure_tauri_fallback_icons(root)
 
     summary: Dict[str, Any] = {
-        "schema": "omnibet.desktop_build_diagnostics.v4",
+        "schema": "omnibet.desktop_build_diagnostics.v5",
         "root": str(root),
         "generated_assets": generated_assets,
         "platform": {
@@ -329,7 +346,22 @@ def main() -> None:
     summary["ok"] = all(cmd.get("ok") for cmd in summary["commands"])
     summary["failed_commands"] = [cmd for cmd in summary["commands"] if not cmd.get("ok")]
     write_json(out_dir / "build-status.json", summary)
-    print(json.dumps(summary, indent=2, ensure_ascii=False, sort_keys=True))
+
+    summary_lines = [
+        f"schema={summary['schema']}",
+        f"platform={summary['platform']['system']} {summary['platform']['release']} {summary['platform']['machine']}",
+        f"ok={summary['ok']}",
+        f"commands={len(summary['commands'])}",
+        f"failed_commands={len(summary['failed_commands'])}",
+    ]
+    for cmd in summary["failed_commands"]:
+        summary_lines.append(
+            f"FAIL name={cmd['name']} status={cmd['status']} timed_out={cmd['timed_out']} log={cmd['log']}"
+        )
+    write_text(out_dir / "diagnostic-summary.txt", "\n".join(summary_lines) + "\n")
+    print("DIAGNOSTIC_FINAL_SUMMARY_BEGIN", flush=True)
+    print("\n".join(summary_lines), flush=True)
+    print("DIAGNOSTIC_FINAL_SUMMARY_END", flush=True)
 
 
 if __name__ == "__main__":
