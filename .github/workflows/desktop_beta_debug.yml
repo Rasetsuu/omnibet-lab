@@ -1,60 +1,26 @@
-name: OmniBet CI
+name: OmniBet Desktop Beta Diagnostics
 
 on:
-  push:
-  pull_request:
   workflow_dispatch:
+    inputs:
+      build_label:
+        description: "Optional diagnostics label"
+        required: false
+        default: "manual-debug"
+  pull_request:
+    paths:
+      - ".github/workflows/desktop_beta_debug.yml"
+      - "tools/desktop_build_diagnostics.py"
+      - "tauri-app/**"
+      - "rust-core/**"
+      - "python_lab/desktop_build_manifest.py"
+
+permissions:
+  contents: read
 
 jobs:
-  test:
-    name: Python + Rust test harness
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Set up Rust
-        uses: dtolnay/rust-toolchain@stable
-
-      - name: Show tool versions
-        run: |
-          python --version
-          cargo --version
-          rustc --version
-
-      - name: Run OmniBet full local test harness
-        run: bash tools/run_all_local_tests.sh
-
-      - name: Run v38 outcome truth smoke
-        run: |
-          cd python_lab
-          python settlement_truth_smoke.py \
-            --db ../build/omnibet_v38_settlement_truth.sqlite \
-            --odds-input ../data/samples/the_odds_api_event_markets_sample.json \
-            --state-input ../data/samples/api_football_live_state_sample.json \
-            --link-input ../data/samples/provider_event_link_sample.v37.json \
-            --out ../reports/ci_v38_settlement_truth.json
-
-      - name: Upload CI reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: omnibet-ci-reports
-          path: |
-            reports/ci_*.json
-            reports/v13_synthetic_event_pipeline.json
-          if-no-files-found: warn
-
   desktop-diagnostics:
     name: desktop diagnostics (${{ matrix.os }})
-    if: github.event_name == 'workflow_dispatch' || github.head_ref == 'desktop-build-diagnostics' || github.ref_name == 'desktop-build-diagnostics'
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     strategy:
