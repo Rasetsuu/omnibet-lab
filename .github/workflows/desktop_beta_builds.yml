@@ -42,11 +42,17 @@ jobs:
           sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev patchelf
 
       - name: Build portable desktop app
+        id: portable_build
         shell: bash
+        continue-on-error: true
         run: |
-          set -euo pipefail
+          set +e
           mkdir -p build/desktop-downloads
-          cargo build --manifest-path tauri-app/src-tauri/Cargo.toml --release 2>&1 | tee build/desktop-downloads/build.log
+          cargo build --manifest-path tauri-app/src-tauri/Cargo.toml --release > build/desktop-downloads/build.log 2>&1
+          status=$?
+          cat build/desktop-downloads/build.log
+          echo "$status" > build/desktop-downloads/build-status.txt
+          exit "$status"
 
       - name: Stage portable artifacts
         shell: bash
@@ -54,14 +60,18 @@ jobs:
           set -euo pipefail
           mkdir -p build/desktop-downloads/package
           if [ "${{ runner.os }}" = "Windows" ]; then
-            cp tauri-app/src-tauri/target/release/omnibet_lab.exe build/desktop-downloads/package/OmniBet-Lab-windows.exe
+            if [ -f tauri-app/src-tauri/target/release/omnibet_lab.exe ]; then
+              cp tauri-app/src-tauri/target/release/omnibet_lab.exe build/desktop-downloads/package/OmniBet-Lab-windows.exe
+            fi
           else
-            cp tauri-app/src-tauri/target/release/omnibet_lab build/desktop-downloads/package/omnibet-lab-linux
-            chmod +x build/desktop-downloads/package/omnibet-lab-linux
+            if [ -f tauri-app/src-tauri/target/release/omnibet_lab ]; then
+              cp tauri-app/src-tauri/target/release/omnibet_lab build/desktop-downloads/package/omnibet-lab-linux
+              chmod +x build/desktop-downloads/package/omnibet-lab-linux
+            fi
           fi
           cat > build/desktop-downloads/package/README_RUN.txt <<'EOF'
           OmniBet Lab Desktop beta portable build.
-          Run the included executable from this directory.
+          Run the included executable from this directory when present.
           Paper-only local/offline research preview.
           EOF
 
@@ -74,9 +84,9 @@ jobs:
             --bundle-dir build/desktop-downloads/package \
             --out build/desktop-downloads/DESKTOP_BUILD_MANIFEST.json \
             --platform "${{ runner.os }}" \
-            --build-label "$BUILD_LABEL"
+            --build-label "$BUILD_LABEL" || true
 
-      - name: Upload desktop artifacts
+      - name: Upload desktop artifacts and diagnostics
         uses: actions/upload-artifact@v4
         with:
           name: omnibet-desktop-${{ runner.os }}-${{ env.BUILD_LABEL }}
@@ -84,4 +94,11 @@ jobs:
             build/desktop-downloads/package/**
             build/desktop-downloads/DESKTOP_BUILD_MANIFEST.json
             build/desktop-downloads/build.log
-          if-no-files-found: error
+            build/desktop-downloads/build-status.txt
+          if-no-files-found: warn
+
+      - name: Fail if build failed
+        shell: bash
+        run: |
+          status=$(cat build/desktop-downloads/build-status.txt)
+          test "$status" = "0"
