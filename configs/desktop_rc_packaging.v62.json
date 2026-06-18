@@ -1,12 +1,12 @@
 {
   "version": "omnibet.desktop_rc_packaging.v62",
-  "desktop_app_version": "0.6.0-rc.1",
+  "desktop_app_version": "0.6.0",
   "mode": "portable_release_candidate_layout",
-  "package_name": "omnibet-lab-desktop-0.6.0-rc.1",
+  "package_name": "omnibet-lab-desktop-0.6.0",
   "outputs": {
-    "release_dir": "build/desktop_rc_v62/omnibet-lab-desktop-0.6.0-rc.1",
-    "zip": "build/desktop_rc_v62/omnibet-lab-desktop-0.6.0-rc.1.zip",
-    "manifest": "build/desktop_rc_v62/omnibet-lab-desktop-0.6.0-rc.1/RELEASE_MANIFEST.json"
+    "release_dir": "build/desktop_rc_v62/omnibet-lab-desktop-0.6.0",
+    "zip": "build/desktop_rc_v62/omnibet-lab-desktop-0.6.0.zip",
+    "manifest": "build/desktop_rc_v62/omnibet-lab-desktop-0.6.0/RELEASE_MANIFEST.json"
   },
   "included_docs": [
     "README_RUN.md",
