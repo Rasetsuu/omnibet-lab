@@ -1,0 +1,85 @@
+name: OmniBet Desktop Beta Diagnostics
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_label:
+        description: "Optional diagnostics label"
+        required: false
+        default: "manual-debug"
+  pull_request:
+    paths:
+      - ".github/workflows/desktop_beta_debug.yml"
+      - "tools/desktop_build_diagnostics.py"
+      - "tauri-app/**"
+      - "rust-core/**"
+      - "python_lab/desktop_build_manifest.py"
+
+permissions:
+  contents: read
+
+jobs:
+  desktop-diagnostics:
+    name: desktop diagnostics (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Linux desktop build dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev patchelf
+
+      - name: Run desktop build diagnostics
+        id: diagnostics
+        continue-on-error: true
+        run: |
+          python tools/desktop_build_diagnostics.py --root . --out-dir build/desktop-diagnostics
+
+      - name: Upload desktop diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-desktop-diagnostics-${{ runner.os }}-${{ github.run_number }}
+          path: build/desktop-diagnostics/**
+          if-no-files-found: warn
+
+      - name: Fail if diagnostics found build errors
+        if: always()
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path = Path("build/desktop-diagnostics/build-status.json")
+          if not path.exists():
+              raise SystemExit("missing build-status.json")
+          status = json.loads(path.read_text(encoding="utf-8"))
+          if not status.get("ok"):
+              print("Failed diagnostic commands:")
+              for cmd in status.get("failed_commands", []):
+                  print(f"- {cmd.get('name')} status={cmd.get('status')} log={cmd.get('log')}")
+              raise SystemExit(1)
+          print("All desktop diagnostic commands passed.")
+          PY
