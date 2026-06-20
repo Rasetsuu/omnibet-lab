@@ -2,7 +2,7 @@
 
 Local-first football prediction and betting-evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, and **v235 offline provider sample parsers**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, and **v236 bronze snapshot cache**.
 
 OmniBet is not a tipster bot. It is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -52,7 +52,8 @@ Do not treat any output as a betting recommendation. No milestone should claim p
 - Rust storage-v2 metadata contract for the big-data warehouse direction.
 - Rust provider metadata/status/snapshot contracts with credential-status-only reporting.
 - Rust offline provider sample parsers for The Odds API-style odds/markets and API-Football-style fixtures/live state.
-- Rust bronze snapshot cache writer/verifier direction for materializing provider parser outputs into JSONL.GZ tables.
+- Rust bronze snapshot cache writer/verifier for materializing provider parser outputs into JSONL.GZ tables.
+- Rust canonical market registry direction for safe provider alias resolution before bronze-to-silver promotion.
 - Python smoke pipeline for adapters, warehouse contracts, feature snapshots, walk-forward checks, dashboards, review queues, source-cache promotion, and beta workflows.
 - Tauri desktop shell with command bridge to allowlisted Rust CLIs and local offline workflows.
 - Manual Windows/Linux GitHub Actions desktop build workflow.
@@ -250,6 +251,36 @@ cargo run --manifest-path rust-core/Cargo.toml --bin omnibet-bronze-cache -- \
   --created-at 2026-06-20T00:00:00Z
 ```
 
+## Canonical market registry
+
+The v237 direction adds safe provider-market alias resolution before bronze rows can become silver facts.
+
+Initial canonical markets:
+
+```text
+match_result_1x2
+handicap
+total_goals
+total_corners
+team_shots_on_target
+player_shots_on_target
+```
+
+Initial The Odds API aliases:
+
+```text
+h2h                    -> match_result_1x2
+spreads                -> handicap
+totals                 -> total_goals
+corners                -> total_corners
+shots_on_target        -> team_shots_on_target
+player_shots_on_target -> player_shots_on_target
+```
+
+Unknown markets cannot be auto-promoted. The sample market `special_combo_unknown` must stay review-only with promotion blocked.
+
+Player prop markets such as `player_shots_on_target` require player context and lineup/expected-minutes context before confident modeling.
+
 ## World Cup live capture foundation
 
 The v231 direction is a World Cup 2026 capture campaign:
@@ -303,12 +334,14 @@ python python_lab/storage_v2_smoke.py --root . --out reports/local_v233_storage_
 python python_lab/provider_runtime_smoke.py --root . --out reports/local_v234_provider_runtime.json
 python python_lab/provider_offline_samples_smoke.py --root . --out reports/local_v235_provider_offline_samples.json
 python python_lab/bronze_snapshot_cache_smoke.py --root . --out reports/local_v236_bronze_snapshot_cache_static.json
+python python_lab/market_registry_smoke.py --root . --out reports/local_v237_market_registry.json
 ```
 
-Rust bronze cache check:
+Rust checks:
 
 ```bash
 cargo test --manifest-path rust-core/Cargo.toml bronze_cache
+cargo test --manifest-path rust-core/Cargo.toml market_registry
 cargo run --manifest-path rust-core/Cargo.toml --bin omnibet-bronze-cache -- \
   --out build/bronze_cache/v236_offline_samples
 python python_lab/bronze_snapshot_cache_smoke.py \
