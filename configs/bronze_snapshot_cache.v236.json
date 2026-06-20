@@ -1,0 +1,75 @@
+{
+  "schema": "omnibet.bronze_snapshot_cache_contract.v236",
+  "goal": "materialize_offline_provider_parser_outputs_into_verifiable_bronze_jsonl_gzip_cache",
+  "layer": "bronze_raw_provider_snapshots",
+  "codec": "jsonl.gzip",
+  "network_policy": {
+    "network_calls_in_ci": false,
+    "provider_credentials_required": false,
+    "credential_values_stored": false,
+    "credential_values_displayed": false
+  },
+  "input_parsers": [
+    "parse_the_odds_api_event_markets_sample",
+    "parse_api_football_live_state_sample"
+  ],
+  "tables": [
+    {
+      "table": "source_manifests",
+      "row_kind": "source_snapshot_manifest",
+      "expected_rows": 2
+    },
+    {
+      "table": "fixtures",
+      "row_kind": "provider_fixture_snapshot",
+      "expected_rows": 2
+    },
+    {
+      "table": "odds",
+      "row_kind": "provider_odds_snapshot",
+      "expected_rows": 17
+    },
+    {
+      "table": "market_discovery",
+      "row_kind": "provider_market_discovery_snapshot",
+      "expected_rows": 8,
+      "must_include_unknown_market_review": true
+    },
+    {
+      "table": "events",
+      "row_kind": "provider_event_snapshot",
+      "expected_rows": 4
+    },
+    {
+      "table": "lineups",
+      "row_kind": "provider_lineup_player_snapshot",
+      "expected_rows": 8
+    },
+    {
+      "table": "statistics",
+      "row_kind": "provider_team_statistic_snapshot",
+      "expected_rows": 12
+    }
+  ],
+  "manifest_requirements": {
+    "schema_required": true,
+    "cache_id_required": true,
+    "created_at_required": true,
+    "table_row_counts_required": true,
+    "table_byte_counts_required": true,
+    "table_sha256_required": true,
+    "source_payload_hashes_required": true,
+    "manifest_sha256_required": true,
+    "credential_safety_flags_required": true
+  },
+  "acceptance": {
+    "rust_cache_writer_added": true,
+    "rust_cache_verifier_added": true,
+    "offline_sample_cli_added": true,
+    "jsonl_gzip_tables_written": true,
+    "manifest_hashes_tables": true,
+    "unknown_markets_remain_review_only": true,
+    "network_free_in_ci": true,
+    "credential_free_in_ci": true
+  }
+}
