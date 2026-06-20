@@ -1,0 +1,209 @@
+name: OmniBet Desktop Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Release tag, for example v0.6.0-beta.1"
+        required: true
+      release_name:
+        description: "Release title"
+        required: false
+        default: "OmniBet Lab Desktop Beta"
+      prerelease:
+        description: "Create as prerelease"
+        required: false
+        default: "true"
+      draft:
+        description: "Create as draft release"
+        required: false
+        default: "true"
+
+permissions:
+  contents: write
+
+jobs:
+  build-desktop:
+    name: build desktop release asset (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 75
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            platform: Linux
+            archive_name: OmniBet-Lab-Linux
+          - os: windows-latest
+            platform: Windows
+            archive_name: OmniBet-Lab-Windows
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Linux desktop build dependencies
+        if: runner.os == 'Linux'
+        timeout-minutes: 15
+        run: |
+          sudo apt-get update -y -o Acquire::Retries=3
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            libgtk-3-dev \
+            libwebkit2gtk-4.1-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            patchelf
+
+      - name: Validate release dependency policy
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -f tauri-app/package-lock.json
+          grep -q 'npm install --foreground-scripts --loglevel warn' .github/workflows/desktop_release.yml
+
+      - name: Install Tauri dependencies
+        working-directory: tauri-app
+        run: npm install --foreground-scripts --loglevel warn
+
+      - name: Build Rust CLI runtime
+        run: cargo build --manifest-path rust-core/Cargo.toml --release --bins
+
+      - name: Build desktop app
+        working-directory: tauri-app
+        run: npm run build
+
+      - name: Stage portable desktop package
+        shell: bash
+        run: |
+          set -euo pipefail
+          package_dir="build/desktop-release/package"
+          mkdir -p "$package_dir/bin" "$package_dir/data" "$package_dir/data_packs" "$package_dir/rust-core/target/debug"
+
+          if [ "${{ runner.os }}" = "Windows" ]; then
+            app_src="tauri-app/src-tauri/target/release/omnibet_lab.exe"
+            app_dst="$package_dir/OmniBet-Lab.exe"
+            cli_suffix=".exe"
+          else
+            app_src="tauri-app/src-tauri/target/release/omnibet_lab"
+            app_dst="$package_dir/omnibet-lab"
+            cli_suffix=""
+          fi
+
+          test -s "$app_src"
+          cp "$app_src" "$app_dst"
+          chmod +x "$app_dst" || true
+
+          for bin in omnibet-pack omnibet-infer omnibet-value omnibet-model; do
+            src="rust-core/target/release/${bin}${cli_suffix}"
+            test -s "$src"
+            cp "$src" "$package_dir/${bin}${cli_suffix}"
+            cp "$src" "$package_dir/bin/${bin}${cli_suffix}"
+            cp "$src" "$package_dir/rust-core/target/debug/${bin}"
+            chmod +x "$package_dir/${bin}${cli_suffix}" "$package_dir/bin/${bin}${cli_suffix}" "$package_dir/rust-core/target/debug/${bin}" || true
+          done
+
+          cp -R data_packs/football_core_v1 "$package_dir/data_packs/football_core_v1"
+          cp data/sample_odds_spain_cape_verde.csv "$package_dir/data/sample_odds_spain_cape_verde.csv"
+          cp data/sample_prices.csv "$package_dir/data/sample_prices.csv"
+          cp data/sample_closing_odds_spain_cape_verde.csv "$package_dir/data/sample_closing_odds_spain_cape_verde.csv"
+          cp tauri-app/src/dashboard-data.sample.json "$package_dir/dashboard-data.sample.json"
+          cp tauri-app/src/review-data.sample.json "$package_dir/review-data.sample.json"
+          cp tauri-app/src/settings-data.sample.json "$package_dir/settings-data.sample.json"
+
+          cat > "$package_dir/README_RUN.txt" <<'EOF'
+          OmniBet Lab desktop beta release package.
+
+          Run OmniBet-Lab.exe on Windows or ./omnibet-lab on Linux from this directory.
+          The Rust runtime CLIs are bundled beside the app and in ./bin.
+
+          PAPER_ONLY research preview. Do not use outputs as betting recommendations.
+          EOF
+
+      - name: Prepare release manifest
+        shell: bash
+        run: |
+          mkdir -p build/desktop-release
+          python python_lab/desktop_build_manifest.py \
+            --root . \
+            --bundle-dir build/desktop-release/package \
+            --out build/desktop-release/DESKTOP_BUILD_MANIFEST.json \
+            --platform "${{ matrix.platform }}" \
+            --build-label "${{ inputs.release_tag }}"
+          cp build/desktop-release/DESKTOP_BUILD_MANIFEST.json build/desktop-release/package/DESKTOP_BUILD_MANIFEST.json
+
+      - name: Create release archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build/release-assets
+          asset_base="${{ matrix.archive_name }}-${{ inputs.release_tag }}"
+          if [ "${{ runner.os }}" = "Windows" ]; then
+            powershell -NoProfile -Command "Compress-Archive -Path build/desktop-release/package/* -DestinationPath build/release-assets/${asset_base}.zip -Force"
+          else
+            tar -C build/desktop-release -czf "build/release-assets/${asset_base}.tar.gz" package
+          fi
+
+      - name: Upload built release asset
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-release-${{ matrix.platform }}-${{ inputs.release_tag }}
+          path: build/release-assets/*
+          if-no-files-found: error
+
+  publish-release:
+    name: publish GitHub release
+    needs: build-desktop
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Download built release assets
+        uses: actions/download-artifact@v4
+        with:
+          pattern: omnibet-release-*-${{ inputs.release_tag }}
+          path: build/release-assets
+          merge-multiple: true
+
+      - name: List release assets
+        run: find build/release-assets -type f -maxdepth 2 -print -exec sha256sum {} \;
+
+      - name: Write release notes
+        shell: bash
+        run: |
+          cat > RELEASE_NOTES.md <<'EOF'
+          # OmniBet Lab Desktop Beta
+
+          PAPER_ONLY football prediction/value-research desktop beta.
+
+          Download the archive for your platform, unzip/extract it, and run the app from the extracted package directory:
+
+          - Windows: `OmniBet-Lab.exe`
+          - Linux: `./omnibet-lab`
+
+          This release is a research preview. Outputs are not betting recommendations, not staking advice, and not proof of edge.
+          EOF
+
+      - name: Create or update GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="${{ inputs.release_tag }}"
+          name="${{ inputs.release_name }} ${tag}"
+          args=(--title "$name" --notes-file RELEASE_NOTES.md)
+          if [ "${{ inputs.prerelease }}" = "true" ]; then args+=(--prerelease); fi
+          if [ "${{ inputs.draft }}" = "true" ]; then args+=(--draft); fi
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" build/release-assets/* --clobber
+            gh release edit "$tag" "${args[@]}"
+          else
+            gh release create "$tag" build/release-assets/* "${args[@]}"
+          fi
