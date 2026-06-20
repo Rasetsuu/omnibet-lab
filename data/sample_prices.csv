@@ -1,0 +1,17 @@
+market_id,selection,odds,bookmaker
+football.1x2,home,1.62,ExampleBook
+football.1x2,draw,3.90,ExampleBook
+football.1x2,away,5.80,ExampleBook
+football.double_chance,1X,1.15,ExampleBook
+football.total_goals,over_1.5,1.32,ExampleBook
+football.total_goals,over_2.5,1.88,ExampleBook
+football.total_goals,under_2.5,1.92,ExampleBook
+football.total_goals,under_3.5,1.38,ExampleBook
+football.btts,yes,1.95,ExampleBook
+football.btts,no,1.85,ExampleBook
+football.team_goals,home_over_0.5,1.18,ExampleBook
+football.team_goals,home_over_1.5,1.75,ExampleBook
+football.total_corners,over_8.5,1.83,ExampleBook
+football.total_cards,over_3.5,1.80,ExampleBook
+football.double_chance,12,1.22,ExampleBook
+football.double_chance,X2,2.30,ExampleBook
