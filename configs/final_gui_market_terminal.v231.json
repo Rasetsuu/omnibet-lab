@@ -1,0 +1,107 @@
+{
+  "schema": "omnibet.final_gui_market_terminal.v231",
+  "goal": "final_cross_platform_bilet_builder_quality_prediction_terminal",
+  "toolkit": "tauri_rust_desktop",
+  "platforms": ["windows", "linux"],
+  "timing": "finale_after_engine_and_models_are_credible",
+  "principles": {
+    "not_dashboard_only": true,
+    "not_winner_only": true,
+    "full_bettable_market_browser": true,
+    "live_and_upcoming_matches": true,
+    "paper_only_until_validated": true,
+    "show_model_trust_and_data_coverage": true,
+    "never_hide_correlation_risk": true
+  },
+  "primary_views": [
+    {
+      "view_id": "upcoming_matches",
+      "purpose": "Show upcoming fixtures from enabled providers with competition, start time, market availability, lineup status, and prediction readiness."
+    },
+    {
+      "view_id": "live_matches",
+      "purpose": "Show live fixtures, score, clock, events, cards, substitutions, odds movement, lineup confirmation, and live prediction availability."
+    },
+    {
+      "view_id": "match_prediction_terminal",
+      "purpose": "User selects one match and can inspect every supported market family, not only 1X2."
+    },
+    {
+      "view_id": "bilet_builder",
+      "purpose": "Build custom same-game tickets with correlation-aware probability, fair odds, book odds, edge, confidence, and no-bet warnings."
+    },
+    {
+      "view_id": "player_props",
+      "purpose": "Lineup-aware player markets including scorer, shots, shots on target, assists, cards, and expected minutes."
+    },
+    {
+      "view_id": "market_mapping_review",
+      "purpose": "Review unknown provider markets and aliases safely before allowing them into canonical storage."
+    },
+    {
+      "view_id": "paper_ledger",
+      "purpose": "Track paper tickets, open/settled state, CLV, result, model version, and market version."
+    },
+    {
+      "view_id": "data_sources",
+      "purpose": "Show source health, credential present/missing status only, quota/status if available, and last snapshot times."
+    },
+    {
+      "view_id": "model_lab",
+      "purpose": "Compare models, no-vig bookmaker baseline, calibration, Brier/log loss, walk-forward windows, and market-specific trust."
+    }
+  ],
+  "market_families": {
+    "match_result": ["1x2", "double_chance", "draw_no_bet", "to_qualify", "lift_trophy", "after_extra_time", "penalty_shootout_winner"],
+    "goals": ["total_goals", "team_total_goals", "both_teams_to_score", "correct_score", "winning_margin", "goal_timing", "next_goal", "first_team_to_score"],
+    "halves_periods": ["first_half_result", "second_half_result", "first_half_goals", "second_half_goals", "team_goals_by_half"],
+    "corners": ["total_corners", "team_corners", "corner_handicap", "first_half_corners", "race_to_corners"],
+    "cards": ["total_cards", "team_cards", "player_card", "red_card", "booking_points", "first_card_team"],
+    "offsides": ["total_offsides", "team_offsides", "player_offsides"],
+    "shots": ["team_shots", "team_shots_on_target", "player_shots", "player_shots_on_target"],
+    "players": ["anytime_scorer", "first_goalscorer", "last_goalscorer", "player_assist", "player_goal_or_assist", "player_cards", "player_fouls", "player_saves_goalkeeper"],
+    "specials": ["penalty_awarded", "penalty_scored", "own_goal", "var_overturn", "substitution_markets"]
+  },
+  "lineup_dependency": {
+    "lineup_required_for": ["anytime_scorer", "first_goalscorer", "player_shots", "player_shots_on_target", "player_assist", "player_card", "player_offsides", "goalkeeper_saves"],
+    "pre_lineup_mode": "probable_lineups_with_lower_trust",
+    "confirmed_lineup_mode": "live_or_near_kickoff_lineup_adjusted_predictions",
+    "expected_minutes_required": true
+  },
+  "bilet_builder_rules": {
+    "correlation_adjustment_required": true,
+    "contradiction_rejection_required": true,
+    "script_awareness_required": true,
+    "independence_multiplication_forbidden": true,
+    "examples_positive_correlation": [
+      ["team_win", "team_over_1_5_goals"],
+      ["over_2_5_goals", "both_teams_to_score"],
+      ["player_to_score", "player_shots_on_target_over"],
+      ["red_card_yes", "over_cards"]
+    ],
+    "examples_contradictions": [
+      ["under_1_5_goals", "both_strikers_to_score"],
+      ["low_tempo_model_script", "high_shots_high_corners_high_goals"],
+      ["no_goal_before_30", "first_goal_before_15"]
+    ]
+  },
+  "data_requirements": {
+    "upcoming_fixtures": true,
+    "live_fixtures": true,
+    "market_discovery": true,
+    "odds_snapshots": true,
+    "closing_odds": true,
+    "lineups": true,
+    "events": true,
+    "player_snapshots": true,
+    "team_snapshots": true,
+    "settlement_rules": true,
+    "provider_market_aliases": true
+  },
+  "release_gate": {
+    "can_ship_gui_shell_before_model_is_strong": true,
+    "can_show_full_predictions_before_validation": false,
+    "requires_market_specific_trust": true,
+    "requires_paper_only_badge_until_validated": true
+  }
+}
