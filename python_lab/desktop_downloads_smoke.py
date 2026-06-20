@@ -41,7 +41,10 @@ def build_report(root: Path) -> Dict[str, Any]:
         "config_artifact_names": "windows" in config.get("artifact_names", {}) and "linux" in config.get("artifact_names", {}),
         "release_notes_exists": notes_path.exists() and has(notes, "Desktop Beta") and has(notes, "How to build"),
         "policy_no_credentials": config.get("policy", {}).get("credential_values") is False,
-        "version_stable": config.get("desktop_version") == "0.6.0-rc.1",
+        "version_stable": config.get("desktop_version") == "0.6.0",
+        "workflow_uses_lockfile_install": has(workflow, "npm ci") and has(workflow, "package-lock.json"),
+        "workflow_builds_rust_cli_runtime": has(workflow, "cargo build --manifest-path rust-core/Cargo.toml --release --bins"),
+        "workflow_stages_portable_package": has(workflow, "build/desktop-downloads/package") and has(workflow, "README_RUN.txt"),
     }
     return {
         "ok": all(checks.values()),
