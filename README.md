@@ -2,7 +2,7 @@
 
 Local-first football prediction and betting-evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization** and **v230 portable runtime lookup hardening**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, and **v232 final GUI market terminal contract**.
 
 OmniBet is not a tipster bot. It is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -18,6 +18,7 @@ raw/source samples
 → Tauri desktop UI
 → downloadable Windows/Linux beta artifacts
 → GitHub Releases desktop beta assets
+→ final market-terminal/bilet-builder GUI
 ```
 
 ## Status
@@ -54,6 +55,7 @@ Do not treat any output as a betting recommendation. No milestone should claim p
 - Portable desktop artifact staging with the Rust runtime CLIs bundled beside the app.
 - Desktop diagnostics workflow that has passed on Linux and Windows in the v7 diagnostics path.
 - Temporary PR validation has proven Windows/Linux downloadable desktop artifacts can be built and uploaded by GitHub Actions.
+- Final GUI market-terminal target is documented as a bilet-builder quality Windows/Linux app, not a dashboard-only predictor.
 
 ## What is not done yet
 
@@ -131,6 +133,32 @@ Linux:   ./omnibet-lab
 
 Release builds remain PAPER_ONLY until the model is validated at scale.
 
+## Storage v2 big-data direction
+
+The current runtime pack format remains useful for small deterministic packs:
+
+```text
+jsonl.gzip tables
+manifest.json
+row counts
+compressed byte counts
+compression ratios
+SHA-256 hashes
+Rust verification/readback
+```
+
+For large historical and training data, the v233 direction is:
+
+```text
+Bronze raw provider snapshots  -> json.zstd / jsonl.zstd, temporary
+Silver canonical football facts -> parquet.zstd, long-term
+Gold training features          -> parquet.zstd, long-term
+Model artifacts                 -> model binary + JSON manifest
+Recent runtime cache            -> SQLite or small local JSONL.GZ
+```
+
+This preserves current JSONL.GZ compatibility while moving the real warehouse toward Parquet+Zstd for columnar scans, partition pruning, and large feature tables.
+
 ## World Cup live capture foundation
 
 The v231 direction is a World Cup 2026 capture campaign:
@@ -151,6 +179,27 @@ Initial planned providers are The Odds API, API-Football, Sportmonks, and Betfai
 
 Training is allowed only after matches are final and only for future predictions. Random train/test splits are not allowed; walk-forward validation and bookmaker no-vig baselines are required.
 
+## Final GUI target
+
+The final desktop GUI is a market terminal and bilet-builder quality app, not a simple dashboard.
+
+It should support:
+
+```text
+upcoming matches
+live matches
+match prediction terminal
+bilet builder / same-game ticket builder
+player props and scorer markets
+corners/cards/offsides/shots/goals/period/qualification markets
+market mapping review
+paper ledger
+source health
+model lab
+```
+
+Every market must show model trust, required data coverage, fair odds, bookmaker odds when available, and correlation/contradiction warnings for same-game tickets.
+
 ## Local tests
 
 Python/smoke checks:
@@ -159,6 +208,7 @@ Python/smoke checks:
 python python_lab/compile_python_sources.py
 bash tools/run_all_local_tests.sh
 python python_lab/world_cup_live_capture_smoke.py --root . --out reports/local_v231_world_cup_live_capture.json
+python python_lab/storage_v2_smoke.py --root . --out reports/local_v233_storage_v2.json
 ```
 
 Tauri/Rust checks require Rust, Node, and platform desktop dependencies:
