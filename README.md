@@ -2,7 +2,7 @@
 
 Local-first football prediction and betting-evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, and **v236 bronze snapshot cache**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, and **v237 canonical market registry**.
 
 OmniBet is not a tipster bot. It is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -53,7 +53,8 @@ Do not treat any output as a betting recommendation. No milestone should claim p
 - Rust provider metadata/status/snapshot contracts with credential-status-only reporting.
 - Rust offline provider sample parsers for The Odds API-style odds/markets and API-Football-style fixtures/live state.
 - Rust bronze snapshot cache writer/verifier for materializing provider parser outputs into JSONL.GZ tables.
-- Rust canonical market registry direction for safe provider alias resolution before bronze-to-silver promotion.
+- Rust canonical market registry for safe provider alias resolution before bronze-to-silver promotion.
+- Rust silver market mapping preview direction for resolved market rows and blocked review rows.
 - Python smoke pipeline for adapters, warehouse contracts, feature snapshots, walk-forward checks, dashboards, review queues, source-cache promotion, and beta workflows.
 - Tauri desktop shell with command bridge to allowlisted Rust CLIs and local offline workflows.
 - Manual Windows/Linux GitHub Actions desktop build workflow.
@@ -281,6 +282,24 @@ Unknown markets cannot be auto-promoted. The sample market `special_combo_unknow
 
 Player prop markets such as `player_shots_on_target` require player context and lineup/expected-minutes context before confident modeling.
 
+## Silver market mapping preview
+
+The v238 direction previews safe market mapping before final silver promotion.
+
+Expected offline preview from the saved market sample:
+
+```text
+raw bronze market rows: 8
+unique provider market groups: 7
+resolved groups: 6
+review groups: 1
+blocked promotions: 1
+```
+
+Resolved groups are preview-only rows with canonical market id, family, settlement rule, line/player/lineup requirements, bookmaker count, event count, and outcome count.
+
+Review rows are not promoted. The sample `special_combo_unknown` remains blocked until a human-approved registry alias and settlement rule exist.
+
 ## World Cup live capture foundation
 
 The v231 direction is a World Cup 2026 capture campaign:
@@ -335,6 +354,7 @@ python python_lab/provider_runtime_smoke.py --root . --out reports/local_v234_pr
 python python_lab/provider_offline_samples_smoke.py --root . --out reports/local_v235_provider_offline_samples.json
 python python_lab/bronze_snapshot_cache_smoke.py --root . --out reports/local_v236_bronze_snapshot_cache_static.json
 python python_lab/market_registry_smoke.py --root . --out reports/local_v237_market_registry.json
+python python_lab/silver_market_mapping_preview_smoke.py --root . --out reports/local_v238_silver_market_mapping_preview.json
 ```
 
 Rust checks:
@@ -342,6 +362,7 @@ Rust checks:
 ```bash
 cargo test --manifest-path rust-core/Cargo.toml bronze_cache
 cargo test --manifest-path rust-core/Cargo.toml market_registry
+cargo test --manifest-path rust-core/Cargo.toml silver_market
 cargo run --manifest-path rust-core/Cargo.toml --bin omnibet-bronze-cache -- \
   --out build/bronze_cache/v236_offline_samples
 python python_lab/bronze_snapshot_cache_smoke.py \
