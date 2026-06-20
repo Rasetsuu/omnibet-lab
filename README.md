@@ -1,216 +1,155 @@
 # OmniBet Lab
 
-Cross-sport prediction/value-betting research lab with a Rust-first runtime direction and a Python research/backfill layer.
+Local-first football prediction and betting-evaluation research lab.
 
-Current merged milestone: **v37 — offline provider event timeline join**.
-Next target: **v38 — settlement and outcome truth skeleton**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**.
 
-OmniBet is not meant to be a simple score predictor. The project is building a local-first sports intelligence pipeline:
+OmniBet is not a tipster bot. It is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
 ```text
-raw data sources
-→ normalized warehouse
-→ identity resolution
+raw/source samples
+→ normalized warehouse/contracts
+→ identity + market mapping
 → compressed data packs
-→ event/player/rules/market features
-→ walk-forward model validation
-→ odds/CLV paper-only evaluation
-→ Rust runtime
+→ feature snapshots
+→ no-future-leak walk-forward evaluation
+→ odds/CLV paper-only analysis
+→ Rust runtime CLIs
 → Tauri desktop UI
+→ downloadable Windows/Linux beta artifacts
 ```
 
-## Current architecture
+## Status
 
-- `python_lab/` — research scripts, adapters, backfill, training/export, walk-forward tests.
-- `rust-core/` — memory-safe runtime for pack verification, model loading/inference, odds/value reports.
-- `tauri-app/` — desktop app skeleton and command bridge direction.
-- `cpp-core/` — early std-only proof core kept for portability experiments.
-- `data/` — tiny deterministic samples only.
-- `data_packs/` — compressed JSONL.GZ packs used by CI/Rust readers.
-- `docs/` — milestone docs from v4 through v38.
+```text
+Desktop/release infrastructure: beta, actively stabilizing
+Rust runtime: real but still early
+Python research layer: broad, still too large, planned migration target
+Prediction accuracy: not proven for real betting
+Betting mode: PAPER_ONLY
+```
+
+Do not treat any output as a betting recommendation. No milestone should claim profit, staking confidence, or real edge without large out-of-sample validation, calibration, no-vig bookmaker baselines, and CLV evidence.
+
+## Repository layout
+
+- `rust-core/` — Rust runtime library and CLIs: `omnibet-pack`, `omnibet-infer`, `omnibet-value`, `omnibet-model`.
+- `tauri-app/` — Tauri desktop shell and command bridge.
+- `python_lab/` — research/backfill/smoke layer. This is intentionally being reduced over time as stable pieces migrate to Rust.
+- `data_packs/` — tiny compressed CI/runtime packs.
+- `data/` — deterministic samples only, not production-scale data.
+- `configs/` — milestone and workflow contracts.
+- `docs/` — architecture, milestone notes, migration plans, and release notes.
+- `tools/` — local/CI helpers and diagnostics.
+- `cpp-core/` — early portability experiment, not the main runtime.
 
 ## What works now
 
-- Football warehouse and normalized match storage.
-- Football-Data-style CSV results/odds adapter.
-- StatsBomb public sample and scale pipeline.
-- OpenFootball-style JSON adapter.
-- Wyscout-style public match/event adapter.
-- Multi-source identity candidate reports.
-- Real-source acquisition catalog and local sync plan.
-- Core feature-priority contract.
-- Live data point-in-time snapshot contract.
-- Bookmaker odds / Bet Builder market contract.
-- Provider candidate matrix and dynamic market discovery schema.
-- Raw market snapshot warehouse tables and unknown market queue.
-- Canonical resolver tables and alias-mapping smoke.
-- Safe market alias application to raw snapshots.
-- The Odds API-style offline event-market adapter skeleton.
-- API-Football-style offline live-state adapter skeleton.
-- Offline provider event timeline join.
-- Settlement and outcome truth skeleton.
-- Compressed JSONL.GZ data packs and Python/Rust verification.
-- Optional local Parquet+ZSTD warehouse-pack exporter for heavy data.
-- Phase-aware football market registry.
-- Extra-time / penalties / qualification modeling contract.
-- `gold_match_phase_features`.
-- Python model training/export to compact JSON artifacts.
-- Rust runtime loading Python-exported models.
-- No-future-leak walk-forward backtest.
-- Odds/CLV walk-forward paper backtest.
-- Paper-only ledger and CLV skeleton.
-- Tauri UI command bridge to Rust CLIs.
-- CI verifies major Python/Rust/data-pack gates.
+- Offline deterministic data samples and compressed JSONL.GZ data packs.
+- Rust pack verification, typed readers, simple inference, odds/value reports, and model comparison commands.
+- Python smoke pipeline for adapters, warehouse contracts, feature snapshots, walk-forward checks, dashboards, review queues, source-cache promotion, and beta workflows.
+- Tauri desktop shell with command bridge to allowlisted Rust CLIs and local offline workflows.
+- Manual Windows/Linux GitHub Actions desktop build workflow.
+- Portable desktop artifact staging with the Rust runtime CLIs bundled beside the app.
+- Desktop diagnostics workflow that has passed on Linux and Windows in the v7 diagnostics path.
 
-## v25 odds/CLV smoke
+## What is not done yet
 
-`python_lab/odds_walk_forward_backtest.py` reads v23 multi-source odds snapshots, uses only past matches for probability priors, computes no-vig implied probabilities, selects positive-edge paper candidates, settles future match results, compares placed odds to closing odds for CLV, and writes `paper_backtest_bets`.
+- Model edge is not proven.
+- Real provider/live-source ingestion is not production-ready.
+- GUI needs human review and polish.
+- Python-to-Rust migration is incomplete.
+- Release artifacts are beta downloads, not signed production installers.
+- The app remains local/offline-first and paper-only.
 
-The bundled CI sample is intentionally tiny and not a model-quality claim:
+## Desktop beta builds
+
+The manual workflow is:
 
 ```text
-matches seen: 8
-matches with odds: 3
-paper bets: 3
-wins/losses: 0 / 3
-profit units: -3.0
-ROI: -100%
-avg CLV: negative in the smoke sample
-all_paper_only: true
+.github/workflows/desktop_beta_builds.yml
 ```
 
-The value is structural: the market-evaluation loop exists.
+It builds on:
 
-## v26 local backfill
+```text
+windows-latest
+ubuntu-latest
+```
 
-v26 adds a local-only historical backfill runner while keeping CI deterministic.
+The artifact contains:
+
+```text
+build/desktop-downloads/package/
+  OmniBet-Lab.exe or omnibet-lab
+  omnibet-pack(.exe)
+  omnibet-infer(.exe)
+  omnibet-value(.exe)
+  omnibet-model(.exe)
+  bin/
+  rust-core/target/debug/  # compatibility path for current Tauri bridge
+  data/
+  data_packs/football_core_v1/
+  README_RUN.txt
+DESKTOP_BUILD_MANIFEST.json
+Tauri bundle outputs when produced by the runner
+```
+
+The current Tauri backend still expects the developer-style `rust-core/target/debug` runtime path unless `OMNIBET_CLI_DIR` is set, so the portable package stages the release-built CLIs into that compatibility path as well as beside the app and in `./bin`.
+
+To build from GitHub:
+
+1. Open **Actions**.
+2. Choose **OmniBet Desktop Beta Builds**.
+3. Click **Run workflow**.
+4. Download the Windows/Linux artifact.
+5. Unzip it and run the app from the `package` directory.
+
+## Local tests
+
+Python/smoke checks:
 
 ```bash
-cd python_lab
-python local_backfill_runner.py \
-  --preset tiny-smoke \
-  --out ../build/v26_smoke \
-  --pack-name football_v26_tiny_smoke
+python python_lab/compile_python_sources.py
+bash tools/run_all_local_tests.sh
 ```
 
-See [`docs/v26_local_backfill.md`](docs/v26_local_backfill.md).
-
-## v27 Parquet+ZSTD storage path
-
-v27 keeps JSONL.GZ as the CI/Rust baseline but adds an optional local heavy storage path.
-
-See [`docs/v27_parquet_zstd_storage.md`](docs/v27_parquet_zstd_storage.md).
-
-## v28 real-source acquisition catalog
-
-v28 records the real data-source plan in repo-owned, CI-checked form.
-
-See [`docs/v28_source_acquisition.md`](docs/v28_source_acquisition.md).
-
-## v29 feature priority and live data contract
-
-v29 locks the core feature policy and defines live data as append-only point-in-time snapshots.
-
-See [`docs/v29_feature_live_contract.md`](docs/v29_feature_live_contract.md).
-
-## v30 bookmaker odds and Bet Builder market contract
-
-v30 normalizes Romanian `cota/cote` as decimal odds and defines sportsbook market rows, Bet Builder legs, and same-game correlation warnings.
-
-See [`docs/v30_bookmaker_market_contract.md`](docs/v30_bookmaker_market_contract.md).
-
-## v31 provider matrix and market discovery schema
-
-v31 separates manual/reference sportsbooks from official automation sources and defines dynamic market discovery.
-
-See [`docs/v31_provider_market_discovery.md`](docs/v31_provider_market_discovery.md).
-
-## v32 raw market snapshot warehouse
-
-v32 makes market discovery real SQLite storage:
-
-```text
-raw_market_snapshots
-market_mapping_rules
-unknown_market_queue
-```
-
-See [`docs/v32_market_snapshot_warehouse.md`](docs/v32_market_snapshot_warehouse.md).
-
-## v33 canonical resolver
-
-v33 adds canonical storage and alias resolution for teams, players, markets, and selections.
-
-See [`docs/v33_canonical_resolver.md`](docs/v33_canonical_resolver.md).
-
-## v34 safe market alias apply
-
-v34 applies exact high-confidence market aliases onto raw market snapshots while preserving unknown markets.
-
-See [`docs/v34_market_alias_apply.md`](docs/v34_market_alias_apply.md).
-
-## v35 The Odds API offline adapter
-
-v35 adds the first provider-style offline adapter skeleton for event odds/markets.
-
-See [`docs/v35_the_odds_api_offline_adapter.md`](docs/v35_the_odds_api_offline_adapter.md).
-
-## v36 API-Football offline adapter
-
-v36 adds the first provider-style offline adapter skeleton for fixture state, lineups, events, and statistics.
-
-See [`docs/v36_api_football_offline_adapter.md`](docs/v36_api_football_offline_adapter.md).
-
-## v37 provider event timeline
-
-v37 joins the v35 odds sample and v36 match-state sample into one canonical event timeline.
-
-See [`docs/v37_provider_event_timeline.md`](docs/v37_provider_event_timeline.md).
-
-## v38 settlement and outcome truth
-
-v38 adds the first deterministic market-grading skeleton over the v37 timeline.
+Tauri/Rust checks require Rust, Node, and platform desktop dependencies:
 
 ```bash
-cd python_lab
-python settlement_truth_smoke.py \
-  --db ../build/omnibet_v38_settlement_truth.sqlite \
-  --odds-input ../data/samples/the_odds_api_event_markets_sample.json \
-  --state-input ../data/samples/api_football_live_state_sample.json \
-  --link-input ../data/samples/provider_event_link_sample.v37.json \
-  --out ../reports/ci_v38_settlement_truth.json
+cargo test --manifest-path rust-core/Cargo.toml
+cargo test --manifest-path tauri-app/src-tauri/Cargo.toml
+cd tauri-app
+npm install --foreground-scripts --loglevel warn
+npm run build
 ```
 
-It proves:
+The chat sandbox used for this project can run Python/Node checks, but real Rust/Tauri validation is intentionally delegated to GitHub Actions when local Cargo is unavailable.
 
-```text
-v37 timeline builds
-settlement_rules are written
-outcome_truth rows are written
-1X2 / totals / corners / shots-on-target / handicap examples are evaluated
-player prop without player truth is unsupported
-unknown combo market remains unmapped
-```
+## Accuracy roadmap
 
-See [`docs/v38_settlement_truth.md`](docs/v38_settlement_truth.md).
+The next accuracy work is not “make a prettier probability.” It is:
 
-## Storage direction
+1. Import larger historical datasets with strict point-in-time boundaries.
+2. Expand league-specific train/test coverage.
+3. Compare baseline Poisson, gold-feature heuristic, and trained models on the same walk-forward windows.
+4. Track log loss, Brier score, calibration, ROI-paper, CLV, and no-vig bookmaker baseline deltas.
+5. Add event/xG/lineup/rest/travel/context features only when they are timestamp-safe.
+6. Keep every candidate strategy paper-only until it survives enough history and market comparison.
 
-Current CI/local-smoke codec:
+## Python → Rust migration roadmap
 
-```text
-JSONL.GZ + manifest.json
-```
+Stable pieces should move from `python_lab/` to `rust-core/` in phases:
 
-Preferred local heavy analytical codec:
+1. CSV/JSON/JSONL ingestion and typed row validation.
+2. Data-pack creation, compression, hashing, and manifest verification.
+3. Feature snapshot generation and leakage guards.
+4. Walk-forward evaluation and calibration metrics.
+5. Odds normalization, no-vig baseline, CLV, and paper ledger.
+6. Provider/cache contracts once the schema is stable.
+7. Desktop command workflows currently shelling out to Python.
 
-```text
-Parquet + ZSTD
-DuckDB/Polars/PyArrow-compatible layout
-source manifests + hashes + license metadata
-```
-
-The runtime app should not ship all historical raw data. It should ship compact model artifacts, identity maps, feature normalization metadata, market registry, and a live/recent cache.
+Python should remain for fast experiments, notebooks, one-off data exploration, and provider prototypes until their contracts are stable.
 
 ## Betting honesty
 
@@ -225,11 +164,3 @@ No milestone should claim profit or staking confidence without:
 - CLV validation at scale;
 - market-specific settlement rules;
 - player/lineup/injury/fatigue/event context.
-
-## Local full test harness
-
-```bash
-bash tools/run_all_local_tests.sh
-```
-
-CI runs this harness on Ubuntu with Python and Rust installed.

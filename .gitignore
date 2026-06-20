@@ -9,7 +9,7 @@ __pycache__/
 .env
 *.env
 .env.*
-THESTATSAPI_KEY*
+THESTATSAPI_*
 
 # Python
 __pycache__/
@@ -33,3 +33,15 @@ tauri-app/src-tauri/target/
 # local DBs can be regenerated
 build/*.sqlite-wal
 build/*.sqlite-shm
+build/*.sqlite
+build/*.db
+
+# Generated desktop artifacts
+build/desktop-downloads/
+build/desktop-diagnostics/
+build/desktop_rc_v62/
+.omnibet-local/
+
+# Generated local reports kept out of ad-hoc commits
+reports/local_*.json
+reports/ci_*.json
