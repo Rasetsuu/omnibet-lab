@@ -1,0 +1,149 @@
+{
+  "schema": "omnibet.market_registry.v237",
+  "goal": "safe_canonical_market_mapping_before_bronze_to_silver_promotion",
+  "promotion_policy": {
+    "automatic_unknown_market_promotion_allowed": false,
+    "provider_alias_required": true,
+    "settlement_rule_required": true,
+    "market_family_required": true,
+    "line_scope_required_for_line_markets": true,
+    "player_scope_required_for_player_markets": true,
+    "review_required_for_unmapped_markets": true
+  },
+  "canonical_markets": [
+    {
+      "canonical_market_id": "match_result_1x2",
+      "family": "match_result",
+      "display_name": "Match Result 1X2",
+      "period": "full_time_regular",
+      "selection_scope": "team_or_draw",
+      "line_required": false,
+      "player_required": false,
+      "lineup_required": false,
+      "settlement_rule": "regular_time_result",
+      "correlation_group": "result"
+    },
+    {
+      "canonical_market_id": "handicap",
+      "family": "spread",
+      "display_name": "Asian/Spread Handicap",
+      "period": "full_time_regular",
+      "selection_scope": "team",
+      "line_required": true,
+      "player_required": false,
+      "lineup_required": false,
+      "settlement_rule": "regular_time_handicap_result",
+      "correlation_group": "result_margin"
+    },
+    {
+      "canonical_market_id": "total_goals",
+      "family": "goals",
+      "display_name": "Total Goals",
+      "period": "full_time_regular",
+      "selection_scope": "over_under",
+      "line_required": true,
+      "player_required": false,
+      "lineup_required": false,
+      "settlement_rule": "regular_time_total_goals",
+      "correlation_group": "goals_total"
+    },
+    {
+      "canonical_market_id": "total_corners",
+      "family": "corners",
+      "display_name": "Total Corners",
+      "period": "full_time_regular",
+      "selection_scope": "over_under",
+      "line_required": true,
+      "player_required": false,
+      "lineup_required": false,
+      "settlement_rule": "regular_time_total_corners",
+      "correlation_group": "corners_total"
+    },
+    {
+      "canonical_market_id": "team_shots_on_target",
+      "family": "shots",
+      "display_name": "Team Shots On Target",
+      "period": "full_time_regular",
+      "selection_scope": "team_over_under",
+      "line_required": true,
+      "player_required": false,
+      "lineup_required": false,
+      "settlement_rule": "regular_time_team_shots_on_target",
+      "correlation_group": "shots_team"
+    },
+    {
+      "canonical_market_id": "player_shots_on_target",
+      "family": "player_prop",
+      "display_name": "Player Shots On Target",
+      "period": "full_time_regular",
+      "selection_scope": "player_over_under",
+      "line_required": true,
+      "player_required": true,
+      "lineup_required": true,
+      "settlement_rule": "regular_time_player_shots_on_target",
+      "correlation_group": "player_shots"
+    }
+  ],
+  "provider_aliases": [
+    {
+      "provider_id": "the_odds_api",
+      "provider_market_key": "h2h",
+      "canonical_market_id": "match_result_1x2",
+      "confidence": "exact",
+      "review_required": false
+    },
+    {
+      "provider_id": "the_odds_api",
+      "provider_market_key": "spreads",
+      "canonical_market_id": "handicap",
+      "confidence": "exact",
+      "review_required": false
+    },
+    {
+      "provider_id": "the_odds_api",
+      "provider_market_key": "totals",
+      "canonical_market_id": "total_goals",
+      "confidence": "exact",
+      "review_required": false
+    },
+    {
+      "provider_id": "the_odds_api",
+      "provider_market_key": "corners",
+      "canonical_market_id": "total_corners",
+      "confidence": "sample_contract",
+      "review_required": false
+    },
+    {
+      "provider_id": "the_odds_api",
+      "provider_market_key": "shots_on_target",
+      "canonical_market_id": "team_shots_on_target",
+      "confidence": "sample_contract",
+      "review_required": false
+    },
+    {
+      "provider_id": "the_odds_api",
+      "provider_market_key": "player_shots_on_target",
+      "canonical_market_id": "player_shots_on_target",
+      "confidence": "sample_contract",
+      "review_required": false
+    }
+  ],
+  "review_queue_examples": [
+    {
+      "provider_id": "the_odds_api",
+      "provider_market_key": "special_combo_unknown",
+      "reason": "unmapped_provider_market",
+      "automatic_promotion_allowed": false
+    }
+  ],
+  "acceptance": {
+    "known_provider_markets_resolve": true,
+    "unknown_provider_markets_rejected": true,
+    "unknown_provider_markets_reviewed": true,
+    "player_markets_require_lineup": true,
+    "line_markets_require_line": true,
+    "settlement_rules_required": true,
+    "rust_registry_types_added": true,
+    "bronze_market_discovery_can_be_checked": true
+  }
+}
