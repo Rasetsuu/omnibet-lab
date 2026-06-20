@@ -15,7 +15,7 @@ jobs:
   desktop-build:
     name: desktop beta build (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 45
+    timeout-minutes: 75
     strategy:
       fail-fast: false
       matrix:
@@ -29,23 +29,92 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: "npm"
+          cache-dependency-path: tauri-app/package-lock.json
 
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@stable
 
       - name: Install Linux desktop build dependencies
         if: runner.os == 'Linux'
+        timeout-minutes: 15
         run: |
-          sudo apt-get update
-          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev patchelf
+          sudo apt-get update -y -o Acquire::Retries=3
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            libgtk-3-dev \
+            libwebkit2gtk-4.1-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            patchelf
+
+      - name: Validate locked desktop dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s tauri-app/package-lock.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          lock = json.loads(Path('tauri-app/package-lock.json').read_text(encoding='utf-8'))
+          assert lock.get('lockfileVersion', 0) >= 2
+          assert 'node_modules/@tauri-apps/cli' in lock.get('packages', {})
+          PY
 
       - name: Install Tauri dependencies
         working-directory: tauri-app
-        run: npm install
+        run: npm ci
+
+      - name: Build Rust CLI runtime
+        run: cargo build --manifest-path rust-core/Cargo.toml --release --bins
 
       - name: Build desktop app
         working-directory: tauri-app
         run: npm run build
+
+      - name: Stage portable desktop package
+        shell: bash
+        run: |
+          set -euo pipefail
+          package_dir="build/desktop-downloads/package"
+          mkdir -p "$package_dir/bin" "$package_dir/data" "$package_dir/data_packs"
+
+          if [ "${{ runner.os }}" = "Windows" ]; then
+            app_src="tauri-app/src-tauri/target/release/omnibet_lab.exe"
+            app_dst="$package_dir/OmniBet-Lab.exe"
+            cli_suffix=".exe"
+          else
+            app_src="tauri-app/src-tauri/target/release/omnibet_lab"
+            app_dst="$package_dir/omnibet-lab"
+            cli_suffix=""
+          fi
+
+          test -s "$app_src"
+          cp "$app_src" "$app_dst"
+          chmod +x "$app_dst" || true
+
+          for bin in omnibet-pack omnibet-infer omnibet-value omnibet-model; do
+            src="rust-core/target/release/${bin}${cli_suffix}"
+            test -s "$src"
+            cp "$src" "$package_dir/${bin}${cli_suffix}"
+            cp "$src" "$package_dir/bin/${bin}${cli_suffix}"
+            chmod +x "$package_dir/${bin}${cli_suffix}" "$package_dir/bin/${bin}${cli_suffix}" || true
+          done
+
+          cp -R data_packs/football_core_v1 "$package_dir/data_packs/football_core_v1"
+          cp data/sample_odds_spain_cape_verde.csv "$package_dir/data/sample_odds_spain_cape_verde.csv"
+          cp data/sample_closing_odds_spain_cape_verde.csv "$package_dir/data/sample_closing_odds_spain_cape_verde.csv"
+          cp tauri-app/src/dashboard-data.sample.json "$package_dir/dashboard-data.sample.json"
+          cp tauri-app/src/review-data.sample.json "$package_dir/review-data.sample.json"
+          cp tauri-app/src/settings-data.sample.json "$package_dir/settings-data.sample.json"
+
+          cat > "$package_dir/README_RUN.txt" <<'EOF'
+          OmniBet Lab desktop beta portable package.
+
+          Run OmniBet-Lab.exe on Windows or ./omnibet-lab on Linux from this directory.
+          The Rust runtime CLIs are bundled beside the app and in ./bin so the Tauri bridge can find them without OMNIBET_CLI_DIR.
+
+          Paper-only research preview. Do not use outputs as betting recommendations.
+          EOF
 
       - name: Prepare artifact manifest
         shell: bash
@@ -53,7 +122,7 @@ jobs:
           mkdir -p build/desktop-downloads
           python python_lab/desktop_build_manifest.py \
             --root . \
-            --bundle-dir tauri-app/src-tauri/target/release/bundle \
+            --bundle-dir build/desktop-downloads/package \
             --out build/desktop-downloads/DESKTOP_BUILD_MANIFEST.json \
             --platform "${{ runner.os }}" \
             --build-label "${{ inputs.build_label }}"
@@ -63,6 +132,7 @@ jobs:
         with:
           name: omnibet-desktop-${{ runner.os }}-${{ inputs.build_label }}
           path: |
-            tauri-app/src-tauri/target/release/bundle/**
+            build/desktop-downloads/package/**
             build/desktop-downloads/DESKTOP_BUILD_MANIFEST.json
+            tauri-app/src-tauri/target/release/bundle/**
           if-no-files-found: error
