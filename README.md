@@ -2,7 +2,7 @@
 
 Local-first football prediction and betting-evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, and **v234 Rust provider runtime foundation**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, and **v235 offline provider sample parsers**.
 
 OmniBet is not a tipster bot. It is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -35,7 +35,7 @@ Do not treat any output as a betting recommendation. No milestone should claim p
 
 ## Repository layout
 
-- `rust-core/` — Rust runtime library and CLIs: `omnibet-pack`, `omnibet-infer`, `omnibet-value`, `omnibet-model`.
+- `rust-core/` — Rust runtime library and CLIs: `omnibet-pack`, `omnibet-infer`, `omnibet-value`, `omnibet-model`, `omnibet-bronze-cache`.
 - `tauri-app/` — Tauri desktop shell and command bridge.
 - `python_lab/` — research/backfill/smoke layer. This is intentionally being reduced over time as stable pieces migrate to Rust.
 - `data_packs/` — tiny compressed CI/runtime packs.
@@ -51,6 +51,8 @@ Do not treat any output as a betting recommendation. No milestone should claim p
 - Rust pack verification, typed readers, simple inference, odds/value reports, and model comparison commands.
 - Rust storage-v2 metadata contract for the big-data warehouse direction.
 - Rust provider metadata/status/snapshot contracts with credential-status-only reporting.
+- Rust offline provider sample parsers for The Odds API-style odds/markets and API-Football-style fixtures/live state.
+- Rust bronze snapshot cache writer/verifier direction for materializing provider parser outputs into JSONL.GZ tables.
 - Python smoke pipeline for adapters, warehouse contracts, feature snapshots, walk-forward checks, dashboards, review queues, source-cache promotion, and beta workflows.
 - Tauri desktop shell with command bridge to allowlisted Rust CLIs and local offline workflows.
 - Manual Windows/Linux GitHub Actions desktop build workflow.
@@ -207,6 +209,47 @@ API-Football-style live state
 
 This gives the provider layer real typed rows before live fetching exists, and keeps CI fully offline and credential-free.
 
+## Bronze snapshot cache
+
+The v236 direction materializes parsed provider sample rows into a verifiable bronze cache:
+
+```text
+build/bronze_cache/v236_offline_samples/
+  manifest.json
+  tables/
+    source_manifests.jsonl.gz
+    fixtures.jsonl.gz
+    odds.jsonl.gz
+    market_discovery.jsonl.gz
+    events.jsonl.gz
+    lineups.jsonl.gz
+    statistics.jsonl.gz
+```
+
+Expected offline demo row counts:
+
+```text
+source_manifests: 2
+fixtures: 2
+odds: 17
+market_discovery: 8
+events: 4
+lineups: 8
+statistics: 12
+TOTAL: 53
+```
+
+The cache manifest records row counts, uncompressed/compressed byte counts, table SHA-256 hashes, source payload manifests, and safety flags. Unknown markets such as `special_combo_unknown` must remain `needs_mapping_review=true`.
+
+CLI:
+
+```bash
+cargo run --manifest-path rust-core/Cargo.toml --bin omnibet-bronze-cache -- \
+  --out build/bronze_cache/v236_offline_samples \
+  --cache-id v236_offline_provider_samples \
+  --created-at 2026-06-20T00:00:00Z
+```
+
 ## World Cup live capture foundation
 
 The v231 direction is a World Cup 2026 capture campaign:
@@ -259,6 +302,19 @@ python python_lab/world_cup_live_capture_smoke.py --root . --out reports/local_v
 python python_lab/storage_v2_smoke.py --root . --out reports/local_v233_storage_v2.json
 python python_lab/provider_runtime_smoke.py --root . --out reports/local_v234_provider_runtime.json
 python python_lab/provider_offline_samples_smoke.py --root . --out reports/local_v235_provider_offline_samples.json
+python python_lab/bronze_snapshot_cache_smoke.py --root . --out reports/local_v236_bronze_snapshot_cache_static.json
+```
+
+Rust bronze cache check:
+
+```bash
+cargo test --manifest-path rust-core/Cargo.toml bronze_cache
+cargo run --manifest-path rust-core/Cargo.toml --bin omnibet-bronze-cache -- \
+  --out build/bronze_cache/v236_offline_samples
+python python_lab/bronze_snapshot_cache_smoke.py \
+  --root . \
+  --cache-dir build/bronze_cache/v236_offline_samples \
+  --out reports/local_v236_bronze_snapshot_cache.json
 ```
 
 Tauri/Rust checks require Rust, Node, and platform desktop dependencies:
