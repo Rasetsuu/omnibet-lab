@@ -291,6 +291,14 @@ fn field_f64(value: &Value, key: &str) -> Option<f64> {
     value.get(key).and_then(Value::as_f64)
 }
 
+fn field_array<'a>(value: &'a Value, key: &str) -> &'a [Value] {
+    value
+        .get(key)
+        .and_then(Value::as_array)
+        .map(|rows| rows.as_slice())
+        .unwrap_or(&[])
+}
+
 fn id_to_string(value: Option<&Value>) -> Option<String> {
     match value? {
         Value::String(s) => Some(s.clone()),
@@ -329,10 +337,9 @@ pub fn parse_the_odds_api_event_markets_sample(
     for bookmaker in bookmakers {
         let bookmaker_key = field_str(bookmaker, "key").unwrap_or_else(|| "unknown_bookmaker".to_string());
         let bookmaker_title = field_str(bookmaker, "title");
-        let bookmaker_markets = bookmaker.get("markets").and_then(Value::as_array).unwrap_or(&Vec::new());
-        for market in bookmaker_markets {
+        for market in field_array(bookmaker, "markets") {
             let market_key = field_str(market, "key").unwrap_or_else(|| "unknown_market".to_string());
-            let outcomes = market.get("outcomes").and_then(Value::as_array).unwrap_or(&Vec::new());
+            let outcomes = field_array(market, "outcomes");
             let has_line = outcomes.iter().any(|outcome| outcome.get("point").is_some());
             let canonical_hint = canonical_market_hint(&market_key);
             markets.push(ProviderMarketDiscoverySnapshot {
@@ -420,10 +427,7 @@ pub fn parse_api_football_live_state_sample(
     let status = fixture.get("status").unwrap_or(&Value::Null);
     let source_event_id = id_to_string(fixture.get("id")).ok_or_else(|| "API-Football fixture missing id".to_string())?;
 
-    let events = first
-        .get("events")
-        .and_then(Value::as_array)
-        .unwrap_or(&Vec::new())
+    let events = field_array(first, "events")
         .iter()
         .map(|event| {
             let time = event.get("time").unwrap_or(&Value::Null);
@@ -449,13 +453,13 @@ pub fn parse_api_football_live_state_sample(
         .collect::<Vec<_>>();
 
     let mut lineups = Vec::new();
-    for lineup in first.get("lineups").and_then(Value::as_array).unwrap_or(&Vec::new()) {
+    for lineup in field_array(first, "lineups") {
         let team = lineup.get("team").unwrap_or(&Value::Null);
         let team_id = id_to_string(team.get("id"));
         let team_name = field_str(team, "name");
         let formation = field_str(lineup, "formation");
         for (list_key, started) in [("startXI", true), ("substitutes", false)] {
-            for row in lineup.get(list_key).and_then(Value::as_array).unwrap_or(&Vec::new()) {
+            for row in field_array(lineup, list_key) {
                 let player = row.get("player").unwrap_or(&Value::Null);
                 lineups.push(ProviderLineupPlayerSnapshot {
                     source_id: "api_football".to_string(),
@@ -476,9 +480,9 @@ pub fn parse_api_football_live_state_sample(
     }
 
     let mut statistics = Vec::new();
-    for team_stats in first.get("statistics").and_then(Value::as_array).unwrap_or(&Vec::new()) {
+    for team_stats in field_array(first, "statistics") {
         let team = team_stats.get("team").unwrap_or(&Value::Null);
-        for stat in team_stats.get("statistics").and_then(Value::as_array).unwrap_or(&Vec::new()) {
+        for stat in field_array(team_stats, "statistics") {
             let raw_value = stat.get("value");
             statistics.push(ProviderTeamStatisticSnapshot {
                 source_id: "api_football".to_string(),
