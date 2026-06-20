@@ -1,0 +1,62 @@
+{
+  "schema": "omnibet.provider_offline_samples.v235",
+  "goal": "parse_saved_provider_samples_into_typed_rust_snapshots_without_network_calls",
+  "network_policy": {
+    "external_calls_in_ci": false,
+    "credential_values_required": false,
+    "credential_values_stored": false,
+    "credential_values_displayed": false
+  },
+  "samples": [
+    {
+      "sample_id": "the_odds_api_event_markets_demo",
+      "provider_id": "the_odds_api",
+      "request_kind": "event_markets",
+      "path": "data/samples/the_odds_api_event_markets_sample.json",
+      "parser": "parse_the_odds_api_event_markets_sample",
+      "expected": {
+        "fixture_count": 1,
+        "market_rows": 8,
+        "odds_rows": 17,
+        "needs_mapping_review_rows": 1,
+        "player_prop_rows_min": 1
+      }
+    },
+    {
+      "sample_id": "api_football_live_state_demo",
+      "provider_id": "api_football",
+      "request_kind": "live_state",
+      "path": "data/samples/api_football_live_state_sample.json",
+      "parser": "parse_api_football_live_state_sample",
+      "expected": {
+        "fixture_count": 1,
+        "event_rows": 4,
+        "lineup_player_rows": 8,
+        "statistic_rows": 12,
+        "started_player_rows": 6,
+        "bench_player_rows": 2
+      }
+    }
+  ],
+  "canonical_outputs": [
+    "ProviderFixtureSnapshot",
+    "ProviderOddsSnapshot",
+    "ProviderMarketDiscoverySnapshot",
+    "ProviderEventSnapshot",
+    "ProviderLineupPlayerSnapshot",
+    "ProviderTeamStatisticSnapshot"
+  ],
+  "market_mapping_policy": {
+    "known_provider_markets_can_get_canonical_hint": true,
+    "unknown_provider_markets_require_review": true,
+    "automatic_unknown_market_promotion_allowed": false
+  },
+  "acceptance": {
+    "rust_parsers_added": true,
+    "offline_samples_parse_without_credentials": true,
+    "source_snapshot_manifests_hash_payloads": true,
+    "no_external_calls": true,
+    "unknown_markets_are_reviewed": true,
+    "lineup_and_player_prop_rows_preserved": true
+  }
+}
