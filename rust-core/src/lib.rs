@@ -8,6 +8,7 @@ pub mod local_runtime;
 pub mod odds;
 pub mod pack;
 pub mod schema;
+pub mod storage_v2;
 pub mod typed_rows;
 
 pub use competition_eval::*;
@@ -20,6 +21,7 @@ pub use local_runtime::*;
 pub use odds::*;
 pub use pack::*;
 pub use schema::*;
+pub use storage_v2::*;
 pub use typed_rows::*;
 
 pub mod value;
