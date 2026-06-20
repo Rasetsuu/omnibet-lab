@@ -1,0 +1,102 @@
+{
+  "schema": "omnibet.storage_v2_big_data.v233",
+  "goal": "scale_from_tiny_ci_jsonl_gzip_packs_to_large_training_warehouse",
+  "compatibility": {
+    "current_runtime_pack_format": "omnibet.pack.v1",
+    "current_runtime_pack_codec": "jsonl.gzip",
+    "keep_jsonl_gzip_for_ci_and_small_runtime_packs": true,
+    "add_parquet_zstd_for_large_history_and_training": true
+  },
+  "layers": {
+    "bronze_raw_snapshots": {
+      "purpose": "temporary audit and replay of provider payloads",
+      "default_codec": "json.zstd_or_jsonl.zstd",
+      "partition_keys": ["sport", "source_id", "request_kind", "captured_date"],
+      "required_fields": ["source_id", "request_kind", "captured_at", "observed_at", "payload_sha256", "payload_path"],
+      "retention_days_default": 30,
+      "delete_or_archive_after_promotion": true,
+      "credential_values_allowed": false
+    },
+    "silver_canonical_facts": {
+      "purpose": "normalized point-in-time football facts",
+      "default_codec": "parquet.zstd",
+      "partition_keys": ["sport", "competition_id", "season_id", "snapshot_date"],
+      "tables": [
+        "competitions",
+        "seasons",
+        "teams",
+        "players",
+        "matches",
+        "lineups",
+        "match_events",
+        "odds_snapshots",
+        "market_catalog",
+        "market_aliases",
+        "settlement_rules",
+        "provider_identity_map"
+      ],
+      "keep_forever": true
+    },
+    "gold_training_features": {
+      "purpose": "leak-safe model features and labels",
+      "default_codec": "parquet.zstd",
+      "partition_keys": ["sport", "market_family", "feature_version", "prediction_date"],
+      "tables": [
+        "gold_match_features",
+        "gold_team_snapshots",
+        "gold_player_snapshots",
+        "gold_market_features",
+        "gold_live_state_features",
+        "labels",
+        "settlements",
+        "paper_ledger",
+        "clv_reports"
+      ],
+      "keep_forever": true
+    },
+    "model_artifacts": {
+      "purpose": "trained models and reproducibility metadata",
+      "default_codec": "model_binary_plus_json_manifest",
+      "required_fields": ["model_id", "model_version", "dataset_manifest_sha256", "train_window", "test_window", "metrics", "created_at"],
+      "keep_forever": true
+    },
+    "recent_runtime_cache": {
+      "purpose": "local app state, provider freshness, and recent live snapshots",
+      "default_codec": "sqlite_or_small_jsonl_gzip",
+      "not_authoritative_history": true
+    }
+  },
+  "manifest_requirements": {
+    "dataset_id_required": true,
+    "schema_version_required": true,
+    "row_counts_required": true,
+    "byte_counts_required": true,
+    "content_hashes_required": true,
+    "created_at_required": true,
+    "source_lineage_required": true,
+    "prediction_time_boundary_required": true,
+    "observed_at_boundary_required": true,
+    "compression_ratio_required_for_pack_outputs": true
+  },
+  "training_safety": {
+    "random_split_allowed": false,
+    "walk_forward_required": true,
+    "features_must_be_observed_before_prediction_time": true,
+    "labels_only_after_settlement": true,
+    "model_claims_require_market_specific_validation": true,
+    "paper_only_until_validated": true
+  },
+  "rust_migration": {
+    "phase_a": ["manifest_types", "codec_metadata", "hashing", "row_count_verification"],
+    "phase_b": ["jsonl_gzip_runtime_pack_reader", "jsonl_zstd_raw_snapshot_reader", "parquet_zstd_metadata_contract"],
+    "phase_c": ["silver_canonical_writer", "gold_feature_writer", "walk_forward_dataset_loader"],
+    "python_allowed_for": ["notebooks", "one_off_exploration", "provider_prototypes_before_contract_stabilizes"]
+  },
+  "acceptance": {
+    "current_jsonl_gzip_pack_still_supported": true,
+    "large_history_prefers_parquet_zstd": true,
+    "raw_provider_payloads_are_temporary": true,
+    "canonical_facts_and_features_are_reproducible": true,
+    "credential_values_never_stored": true
+  }
+}
