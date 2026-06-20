@@ -71,7 +71,7 @@ jobs:
         run: |
           set -euo pipefail
           package_dir="build/desktop-downloads/package"
-          mkdir -p "$package_dir/bin" "$package_dir/data" "$package_dir/data_packs"
+          mkdir -p "$package_dir/bin" "$package_dir/data" "$package_dir/data_packs" "$package_dir/rust-core/target/debug"
 
           if [ "${{ runner.os }}" = "Windows" ]; then
             app_src="tauri-app/src-tauri/target/release/omnibet_lab.exe"
@@ -92,11 +92,13 @@ jobs:
             test -s "$src"
             cp "$src" "$package_dir/${bin}${cli_suffix}"
             cp "$src" "$package_dir/bin/${bin}${cli_suffix}"
-            chmod +x "$package_dir/${bin}${cli_suffix}" "$package_dir/bin/${bin}${cli_suffix}" || true
+            cp "$src" "$package_dir/rust-core/target/debug/${bin}"
+            chmod +x "$package_dir/${bin}${cli_suffix}" "$package_dir/bin/${bin}${cli_suffix}" "$package_dir/rust-core/target/debug/${bin}" || true
           done
 
           cp -R data_packs/football_core_v1 "$package_dir/data_packs/football_core_v1"
           cp data/sample_odds_spain_cape_verde.csv "$package_dir/data/sample_odds_spain_cape_verde.csv"
+          cp data/sample_prices.csv "$package_dir/data/sample_prices.csv"
           cp data/sample_closing_odds_spain_cape_verde.csv "$package_dir/data/sample_closing_odds_spain_cape_verde.csv"
           cp tauri-app/src/dashboard-data.sample.json "$package_dir/dashboard-data.sample.json"
           cp tauri-app/src/review-data.sample.json "$package_dir/review-data.sample.json"
