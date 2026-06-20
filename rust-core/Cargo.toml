@@ -27,6 +27,10 @@ path = "src/bin/omnibet-value.rs"
 name = "omnibet-model"
 path = "src/bin/omnibet-model.rs"
 
+[[bin]]
+name = "omnibet-bronze-cache"
+path = "src/bin/omnibet-bronze-cache.rs"
+
 [dependencies]
 flate2 = "1"
 serde = { version = "1", features = ["derive"] }
