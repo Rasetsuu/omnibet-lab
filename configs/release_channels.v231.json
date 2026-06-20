@@ -1,0 +1,28 @@
+{
+  "schema": "omnibet.release_channels.v231",
+  "desktop_version": "0.6.0",
+  "current_channel": "desktop_beta",
+  "github_releases": {
+    "workflow": ".github/workflows/desktop_release.yml",
+    "manual_only": true,
+    "default_draft": true,
+    "default_prerelease": true,
+    "asset_policy": {
+      "windows": {
+        "archive_pattern": "OmniBet-Lab-Windows-<tag>.zip",
+        "entrypoint": "OmniBet-Lab.exe"
+      },
+      "linux": {
+        "archive_pattern": "OmniBet-Lab-Linux-<tag>.tar.gz",
+        "entrypoint": "./omnibet-lab"
+      }
+    }
+  },
+  "safety": {
+    "paper_only": true,
+    "not_betting_advice": true,
+    "not_signed_production_installer": true,
+    "credential_values_in_release": false,
+    "live_provider_calls_in_release_workflow": false
+  }
+}
