@@ -23,10 +23,16 @@ jobs:
         run: |
           mkdir -p reports
           python python_lab/source_phase1_smoke.py --root . --out reports/ci_v63_v66_source_phase1.json
-      - name: Upload source phase1 report
+      - name: Run v231 World Cup live capture smoke
+        run: |
+          mkdir -p reports
+          python python_lab/world_cup_live_capture_smoke.py --root . --out reports/ci_v231_world_cup_live_capture.json
+      - name: Upload source phase reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: omnibet-v63-v66-source-phase1-report
-          path: reports/ci_v63_v66_source_phase1.json
+          name: omnibet-source-phase-reports
+          path: |
+            reports/ci_v63_v66_source_phase1.json
+            reports/ci_v231_world_cup_live_capture.json
           if-no-files-found: warn
