@@ -2,7 +2,7 @@
 
 Local-first football prediction and betting-evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization** and **v230 portable runtime lookup hardening**.
 
 OmniBet is not a tipster bot. It is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -17,6 +17,7 @@ raw/source samples
 → Rust runtime CLIs
 → Tauri desktop UI
 → downloadable Windows/Linux beta artifacts
+→ GitHub Releases desktop beta assets
 ```
 
 ## Status
@@ -52,6 +53,7 @@ Do not treat any output as a betting recommendation. No milestone should claim p
 - Manual Windows/Linux GitHub Actions desktop build workflow.
 - Portable desktop artifact staging with the Rust runtime CLIs bundled beside the app.
 - Desktop diagnostics workflow that has passed on Linux and Windows in the v7 diagnostics path.
+- Temporary PR validation has proven Windows/Linux downloadable desktop artifacts can be built and uploaded by GitHub Actions.
 
 ## What is not done yet
 
@@ -95,7 +97,7 @@ DESKTOP_BUILD_MANIFEST.json
 Tauri bundle outputs when produced by the runner
 ```
 
-The current Tauri backend still expects the developer-style `rust-core/target/debug` runtime path unless `OMNIBET_CLI_DIR` is set, so the portable package stages the release-built CLIs into that compatibility path as well as beside the app and in `./bin`.
+The Tauri backend can resolve packaged runtime CLIs from `OMNIBET_CLI_DIR`, the app/package root, `./bin`, and developer fallback paths.
 
 To build from GitHub:
 
@@ -105,6 +107,50 @@ To build from GitHub:
 4. Download the Windows/Linux artifact.
 5. Unzip it and run the app from the `package` directory.
 
+## GitHub Releases
+
+The planned user-facing release workflow is:
+
+```text
+.github/workflows/desktop_release.yml
+```
+
+It is manual-only and creates draft/prerelease GitHub Release assets:
+
+```text
+OmniBet-Lab-Windows-<tag>.zip
+OmniBet-Lab-Linux-<tag>.tar.gz
+```
+
+Users should be able to open **Releases**, download the archive for their platform, extract it, and run:
+
+```text
+Windows: OmniBet-Lab.exe
+Linux:   ./omnibet-lab
+```
+
+Release builds remain PAPER_ONLY until the model is validated at scale.
+
+## World Cup live capture foundation
+
+The v231 direction is a World Cup 2026 capture campaign:
+
+```text
+provider status
+→ fixture discovery
+→ odds snapshots
+→ live state snapshots
+→ lineups/events
+→ paper prediction snapshot
+→ post-match settlement
+→ CLV/outcome report
+→ leak-safe training dataset promotion
+```
+
+Initial planned providers are The Odds API, API-Football, Sportmonks, and Betfair Exchange. They are disabled by default, credential values are never stored/displayed, and CI performs no live provider calls.
+
+Training is allowed only after matches are final and only for future predictions. Random train/test splits are not allowed; walk-forward validation and bookmaker no-vig baselines are required.
+
 ## Local tests
 
 Python/smoke checks:
@@ -112,6 +158,7 @@ Python/smoke checks:
 ```bash
 python python_lab/compile_python_sources.py
 bash tools/run_all_local_tests.sh
+python python_lab/world_cup_live_capture_smoke.py --root . --out reports/local_v231_world_cup_live_capture.json
 ```
 
 Tauri/Rust checks require Rust, Node, and platform desktop dependencies:

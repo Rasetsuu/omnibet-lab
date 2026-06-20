@@ -1,0 +1,70 @@
+{
+  "schema": "omnibet.world_cup_live_capture.v231",
+  "competition": {
+    "name": "FIFA World Cup 2026",
+    "mode": "live_capture_campaign",
+    "paper_only": true
+  },
+  "sources": [
+    {
+      "source_id": "the_odds_api",
+      "role": "odds_snapshots_and_market_discovery",
+      "credential_env": "THE_ODDS_API_KEY",
+      "enabled_by_default": false,
+      "ci_live_calls": false,
+      "planned_payloads": ["sports", "events", "event_odds", "event_markets", "historical_odds"]
+    },
+    {
+      "source_id": "api_football",
+      "role": "fixtures_live_state_lineups_events",
+      "credential_env": "API_FOOTBALL_KEY",
+      "enabled_by_default": false,
+      "ci_live_calls": false,
+      "planned_payloads": ["fixtures", "live_state", "lineups", "events", "statistics", "standings"]
+    },
+    {
+      "source_id": "sportmonks",
+      "role": "secondary_football_fixture_live_event_source",
+      "credential_env": "SPORTMONKS_API_KEY",
+      "enabled_by_default": false,
+      "ci_live_calls": false,
+      "planned_payloads": ["fixtures", "livescores", "events", "odds"]
+    },
+    {
+      "source_id": "betfair_exchange",
+      "role": "exchange_market_reference_and_historical_backtest",
+      "credential_env": "BETFAIR_APP_KEY",
+      "enabled_by_default": false,
+      "ci_live_calls": false,
+      "planned_payloads": ["market_catalogue", "market_book", "historical_exchange_data"]
+    }
+  ],
+  "capture_policy": {
+    "prediction_time_required": true,
+    "observed_at_required": true,
+    "raw_payload_retention_days_default": 30,
+    "delete_or_compress_raw_after_promotion": true,
+    "keep_manifests_hashes_features_labels": true,
+    "no_future_leakage": true
+  },
+  "pipeline": [
+    "provider_status",
+    "fixture_discovery",
+    "odds_snapshot_capture",
+    "live_state_capture",
+    "lineup_event_capture",
+    "canonical_identity_resolution",
+    "paper_prediction_snapshot",
+    "post_match_settlement",
+    "clv_and_outcome_report",
+    "training_dataset_promotion"
+  ],
+  "training_policy": {
+    "train_only_after_match_final": true,
+    "train_only_for_future_predictions": true,
+    "random_split_allowed": false,
+    "walk_forward_required": true,
+    "bookmaker_no_vig_baseline_required": true,
+    "paper_only_until_validated": true
+  }
+}
