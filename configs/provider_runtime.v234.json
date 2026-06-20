@@ -1,0 +1,108 @@
+{
+  "schema": "omnibet.provider_runtime.v234",
+  "goal": "typed_rust_provider_foundation_without_live_network_calls",
+  "network_policy": {
+    "ci_live_calls_allowed": false,
+    "providers_disabled_by_default": true,
+    "manual_enable_required": true,
+    "credential_values_stored": false,
+    "credential_values_displayed": false
+  },
+  "providers": [
+    {
+      "provider_id": "the_odds_api",
+      "label": "The Odds API",
+      "role": "odds_snapshots_and_market_discovery",
+      "credential_env": "THE_ODDS_API_KEY",
+      "enabled_by_default": false,
+      "supports_live": true,
+      "supports_historical": true,
+      "supports_odds": true,
+      "supports_fixtures": true,
+      "supports_lineups": false,
+      "supports_events": false,
+      "supports_player_props": true,
+      "planned_payloads": ["sports", "events", "event_odds", "event_markets", "historical_odds", "historical_event_odds"]
+    },
+    {
+      "provider_id": "api_football",
+      "label": "API-Football",
+      "role": "fixtures_live_state_lineups_events",
+      "credential_env": "API_FOOTBALL_KEY",
+      "enabled_by_default": false,
+      "supports_live": true,
+      "supports_historical": true,
+      "supports_odds": true,
+      "supports_fixtures": true,
+      "supports_lineups": true,
+      "supports_events": true,
+      "supports_player_props": true,
+      "planned_payloads": ["fixtures", "live_state", "lineups", "events", "statistics", "standings", "players", "injuries", "odds"]
+    },
+    {
+      "provider_id": "sportmonks",
+      "label": "Sportmonks",
+      "role": "secondary_football_fixture_live_event_source",
+      "credential_env": "SPORTMONKS_API_KEY",
+      "enabled_by_default": false,
+      "supports_live": true,
+      "supports_historical": true,
+      "supports_odds": true,
+      "supports_fixtures": true,
+      "supports_lineups": true,
+      "supports_events": true,
+      "supports_player_props": true,
+      "planned_payloads": ["fixtures", "livescores", "events", "lineups", "players", "odds"]
+    },
+    {
+      "provider_id": "betfair_exchange",
+      "label": "Betfair Exchange",
+      "role": "exchange_market_reference_and_historical_backtest",
+      "credential_env": "BETFAIR_APP_KEY",
+      "enabled_by_default": false,
+      "supports_live": true,
+      "supports_historical": true,
+      "supports_odds": true,
+      "supports_fixtures": false,
+      "supports_lineups": false,
+      "supports_events": false,
+      "supports_player_props": false,
+      "planned_payloads": ["market_catalogue", "market_book", "historical_exchange_data"]
+    }
+  ],
+  "snapshot_contract": {
+    "required_fields": ["source_id", "request_kind", "captured_at", "observed_at", "payload_sha256", "payload_codec", "payload_path"],
+    "default_payload_codec": "json.zstd",
+    "sample_payload_codec": "json",
+    "raw_payload_retention_days_default": 30,
+    "payload_hash_required": true,
+    "observed_at_required": true,
+    "prediction_time_boundary_required": true
+  },
+  "adapter_stages": [
+    "contract_only",
+    "offline_sample_parser",
+    "manual_live_fetcher",
+    "scheduled_capture",
+    "canonical_promotion",
+    "training_dataset_promotion"
+  ],
+  "canonical_outputs": [
+    "provider_status",
+    "fixture_snapshot",
+    "live_state_snapshot",
+    "odds_snapshot",
+    "market_discovery_snapshot",
+    "lineup_snapshot",
+    "event_snapshot",
+    "player_snapshot"
+  ],
+  "acceptance": {
+    "rust_provider_metadata_types": true,
+    "credential_status_only": true,
+    "no_live_calls_in_ci": true,
+    "providers_disabled_by_default": true,
+    "source_capabilities_declared": true,
+    "snapshot_manifest_declared": true
+  }
+}
