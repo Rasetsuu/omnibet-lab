@@ -1,0 +1,36 @@
+name: OmniBet v237 Market Registry
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  market-registry:
+    name: v237 market registry smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Run market registry smoke
+        run: |
+          mkdir -p reports
+          python python_lab/market_registry_smoke.py --root . --out reports/ci_v237_market_registry.json
+      - name: Rust market registry tests
+        run: cargo test --manifest-path rust-core/Cargo.toml market_registry
+      - name: Upload market registry report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v237-market-registry-report
+          path: reports/ci_v237_market_registry.json
+          if-no-files-found: warn
