@@ -1,0 +1,54 @@
+name: OmniBet v236 Bronze Snapshot Cache
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  bronze-snapshot-cache:
+    name: v236 bronze snapshot cache
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Static bronze cache smoke
+        run: |
+          mkdir -p reports
+          python python_lab/bronze_snapshot_cache_smoke.py --root . --out reports/ci_v236_bronze_snapshot_cache_static.json
+      - name: Rust bronze cache tests
+        run: cargo test --manifest-path rust-core/Cargo.toml bronze_cache
+      - name: Build bronze cache CLI
+        run: cargo build --manifest-path rust-core/Cargo.toml --bin omnibet-bronze-cache
+      - name: Materialize offline bronze cache
+        run: |
+          mkdir -p build/bronze_cache reports
+          cargo run --manifest-path rust-core/Cargo.toml --bin omnibet-bronze-cache -- \
+            --out build/bronze_cache/v236_offline_samples \
+            --cache-id v236_offline_provider_samples \
+            --created-at 2026-06-20T00:00:00Z | tee reports/ci_v236_bronze_cache_cli_report.json
+      - name: Verify materialized cache with Python smoke
+        run: |
+          python python_lab/bronze_snapshot_cache_smoke.py \
+            --root . \
+            --cache-dir build/bronze_cache/v236_offline_samples \
+            --out reports/ci_v236_bronze_snapshot_cache.json
+      - name: Upload bronze cache reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v236-bronze-snapshot-cache-report
+          path: |
+            reports/ci_v236_bronze_snapshot_cache*.json
+            reports/ci_v236_bronze_cache_cli_report.json
+            build/bronze_cache/v236_offline_samples/manifest.json
+          if-no-files-found: warn
