@@ -2,7 +2,7 @@
 
 Local-first football prediction and betting-evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, and **v232 final GUI market terminal contract**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, and **v233 storage v2 big-data foundation**.
 
 OmniBet is not a tipster bot. It is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -49,6 +49,7 @@ Do not treat any output as a betting recommendation. No milestone should claim p
 
 - Offline deterministic data samples and compressed JSONL.GZ data packs.
 - Rust pack verification, typed readers, simple inference, odds/value reports, and model comparison commands.
+- Rust storage-v2 metadata contract for the big-data warehouse direction.
 - Python smoke pipeline for adapters, warehouse contracts, feature snapshots, walk-forward checks, dashboards, review queues, source-cache promotion, and beta workflows.
 - Tauri desktop shell with command bridge to allowlisted Rust CLIs and local offline workflows.
 - Manual Windows/Linux GitHub Actions desktop build workflow.
@@ -159,6 +160,32 @@ Recent runtime cache            -> SQLite or small local JSONL.GZ
 
 This preserves current JSONL.GZ compatibility while moving the real warehouse toward Parquet+Zstd for columnar scans, partition pruning, and large feature tables.
 
+## Provider runtime foundation
+
+The v234 provider runtime direction moves source ingestion contracts into Rust before adding any live HTTP fetchers.
+
+Initial providers:
+
+```text
+The Odds API      odds snapshots, market discovery, historical odds
+API-Football      fixtures, live state, lineups, events, statistics, players
+Sportmonks        secondary fixtures, livescores, events, lineups, players, odds
+Betfair Exchange  exchange market reference and historical backtest
+```
+
+Provider runtime rules:
+
+```text
+providers disabled by default
+manual enable required
+credential status only: present/missing
+credential values never stored or displayed
+no live provider calls in CI
+all snapshots require observed_at + payload_sha256
+```
+
+The first Rust module for this is `rust-core/src/provider.rs`.
+
 ## World Cup live capture foundation
 
 The v231 direction is a World Cup 2026 capture campaign:
@@ -209,6 +236,7 @@ python python_lab/compile_python_sources.py
 bash tools/run_all_local_tests.sh
 python python_lab/world_cup_live_capture_smoke.py --root . --out reports/local_v231_world_cup_live_capture.json
 python python_lab/storage_v2_smoke.py --root . --out reports/local_v233_storage_v2.json
+python python_lab/provider_runtime_smoke.py --root . --out reports/local_v234_provider_runtime.json
 ```
 
 Tauri/Rust checks require Rust, Node, and platform desktop dependencies:
