@@ -11,6 +11,7 @@ pub mod odds;
 pub mod pack;
 pub mod provider;
 pub mod schema;
+pub mod silver_market;
 pub mod storage_v2;
 pub mod typed_rows;
 
@@ -27,6 +28,7 @@ pub use odds::*;
 pub use pack::*;
 pub use provider::*;
 pub use schema::*;
+pub use silver_market::*;
 pub use storage_v2::*;
 pub use typed_rows::*;
 
