@@ -1,0 +1,49 @@
+{
+  "schema": "omnibet.source_terminal_report_contract.v256",
+  "contract_id": "v256_source_terminal_report",
+  "goal": "combine_adapter_health_normalization_counts_and_locked_desktop_actions_for_source_terminal",
+  "input_schemas": [
+    "omnibet.provider_adapter_validation_report.v254",
+    "omnibet.provider_normalization_preview_bundle.v255"
+  ],
+  "output_schema": "omnibet.source_terminal_report.v256",
+  "paper_only": true,
+  "network_calls_allowed_in_ci": false,
+  "credentials_stored_in_repo": false,
+  "live_fetch_enabled": false,
+  "quarantine_only": true,
+  "desktop_panels": {
+    "adapter_health": true,
+    "normalization_counts": true,
+    "row_type_filters": true,
+    "blocker_summary": true,
+    "readiness_badges": true,
+    "quarantine_banner": true
+  },
+  "desktop_actions": {
+    "inspect_adapters": true,
+    "inspect_rows": true,
+    "export_report": true,
+    "live_fetch": false,
+    "promote_to_bronze": false,
+    "run_evaluation": false,
+    "train_model": false,
+    "place_bets": false
+  },
+  "readiness_rules": {
+    "source_terminal_visible_when_fixture_reports_exist": true,
+    "bronze_write_ready_requires_no_blockers": false,
+    "evaluation_ready_requires_real_historical_backfill": true,
+    "training_ready_requires_walk_forward_validation": true
+  },
+  "acceptance": {
+    "rust_source_terminal_report_added": true,
+    "adapter_health_combined": true,
+    "normalization_counts_combined": true,
+    "desktop_actions_locked": true,
+    "python_smoke_added": true,
+    "ci_workflow_added": true,
+    "no_ci_network_calls": true,
+    "no_credentials_in_repo": true
+  }
+}

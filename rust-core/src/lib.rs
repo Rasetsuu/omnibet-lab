@@ -29,6 +29,7 @@ pub mod silver_cache_v244;
 pub mod silver_fact_v243;
 pub mod silver_market;
 pub mod silver_promote_v240;
+pub mod source_terminal_v256;
 pub mod storage_v2;
 pub mod typed_rows;
 
@@ -63,6 +64,7 @@ pub use silver_cache_v244::*;
 pub use silver_fact_v243::*;
 pub use silver_market::*;
 pub use silver_promote_v240::*;
+pub use source_terminal_v256::*;
 pub use storage_v2::*;
 pub use typed_rows::*;
 
