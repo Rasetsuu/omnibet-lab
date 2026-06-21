@@ -1,0 +1,36 @@
+{
+  "schema": "omnibet.historical_import_plan_preview_contract.v246",
+  "goal": "turn_v245_historical_import_contract_into_offline_candidate_source_window_tasks",
+  "input_contract": "omnibet.historical_import_contract.v245",
+  "output_schema": "omnibet.historical_import_plan_preview.v246",
+  "offline_only": true,
+  "network_calls_allowed": false,
+  "paper_only": true,
+  "expected_plan": {
+    "window_count": 2,
+    "required_source_count": 3,
+    "total_tasks": 6,
+    "blocked": false,
+    "import_allowed_now": false,
+    "required_next_artifact": "offline_file_manifest_with_sha256_and_row_count"
+  },
+  "task_requirements": {
+    "window_id_required": true,
+    "source_id_required": true,
+    "competition_id_required": true,
+    "snapshot_cutoff_required": true,
+    "point_in_time_timestamp_required": true,
+    "identity_mapping_required": true,
+    "market_mapping_required_for_odds": true,
+    "credentials_must_not_be_persisted": true
+  },
+  "acceptance": {
+    "rust_plan_types_added": true,
+    "valid_contract_builds_six_tasks": true,
+    "blocked_contract_yields_no_tasks": true,
+    "tasks_are_offline_only": true,
+    "imports_not_allowed_until_file_manifest": true,
+    "python_smoke_added": true,
+    "ci_workflow_added": true
+  }
+}

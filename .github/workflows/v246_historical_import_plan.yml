@@ -1,0 +1,36 @@
+name: OmniBet v246 Historical Import Plan
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  historical-import-plan:
+    name: v246 historical import plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Run historical import plan smoke
+        run: |
+          mkdir -p reports
+          python python_lab/historical_import_plan_smoke.py --root . --out reports/ci_v246_historical_import_plan.json
+      - name: Rust historical import plan tests
+        run: cargo test --manifest-path rust-core/Cargo.toml historical_plan_v246
+      - name: Upload historical import plan report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v246-historical-import-plan-report
+          path: reports/ci_v246_historical_import_plan.json
+          if-no-files-found: warn
