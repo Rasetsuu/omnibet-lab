@@ -1,0 +1,36 @@
+name: OmniBet v239 Identity Mapping Preview
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  identity-mapping-preview:
+    name: v239 identity mapping preview
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Run identity mapping preview smoke
+        run: |
+          mkdir -p reports
+          python python_lab/identity_mapping_preview_smoke.py --root . --out reports/ci_v239_identity_mapping_preview.json
+      - name: Rust identity mapping tests
+        run: cargo test --manifest-path rust-core/Cargo.toml idmap_v239
+      - name: Upload identity mapping preview report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v239-identity-mapping-preview-report
+          path: reports/ci_v239_identity_mapping_preview.json
+          if-no-files-found: warn
