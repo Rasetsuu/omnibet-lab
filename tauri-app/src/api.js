@@ -41,6 +41,39 @@ export const fallbackSettings = {
   safety: { paper_only: true, no_api_key_values: true, no_network: true, no_recommendation_output: true, allowlisted_workflows_only: true, review_decisions_local_only: true }
 };
 
+export const fallbackSourceTerminal = {
+  ok: true,
+  mode: 'browser_preview_sample',
+  path: 'tauri-app/src/source-terminal.sample.json',
+  source_terminal_json: {
+    schema: 'omnibet.source_terminal_desktop_sample.v257',
+    report_id: 'v257_browser_fallback_source_terminal',
+    paper_only: true,
+    quarantine_only: true,
+    source_terminal_visible: true,
+    adapter_count: 2,
+    adapter_ok_count: 2,
+    normalized_total_rows: 5,
+    normalized_row_counts: {
+      odds_snapshot_candidate: 3,
+      fixture_result_candidate: 1,
+      event_context_candidate: 1
+    },
+    readiness: {
+      adapter_health_ok: true,
+      normalization_preview_ok: true,
+      ready_for_source_panel: true,
+      ready_for_downstream_use: false,
+      reason: 'browser_preview_sample'
+    },
+    allowed_ui_actions: ['inspect_adapters', 'inspect_rows', 'export_report'],
+    locked_ui_actions: ['provider_call', 'bronze_write', 'evaluation_run', 'model_fit', 'external_execution'],
+    blocker_summary: []
+  },
+  error: '',
+  note: 'Browser fallback source terminal sample.'
+};
+
 const fallback = {
   ping: () => 'browser-preview-ok',
   pack_summary: () => ({ ok: true, format: 'omnibet.pack.v1', pack_name: 'browser preview', total_rows: 0, note: 'Open in Tauri for backend command invocation.' }),
@@ -67,6 +100,15 @@ const fallback = {
     } catch (_) {}
     return fallbackSettings;
   },
+  load_source_terminal_report: async () => {
+    try {
+      const res = await fetch('source-terminal.sample.json', { cache: 'no-store' });
+      if (res.ok) {
+        return { ok: true, mode: 'browser_preview_sample', path: 'source-terminal.sample.json', source_terminal_json: await res.json(), error: '', note: 'Loaded bundled source terminal sample.' };
+      }
+    } catch (_) {}
+    return fallbackSourceTerminal;
+  },
   run_local_workflow: async ({ workflowId }) => ({ ok: true, state: 'completed', mode: 'browser_preview_no_execution', workflow_id: workflowId, started_at: new Date().toISOString(), finished_at: new Date().toISOString(), report_path_hint: null, refresh_hint: null, stdout_preview: '', stderr_preview: '', note: 'Open in Tauri to run allowlisted local workflows.' }),
   save_review_decision: async ({ reviewType, reviewId, decision, reason }) => ({ ok: true, mode: 'browser_preview_no_persistence', review_type: reviewType, review_id: reviewId, decision, reason, note: 'Open in Tauri to persist review decisions.' })
 };
@@ -89,6 +131,10 @@ export async function loadReviewReport(pathHint = null) {
 
 export async function loadAppSettings(pathHint = null) {
   return await invokeCommand('load_app_settings', { pathHint });
+}
+
+export async function loadSourceTerminalReport(pathHint = null) {
+  return await invokeCommand('load_source_terminal_report', { pathHint });
 }
 
 export async function runLocalWorkflow(workflowId) {
