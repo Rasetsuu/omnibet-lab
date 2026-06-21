@@ -2,7 +2,7 @@
 
 Local-first football prediction and betting-evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, and **v241 review queue report**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, and **v242 sample market review patch**.
 
 OmniBet is not a tipster bot. It is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -43,6 +43,7 @@ Betting mode: PAPER_ONLY
 - Rust combined silver promotion preview gate for market + identity readiness.
 - Rust review queue report for unresolved market/entity rows.
 - Rust sample-only market review patch path that clears the demo queue only with full required fields.
+- Rust silver fact preview bundle for clean offline sample rows, still not training data.
 - Tauri desktop shell with command bridge to allowlisted Rust CLIs and local offline workflows.
 - Manual Windows/Linux GitHub Actions desktop build workflow.
 
@@ -58,50 +59,58 @@ v234 provider runtime contracts
 → v240 combined silver promotion preview
 → v241 review queue report
 → v242 sample market review patch
+→ v243 silver fact preview bundle
 ```
 
-## Market review patch
+## Silver fact preview bundle
 
-The v242 direction demonstrates the safe path from blocked review row to clean preview.
+The v243 direction creates the first tiny offline silver fact preview bundle after the review queue is clean.
 
-Target sample row:
+Expected offline bundle:
 
 ```text
-provider: the_odds_api
-market key: special_combo_unknown
+market fact rows: 7
+identity link rows: 15
+total rows: 22
+review rows at build time: 0
+preview only: true
+training dataset promotion allowed: false
 ```
 
-The patch is offline-sample-only and cannot be used for production or training promotion.
-
-Required fields:
+The bundle refuses to build when:
 
 ```text
-canonical_market_id
-family
-settlement_rule
-selection_scope
-correlation_group
-line_required
-player_required
-lineup_required
-```
-
-Expected proof:
-
-```text
-unpatched: market review count = 1
-patched: market review count = 0
-patched: total review rows = 0
-patched: silver_ready = true
+silver_ready is false
+review queue is not clean
 ```
 
 Safety policy:
 
 ```text
-automatic application is forbidden
-production use is forbidden
+preview only
 training dataset promotion is forbidden
+dirty review queue is refused
 ```
+
+## Bigger-picture plan
+
+The project is moving through these layers:
+
+```text
+1. Desktop/runtime stability
+2. Provider ingestion contracts
+3. Bronze raw snapshot storage
+4. Canonical market + identity mapping
+5. Silver fact preview and review safety
+6. Larger historical import
+7. Gold feature generation
+8. Walk-forward evaluation and calibration
+9. Odds/no-vig/CLV/paper ledger
+10. Market-terminal GUI and bilet builder
+11. Only after proof: consider real-money trust gates
+```
+
+We are currently in layer 5.
 
 ## Final GUI target
 
@@ -140,6 +149,7 @@ python python_lab/identity_mapping_preview_smoke.py --root . --out reports/local
 python python_lab/silver_promotion_preview_smoke.py --root . --out reports/local_v240_silver_promotion_preview.json
 python python_lab/review_queue_report_smoke.py --root . --out reports/local_v241_review_queue_report.json
 python python_lab/market_review_patch_smoke.py --root . --out reports/local_v242_market_review_patch.json
+python python_lab/silver_fact_preview_bundle_smoke.py --root . --out reports/local_v243_silver_fact_preview_bundle.json
 ```
 
 Rust checks:
@@ -152,6 +162,7 @@ cargo test --manifest-path rust-core/Cargo.toml idmap_v239
 cargo test --manifest-path rust-core/Cargo.toml silver_promote_v240
 cargo test --manifest-path rust-core/Cargo.toml review_queue_v241
 cargo test --manifest-path rust-core/Cargo.toml market_patch_v242
+cargo test --manifest-path rust-core/Cargo.toml silver_fact_v243
 cargo run --manifest-path rust-core/Cargo.toml --bin omnibet-bronze-cache -- \
   --out build/bronze_cache/v236_offline_samples
 ```
