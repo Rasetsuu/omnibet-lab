@@ -1,0 +1,36 @@
+name: OmniBet v253 Provider Data Beta
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  provider-data-beta:
+    name: v253 provider data beta
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Run provider data beta smoke
+        run: |
+          mkdir -p reports
+          python python_lab/provider_data_beta_smoke.py --root . --out reports/ci_v253_provider_data_beta.json
+      - name: Rust provider data beta tests
+        run: cargo test --manifest-path rust-core/Cargo.toml provider_beta_v253
+      - name: Upload v253 report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v253-provider-data-beta-report
+          path: reports/ci_v253_provider_data_beta.json
+          if-no-files-found: warn
