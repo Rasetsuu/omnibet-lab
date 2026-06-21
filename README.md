@@ -2,7 +2,7 @@
 
 Local-first football prediction and evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, **v248 local historical source verification**, **v249 bronze candidate preview**, and **v250 bronze preview classification**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, **v248 local historical source verification**, **v249 bronze candidate preview**, **v250 bronze preview classification**, and **v251 bronze preview field-schema checks**.
 
 OmniBet is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -45,6 +45,7 @@ Mode: PAPER_ONLY
 - Rust quarantined bronze-candidate preview rows from verified local source files.
 - Rust bronze preview row classification for fixture/result, odds, and lineup/event-context rows.
 - Rust bronze preview field-schema checks for classified rows.
+- Rust batched bronze value validation, review-reason summary, readiness summary, and read-only desktop surface contract.
 - Tauri desktop shell with command bridge to allowlisted Rust CLIs and local offline workflows.
 
 ## Provider / storage chain
@@ -68,40 +69,61 @@ v234 provider runtime contracts
 → v249 bronze candidate preview
 → v250 bronze preview classification
 → v251 bronze preview field-schema checks
+→ v252 bronze validation batch
 ```
 
-## Bronze preview field schema
+## Bronze validation batch
 
-The v251 direction validates required field names for quarantined, classified preview rows.
+The v252 direction groups value/type validation, review-reason normalization, candidate readiness, and desktop validation-surface contracts in one CI-gated batch.
 
-Required field sets:
+Value checks include:
 
 ```text
-fixture_result:
-  fixture_id, home_team, away_team, kickoff_utc, result_status
-
-odds_snapshot:
-  fixture_id, provider_id, bookmaker_id, market_key, selection_key, price_decimal, snapshot_utc
-
-lineup_event_context:
-  fixture_id, provider_id, entity_id, event_type, observed_at_utc
+non-empty fixture/provider/bookmaker/market/selection fields
+parseable decimal odds between 1.0 and 1000.0
+UTC timestamp shape for kickoff/snapshot/observed fields
+review-required rows remain review-required
 ```
 
-Unknown or incomplete rows stay blocked:
+Readiness remains conservative:
 
 ```text
-schema_status: review_required
+ready for bronze write: false
+ready for silver promotion: false
+ready for evaluation: false
+ready for training: false
+paper only: true
 ```
 
-Safety flags remain locked:
+Desktop surface actions remain read-only:
 
 ```text
-quarantine only: true
-import allowed now: false
-promotion allowed: false
-evaluation allowed: false
-training dataset promotion allowed: false
+inspect rows: true
+export report: true
+import rows: false
+promote rows: false
+run evaluation: false
+train model: false
+place bets: false
 ```
+
+## Actual beta direction
+
+The target beta is a real prediction/betting research app, not only infrastructure.
+
+The beta must support:
+
+```text
+larger historical data
+provider adapters
+walk-forward evaluation
+calibration
+CLV and no-vig comparisons
+paper ledger
+usable market terminal
+```
+
+The project is moving to batched PRs so each merged unit advances multiple related product/backend pieces.
 
 ## Bigger-picture plan
 
@@ -164,6 +186,7 @@ python python_lab/historical_source_verification_smoke.py --root . --out reports
 python python_lab/bronze_candidate_preview_smoke.py --root . --out reports/local_v249_bronze_candidate_preview.json
 python python_lab/bronze_preview_classification_smoke.py --root . --out reports/local_v250_bronze_preview_classification.json
 python python_lab/bronze_preview_field_schema_smoke.py --root . --out reports/local_v251_bronze_preview_field_schema.json
+python python_lab/bronze_validation_batch_smoke.py --root . --out reports/local_v252_bronze_validation_batch.json
 ```
 
 Rust checks:
@@ -173,6 +196,7 @@ cargo test --manifest-path rust-core/Cargo.toml bronze_cache
 cargo test --manifest-path rust-core/Cargo.toml bronze_candidate_v249
 cargo test --manifest-path rust-core/Cargo.toml bronze_classify_v250
 cargo test --manifest-path rust-core/Cargo.toml bronze_field_schema_v251
+cargo test --manifest-path rust-core/Cargo.toml bronze_validation_v252
 cargo test --manifest-path rust-core/Cargo.toml market_registry
 cargo test --manifest-path rust-core/Cargo.toml silver_market
 cargo test --manifest-path rust-core/Cargo.toml idmap_v239
