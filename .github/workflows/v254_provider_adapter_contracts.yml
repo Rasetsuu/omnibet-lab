@@ -1,0 +1,36 @@
+name: OmniBet v254 Provider Adapter Contracts
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  provider-adapter-contracts:
+    name: v254 provider adapter contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Run provider adapter contracts smoke
+        run: |
+          mkdir -p reports
+          python python_lab/provider_adapter_contracts_smoke.py --root . --out reports/ci_v254_provider_adapter_contracts.json
+      - name: Rust provider adapter contracts tests
+        run: cargo test --manifest-path rust-core/Cargo.toml provider_adapter_v254
+      - name: Upload v254 report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v254-provider-adapter-contracts-report
+          path: reports/ci_v254_provider_adapter_contracts.json
+          if-no-files-found: warn
