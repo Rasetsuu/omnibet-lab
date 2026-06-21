@@ -9,6 +9,7 @@ import { exportForecastSnapshot, loadAndRenderUpcomingFixtures, predictSelectedU
 import { importExternalFixtureCacheToUpcoming, loadAndRenderExternalData } from './external_data.js';
 import { loadAndRenderBetaWorkflow } from './beta_workflow.js';
 import { loadAndRenderBetaReleaseTrain } from './beta_release_train.js';
+import { loadAndRenderSourceTerminal } from './source_terminal.js';
 
 function out(x) {
   const el = document.getElementById('out');
@@ -48,6 +49,8 @@ function bind() {
   document.getElementById('load-review-sample')?.addEventListener('click', () => safeRun(() => loadAndRenderReviews('tauri-app/src/review-data.sample.json')));
   document.getElementById('load-settings-report')?.addEventListener('click', () => safeRun(() => loadAndRenderSettings(null)));
   document.getElementById('load-settings-sample')?.addEventListener('click', () => safeRun(() => loadAndRenderSettings('tauri-app/src/settings-data.sample.json')));
+  document.getElementById('load-source-terminal-report')?.addEventListener('click', () => safeRun(() => loadAndRenderSourceTerminal(null)));
+  document.getElementById('load-source-terminal-sample')?.addEventListener('click', () => safeRun(() => loadAndRenderSourceTerminal('tauri-app/src/source-terminal.sample.json')));
   document.getElementById('load-phase2-forecast')?.addEventListener('click', () => safeRun(() => loadAndRenderPhase2Forecast()));
   document.getElementById('load-upcoming-fixtures')?.addEventListener('click', () => safeRun(() => loadAndRenderUpcomingFixtures()));
   document.getElementById('load-external-data')?.addEventListener('click', () => safeRun(() => loadAndRenderExternalData()));
