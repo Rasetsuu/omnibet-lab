@@ -1,0 +1,28 @@
+{
+  "schema": "omnibet.bronze_preview_field_schema_contract.v251",
+  "goal": "validate_required_field_names_for_quarantined_classified_preview_rows",
+  "input_schema": "omnibet.bronze_preview_classification_bundle.v250",
+  "output_schema": "omnibet.bronze_preview_field_schema_bundle.v251",
+  "quarantine_only": true,
+  "import_allowed_now": false,
+  "promotion_allowed": false,
+  "evaluation_allowed": false,
+  "training_dataset_promotion_allowed": false,
+  "required_fields_by_class": {
+    "fixture_result": ["fixture_id", "home_team", "away_team", "kickoff_utc", "result_status"],
+    "odds_snapshot": ["fixture_id", "provider_id", "bookmaker_id", "market_key", "selection_key", "price_decimal", "snapshot_utc"],
+    "lineup_event_context": ["fixture_id", "provider_id", "entity_id", "event_type", "observed_at_utc"]
+  },
+  "unknown_or_incomplete_policy": "review_required",
+  "acceptance": {
+    "rust_field_schema_checker_added": true,
+    "fixture_result_fields_checked": true,
+    "odds_snapshot_fields_checked": true,
+    "lineup_event_context_fields_checked": true,
+    "missing_fields_review_required": true,
+    "unknown_class_review_required": true,
+    "quarantine_flags_preserved": true,
+    "python_smoke_added": true,
+    "ci_workflow_added": true
+  }
+}

@@ -1,0 +1,36 @@
+name: OmniBet v251 Bronze Preview Field Schema
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  bronze-preview-field-schema:
+    name: v251 bronze preview field schema
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Run bronze preview field schema smoke
+        run: |
+          mkdir -p reports
+          python python_lab/bronze_preview_field_schema_smoke.py --root . --out reports/ci_v251_bronze_preview_field_schema.json
+      - name: Rust bronze preview field schema tests
+        run: cargo test --manifest-path rust-core/Cargo.toml bronze_field_schema_v251
+      - name: Upload v251 report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v251-bronze-preview-field-schema-report
+          path: reports/ci_v251_bronze_preview_field_schema.json
+          if-no-files-found: warn
