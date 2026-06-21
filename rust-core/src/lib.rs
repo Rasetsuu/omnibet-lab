@@ -13,6 +13,7 @@ pub mod pack;
 pub mod provider;
 pub mod schema;
 pub mod silver_market;
+pub mod silver_promote_v240;
 pub mod storage_v2;
 pub mod typed_rows;
 
@@ -31,6 +32,7 @@ pub use pack::*;
 pub use provider::*;
 pub use schema::*;
 pub use silver_market::*;
+pub use silver_promote_v240::*;
 pub use storage_v2::*;
 pub use typed_rows::*;
 

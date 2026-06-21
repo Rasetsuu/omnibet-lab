@@ -1,0 +1,35 @@
+{
+  "schema": "omnibet.silver_promotion_preview_contract.v240",
+  "goal": "combine_market_and_identity_previews_before_any_silver_fact_promotion",
+  "input_previews": [
+    "omnibet.silver_market_mapping_preview.v238",
+    "omnibet.identity_mapping_preview.v239"
+  ],
+  "output_schema": "omnibet.silver_promotion_preview.v240",
+  "promotion_policy": {
+    "preview_only": true,
+    "market_mapping_must_be_fully_resolved": true,
+    "identity_mapping_must_be_fully_resolved": true,
+    "blocked_rows_prevent_silver_ready": true,
+    "review_rows_are_not_promoted": true,
+    "training_dataset_promotion_allowed": false
+  },
+  "expected_offline_preview": {
+    "market_review_count": 1,
+    "identity_review_count": 0,
+    "blocked_count": 1,
+    "silver_ready": false,
+    "blocked_reason": "unresolved_market_mappings",
+    "known_blocked_market_key": "special_combo_unknown"
+  },
+  "acceptance": {
+    "rust_combined_preview_added": true,
+    "market_and_identity_previews_combined": true,
+    "unknown_market_blocks_silver_ready": true,
+    "resolved_identities_are_not_enough_without_market_resolution": true,
+    "preview_only": true,
+    "training_promotion_forbidden": true,
+    "python_smoke_added": true,
+    "ci_workflow_added": true
+  }
+}
