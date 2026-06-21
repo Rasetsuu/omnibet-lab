@@ -1,4 +1,4 @@
-import { loadSourceTerminalReport } from './api.js';
+import { loadSourceTerminalReport, runLocalWorkflow } from './api.js';
 
 function esc(value) {
   return String(value ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
@@ -68,4 +68,11 @@ function renderSourceTerminal(payload) {
 export async function loadAndRenderSourceTerminal(pathHint = null) {
   const payload = await loadSourceTerminalReport(pathHint);
   return renderSourceTerminal(payload);
+}
+
+export async function generateAndRenderSourceTerminal() {
+  const run = await runLocalWorkflow('generate_source_terminal_report');
+  if (!run?.ok) return run;
+  const loaded = await loadAndRenderSourceTerminal(null);
+  return { ok: true, workflow: run, refreshed_report: loaded, note: 'Generated local source terminal report and refreshed the source view.' };
 }
