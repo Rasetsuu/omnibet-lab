@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "version": "omnibet.settings.v63_v66.sample",
+  "version": "omnibet.settings.v258.sample",
   "mode": "offline_desktop_settings",
   "paths": {
     "local_root": ".omnibet-local",
@@ -13,6 +13,7 @@
     "logs_dir": ".omnibet-local/logs",
     "cache_dir": ".omnibet-local/cache",
     "source_snapshots_dir": ".omnibet-local/cache/source_snapshots",
+    "source_terminal_report": ".omnibet-local/reports/local_v256_source_terminal_report.json",
     "feature_pack_dir": ".omnibet-local/build/v46_feature_export_pack",
     "dashboard_report": ".omnibet-local/build/v49_dashboard_data.json",
     "review_report": ".omnibet-local/build/v53_v54_review_data.json",
@@ -32,14 +33,14 @@
     {
       "provider_id": "source_a",
       "enabled": false,
-      "api_key_env": "SOURCE_A_TOKEN",
+      "credential_name": "SOURCE_A_TOKEN",
       "key_status_only": "status_only_missing_in_sample",
       "live_calls_in_ci": false
     },
     {
       "provider_id": "source_b",
       "enabled": false,
-      "api_key_env": "SOURCE_B_TOKEN",
+      "credential_name": "SOURCE_B_TOKEN",
       "key_status_only": "status_only_missing_in_sample",
       "live_calls_in_ci": false
     }
@@ -49,7 +50,7 @@
       "source_id": "source_a",
       "label": "Market source sample",
       "enabled": false,
-      "credential_env": "SOURCE_A_TOKEN",
+      "credential_name": "SOURCE_A_TOKEN",
       "credential_status_only": "missing",
       "manual_action_only": true,
       "cache_action": "cache_source_sample"
@@ -58,13 +59,20 @@
       "source_id": "source_b",
       "label": "Match-state source sample",
       "enabled": false,
-      "credential_env": "SOURCE_B_TOKEN",
+      "credential_name": "SOURCE_B_TOKEN",
       "credential_status_only": "missing",
       "manual_action_only": true,
       "cache_action": "cache_source_sample"
     }
   ],
   "local_workflows": [
+    {
+      "workflow_id": "generate_source_terminal_report",
+      "label": "Generate source terminal report",
+      "description": "Generate the local source terminal report used by the desktop source view.",
+      "expected_report": ".omnibet-local/reports/local_v256_source_terminal_report.json",
+      "refresh_hint": "source-terminal"
+    },
     {
       "workflow_id": "generate_dashboard_report",
       "label": "Generate dashboard report",
@@ -116,7 +124,7 @@
   },
   "safety": {
     "paper_only": true,
-    "no_api_key_values": true,
+    "no_credential_values": true,
     "no_network": true,
     "no_recommendation_output": true,
     "allowlisted_workflows_only": true,
