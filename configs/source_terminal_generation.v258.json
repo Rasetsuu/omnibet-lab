@@ -1,0 +1,36 @@
+{
+  "schema": "omnibet.source_terminal_generation_contract.v258",
+  "contract_id": "v258_source_report_generation",
+  "goal": "generate_local_source_terminal_report_for_desktop_loader",
+  "workflow_id": "generate_source_terminal_report",
+  "generator_script": "python_lab/source_terminal_generate.py",
+  "default_output": ".omnibet-local/reports/local_v256_source_terminal_report.json",
+  "sample_fallback": "tauri-app/src/source-terminal.sample.json",
+  "input_fixtures": [
+    "data/provider_fixtures/v254/odds_provider_snapshot.sample.json",
+    "data/provider_fixtures/v254/football_fixture_event.sample.json"
+  ],
+  "paper_only": true,
+  "local_only": true,
+  "network_calls_allowed": false,
+  "credentials_stored": false,
+  "read_only_desktop_surface": true,
+  "expected_counts": {
+    "adapter_count": 2,
+    "adapter_ok_count": 2,
+    "normalized_total_rows": 5,
+    "odds_snapshot_candidate": 3,
+    "fixture_result_candidate": 1,
+    "event_context_candidate": 1
+  },
+  "acceptance": {
+    "generator_script_added": true,
+    "desktop_workflow_id_added": true,
+    "settings_workflow_entry_added": true,
+    "generated_report_shape_checked": true,
+    "python_smoke_added": true,
+    "ci_workflow_added": true,
+    "no_network_calls": true,
+    "no_credentials_stored": true
+  }
+}
