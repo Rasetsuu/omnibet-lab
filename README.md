@@ -2,7 +2,7 @@
 
 Local-first football prediction and evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, and **v247 historical source manifest validation**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, and **v248 local historical source verification**.
 
 OmniBet is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -42,6 +42,7 @@ Mode: PAPER_ONLY
 - Rust historical import plan preview for offline source/window task planning.
 - Rust historical source manifest validation for declared local candidate sources.
 - Rust historical source verification for local existence, SHA-256, and row-count checks.
+- Rust quarantined bronze-candidate preview rows from verified local source files.
 - Tauri desktop shell with command bridge to allowlisted Rust CLIs and local offline workflows.
 
 ## Provider / storage chain
@@ -62,40 +63,37 @@ v234 provider runtime contracts
 → v246 historical import plan preview
 → v247 historical source manifest validation
 → v248 local historical source verification
+→ v249 bronze candidate preview
 ```
 
-## Historical source verification
+## Bronze candidate preview
 
-The v248 direction verifies that declared local historical source candidates physically exist and match their declared hashes and row counts.
+The v249 direction builds quarantined preview rows from verified local historical source files.
 
-Verification checks:
+Each row includes:
 
 ```text
-safe relative path
-file exists
-path is a regular file
-SHA-256 matches manifest
-row count matches manifest
-unsafe flags rejected
-unsupported codecs rejected
+row id
+task id
+source id
+source kind
+relative path
+row number
+raw line SHA-256
+quarantine flags
 ```
 
-Supported codecs:
+Safety flags remain locked:
 
 ```text
-csv
-json
-jsonl.gzip
-```
-
-Even after successful verification:
-
-```text
+quarantine only: true
 import allowed now: false
 promotion allowed: false
+evaluation allowed: false
+training dataset promotion allowed: false
 ```
 
-Verification is not ingestion and not training approval. It only proves local candidate files are present and match their manifest.
+If v248 verification fails, v249 emits no preview rows.
 
 ## Bigger-picture plan
 
@@ -155,12 +153,14 @@ python python_lab/historical_import_contract_smoke.py --root . --out reports/loc
 python python_lab/historical_import_plan_smoke.py --root . --out reports/local_v246_historical_import_plan.json
 python python_lab/historical_source_files_smoke.py --root . --out reports/local_v247_historical_source_files.json
 python python_lab/historical_source_verification_smoke.py --root . --out reports/local_v248_historical_source_verification.json
+python python_lab/bronze_candidate_preview_smoke.py --root . --out reports/local_v249_bronze_candidate_preview.json
 ```
 
 Rust checks:
 
 ```bash
 cargo test --manifest-path rust-core/Cargo.toml bronze_cache
+cargo test --manifest-path rust-core/Cargo.toml bronze_candidate_v249
 cargo test --manifest-path rust-core/Cargo.toml market_registry
 cargo test --manifest-path rust-core/Cargo.toml silver_market
 cargo test --manifest-path rust-core/Cargo.toml idmap_v239
