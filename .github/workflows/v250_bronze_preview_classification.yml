@@ -1,0 +1,36 @@
+name: OmniBet v250 Bronze Preview Classification
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  bronze-preview-classification:
+    name: v250 bronze preview classification
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Run bronze preview classification smoke
+        run: |
+          mkdir -p reports
+          python python_lab/bronze_preview_classification_smoke.py --root . --out reports/ci_v250_bronze_preview_classification.json
+      - name: Rust bronze preview classification tests
+        run: cargo test --manifest-path rust-core/Cargo.toml bronze_classify_v250
+      - name: Upload v250 report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v250-bronze-preview-classification-report
+          path: reports/ci_v250_bronze_preview_classification.json
+          if-no-files-found: warn
