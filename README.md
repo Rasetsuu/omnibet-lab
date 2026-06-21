@@ -2,7 +2,7 @@
 
 Local-first football prediction and evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, **v248 local historical source verification**, **v249 bronze candidate preview**, **v250 bronze preview classification**, **v251 bronze preview field-schema checks**, and **v252 bronze validation batch**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, **v248 local historical source verification**, **v249 bronze candidate preview**, **v250 bronze preview classification**, **v251 bronze preview field-schema checks**, **v252 bronze validation batch**, and **v253 provider/data beta slice**.
 
 OmniBet is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -47,6 +47,7 @@ Mode: PAPER_ONLY
 - Rust bronze preview field-schema checks for classified rows.
 - Rust batched bronze value validation, review-reason summary, readiness summary, and read-only desktop surface contract.
 - Rust provider/data beta readiness matrix for priority provider adapters and historical coverage targets.
+- Rust offline provider adapter request/response contracts with local fixture validation.
 - Tauri desktop shell with command bridge to allowlisted Rust CLIs and local offline workflows.
 
 ## Provider / storage chain
@@ -72,61 +73,49 @@ v234 provider runtime contracts
 → v251 bronze preview field-schema checks
 → v252 bronze validation batch
 → v253 provider/data beta slice
+→ v254 offline adapter contracts
 ```
 
-## Provider/data beta slice
+## Offline provider adapter contracts
 
-The v253 direction defines provider and historical data readiness for the actual prediction/betting research beta.
+The v254 direction defines offline request/response contracts for priority beta provider adapters.
 
-Priority-one beta sources:
+Priority adapter contracts:
 
 ```text
-the_odds_api
-api_football
+odds_provider_snapshot_v1 -> the_odds_api
+football_fixture_event_provider_v1 -> api_football
 ```
 
-Additional historical/source candidates:
+Local fixtures:
 
 ```text
-football_data_co_uk
-football_data_org
-statsbomb_open_data
+data/provider_fixtures/v254/odds_provider_snapshot.sample.json
+data/provider_fixtures/v254/football_fixture_event.sample.json
 ```
 
-Credential declarations remain environment-variable only:
+Health rows report:
 
 ```text
-THE_ODDS_API_KEY
-API_FOOTBALL_KEY
-FOOTBALL_DATA_ORG_KEY
+adapter id
+provider id
+fixture loaded
+contract ok
+normalization targets
+blockers
 ```
 
-CI remains offline and no credentials are stored in the repository.
-
-Historical coverage targets:
+CI safety remains locked:
 
 ```text
-tier1_league_backfill:
-  EPL, LaLiga, SerieA, Bundesliga, Ligue1
-  minimum 5 seasons
-  results + odds required
-
-international_tournament_backfill:
-  WorldCup, Euro, CopaAmerica
-  minimum 3 seasons
-  results + odds + lineup/event context required
+paper only: true
+network calls allowed in CI: false
+credentials stored in repo: false
+live fetch enabled: false
+fixture only in CI: true
 ```
 
-Desktop source panel should show:
-
-```text
-provider health
-credential status
-historical coverage
-adapter gaps
-```
-
-Live fetch buttons stay disabled until adapter smokes and user-provided credentials are handled safely.
+The desktop can show adapter contracts, fixture status, missing fields, and normalization targets, but live fetch remains disabled until safe credential handling and non-CI adapter smokes are added.
 
 ## Actual beta direction
 
@@ -209,6 +198,7 @@ python python_lab/bronze_preview_classification_smoke.py --root . --out reports/
 python python_lab/bronze_preview_field_schema_smoke.py --root . --out reports/local_v251_bronze_preview_field_schema.json
 python python_lab/bronze_validation_batch_smoke.py --root . --out reports/local_v252_bronze_validation_batch.json
 python python_lab/provider_data_beta_smoke.py --root . --out reports/local_v253_provider_data_beta.json
+python python_lab/provider_adapter_contracts_smoke.py --root . --out reports/local_v254_provider_adapter_contracts.json
 ```
 
 Rust checks:
@@ -220,6 +210,7 @@ cargo test --manifest-path rust-core/Cargo.toml bronze_classify_v250
 cargo test --manifest-path rust-core/Cargo.toml bronze_field_schema_v251
 cargo test --manifest-path rust-core/Cargo.toml bronze_validation_v252
 cargo test --manifest-path rust-core/Cargo.toml provider_beta_v253
+cargo test --manifest-path rust-core/Cargo.toml provider_adapter_v254
 cargo test --manifest-path rust-core/Cargo.toml market_registry
 cargo test --manifest-path rust-core/Cargo.toml silver_market
 cargo test --manifest-path rust-core/Cargo.toml idmap_v239
