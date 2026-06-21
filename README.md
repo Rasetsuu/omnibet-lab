@@ -2,7 +2,7 @@
 
 Local-first football prediction and betting-evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, and **v242 sample market review patch**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, and **v243 silver fact preview bundle**.
 
 OmniBet is not a tipster bot. It is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -44,6 +44,7 @@ Betting mode: PAPER_ONLY
 - Rust review queue report for unresolved market/entity rows.
 - Rust sample-only market review patch path that clears the demo queue only with full required fields.
 - Rust silver fact preview bundle for clean offline sample rows, still not training data.
+- Rust silver preview cache writer/verifier for persisted JSONL.GZ silver-preview rows.
 - Tauri desktop shell with command bridge to allowlisted Rust CLIs and local offline workflows.
 - Manual Windows/Linux GitHub Actions desktop build workflow.
 
@@ -60,36 +61,37 @@ v234 provider runtime contracts
 → v241 review queue report
 → v242 sample market review patch
 → v243 silver fact preview bundle
+→ v244 silver preview cache
 ```
 
-## Silver fact preview bundle
+## Silver preview cache
 
-The v243 direction creates the first tiny offline silver fact preview bundle after the review queue is clean.
+The v244 direction persists the v243 preview bundle as a verifiable artifact.
 
-Expected offline bundle:
+Expected offline cache:
 
 ```text
+tables: 1
+table name: silver_fact_preview_rows
+total rows: 22
 market fact rows: 7
 identity link rows: 15
-total rows: 22
-review rows at build time: 0
 preview only: true
 training dataset promotion allowed: false
+credential values stored: false
+network calls performed: false
 ```
 
-The bundle refuses to build when:
+Verifier checks:
 
 ```text
-silver_ready is false
-review queue is not clean
-```
-
-Safety policy:
-
-```text
-preview only
-training dataset promotion is forbidden
-dirty review queue is refused
+manifest sha256
+table sha256
+table row count
+total row count
+preview-only flag
+training-promotion flag
+credential/network flags
 ```
 
 ## Bigger-picture plan
@@ -110,7 +112,7 @@ The project is moving through these layers:
 11. Only after proof: consider real-money trust gates
 ```
 
-We are currently in layer 5.
+We are currently finishing layer 5.
 
 ## Final GUI target
 
@@ -150,6 +152,7 @@ python python_lab/silver_promotion_preview_smoke.py --root . --out reports/local
 python python_lab/review_queue_report_smoke.py --root . --out reports/local_v241_review_queue_report.json
 python python_lab/market_review_patch_smoke.py --root . --out reports/local_v242_market_review_patch.json
 python python_lab/silver_fact_preview_bundle_smoke.py --root . --out reports/local_v243_silver_fact_preview_bundle.json
+python python_lab/silver_preview_cache_smoke.py --root . --out reports/local_v244_silver_preview_cache.json
 ```
 
 Rust checks:
@@ -163,6 +166,7 @@ cargo test --manifest-path rust-core/Cargo.toml silver_promote_v240
 cargo test --manifest-path rust-core/Cargo.toml review_queue_v241
 cargo test --manifest-path rust-core/Cargo.toml market_patch_v242
 cargo test --manifest-path rust-core/Cargo.toml silver_fact_v243
+cargo test --manifest-path rust-core/Cargo.toml silver_cache_v244
 cargo run --manifest-path rust-core/Cargo.toml --bin omnibet-bronze-cache -- \
   --out build/bronze_cache/v236_offline_samples
 ```
