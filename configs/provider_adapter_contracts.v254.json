@@ -1,0 +1,79 @@
+{
+  "schema": "omnibet.provider_adapter_contracts.v254",
+  "contract_id": "v254_offline_priority_provider_adapter_contracts",
+  "goal": "define_offline_request_response_contracts_for_priority_beta_provider_adapters",
+  "paper_only": true,
+  "network_calls_allowed_in_ci": false,
+  "credentials_stored_in_repo": false,
+  "live_fetch_enabled": false,
+  "adapters": [
+    {
+      "adapter_id": "odds_provider_snapshot_v1",
+      "provider_id": "the_odds_api",
+      "provider_class": "odds",
+      "credential_ref": "odds_provider_user_secret",
+      "request_contract": {
+        "method": "GET",
+        "requires_credential": true,
+        "required_parameters": ["sport", "regions", "markets", "odds_format", "date_format"],
+        "point_in_time_parameter": "commenceTimeFrom",
+        "live_network_allowed_in_ci": false
+      },
+      "response_contract": {
+        "fixture_path": "data/provider_fixtures/v254/odds_provider_snapshot.sample.json",
+        "top_level_shape": "array",
+        "required_fields": ["id", "sport_key", "commence_time", "home_team", "away_team", "bookmakers"],
+        "nested_required_fields": ["bookmakers.key", "bookmakers.markets.key", "bookmakers.markets.outcomes.name", "bookmakers.markets.outcomes.price"],
+        "timestamp_fields": ["commence_time", "bookmakers.last_update"],
+        "decimal_fields": ["bookmakers.markets.outcomes.price"]
+      },
+      "normalization_targets": ["fixture_identity", "bookmaker_identity", "market_key", "selection_key", "price_decimal", "snapshot_utc"],
+      "ci_fixture_only": true
+    },
+    {
+      "adapter_id": "football_fixture_event_provider_v1",
+      "provider_id": "api_football",
+      "provider_class": "fixtures_results_lineups_events",
+      "credential_ref": "football_provider_user_secret",
+      "request_contract": {
+        "method": "GET",
+        "requires_credential": true,
+        "required_parameters": ["league", "season", "from", "to"],
+        "point_in_time_parameter": "to",
+        "live_network_allowed_in_ci": false
+      },
+      "response_contract": {
+        "fixture_path": "data/provider_fixtures/v254/football_fixture_event.sample.json",
+        "top_level_shape": "object_response_array",
+        "required_fields": ["response", "response.fixture.id", "response.fixture.date", "response.teams.home.id", "response.teams.away.id", "response.goals.home", "response.goals.away"],
+        "nested_required_fields": ["response.events.time.elapsed", "response.events.team.id", "response.events.type", "response.events.player.id"],
+        "timestamp_fields": ["response.fixture.date"],
+        "decimal_fields": []
+      },
+      "normalization_targets": ["fixture_identity", "team_identity", "result_status", "event_context", "observed_at_utc"],
+      "ci_fixture_only": true
+    }
+  ],
+  "adapter_health_report": {
+    "schema": "omnibet.provider_adapter_health_report.v254",
+    "must_report": ["adapter_id", "provider_id", "fixture_loaded", "contract_ok", "normalization_targets", "blockers"]
+  },
+  "desktop_surface": {
+    "show_adapter_contracts": true,
+    "show_fixture_status": true,
+    "show_missing_fields": true,
+    "show_normalization_targets": true,
+    "live_fetch_button_enabled": false,
+    "credentials_editable_in_repo": false
+  },
+  "acceptance": {
+    "priority_adapter_contracts_added": true,
+    "offline_provider_fixtures_added": true,
+    "rust_contract_validator_added": true,
+    "adapter_health_report_added": true,
+    "python_smoke_added": true,
+    "ci_workflow_added": true,
+    "no_ci_network_calls": true,
+    "no_credentials_in_repo": true
+  }
+}
