@@ -1,0 +1,36 @@
+{
+  "schema": "omnibet.silver_preview_cache_contract.v244",
+  "goal": "materialize_silver_fact_preview_bundle_as_verifiable_jsonl_gzip_artifact",
+  "input_bundle": "omnibet.silver_fact_preview_bundle.v243",
+  "output_schema": "omnibet.silver_preview_cache.v244",
+  "codec": "jsonl.gzip",
+  "layer": "silver_fact_preview",
+  "expected_offline_cache": {
+    "tables": 1,
+    "table_name": "silver_fact_preview_rows",
+    "total_rows": 22,
+    "market_fact_rows": 7,
+    "identity_link_rows": 15,
+    "preview_only": true,
+    "training_dataset_promotion_allowed": false,
+    "credential_values_stored": false,
+    "network_calls_performed": false
+  },
+  "verification_requirements": {
+    "manifest_sha256_required": true,
+    "table_sha256_required": true,
+    "row_count_check_required": true,
+    "gzip_jsonl_required": true,
+    "preview_only_required": true,
+    "training_promotion_forbidden": true
+  },
+  "acceptance": {
+    "rust_cache_writer_added": true,
+    "rust_cache_verifier_added": true,
+    "jsonl_gzip_table_written": true,
+    "manifest_written": true,
+    "hash_and_row_count_verified": true,
+    "python_smoke_added": true,
+    "ci_workflow_added": true
+  }
+}
