@@ -1,0 +1,24 @@
+{
+  "schema": "omnibet.source_terminal_desktop_contract.v257",
+  "contract_id": "v257_source_terminal_desktop_surface",
+  "goal": "wire_source_terminal_report_into_tauri_desktop_read_only_panel",
+  "backend_command": "load_source_terminal_report",
+  "frontend_module": "tauri-app/src/source_terminal.js",
+  "bundled_sample": "tauri-app/src/source-terminal.sample.json",
+  "page_id": "source-terminal",
+  "button_ids": ["load-source-terminal-report", "load-source-terminal-sample"],
+  "panel_ids": ["source-terminal-summary", "source-terminal-readiness", "source-terminal-actions", "source-terminal-blockers"],
+  "paper_only": true,
+  "read_only": true,
+  "live_fetch_enabled": false,
+  "downstream_actions_enabled": false,
+  "acceptance": {
+    "tauri_command_added": true,
+    "frontend_api_added": true,
+    "frontend_renderer_added": true,
+    "desktop_page_added": true,
+    "bundled_sample_added": true,
+    "python_smoke_added": true,
+    "ci_workflow_added": true
+  }
+}
