@@ -1,0 +1,117 @@
+{
+  "schema": "omnibet.provider_data_beta_matrix.v253",
+  "matrix_id": "v253_provider_data_beta_matrix",
+  "goal": "define_provider_and_historical_data_readiness_for_actual_prediction_research_beta",
+  "paper_only": true,
+  "network_calls_allowed_in_ci": false,
+  "credentials_stored_in_repo": false,
+  "providers": [
+    {
+      "provider_id": "the_odds_api",
+      "provider_class": "odds",
+      "adapter_status": "sample_parser_ready_live_adapter_planned",
+      "credential_mode": "environment_variable_required_for_live_use",
+      "credential_env_var": "THE_ODDS_API_KEY",
+      "supports_fixtures": false,
+      "supports_odds_snapshots": true,
+      "supports_results": false,
+      "supports_lineups_events": false,
+      "historical_depth_target": "odds_snapshots_by_market_and_bookmaker",
+      "beta_priority": 1,
+      "ci_live_calls_allowed": false
+    },
+    {
+      "provider_id": "api_football",
+      "provider_class": "fixtures_results_lineups_events",
+      "adapter_status": "sample_parser_ready_live_adapter_planned",
+      "credential_mode": "environment_variable_required_for_live_use",
+      "credential_env_var": "API_FOOTBALL_KEY",
+      "supports_fixtures": true,
+      "supports_odds_snapshots": false,
+      "supports_results": true,
+      "supports_lineups_events": true,
+      "historical_depth_target": "fixtures_results_lineups_events_by_competition_season",
+      "beta_priority": 1,
+      "ci_live_calls_allowed": false
+    },
+    {
+      "provider_id": "football_data_co_uk",
+      "provider_class": "historical_results_odds_csv",
+      "adapter_status": "offline_contract_planned",
+      "credential_mode": "none_for_public_csv_downloads_manual_fetch_only",
+      "credential_env_var": null,
+      "supports_fixtures": true,
+      "supports_odds_snapshots": true,
+      "supports_results": true,
+      "supports_lineups_events": false,
+      "historical_depth_target": "league_results_and_closing_odds_backfill",
+      "beta_priority": 2,
+      "ci_live_calls_allowed": false
+    },
+    {
+      "provider_id": "football_data_org",
+      "provider_class": "fixtures_results",
+      "adapter_status": "credential_contract_planned",
+      "credential_mode": "environment_variable_required_for_live_use",
+      "credential_env_var": "FOOTBALL_DATA_ORG_KEY",
+      "supports_fixtures": true,
+      "supports_odds_snapshots": false,
+      "supports_results": true,
+      "supports_lineups_events": false,
+      "historical_depth_target": "fixture_results_cross_check",
+      "beta_priority": 3,
+      "ci_live_calls_allowed": false
+    },
+    {
+      "provider_id": "statsbomb_open_data",
+      "provider_class": "events_open_data",
+      "adapter_status": "offline_contract_planned",
+      "credential_mode": "none_for_open_data_manual_fetch_only",
+      "credential_env_var": null,
+      "supports_fixtures": true,
+      "supports_odds_snapshots": false,
+      "supports_results": true,
+      "supports_lineups_events": true,
+      "historical_depth_target": "event_context_feature_research_on_open_data",
+      "beta_priority": 3,
+      "ci_live_calls_allowed": false
+    }
+  ],
+  "historical_coverage_targets": [
+    {
+      "target_id": "tier1_league_backfill",
+      "competitions": ["EPL", "LaLiga", "SerieA", "Bundesliga", "Ligue1"],
+      "seasons_minimum": 5,
+      "requires_results": true,
+      "requires_odds_snapshots": true,
+      "requires_lineups_events": false,
+      "use_for_beta_evaluation": true
+    },
+    {
+      "target_id": "international_tournament_backfill",
+      "competitions": ["WorldCup", "Euro", "CopaAmerica"],
+      "seasons_minimum": 3,
+      "requires_results": true,
+      "requires_odds_snapshots": true,
+      "requires_lineups_events": true,
+      "use_for_beta_evaluation": true
+    }
+  ],
+  "desktop_surface": {
+    "provider_health_panel": true,
+    "credential_status_panel": true,
+    "historical_coverage_panel": true,
+    "adapter_gap_panel": true,
+    "live_fetch_button_enabled": false,
+    "manual_manifest_import_enabled": true,
+    "paper_only_banner_required": true
+  },
+  "acceptance": {
+    "provider_matrix_added": true,
+    "historical_coverage_targets_added": true,
+    "credential_modes_declared": true,
+    "desktop_source_panel_declared": true,
+    "no_ci_network_calls": true,
+    "no_credentials_in_repo": true
+  }
+}
