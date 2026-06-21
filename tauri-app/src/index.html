@@ -15,6 +15,7 @@
       </div>
       <nav class="nav" aria-label="Desktop navigation">
         <button class="nav-button active" data-page="dashboard">Dashboard</button>
+        <button class="nav-button" data-page="source-terminal">Source Terminal</button>
         <button class="nav-button" data-page="events">Events</button>
         <button class="nav-button" data-page="markets">Markets</button>
         <button class="nav-button" data-page="unknowns">Unknown Queue</button>
@@ -43,6 +44,8 @@
         <div class="topbar-actions">
           <button id="load-dashboard-report">Load local dashboard report</button>
           <button id="load-dashboard-sample">Load bundled sample</button>
+          <button id="load-source-terminal-report">Load source terminal</button>
+          <button id="load-source-terminal-sample">Load source sample</button>
           <button id="load-review-report">Load local review report</button>
           <button id="load-review-sample">Load review sample</button>
           <button id="load-settings-report">Load settings</button>
@@ -69,44 +72,24 @@
         </div>
       </section>
 
-      <section id="events" class="page" data-page-panel="events">
-        <h2>Events</h2>
-        <div id="page-events" class="card"><div class="muted">Load a dashboard report first.</div></div>
+      <section id="source-terminal" class="page" data-page-panel="source-terminal">
+        <h2>Source Terminal</h2>
+        <p class="warn">v257 read-only source terminal. It exposes adapter health and normalized preview counts; downstream actions stay locked.</p>
+        <div class="grid">
+          <div id="source-terminal-summary" class="card"><div class="muted">Load source terminal first.</div></div>
+          <div id="source-terminal-readiness" class="card"><div class="muted">Load source terminal first.</div></div>
+          <div id="source-terminal-actions" class="card"><div class="muted">Load source terminal first.</div></div>
+          <div id="source-terminal-blockers" class="card"><div class="muted">Load source terminal first.</div></div>
+        </div>
       </section>
 
-      <section id="markets" class="page" data-page-panel="markets">
-        <h2>Markets</h2>
-        <div id="page-markets" class="card"><div class="muted">Load a dashboard report first.</div></div>
-      </section>
-
-      <section id="unknowns" class="page" data-page-panel="unknowns">
-        <h2>Unknown Market Review</h2>
-        <p class="muted">v53 local review UI. Decisions are UI-only until a later persistence milestone.</p>
-        <div id="review-unknown-markets-panel" class="card"><div class="muted">Load a review report first.</div></div>
-        <div id="page-unknowns" class="card"><div class="muted">Load a dashboard or review report first.</div></div>
-      </section>
-
-      <section id="identity-review" class="page" data-page-panel="identity-review">
-        <h2>Provider Identity Review</h2>
-        <p class="muted">v54 local review UI for provider team/player/event identity candidates.</p>
-        <div id="review-identity-candidates-panel" class="card"><div class="muted">Load a review report first.</div></div>
-        <div id="page-identity-review" class="card"><div class="muted">Load a review report first.</div></div>
-      </section>
-
-      <section id="features" class="page" data-page-panel="features">
-        <h2>Features</h2>
-        <div id="page-features" class="card"><div class="muted">Load a dashboard report first.</div></div>
-      </section>
-
-      <section id="settlement" class="page" data-page-panel="settlement">
-        <h2>Settlement</h2>
-        <div id="page-settlement" class="card"><div class="muted">Load a dashboard report first.</div></div>
-      </section>
-
-      <section id="accounting" class="page" data-page-panel="accounting">
-        <h2>Accounting</h2>
-        <div id="page-accounting" class="card"><div class="muted">Load a dashboard report first.</div></div>
-      </section>
+      <section id="events" class="page" data-page-panel="events"><h2>Events</h2><div id="page-events" class="card"><div class="muted">Load a dashboard report first.</div></div></section>
+      <section id="markets" class="page" data-page-panel="markets"><h2>Markets</h2><div id="page-markets" class="card"><div class="muted">Load a dashboard report first.</div></div></section>
+      <section id="unknowns" class="page" data-page-panel="unknowns"><h2>Unknown Market Review</h2><p class="muted">v53 local review UI. Decisions are UI-only until a later persistence milestone.</p><div id="review-unknown-markets-panel" class="card"><div class="muted">Load a review report first.</div></div><div id="page-unknowns" class="card"><div class="muted">Load a dashboard or review report first.</div></div></section>
+      <section id="identity-review" class="page" data-page-panel="identity-review"><h2>Provider Identity Review</h2><p class="muted">v54 local review UI for provider team/player/event identity candidates.</p><div id="review-identity-candidates-panel" class="card"><div class="muted">Load a review report first.</div></div><div id="page-identity-review" class="card"><div class="muted">Load a review report first.</div></div></section>
+      <section id="features" class="page" data-page-panel="features"><h2>Features</h2><div id="page-features" class="card"><div class="muted">Load a dashboard report first.</div></div></section>
+      <section id="settlement" class="page" data-page-panel="settlement"><h2>Settlement</h2><div id="page-settlement" class="card"><div class="muted">Load a dashboard report first.</div></div></section>
+      <section id="accounting" class="page" data-page-panel="accounting"><h2>Accounting</h2><div id="page-accounting" class="card"><div class="muted">Load a dashboard report first.</div></div></section>
 
       <section id="models" class="page" data-page-panel="models">
         <h2>Models</h2>
@@ -117,9 +100,7 @@
           <div id="model-calibration-panel" class="card"><h3>Calibration</h3><div class="muted">Load model phase sample first.</div></div>
         </div>
         <div id="model-explanations-panel" class="card"><h3>Example explanations</h3><div class="muted">Load model phase sample first.</div></div>
-        <div class="card">
-          <button id="pack-summary-button">Load Pack Summary</button>
-        </div>
+        <div class="card"><button id="pack-summary-button">Load Pack Summary</button></div>
       </section>
 
       <section id="upcoming" class="page" data-page-panel="upcoming">
@@ -177,35 +158,12 @@
         <div id="local-run-buttons" class="card"><h3>Local workflow controls</h3><div class="muted">Load settings first.</div></div>
       </section>
 
-      <section id="simple" class="page" data-page-panel="simple">
-        <h2>Simple</h2>
-        <p>Quick fixture check.</p>
-        <input id="home" value="Spain" />
-        <input id="away" value="Cape Verde" />
-        <button id="predict-fixture-button">Preview</button>
-      </section>
+      <section id="simple" class="page" data-page-panel="simple"><h2>Simple</h2><p>Quick fixture check.</p><input id="home" value="Spain" /><input id="away" value="Cape Verde" /><button id="predict-fixture-button">Preview</button></section>
+      <section id="detailed" class="page" data-page-panel="detailed"><h2>Detailed</h2><button id="detailed-pack-summary-button">Load Pack Summary</button></section>
+      <section id="advanced" class="page" data-page-panel="advanced"><h2>Advanced</h2><p>Future home for model comparison, calibration, and CI report views.</p><button id="ping-button">Ping Backend</button></section>
+      <section id="builder" class="page" data-page-panel="builder"><h2>Market Builder</h2><p class="warn">PAPER_ONLY research preview. No live execution, no recommendation output.</p><button id="value-report-button">Generate Offline Report Preview</button></section>
 
-      <section id="detailed" class="page" data-page-panel="detailed">
-        <h2>Detailed</h2>
-        <button id="detailed-pack-summary-button">Load Pack Summary</button>
-      </section>
-
-      <section id="advanced" class="page" data-page-panel="advanced">
-        <h2>Advanced</h2>
-        <p>Future home for model comparison, calibration, and CI report views.</p>
-        <button id="ping-button">Ping Backend</button>
-      </section>
-
-      <section id="builder" class="page" data-page-panel="builder">
-        <h2>Market Builder</h2>
-        <p class="warn">PAPER_ONLY research preview. No live execution, no recommendation output.</p>
-        <button id="value-report-button">Generate Offline Report Preview</button>
-      </section>
-
-      <section class="output-panel card">
-        <h2>Output</h2>
-        <pre id="out">Ready.</pre>
-      </section>
+      <section class="output-panel card"><h2>Output</h2><pre id="out">Ready.</pre></section>
     </main>
   </div>
 
@@ -220,6 +178,7 @@
   <script type="module" src="external_data.js"></script>
   <script type="module" src="beta_workflow.js"></script>
   <script type="module" src="beta_release_train.js"></script>
+  <script type="module" src="source_terminal.js"></script>
   <script type="module" src="app.js"></script>
 </body>
 </html>

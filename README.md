@@ -2,7 +2,7 @@
 
 Local-first football prediction and evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, **v248 local historical source verification**, **v249 bronze candidate preview**, **v250 bronze preview classification**, **v251 bronze preview field-schema checks**, **v252 bronze validation batch**, **v253 provider/data beta slice**, **v254 offline adapter contracts**, and **v255 provider normalization preview**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, **v248 local historical source verification**, **v249 bronze candidate preview**, **v250 bronze preview classification**, **v251 bronze preview field-schema checks**, **v252 bronze validation batch**, **v253 provider/data beta slice**, **v254 offline adapter contracts**, **v255 provider normalization preview**, and **v256 source terminal report**.
 
 OmniBet is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -50,6 +50,7 @@ Mode: PAPER_ONLY
 - Rust offline provider adapter request/response contracts with local fixture validation.
 - Rust offline provider normalization preview rows for odds, fixture-result, and event-context candidates.
 - Rust source-terminal report combining adapter health, normalized preview counts, readiness badges, blockers, and locked desktop actions.
+- Tauri desktop source view for loading and rendering the source-terminal report.
 - Tauri desktop shell with command bridge to allowlisted Rust CLIs and local offline workflows.
 
 ## Provider / storage chain
@@ -78,29 +79,30 @@ v234 provider runtime contracts
 → v254 offline adapter contracts
 → v255 provider normalization preview
 → v256 source terminal report
+→ v257 desktop source view
 ```
 
-## Source terminal report
+## Desktop source view
 
-The v256 direction combines provider-side beta pieces into one desktop-facing source terminal report.
+The v257 direction wires the source-terminal report into the Tauri desktop UI.
 
-Inputs:
+Added desktop pieces:
 
 ```text
-omnibet.provider_adapter_validation_report.v254
-omnibet.provider_normalization_preview_bundle.v255
+Tauri command: load_source_terminal_report
+Frontend API: loadSourceTerminalReport
+Renderer: tauri-app/src/source_terminal.js
+Bundled sample: tauri-app/src/source-terminal.sample.json
+Page: source-terminal
 ```
 
-Report contents:
+Desktop panels:
 
 ```text
-adapter count
-adapter OK count
-normalized total rows
-normalized row counts by type
-readiness badges
-blocker summary
-locked desktop actions
+source-terminal-summary
+source-terminal-readiness
+source-terminal-actions
+source-terminal-blockers
 ```
 
 Expected sample status:
@@ -112,28 +114,9 @@ normalized total rows: 5
 odds snapshot candidates: 3
 fixture result candidates: 1
 event context candidates: 1
-source terminal visible: true
 ```
 
-Allowed desktop actions:
-
-```text
-inspect adapters
-inspect rows
-export report
-```
-
-Locked desktop actions:
-
-```text
-live provider calls
-bronze write
-model evaluation
-model training
-real-money execution
-```
-
-This makes the source panel useful for inspection while keeping downstream use locked.
+The page is read-only and paper-only. It shows local report status and bundled sample data for inspection.
 
 ## Actual beta direction
 
@@ -159,20 +142,12 @@ Python/smoke checks:
 
 ```bash
 python python_lab/compile_python_sources.py
-python python_lab/provider_runtime_smoke.py --root . --out reports/local_v234_provider_runtime.json
-python python_lab/provider_offline_samples_smoke.py --root . --out reports/local_v235_provider_offline_samples.json
-python python_lab/bronze_snapshot_cache_smoke.py --root . --out reports/local_v236_bronze_snapshot_cache_static.json
-python python_lab/provider_data_beta_smoke.py --root . --out reports/local_v253_provider_data_beta.json
-python python_lab/provider_adapter_contracts_smoke.py --root . --out reports/local_v254_provider_adapter_contracts.json
-python python_lab/provider_normalization_preview_smoke.py --root . --out reports/local_v255_provider_normalization_preview.json
 python python_lab/source_terminal_report_smoke.py --root . --out reports/local_v256_source_terminal_report.json
+python python_lab/source_terminal_desktop_smoke.py --root . --out reports/local_v257_source_terminal_desktop.json
 ```
 
 Rust checks:
 
 ```bash
-cargo test --manifest-path rust-core/Cargo.toml provider_beta_v253
-cargo test --manifest-path rust-core/Cargo.toml provider_adapter_v254
-cargo test --manifest-path rust-core/Cargo.toml provider_normalize_v255
 cargo test --manifest-path rust-core/Cargo.toml source_terminal_v256
 ```

@@ -1,0 +1,26 @@
+{
+  "schema": "omnibet.source_terminal_desktop_sample.v257",
+  "report_id": "v257_bundled_source_terminal_sample",
+  "created_at": "2026-06-21T00:00:00Z",
+  "paper_only": true,
+  "quarantine_only": true,
+  "source_terminal_visible": true,
+  "adapter_count": 2,
+  "adapter_ok_count": 2,
+  "normalized_total_rows": 5,
+  "normalized_row_counts": {
+    "odds_snapshot_candidate": 3,
+    "fixture_result_candidate": 1,
+    "event_context_candidate": 1
+  },
+  "readiness": {
+    "adapter_health_ok": true,
+    "normalization_preview_ok": true,
+    "ready_for_source_panel": true,
+    "ready_for_downstream_use": false,
+    "reason": "offline_source_terminal_preview_ready_but_quarantined"
+  },
+  "allowed_ui_actions": ["inspect_adapters", "inspect_rows", "export_report"],
+  "locked_ui_actions": ["provider_call", "bronze_write", "evaluation_run", "model_fit", "external_execution"],
+  "blocker_summary": []
+}
