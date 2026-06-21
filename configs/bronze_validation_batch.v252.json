@@ -1,0 +1,42 @@
+{
+  "schema": "omnibet.bronze_validation_batch_contract.v252",
+  "goal": "batch_value_type_validation_review_reasons_and_candidate_readiness_for_quarantined_bronze_preview_rows",
+  "input_schema": "omnibet.bronze_preview_field_schema_bundle.v251",
+  "planned_outputs": [
+    "omnibet.bronze_preview_value_validation_bundle.v252",
+    "omnibet.bronze_preview_review_reason_bundle.v252",
+    "omnibet.bronze_candidate_readiness_summary.v252"
+  ],
+  "batch_scope": {
+    "value_type_validation": true,
+    "field_schema_review_reason_normalization": true,
+    "candidate_readiness_summary": true,
+    "desktop_surface_contract": true
+  },
+  "checks": {
+    "odds_price_decimal_parse_required": true,
+    "snapshot_timestamp_shape_required": true,
+    "kickoff_timestamp_shape_required": true,
+    "fixture_id_non_empty_required": true,
+    "provider_id_non_empty_required": true,
+    "market_key_non_empty_required": true,
+    "selection_key_non_empty_required": true,
+    "review_required_for_unknown_or_invalid_rows": true
+  },
+  "safety": {
+    "quarantine_only": true,
+    "import_allowed_now": false,
+    "promotion_allowed": false,
+    "evaluation_allowed": false,
+    "training_dataset_promotion_allowed": false,
+    "paper_only": true
+  },
+  "acceptance": {
+    "rust_value_validator_added": true,
+    "review_reason_summary_added": true,
+    "candidate_readiness_summary_added": true,
+    "desktop_contract_added": true,
+    "python_smoke_added": true,
+    "ci_workflow_added": true
+  }
+}
