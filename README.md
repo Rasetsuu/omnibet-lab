@@ -2,7 +2,7 @@
 
 Local-first football prediction and evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, **v248 local historical source verification**, **v249 bronze candidate preview**, **v250 bronze preview classification**, **v251 bronze preview field-schema checks**, **v252 bronze validation batch**, **v253 provider/data beta slice**, **v254 offline adapter contracts**, **v255 provider normalization preview**, **v256 source terminal report**, and **v257 desktop source view**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, **v248 local historical source verification**, **v249 bronze candidate preview**, **v250 bronze preview classification**, **v251 bronze preview field-schema checks**, **v252 bronze validation batch**, **v253 provider/data beta slice**, **v254 offline adapter contracts**, **v255 provider normalization preview**, **v256 source terminal report**, **v257 desktop source view**, and **v258 source report generation**.
 
 OmniBet is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -52,6 +52,7 @@ Mode: PAPER_ONLY
 - Rust source-terminal report combining adapter health, normalized preview counts, readiness badges, blockers, and locked desktop actions.
 - Tauri desktop source view for loading and rendering the source-terminal report.
 - Tauri desktop workflow for generating the local source-terminal report file.
+- Tauri desktop source view button flow for generating and refreshing the local source report.
 - Tauri desktop shell with command bridge to allowlisted Rust CLIs and local offline workflows.
 
 ## Provider / storage chain
@@ -82,11 +83,12 @@ v234 provider runtime contracts
 → v256 source terminal report
 → v257 desktop source view
 → v258 source report generation
+→ v259 source generate-refresh flow
 ```
 
-## Source report generation
+## Source generate-refresh flow
 
-The v258 direction adds a local generator for the desktop source view.
+The v259 direction lets the desktop source view generate and refresh its local report.
 
 Workflow id:
 
@@ -94,32 +96,29 @@ Workflow id:
 generate_source_terminal_report
 ```
 
-Generator:
+Frontend helper:
 
 ```text
-python_lab/source_terminal_generate.py
+generateAndRenderSourceTerminal
 ```
 
-Generated file:
+Buttons:
 
 ```text
-.omnibet-local/reports/local_v256_source_terminal_report.json
+generate-source-terminal-report
+generate-source-terminal-report-topbar
 ```
 
-The v257 desktop loader checks that file before falling back to the bundled sample.
-
-Expected generated status:
+Flow:
 
 ```text
-adapter count: 2
-adapter OK count: 2
-normalized total rows: 5
-odds snapshot candidates: 3
-fixture result candidates: 1
-event context candidates: 1
+click Generate source report
+run the allowlisted local workflow
+write .omnibet-local/reports/local_v256_source_terminal_report.json
+reload the source view
 ```
 
-The workflow is local-only and paper-only. It reads bundled offline fixtures and writes a report for inspection.
+The flow is local-only and paper-only. It writes a report for inspection and then refreshes the desktop source view.
 
 ## Actual beta direction
 
@@ -147,6 +146,7 @@ Python/smoke checks:
 python python_lab/compile_python_sources.py
 python python_lab/source_terminal_generate.py --root . --out reports/local_v258_generated_source_terminal_report.json
 python python_lab/source_terminal_generation_smoke.py --root . --out reports/local_v258_source_terminal_generation.json
+python python_lab/source_generate_refresh_smoke.py --root . --out reports/local_v259_source_generate_refresh.json
 ```
 
 Rust checks:
