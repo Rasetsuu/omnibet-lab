@@ -1,0 +1,36 @@
+name: OmniBet v243 Silver Fact Preview Bundle
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  silver-fact-preview-bundle:
+    name: v243 silver fact preview bundle
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Run silver fact preview bundle smoke
+        run: |
+          mkdir -p reports
+          python python_lab/silver_fact_preview_bundle_smoke.py --root . --out reports/ci_v243_silver_fact_preview_bundle.json
+      - name: Rust silver fact preview tests
+        run: cargo test --manifest-path rust-core/Cargo.toml silver_fact_v243
+      - name: Upload silver fact preview report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v243-silver-fact-preview-bundle-report
+          path: reports/ci_v243_silver_fact_preview_bundle.json
+          if-no-files-found: warn

@@ -1,0 +1,32 @@
+{
+  "schema": "omnibet.silver_fact_preview_bundle_contract.v243",
+  "goal": "build_tiny_offline_silver_fact_preview_bundle_after_review_queue_is_clean",
+  "input_requirements": {
+    "silver_ready_input_required": true,
+    "clean_review_queue_required": true,
+    "market_review_patch_allowed_only_for_offline_sample": true,
+    "training_dataset_promotion_allowed": false
+  },
+  "expected_offline_bundle": {
+    "market_fact_rows": 7,
+    "identity_link_rows": 15,
+    "total_rows": 22,
+    "review_rows_at_build_time": 0,
+    "preview_only": true,
+    "training_dataset_promotion_allowed": false,
+    "includes_patched_sample_market": true
+  },
+  "row_kinds": [
+    "market_mapping_fact_preview",
+    "identity_link_fact_preview"
+  ],
+  "acceptance": {
+    "rust_silver_fact_bundle_added": true,
+    "dirty_review_queue_refused": true,
+    "clean_review_queue_builds_bundle": true,
+    "patched_sample_market_included": true,
+    "training_promotion_forbidden": true,
+    "python_smoke_added": true,
+    "ci_workflow_added": true
+  }
+}
