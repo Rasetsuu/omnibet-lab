@@ -33,6 +33,7 @@
     {
       "provider_id": "source_a",
       "enabled": false,
+      "api_key_env": "SOURCE_A_TOKEN",
       "credential_name": "SOURCE_A_TOKEN",
       "key_status_only": "status_only_missing_in_sample",
       "live_calls_in_ci": false
@@ -40,6 +41,7 @@
     {
       "provider_id": "source_b",
       "enabled": false,
+      "api_key_env": "SOURCE_B_TOKEN",
       "credential_name": "SOURCE_B_TOKEN",
       "key_status_only": "status_only_missing_in_sample",
       "live_calls_in_ci": false
@@ -50,6 +52,7 @@
       "source_id": "source_a",
       "label": "Market source sample",
       "enabled": false,
+      "credential_env": "SOURCE_A_TOKEN",
       "credential_name": "SOURCE_A_TOKEN",
       "credential_status_only": "missing",
       "manual_action_only": true,
@@ -59,6 +62,7 @@
       "source_id": "source_b",
       "label": "Match-state source sample",
       "enabled": false,
+      "credential_env": "SOURCE_B_TOKEN",
       "credential_name": "SOURCE_B_TOKEN",
       "credential_status_only": "missing",
       "manual_action_only": true,
@@ -124,6 +128,7 @@
   },
   "safety": {
     "paper_only": true,
+    "no_api_key_values": true,
     "no_credential_values": true,
     "no_network": true,
     "no_recommendation_output": true,
