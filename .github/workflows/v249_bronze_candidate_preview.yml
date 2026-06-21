@@ -1,0 +1,36 @@
+name: OmniBet v249 Bronze Candidate Preview
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  bronze-candidate-preview:
+    name: v249 bronze candidate preview
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Run bronze candidate preview smoke
+        run: |
+          mkdir -p reports
+          python python_lab/bronze_candidate_preview_smoke.py --root . --out reports/ci_v249_bronze_candidate_preview.json
+      - name: Rust bronze candidate preview tests
+        run: cargo test --manifest-path rust-core/Cargo.toml bronze_candidate_v249
+      - name: Upload v249 report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v249-bronze-candidate-preview-report
+          path: reports/ci_v249_bronze_candidate_preview.json
+          if-no-files-found: warn

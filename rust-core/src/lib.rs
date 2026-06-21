@@ -1,4 +1,5 @@
 pub mod bronze_cache;
+pub mod bronze_candidate_v249;
 pub mod competition_eval;
 pub mod competition_report;
 pub mod gold_model;
@@ -26,6 +27,7 @@ pub mod storage_v2;
 pub mod typed_rows;
 
 pub use bronze_cache::*;
+pub use bronze_candidate_v249::*;
 pub use competition_eval::*;
 pub use competition_report::*;
 pub use gold_model::*;

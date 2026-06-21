@@ -1,0 +1,34 @@
+{
+  "schema": "omnibet.bronze_candidate_preview_contract.v249",
+  "goal": "build_quarantined_preview_rows_from_verified_local_historical_sources",
+  "input_manifest_schema": "omnibet.historical_source_file_manifest.v247",
+  "input_verification_schema": "omnibet.historical_source_verification_report.v248",
+  "output_schema": "omnibet.bronze_candidate_preview_bundle.v249",
+  "offline_only": true,
+  "network_calls_allowed": false,
+  "quarantine_only": true,
+  "import_allowed_now": false,
+  "promotion_allowed": false,
+  "evaluation_allowed": false,
+  "training_dataset_promotion_allowed": false,
+  "row_fields_required": {
+    "row_id": true,
+    "task_id": true,
+    "source_id": true,
+    "source_kind": true,
+    "relative_path": true,
+    "row_number": true,
+    "raw_line_sha256": true,
+    "quarantine_only": true,
+    "training_dataset_promotion_allowed": false
+  },
+  "acceptance": {
+    "rust_preview_builder_added": true,
+    "verified_sources_required": true,
+    "verification_failure_blocks_preview_rows": true,
+    "row_hashes_added": true,
+    "quarantine_flags_added": true,
+    "python_smoke_added": true,
+    "ci_workflow_added": true
+  }
+}
