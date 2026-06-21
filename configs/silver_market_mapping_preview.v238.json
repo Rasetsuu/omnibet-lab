@@ -1,0 +1,53 @@
+{
+  "schema": "omnibet.silver_market_mapping_preview_contract.v238",
+  "goal": "preview_safe_bronze_market_discovery_promotion_into_silver_market_mapping_rows",
+  "input_layers": ["bronze_market_discovery", "market_registry_v237"],
+  "output_schema": "omnibet.silver_market_mapping_preview.v238",
+  "promotion_policy": {
+    "preview_only": true,
+    "automatic_unknown_market_promotion_allowed": false,
+    "resolved_rows_require_canonical_market_id": true,
+    "resolved_rows_require_settlement_rule": true,
+    "review_rows_are_not_promoted": true,
+    "player_markets_remain_lineup_gated": true
+  },
+  "expected_offline_preview": {
+    "bronze_market_rows": 8,
+    "unique_market_groups": 7,
+    "resolved_market_groups": 6,
+    "review_market_groups": 1,
+    "blocked_promotions": 1,
+    "review_market_key": "special_combo_unknown"
+  },
+  "resolved_outputs": [
+    "provider_id",
+    "provider_market_key",
+    "canonical_market_id",
+    "family",
+    "settlement_rule",
+    "line_required",
+    "player_required",
+    "lineup_required",
+    "source_event_id_count",
+    "bookmaker_count",
+    "outcome_rows"
+  ],
+  "review_outputs": [
+    "provider_id",
+    "provider_market_key",
+    "reason",
+    "source_event_id_count",
+    "bookmaker_count",
+    "outcome_rows",
+    "promotion_allowed"
+  ],
+  "acceptance": {
+    "rust_preview_builder_added": true,
+    "known_markets_promoted_to_preview_only": true,
+    "unknown_markets_not_promoted": true,
+    "review_queue_preserved": true,
+    "player_market_lineup_gate_preserved": true,
+    "python_smoke_added": true,
+    "ci_workflow_added": true
+  }
+}
