@@ -1,0 +1,32 @@
+{
+  "schema": "omnibet.review_queue_report_contract.v241",
+  "goal": "surface_unresolved_market_and_identity_rows_as_human_review_artifacts",
+  "input_preview": "omnibet.silver_promotion_preview.v240",
+  "output_schema": "omnibet.review_queue_report.v241",
+  "review_policy": {
+    "auto_approval_allowed": false,
+    "market_review_requires_settlement_rule": true,
+    "market_review_requires_canonical_market_id": true,
+    "market_review_requires_correlation_group": true,
+    "identity_review_requires_canonical_id": true,
+    "review_rows_block_silver_ready": true
+  },
+  "expected_offline_report": {
+    "total_review_rows": 1,
+    "market_review_rows": 1,
+    "identity_review_rows": 0,
+    "review_required": true,
+    "silver_ready_after_review": false,
+    "blocked_provider_key": "special_combo_unknown",
+    "blocked_kind": "market_mapping"
+  },
+  "acceptance": {
+    "rust_review_report_added": true,
+    "market_review_row_contains_required_fields": true,
+    "identity_review_path_exists": true,
+    "auto_approval_forbidden": true,
+    "review_rows_block_silver_ready": true,
+    "python_smoke_added": true,
+    "ci_workflow_added": true
+  }
+}
