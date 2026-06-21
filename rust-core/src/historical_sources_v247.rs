@@ -157,7 +157,10 @@ pub fn validate_historical_source_file_contract_text(
 }
 
 fn is_hex_sha256(value: &str) -> bool {
-    value.len() == 64 && value.chars().all(|ch| ch.is_ascii_hexdigit())
+    value.len() == 64
+        && value
+            .chars()
+            .all(|ch| matches!(ch, '0'..='9' | 'a'..='f' | 'A'..='F'))
 }
 
 #[cfg(test)]
