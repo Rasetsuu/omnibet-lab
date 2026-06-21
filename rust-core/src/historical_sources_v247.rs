@@ -92,9 +92,12 @@ pub fn validate_historical_source_files_against_plan(
         if !seen_tasks.insert(file.task_id.clone()) {
             errors.push(format!("duplicate source file task id: {}", file.task_id));
         }
-        let Some(task) = expected_tasks.get(&file.task_id) else {
-            errors.push(format!("source file task not present in plan: {}", file.task_id));
-            continue;
+        let task = match expected_tasks.get(&file.task_id) {
+            Some(task) => task,
+            None => {
+                errors.push(format!("source file task not present in plan: {}", file.task_id));
+                continue;
+            }
         };
         if file.window_id != task.window_id || file.source_id != task.source_id || file.source_kind != task.source_kind {
             errors.push(format!("source file task metadata mismatch: {}", file.task_id));
