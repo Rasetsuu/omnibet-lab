@@ -1,10 +1,10 @@
 # OmniBet Lab
 
-Local-first football prediction and betting-evaluation research lab.
+Local-first football prediction and evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, and **v244 silver preview cache**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, and **v245 historical import contracts**.
 
-OmniBet is not a tipster bot. It is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
+OmniBet is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
 ```text
 raw/source samples
@@ -17,8 +17,7 @@ raw/source samples
 → Rust runtime CLIs
 → Tauri desktop UI
 → downloadable Windows/Linux beta artifacts
-→ GitHub Releases desktop beta assets
-→ final market-terminal/bilet-builder GUI
+→ final market-terminal GUI
 ```
 
 ## Status
@@ -27,8 +26,8 @@ raw/source samples
 Desktop/release infrastructure: beta, actively stabilizing
 Rust runtime: real but still early
 Python research layer: broad, still too large, planned migration target
-Prediction accuracy: not proven for real betting
-Betting mode: PAPER_ONLY
+Prediction accuracy: not proven
+Mode: PAPER_ONLY
 ```
 
 ## What works now
@@ -38,16 +37,10 @@ Betting mode: PAPER_ONLY
 - Rust offline provider sample parsers for The Odds API-style odds/markets and API-Football-style fixtures/live state.
 - Rust bronze snapshot cache writer/verifier for materializing provider parser outputs into JSONL.GZ tables.
 - Rust canonical market registry for safe provider alias resolution before bronze-to-silver promotion.
-- Rust silver market mapping preview for resolved market rows and blocked review rows.
-- Rust fixture/team/player identity preview for safe provider entity resolution before silver fact promotion.
-- Rust combined silver promotion preview gate for market + identity readiness.
-- Rust review queue report for unresolved market/entity rows.
-- Rust sample-only market review patch path that clears the demo queue only with full required fields.
-- Rust silver fact preview bundle for clean offline sample rows, still not training data.
-- Rust silver preview cache writer/verifier for persisted JSONL.GZ silver-preview rows.
-- Rust historical import contract validation for point-in-time future-leakage gates.
+- Rust identity, market, silver-readiness, review-queue, and silver-preview cache gates.
+- Rust historical import contract validation for point-in-time leakage gates.
+- Rust historical import plan preview for offline source/window task planning.
 - Tauri desktop shell with command bridge to allowlisted Rust CLIs and local offline workflows.
-- Manual Windows/Linux GitHub Actions desktop build workflow.
 
 ## Provider / storage chain
 
@@ -64,49 +57,48 @@ v234 provider runtime contracts
 → v243 silver fact preview bundle
 → v244 silver preview cache
 → v245 historical import contracts
+→ v246 historical import plan preview
 ```
 
-## Historical import contracts
+## Historical import plan
 
-The v245 direction starts the transition from tiny offline samples to larger historical datasets.
+The v246 direction turns the v245 contract into a concrete offline task plan.
 
-It does not fetch production data yet. It defines gates historical imports must pass before they become bronze candidates.
-
-Required source classes:
+Expected plan:
 
 ```text
-fixture/results source
-odds snapshot source
-lineup/event context source
+windows: 2
+required source classes: 3
+total tasks: 6
+network calls allowed: false
+paper only: true
+import allowed now: false
 ```
 
-Required leakage guards:
+Each task includes:
 
 ```text
-fixture start time required
-odds snapshot time required
-source snapshot time required
-feature cutoff precedes fixture start
-labels do not exist before settlement
-closing odds kept separate from opening features
-future team form forbidden
-future lineup info forbidden
-mutable provider rows versioned
+window id
+source id
+source kind
+competition id
+season
+start/end dates
+snapshot cutoff UTC
+point-in-time timestamp requirement
+identity mapping requirement
+market mapping requirement for odds
+credential persistence rule
+required next artifact
 ```
 
-Settlement policy:
+Next required artifact:
 
 ```text
-settlement lag: at least 24 hours
-result source required
-postponed/abandoned matches voided
-market-specific settlement rules required
-labels generated only after settlement
+offline_file_manifest_with_sha256_and_row_count
 ```
 
 ## Bigger-picture plan
-
-The project is moving through these layers:
 
 ```text
 1. Desktop/runtime stability
@@ -119,10 +111,9 @@ The project is moving through these layers:
 8. Walk-forward evaluation and calibration
 9. Odds/no-vig/CLV/paper ledger
 10. Market-terminal GUI and bilet builder
-11. Only after proof: consider real-money trust gates
 ```
 
-We are now entering layer 6.
+We are now in layer 6.
 
 ## Final GUI target
 
@@ -143,8 +134,6 @@ source health
 model lab
 ```
 
-Every market must show model trust, required data coverage, fair odds, bookmaker odds when available, and correlation/contradiction warnings for same-game tickets.
-
 ## Local tests
 
 Python/smoke checks:
@@ -164,6 +153,7 @@ python python_lab/market_review_patch_smoke.py --root . --out reports/local_v242
 python python_lab/silver_fact_preview_bundle_smoke.py --root . --out reports/local_v243_silver_fact_preview_bundle.json
 python python_lab/silver_preview_cache_smoke.py --root . --out reports/local_v244_silver_preview_cache.json
 python python_lab/historical_import_contract_smoke.py --root . --out reports/local_v245_historical_import_contract.json
+python python_lab/historical_import_plan_smoke.py --root . --out reports/local_v246_historical_import_plan.json
 ```
 
 Rust checks:
@@ -179,23 +169,16 @@ cargo test --manifest-path rust-core/Cargo.toml market_patch_v242
 cargo test --manifest-path rust-core/Cargo.toml silver_fact_v243
 cargo test --manifest-path rust-core/Cargo.toml silver_cache_v244
 cargo test --manifest-path rust-core/Cargo.toml historical_import_v245
-cargo run --manifest-path rust-core/Cargo.toml --bin omnibet-bronze-cache -- \
-  --out build/bronze_cache/v236_offline_samples
+cargo test --manifest-path rust-core/Cargo.toml historical_plan_v246
 ```
 
 ## Accuracy roadmap
 
-The next accuracy work is not “make a prettier probability.” It is:
+The next accuracy work is:
 
 1. Import larger historical datasets with strict point-in-time boundaries.
 2. Expand league-specific train/test coverage.
 3. Compare baseline Poisson, gold-feature heuristic, and trained models on the same walk-forward windows.
-4. Track log loss, Brier score, calibration, ROI-paper, CLV, and no-vig bookmaker baseline deltas.
+4. Track log loss, Brier score, calibration, paper ROI, CLV, and no-vig baseline deltas.
 5. Add event/xG/lineup/rest/travel/context features only when they are timestamp-safe.
 6. Keep every candidate strategy paper-only until it survives enough history and market comparison.
-
-## Betting honesty
-
-OmniBet outputs are **PAPER_ONLY** until proven otherwise.
-
-No milestone should claim profit or staking confidence without large historical imports, no-future-leak walk-forward validation, calibration metrics, no-vig bookmaker baseline comparison, CLV validation at scale, market-specific settlement rules, and player/lineup/injury/fatigue/event context.
