@@ -1,0 +1,25 @@
+{
+  "schema": "omnibet.bronze_preview_classification_contract.v250",
+  "goal": "classify_quarantined_bronze_candidate_preview_rows_before_any_import_or_promotion",
+  "input_schema": "omnibet.bronze_candidate_preview_bundle.v249",
+  "output_schema": "omnibet.bronze_preview_classification_bundle.v250",
+  "quarantine_only": true,
+  "import_allowed_now": false,
+  "promotion_allowed": false,
+  "evaluation_allowed": false,
+  "training_dataset_promotion_allowed": false,
+  "source_kind_classes": {
+    "fixtures_results": "fixture_result",
+    "odds": "odds_snapshot",
+    "lineups_events": "lineup_event_context"
+  },
+  "unknown_source_kind_policy": "review_required",
+  "acceptance": {
+    "rust_classifier_added": true,
+    "known_source_kinds_classified": true,
+    "unknown_source_kinds_review_required": true,
+    "quarantine_flags_preserved": true,
+    "python_smoke_added": true,
+    "ci_workflow_added": true
+  }
+}
