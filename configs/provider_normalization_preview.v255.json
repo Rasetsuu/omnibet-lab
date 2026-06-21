@@ -1,0 +1,45 @@
+{
+  "schema": "omnibet.provider_normalization_preview_contract.v255",
+  "contract_id": "v255_offline_provider_normalization_preview",
+  "goal": "normalize_offline_priority_provider_fixtures_into_quarantined_preview_rows",
+  "input_contract_schema": "omnibet.provider_adapter_contracts.v254",
+  "input_fixtures": [
+    "data/provider_fixtures/v254/odds_provider_snapshot.sample.json",
+    "data/provider_fixtures/v254/football_fixture_event.sample.json"
+  ],
+  "output_schema": "omnibet.provider_normalization_preview_bundle.v255",
+  "paper_only": true,
+  "network_calls_allowed_in_ci": false,
+  "credentials_stored_in_repo": false,
+  "live_fetch_enabled": false,
+  "quarantine_only": true,
+  "promotion_allowed": false,
+  "evaluation_allowed": false,
+  "training_dataset_promotion_allowed": false,
+  "normalized_row_types": {
+    "odds_snapshot_candidate": ["fixture_id", "provider_id", "bookmaker_id", "market_key", "selection_key", "price_decimal", "snapshot_utc"],
+    "fixture_result_candidate": ["fixture_id", "provider_id", "home_team_id", "away_team_id", "kickoff_utc", "home_goals", "away_goals", "result_status"],
+    "event_context_candidate": ["fixture_id", "provider_id", "team_id", "player_id", "event_type", "elapsed_minute", "observed_at_utc"]
+  },
+  "desktop_surface": {
+    "show_normalized_preview_counts": true,
+    "show_provider_row_samples": true,
+    "show_row_type_filters": true,
+    "show_quarantine_banner": true,
+    "allow_export_preview": true,
+    "allow_promote_to_bronze": false,
+    "allow_run_evaluation": false,
+    "allow_train_model": false
+  },
+  "acceptance": {
+    "rust_normalizer_added": true,
+    "odds_snapshot_candidates_added": true,
+    "fixture_result_candidates_added": true,
+    "event_context_candidates_added": true,
+    "desktop_preview_contract_added": true,
+    "python_smoke_added": true,
+    "ci_workflow_added": true,
+    "no_ci_network_calls": true,
+    "no_credentials_in_repo": true
+  }
+}
