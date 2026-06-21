@@ -2,7 +2,7 @@
 
 Local-first football prediction and betting-evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, and **v239 identity mapping preview**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, and **v240 silver promotion preview**.
 
 OmniBet is not a tipster bot. It is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -33,18 +33,6 @@ Betting mode: PAPER_ONLY
 
 Do not treat any output as a betting recommendation. No milestone should claim profit, staking confidence, or real edge without large out-of-sample validation, calibration, no-vig bookmaker baselines, and CLV evidence.
 
-## Repository layout
-
-- `rust-core/` — Rust runtime library and CLIs: `omnibet-pack`, `omnibet-infer`, `omnibet-value`, `omnibet-model`, `omnibet-bronze-cache`.
-- `tauri-app/` — Tauri desktop shell and command bridge.
-- `python_lab/` — research/backfill/smoke layer. This is intentionally being reduced over time as stable pieces migrate to Rust.
-- `data_packs/` — tiny compressed CI/runtime packs.
-- `data/` — deterministic samples only, not production-scale data.
-- `configs/` — milestone and workflow contracts.
-- `docs/` — architecture, milestone notes, migration plans, and release notes.
-- `tools/` — local/CI helpers and diagnostics.
-- `cpp-core/` — early portability experiment, not the main runtime.
-
 ## What works now
 
 - Offline deterministic data samples and compressed JSONL.GZ data packs.
@@ -57,22 +45,10 @@ Do not treat any output as a betting recommendation. No milestone should claim p
 - Rust silver market mapping preview for resolved market rows and blocked review rows.
 - Rust fixture/team/player identity preview for safe provider entity resolution before silver fact promotion.
 - Rust combined silver promotion preview gate for market + identity readiness.
-- Python smoke pipeline for adapters, warehouse contracts, feature snapshots, walk-forward checks, dashboards, review queues, source-cache promotion, and beta workflows.
+- Rust review queue report for unresolved market/entity rows.
 - Tauri desktop shell with command bridge to allowlisted Rust CLIs and local offline workflows.
 - Manual Windows/Linux GitHub Actions desktop build workflow.
-- Portable desktop artifact staging with the Rust runtime CLIs bundled beside the app.
-- Desktop diagnostics workflow that has passed on Linux and Windows in the v7 diagnostics path.
-- Temporary PR validation has proven Windows/Linux downloadable desktop artifacts can be built and uploaded by GitHub Actions.
 - Final GUI market-terminal target is documented as a bilet-builder quality Windows/Linux app, not a dashboard-only predictor.
-
-## What is not done yet
-
-- Model edge is not proven.
-- Real provider/live-source ingestion is not production-ready.
-- GUI needs human review and polish.
-- Python-to-Rust migration is incomplete.
-- Release artifacts are beta downloads, not signed production installers.
-- The app remains local/offline-first and paper-only.
 
 ## Provider / storage chain
 
@@ -84,9 +60,48 @@ v234 provider runtime contracts
 → v238 silver market mapping preview
 → v239 identity mapping preview
 → v240 combined silver promotion preview
+→ v241 review queue report
 ```
 
-The current v240 result is intentionally not silver-ready because `special_combo_unknown` remains unresolved in the market review queue.
+The current sample is intentionally not silver-ready because `special_combo_unknown` remains unresolved in the market review queue.
+
+## Review queue report
+
+The v241 direction turns silver-promotion blockers into explicit human-review rows.
+
+Expected offline report:
+
+```text
+total review rows: 1
+market review rows: 1
+identity review rows: 0
+review required: true
+silver ready after review: false
+blocked provider key: special_combo_unknown
+blocked kind: market_mapping
+```
+
+A market review row must require:
+
+```text
+canonical_market_id
+market_family
+settlement_rule
+selection_scope
+line_required
+player_required
+lineup_required
+correlation_group
+```
+
+Safety policy:
+
+```text
+auto approval is forbidden
+review rows block silver readiness
+promotion before review is forbidden
+training dataset promotion is forbidden
+```
 
 ## Silver promotion preview
 
@@ -104,16 +119,6 @@ blocked market: special_combo_unknown
 ```
 
 This means all fixture/team/player identities resolve, but silver readiness is still blocked because one provider market has no approved canonical alias and settlement rule.
-
-Safety policy:
-
-```text
-preview only
-market mapping must be fully resolved
-identity mapping must be fully resolved
-review rows are not promoted
-training dataset promotion is forbidden
-```
 
 ## Final GUI target
 
@@ -150,6 +155,7 @@ python python_lab/market_registry_smoke.py --root . --out reports/local_v237_mar
 python python_lab/silver_market_mapping_preview_smoke.py --root . --out reports/local_v238_silver_market_mapping_preview.json
 python python_lab/identity_mapping_preview_smoke.py --root . --out reports/local_v239_identity_mapping_preview.json
 python python_lab/silver_promotion_preview_smoke.py --root . --out reports/local_v240_silver_promotion_preview.json
+python python_lab/review_queue_report_smoke.py --root . --out reports/local_v241_review_queue_report.json
 ```
 
 Rust checks:
@@ -160,18 +166,9 @@ cargo test --manifest-path rust-core/Cargo.toml market_registry
 cargo test --manifest-path rust-core/Cargo.toml silver_market
 cargo test --manifest-path rust-core/Cargo.toml idmap_v239
 cargo test --manifest-path rust-core/Cargo.toml silver_promote_v240
+cargo test --manifest-path rust-core/Cargo.toml review_queue_v241
 cargo run --manifest-path rust-core/Cargo.toml --bin omnibet-bronze-cache -- \
   --out build/bronze_cache/v236_offline_samples
-```
-
-Tauri/Rust checks require Rust, Node, and platform desktop dependencies:
-
-```bash
-cargo test --manifest-path rust-core/Cargo.toml
-cargo test --manifest-path tauri-app/src-tauri/Cargo.toml
-cd tauri-app
-npm install --foreground-scripts --loglevel warn
-npm run build
 ```
 
 ## Accuracy roadmap
@@ -196,8 +193,6 @@ Stable pieces should move from `python_lab/` to `rust-core/` in phases:
 5. Odds normalization, no-vig baseline, CLV, and paper ledger.
 6. Provider/cache contracts once the schema is stable.
 7. Desktop command workflows currently shelling out to Python.
-
-Python should remain for fast experiments, notebooks, one-off data exploration, and provider prototypes until their contracts are stable.
 
 ## Betting honesty
 
