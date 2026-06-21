@@ -2,7 +2,7 @@
 
 Local-first football prediction and betting-evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, and **v240 silver promotion preview**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, and **v241 review queue report**.
 
 OmniBet is not a tipster bot. It is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -31,13 +31,9 @@ Prediction accuracy: not proven for real betting
 Betting mode: PAPER_ONLY
 ```
 
-Do not treat any output as a betting recommendation. No milestone should claim profit, staking confidence, or real edge without large out-of-sample validation, calibration, no-vig bookmaker baselines, and CLV evidence.
-
 ## What works now
 
 - Offline deterministic data samples and compressed JSONL.GZ data packs.
-- Rust pack verification, typed readers, simple inference, odds/value reports, and model comparison commands.
-- Rust storage-v2 metadata contract for the big-data warehouse direction.
 - Rust provider metadata/status/snapshot contracts with credential-status-only reporting.
 - Rust offline provider sample parsers for The Odds API-style odds/markets and API-Football-style fixtures/live state.
 - Rust bronze snapshot cache writer/verifier for materializing provider parser outputs into JSONL.GZ tables.
@@ -46,9 +42,9 @@ Do not treat any output as a betting recommendation. No milestone should claim p
 - Rust fixture/team/player identity preview for safe provider entity resolution before silver fact promotion.
 - Rust combined silver promotion preview gate for market + identity readiness.
 - Rust review queue report for unresolved market/entity rows.
+- Rust sample-only market review patch path that clears the demo queue only with full required fields.
 - Tauri desktop shell with command bridge to allowlisted Rust CLIs and local offline workflows.
 - Manual Windows/Linux GitHub Actions desktop build workflow.
-- Final GUI market-terminal target is documented as a bilet-builder quality Windows/Linux app, not a dashboard-only predictor.
 
 ## Provider / storage chain
 
@@ -61,64 +57,51 @@ v234 provider runtime contracts
 → v239 identity mapping preview
 → v240 combined silver promotion preview
 → v241 review queue report
+→ v242 sample market review patch
 ```
 
-The current sample is intentionally not silver-ready because `special_combo_unknown` remains unresolved in the market review queue.
+## Market review patch
 
-## Review queue report
+The v242 direction demonstrates the safe path from blocked review row to clean preview.
 
-The v241 direction turns silver-promotion blockers into explicit human-review rows.
-
-Expected offline report:
+Target sample row:
 
 ```text
-total review rows: 1
-market review rows: 1
-identity review rows: 0
-review required: true
-silver ready after review: false
-blocked provider key: special_combo_unknown
-blocked kind: market_mapping
+provider: the_odds_api
+market key: special_combo_unknown
 ```
 
-A market review row must require:
+The patch is offline-sample-only and cannot be used for production or training promotion.
+
+Required fields:
 
 ```text
 canonical_market_id
-market_family
+family
 settlement_rule
 selection_scope
+correlation_group
 line_required
 player_required
 lineup_required
-correlation_group
+```
+
+Expected proof:
+
+```text
+unpatched: market review count = 1
+patched: market review count = 0
+patched: total review rows = 0
+patched: silver_ready = true
 ```
 
 Safety policy:
 
 ```text
-auto approval is forbidden
-review rows block silver readiness
-promotion before review is forbidden
+automatic application is forbidden
+production use is forbidden
 training dataset promotion is forbidden
 ```
-
-## Silver promotion preview
-
-The v240 direction combines market and identity readiness before any silver fact promotion.
-
-Expected offline preview:
-
-```text
-market review count: 1
-identity review count: 0
-blocked count: 1
-silver ready: false
-blocked reason: unresolved_market_mappings
-blocked market: special_combo_unknown
-```
-
-This means all fixture/team/player identities resolve, but silver readiness is still blocked because one provider market has no approved canonical alias and settlement rule.
 
 ## Final GUI target
 
@@ -156,6 +139,7 @@ python python_lab/silver_market_mapping_preview_smoke.py --root . --out reports/
 python python_lab/identity_mapping_preview_smoke.py --root . --out reports/local_v239_identity_mapping_preview.json
 python python_lab/silver_promotion_preview_smoke.py --root . --out reports/local_v240_silver_promotion_preview.json
 python python_lab/review_queue_report_smoke.py --root . --out reports/local_v241_review_queue_report.json
+python python_lab/market_review_patch_smoke.py --root . --out reports/local_v242_market_review_patch.json
 ```
 
 Rust checks:
@@ -167,6 +151,7 @@ cargo test --manifest-path rust-core/Cargo.toml silver_market
 cargo test --manifest-path rust-core/Cargo.toml idmap_v239
 cargo test --manifest-path rust-core/Cargo.toml silver_promote_v240
 cargo test --manifest-path rust-core/Cargo.toml review_queue_v241
+cargo test --manifest-path rust-core/Cargo.toml market_patch_v242
 cargo run --manifest-path rust-core/Cargo.toml --bin omnibet-bronze-cache -- \
   --out build/bronze_cache/v236_offline_samples
 ```
@@ -182,28 +167,8 @@ The next accuracy work is not “make a prettier probability.” It is:
 5. Add event/xG/lineup/rest/travel/context features only when they are timestamp-safe.
 6. Keep every candidate strategy paper-only until it survives enough history and market comparison.
 
-## Python → Rust migration roadmap
-
-Stable pieces should move from `python_lab/` to `rust-core/` in phases:
-
-1. CSV/JSON/JSONL ingestion and typed row validation.
-2. Data-pack creation, compression, hashing, and manifest verification.
-3. Feature snapshot generation and leakage guards.
-4. Walk-forward evaluation and calibration metrics.
-5. Odds normalization, no-vig baseline, CLV, and paper ledger.
-6. Provider/cache contracts once the schema is stable.
-7. Desktop command workflows currently shelling out to Python.
-
 ## Betting honesty
 
 OmniBet outputs are **PAPER_ONLY** until proven otherwise.
 
-No milestone should claim profit or staking confidence without:
-
-- large historical imports;
-- no-future-leak walk-forward validation;
-- calibration metrics: Brier/log loss/calibration curves;
-- no-vig bookmaker baseline comparison;
-- CLV validation at scale;
-- market-specific settlement rules;
-- player/lineup/injury/fatigue/event context.
+No milestone should claim profit or staking confidence without large historical imports, no-future-leak walk-forward validation, calibration metrics, no-vig bookmaker baseline comparison, CLV validation at scale, market-specific settlement rules, and player/lineup/injury/fatigue/event context.

@@ -1,0 +1,65 @@
+{
+  "schema": "omnibet.market_review_patch.v242",
+  "goal": "sample_only_review_patch_that_maps_the_demo_unmapped_market_with_full_required_fields",
+  "scope": "offline_sample_only",
+  "automatic_application_allowed": false,
+  "production_use_allowed": false,
+  "training_dataset_promotion_allowed": false,
+  "review_record": {
+    "review_id": "sample_review_special_combo_unknown_v242",
+    "reviewed_by": "sample_contract_v242",
+    "reviewed_at": "2026-06-20T00:00:00Z",
+    "reason": "demo_market_review_path_exercise_not_production_bookmaker_mapping"
+  },
+  "canonical_markets_to_add": [
+    {
+      "canonical_market_id": "sample_same_game_combo_france_win_player_shot_team_corners",
+      "family": "same_game_combo",
+      "display_name": "Sample Same-Game Combo: France Win + Player Shot + Team Corners",
+      "period": "full_time_regular",
+      "selection_scope": "compound_selection",
+      "line_required": false,
+      "player_required": true,
+      "lineup_required": true,
+      "settlement_rule": "sample_regular_time_france_win_player_shot_team_corners_combo",
+      "correlation_group": "same_game_combo_high_correlation"
+    }
+  ],
+  "provider_aliases_to_add": [
+    {
+      "provider_id": "the_odds_api",
+      "provider_market_key": "special_combo_unknown",
+      "canonical_market_id": "sample_same_game_combo_france_win_player_shot_team_corners",
+      "confidence": "manual_sample_review",
+      "review_required": false
+    }
+  ],
+  "expected_after_patch": {
+    "market_review_count": 0,
+    "identity_review_count": 0,
+    "total_review_rows": 0,
+    "silver_ready": true,
+    "resolved_market_groups": 7,
+    "review_market_groups": 0,
+    "blocked_promotions": 0
+  },
+  "safety_requirements": {
+    "canonical_market_id_required": true,
+    "family_required": true,
+    "settlement_rule_required": true,
+    "selection_scope_required": true,
+    "correlation_group_required": true,
+    "automatic_application_forbidden": true,
+    "production_use_forbidden": true,
+    "training_promotion_forbidden": true
+  },
+  "acceptance": {
+    "rust_patch_application_added": true,
+    "sample_unmapped_market_resolves_after_patch": true,
+    "review_queue_clears_after_patch": true,
+    "silver_ready_after_patch": true,
+    "automatic_application_still_forbidden": true,
+    "python_smoke_added": true,
+    "ci_workflow_added": true
+  }
+}

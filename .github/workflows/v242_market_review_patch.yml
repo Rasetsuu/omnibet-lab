@@ -1,0 +1,36 @@
+name: OmniBet v242 Market Review Patch
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  market-review-patch:
+    name: v242 market review patch
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Run market review patch smoke
+        run: |
+          mkdir -p reports
+          python python_lab/market_review_patch_smoke.py --root . --out reports/ci_v242_market_review_patch.json
+      - name: Rust market review patch tests
+        run: cargo test --manifest-path rust-core/Cargo.toml market_patch_v242
+      - name: Upload market review patch report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v242-market-review-patch-report
+          path: reports/ci_v242_market_review_patch.json
+          if-no-files-found: warn
