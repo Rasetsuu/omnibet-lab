@@ -1,0 +1,25 @@
+{
+  "response": [
+    {
+      "fixture": {
+        "id": 2026061601,
+        "date": "2026-06-16T19:00:00Z",
+        "status": {"short": "FT", "long": "Match Finished"}
+      },
+      "teams": {
+        "home": {"id": 40, "name": "Spain"},
+        "away": {"id": 2289, "name": "Cape Verde"}
+      },
+      "goals": {"home": 2, "away": 0},
+      "events": [
+        {
+          "time": {"elapsed": 31},
+          "team": {"id": 40, "name": "Spain"},
+          "player": {"id": 1001, "name": "Sample Player"},
+          "type": "Goal",
+          "detail": "Normal Goal"
+        }
+      ]
+    }
+  ]
+}
