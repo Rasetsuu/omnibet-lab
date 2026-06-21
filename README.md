@@ -2,7 +2,7 @@
 
 Local-first football prediction and evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, and **v245 historical import contracts**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, and **v246 historical import plan preview**.
 
 OmniBet is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -40,6 +40,7 @@ Mode: PAPER_ONLY
 - Rust identity, market, silver-readiness, review-queue, and silver-preview cache gates.
 - Rust historical import contract validation for point-in-time leakage gates.
 - Rust historical import plan preview for offline source/window task planning.
+- Rust historical source manifest validation for declared local candidate sources.
 - Tauri desktop shell with command bridge to allowlisted Rust CLIs and local offline workflows.
 
 ## Provider / storage chain
@@ -58,44 +59,45 @@ v234 provider runtime contracts
 → v244 silver preview cache
 → v245 historical import contracts
 → v246 historical import plan preview
+→ v247 historical source manifest validation
 ```
 
-## Historical import plan
+## Historical source manifest
 
-The v246 direction turns the v245 contract into a concrete offline task plan.
+The v247 direction validates declared local candidate sources against the v246 plan.
 
-Expected plan:
+Expected manifest:
 
 ```text
-windows: 2
-required source classes: 3
-total tasks: 6
+source entries: 6
+total declared rows: 600
 network calls allowed: false
 paper only: true
 import allowed now: false
 ```
 
-Each task includes:
+Validation checks:
 
 ```text
-window id
-source id
-source kind
-competition id
-season
-start/end dates
-snapshot cutoff UTC
-point-in-time timestamp requirement
-identity mapping requirement
-market mapping requirement for odds
-credential persistence rule
-required next artifact
+task exists in the v246 plan
+window/source metadata matches
+snapshot cutoff matches
+relative paths are safe
+codecs are supported
+row counts are non-zero
+sha256 values have valid shape
+point-in-time marker is present
+identity mapping is required
+odds source requires market mapping
+no credentials stored
+no network calls performed
+import remains disabled
 ```
 
-Next required artifact:
+Next required step:
 
 ```text
-offline_file_manifest_with_sha256_and_row_count
+real local file existence and hash verification
 ```
 
 ## Bigger-picture plan
@@ -154,6 +156,7 @@ python python_lab/silver_fact_preview_bundle_smoke.py --root . --out reports/loc
 python python_lab/silver_preview_cache_smoke.py --root . --out reports/local_v244_silver_preview_cache.json
 python python_lab/historical_import_contract_smoke.py --root . --out reports/local_v245_historical_import_contract.json
 python python_lab/historical_import_plan_smoke.py --root . --out reports/local_v246_historical_import_plan.json
+python python_lab/historical_source_files_smoke.py --root . --out reports/local_v247_historical_source_files.json
 ```
 
 Rust checks:
@@ -170,6 +173,7 @@ cargo test --manifest-path rust-core/Cargo.toml silver_fact_v243
 cargo test --manifest-path rust-core/Cargo.toml silver_cache_v244
 cargo test --manifest-path rust-core/Cargo.toml historical_import_v245
 cargo test --manifest-path rust-core/Cargo.toml historical_plan_v246
+cargo test --manifest-path rust-core/Cargo.toml historical_sources_v247
 ```
 
 ## Accuracy roadmap
