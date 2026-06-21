@@ -1,0 +1,64 @@
+{
+  "schema": "omnibet.identity_mapping_preview.v239",
+  "goal": "preview_safe_provider_fixture_team_player_identity_mapping_before_silver_fact_promotion",
+  "promotion_policy": {
+    "preview_only": true,
+    "automatic_unknown_identity_promotion_allowed": false,
+    "provider_alias_required": true,
+    "fixture_identity_required_before_match_fact_promotion": true,
+    "team_identity_required_before_team_fact_promotion": true,
+    "player_identity_required_before_player_fact_promotion": true,
+    "review_required_for_unmapped_identities": true
+  },
+  "canonical_entities": [
+    {"canonical_id": "competition_fifa_world_cup", "entity_kind": "competition", "display_name": "FIFA World Cup"},
+    {"canonical_id": "fixture_france_senegal_2026_06_16", "entity_kind": "fixture", "display_name": "France vs Senegal 2026-06-16"},
+    {"canonical_id": "team_france_men", "entity_kind": "team", "display_name": "France"},
+    {"canonical_id": "team_senegal_men", "entity_kind": "team", "display_name": "Senegal"},
+    {"canonical_id": "player_kylian_mbappe", "entity_kind": "player", "display_name": "Kylian Mbappe"},
+    {"canonical_id": "player_antoine_griezmann", "entity_kind": "player", "display_name": "Antoine Griezmann"},
+    {"canonical_id": "player_olivier_giroud", "entity_kind": "player", "display_name": "Olivier Giroud"},
+    {"canonical_id": "player_mike_maignan", "entity_kind": "player", "display_name": "Mike Maignan"},
+    {"canonical_id": "player_sadio_mane", "entity_kind": "player", "display_name": "Sadio Mane"},
+    {"canonical_id": "player_ismaila_sarr", "entity_kind": "player", "display_name": "Ismaila Sarr"},
+    {"canonical_id": "player_edouard_mendy", "entity_kind": "player", "display_name": "Edouard Mendy"},
+    {"canonical_id": "player_nicolas_jackson", "entity_kind": "player", "display_name": "Nicolas Jackson"}
+  ],
+  "provider_aliases": [
+    {"provider_id": "the_odds_api", "entity_kind": "fixture", "provider_entity_id": "toa_event_france_senegal_demo", "display_name": "France vs Senegal", "canonical_id": "fixture_france_senegal_2026_06_16", "confidence": "sample_exact", "review_required": false},
+    {"provider_id": "api_football", "entity_kind": "fixture", "provider_entity_id": "123456", "display_name": "France vs Senegal", "canonical_id": "fixture_france_senegal_2026_06_16", "confidence": "sample_exact", "review_required": false},
+    {"provider_id": "the_odds_api", "entity_kind": "team", "provider_entity_id": null, "display_name": "France", "canonical_id": "team_france_men", "confidence": "sample_name_exact", "review_required": false},
+    {"provider_id": "the_odds_api", "entity_kind": "team", "provider_entity_id": null, "display_name": "Senegal", "canonical_id": "team_senegal_men", "confidence": "sample_name_exact", "review_required": false},
+    {"provider_id": "api_football", "entity_kind": "team", "provider_entity_id": "10", "display_name": "France", "canonical_id": "team_france_men", "confidence": "sample_id_exact", "review_required": false},
+    {"provider_id": "api_football", "entity_kind": "team", "provider_entity_id": "20", "display_name": "Senegal", "canonical_id": "team_senegal_men", "confidence": "sample_id_exact", "review_required": false},
+    {"provider_id": "api_football", "entity_kind": "player", "provider_entity_id": "1001", "display_name": "Kylian Mbappe", "canonical_id": "player_kylian_mbappe", "confidence": "sample_id_exact", "review_required": false},
+    {"provider_id": "api_football", "entity_kind": "player", "provider_entity_id": "1002", "display_name": "Antoine Griezmann", "canonical_id": "player_antoine_griezmann", "confidence": "sample_id_exact", "review_required": false},
+    {"provider_id": "api_football", "entity_kind": "player", "provider_entity_id": "1003", "display_name": "Olivier Giroud", "canonical_id": "player_olivier_giroud", "confidence": "sample_id_exact", "review_required": false},
+    {"provider_id": "api_football", "entity_kind": "player", "provider_entity_id": "1004", "display_name": "Mike Maignan", "canonical_id": "player_mike_maignan", "confidence": "sample_id_exact", "review_required": false},
+    {"provider_id": "api_football", "entity_kind": "player", "provider_entity_id": "2001", "display_name": "Sadio Mane", "canonical_id": "player_sadio_mane", "confidence": "sample_id_exact", "review_required": false},
+    {"provider_id": "api_football", "entity_kind": "player", "provider_entity_id": "2002", "display_name": "Ismaila Sarr", "canonical_id": "player_ismaila_sarr", "confidence": "sample_id_exact", "review_required": false},
+    {"provider_id": "api_football", "entity_kind": "player", "provider_entity_id": "2003", "display_name": "Edouard Mendy", "canonical_id": "player_edouard_mendy", "confidence": "sample_id_exact", "review_required": false},
+    {"provider_id": "api_football", "entity_kind": "player", "provider_entity_id": "2004", "display_name": "Nicolas Jackson", "canonical_id": "player_nicolas_jackson", "confidence": "sample_id_exact", "review_required": false},
+    {"provider_id": "the_odds_api", "entity_kind": "player", "provider_entity_id": null, "display_name": "Kylian Mbappe", "canonical_id": "player_kylian_mbappe", "confidence": "sample_name_exact", "review_required": false}
+  ],
+  "expected_offline_preview": {
+    "fixture_identity_refs": 2,
+    "team_identity_refs": 4,
+    "player_identity_refs": 9,
+    "total_identity_refs": 15,
+    "resolved_identity_refs": 15,
+    "review_identity_refs": 0,
+    "blocked_promotions": 0
+  },
+  "acceptance": {
+    "rust_identity_preview_added": true,
+    "provider_fixture_ids_resolve": true,
+    "provider_team_ids_resolve": true,
+    "provider_player_ids_resolve": true,
+    "name_only_player_prop_identity_resolves_when_alias_exists": true,
+    "unknown_identity_promotion_forbidden": true,
+    "preview_only": true,
+    "python_smoke_added": true,
+    "ci_workflow_added": true
+  }
+}

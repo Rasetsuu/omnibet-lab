@@ -2,7 +2,7 @@
 
 Local-first football prediction and betting-evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, and **v237 canonical market registry**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, and **v238 silver market mapping preview**.
 
 OmniBet is not a tipster bot. It is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -54,7 +54,8 @@ Do not treat any output as a betting recommendation. No milestone should claim p
 - Rust offline provider sample parsers for The Odds API-style odds/markets and API-Football-style fixtures/live state.
 - Rust bronze snapshot cache writer/verifier for materializing provider parser outputs into JSONL.GZ tables.
 - Rust canonical market registry for safe provider alias resolution before bronze-to-silver promotion.
-- Rust silver market mapping preview direction for resolved market rows and blocked review rows.
+- Rust silver market mapping preview for resolved market rows and blocked review rows.
+- Rust fixture/team/player identity preview for safe provider entity resolution before silver fact promotion.
 - Python smoke pipeline for adapters, warehouse contracts, feature snapshots, walk-forward checks, dashboards, review queues, source-cache promotion, and beta workflows.
 - Tauri desktop shell with command bridge to allowlisted Rust CLIs and local offline workflows.
 - Manual Windows/Linux GitHub Actions desktop build workflow.
@@ -107,14 +108,6 @@ Tauri bundle outputs when produced by the runner
 
 The Tauri backend can resolve packaged runtime CLIs from `OMNIBET_CLI_DIR`, the app/package root, `./bin`, and developer fallback paths.
 
-To build from GitHub:
-
-1. Open **Actions**.
-2. Choose **OmniBet Desktop Beta Builds**.
-3. Click **Run workflow**.
-4. Download the Windows/Linux artifact.
-5. Unzip it and run the app from the `package` directory.
-
 ## GitHub Releases
 
 The planned user-facing release workflow is:
@@ -128,13 +121,6 @@ It is manual-only and creates draft/prerelease GitHub Release assets:
 ```text
 OmniBet-Lab-Windows-<tag>.zip
 OmniBet-Lab-Linux-<tag>.tar.gz
-```
-
-Users should be able to open **Releases**, download the archive for their platform, extract it, and run:
-
-```text
-Windows: OmniBet-Lab.exe
-Linux:   ./omnibet-lab
 ```
 
 Release builds remain PAPER_ONLY until the model is validated at scale.
@@ -163,11 +149,7 @@ Model artifacts                 -> model binary + JSON manifest
 Recent runtime cache            -> SQLite or small local JSONL.GZ
 ```
 
-This preserves current JSONL.GZ compatibility while moving the real warehouse toward Parquet+Zstd for columnar scans, partition pruning, and large feature tables.
-
 ## Provider runtime foundation
-
-The v234 provider runtime direction moves source ingestion contracts into Rust before adding any live HTTP fetchers.
 
 Initial providers:
 
@@ -189,8 +171,6 @@ no live provider calls in CI
 all snapshots require observed_at + payload_sha256
 ```
 
-The first Rust module for this is `rust-core/src/provider.rs`.
-
 ## Offline provider sample parsers
 
 The v235 direction parses saved provider payloads into typed Rust snapshots without network calls:
@@ -208,8 +188,6 @@ API-Football-style live state
 → lineup player snapshots
 → team statistic snapshots
 ```
-
-This gives the provider layer real typed rows before live fetching exists, and keeps CI fully offline and credential-free.
 
 ## Bronze snapshot cache
 
@@ -241,8 +219,6 @@ statistics: 12
 TOTAL: 53
 ```
 
-The cache manifest records row counts, uncompressed/compressed byte counts, table SHA-256 hashes, source payload manifests, and safety flags. Unknown markets such as `special_combo_unknown` must remain `needs_mapping_review=true`.
-
 CLI:
 
 ```bash
@@ -267,20 +243,7 @@ team_shots_on_target
 player_shots_on_target
 ```
 
-Initial The Odds API aliases:
-
-```text
-h2h                    -> match_result_1x2
-spreads                -> handicap
-totals                 -> total_goals
-corners                -> total_corners
-shots_on_target        -> team_shots_on_target
-player_shots_on_target -> player_shots_on_target
-```
-
 Unknown markets cannot be auto-promoted. The sample market `special_combo_unknown` must stay review-only with promotion blocked.
-
-Player prop markets such as `player_shots_on_target` require player context and lineup/expected-minutes context before confident modeling.
 
 ## Silver market mapping preview
 
@@ -299,6 +262,35 @@ blocked promotions: 1
 Resolved groups are preview-only rows with canonical market id, family, settlement rule, line/player/lineup requirements, bookmaker count, event count, and outcome count.
 
 Review rows are not promoted. The sample `special_combo_unknown` remains blocked until a human-approved registry alias and settlement rule exist.
+
+## Identity mapping preview
+
+The v239 direction previews safe fixture/team/player identity mapping before final silver fact promotion.
+
+Expected offline preview from the saved provider samples:
+
+```text
+fixture refs: 2
+team refs: 4
+player refs: 9
+total refs: 15
+resolved refs: 15
+review refs: 0
+blocked promotions: 0
+```
+
+The identity preview connects provider entities to canonical entities such as:
+
+```text
+the_odds_api fixture toa_event_france_senegal_demo -> fixture_france_senegal_2026_06_16
+api_football fixture 123456 -> fixture_france_senegal_2026_06_16
+the_odds_api France -> team_france_men
+api_football team 10 France -> team_france_men
+the_odds_api name-only Kylian Mbappe -> player_kylian_mbappe
+api_football player 1001 Kylian Mbappe -> player_kylian_mbappe
+```
+
+Unknown provider identities cannot be auto-promoted and must stay in review.
 
 ## World Cup live capture foundation
 
@@ -355,6 +347,7 @@ python python_lab/provider_offline_samples_smoke.py --root . --out reports/local
 python python_lab/bronze_snapshot_cache_smoke.py --root . --out reports/local_v236_bronze_snapshot_cache_static.json
 python python_lab/market_registry_smoke.py --root . --out reports/local_v237_market_registry.json
 python python_lab/silver_market_mapping_preview_smoke.py --root . --out reports/local_v238_silver_market_mapping_preview.json
+python python_lab/identity_mapping_preview_smoke.py --root . --out reports/local_v239_identity_mapping_preview.json
 ```
 
 Rust checks:
@@ -363,12 +356,9 @@ Rust checks:
 cargo test --manifest-path rust-core/Cargo.toml bronze_cache
 cargo test --manifest-path rust-core/Cargo.toml market_registry
 cargo test --manifest-path rust-core/Cargo.toml silver_market
+cargo test --manifest-path rust-core/Cargo.toml idmap_v239
 cargo run --manifest-path rust-core/Cargo.toml --bin omnibet-bronze-cache -- \
   --out build/bronze_cache/v236_offline_samples
-python python_lab/bronze_snapshot_cache_smoke.py \
-  --root . \
-  --cache-dir build/bronze_cache/v236_offline_samples \
-  --out reports/local_v236_bronze_snapshot_cache.json
 ```
 
 Tauri/Rust checks require Rust, Node, and platform desktop dependencies:
@@ -380,8 +370,6 @@ cd tauri-app
 npm install --foreground-scripts --loglevel warn
 npm run build
 ```
-
-The chat sandbox used for this project can run Python/Node checks, but real Rust/Tauri validation is intentionally delegated to GitHub Actions when local Cargo is unavailable.
 
 ## Accuracy roadmap
 
