@@ -1,0 +1,36 @@
+name: OmniBet v247 Historical Sources
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  historical-sources:
+    name: v247 historical sources
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Run historical sources smoke
+        run: |
+          mkdir -p reports
+          python python_lab/historical_source_files_smoke.py --root . --out reports/ci_v247_historical_sources.json
+      - name: Rust historical sources tests
+        run: cargo test --manifest-path rust-core/Cargo.toml historical_sources_v247
+      - name: Upload v247 report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v247-historical-sources-report
+          path: reports/ci_v247_historical_sources.json
+          if-no-files-found: warn
