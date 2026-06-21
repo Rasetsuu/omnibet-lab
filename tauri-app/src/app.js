@@ -9,7 +9,7 @@ import { exportForecastSnapshot, loadAndRenderUpcomingFixtures, predictSelectedU
 import { importExternalFixtureCacheToUpcoming, loadAndRenderExternalData } from './external_data.js';
 import { loadAndRenderBetaWorkflow } from './beta_workflow.js';
 import { loadAndRenderBetaReleaseTrain } from './beta_release_train.js';
-import { loadAndRenderSourceTerminal } from './source_terminal.js';
+import { generateAndRenderSourceTerminal, loadAndRenderSourceTerminal } from './source_terminal.js';
 
 function out(x) {
   const el = document.getElementById('out');
@@ -38,6 +38,10 @@ function selectedLocalImportFile() {
   return input?.files?.[0] || null;
 }
 
+function bindSourceGenerateButton(id) {
+  document.getElementById(id)?.addEventListener('click', () => safeRun(() => generateAndRenderSourceTerminal()));
+}
+
 function bind() {
   document.querySelectorAll('.nav-button').forEach(btn => {
     btn.addEventListener('click', () => showPage(btn.dataset.page));
@@ -51,6 +55,8 @@ function bind() {
   document.getElementById('load-settings-sample')?.addEventListener('click', () => safeRun(() => loadAndRenderSettings('tauri-app/src/settings-data.sample.json')));
   document.getElementById('load-source-terminal-report')?.addEventListener('click', () => safeRun(() => loadAndRenderSourceTerminal(null)));
   document.getElementById('load-source-terminal-sample')?.addEventListener('click', () => safeRun(() => loadAndRenderSourceTerminal('tauri-app/src/source-terminal.sample.json')));
+  bindSourceGenerateButton('generate-source-terminal-report');
+  bindSourceGenerateButton('generate-source-terminal-report-topbar');
   document.getElementById('load-phase2-forecast')?.addEventListener('click', () => safeRun(() => loadAndRenderPhase2Forecast()));
   document.getElementById('load-upcoming-fixtures')?.addEventListener('click', () => safeRun(() => loadAndRenderUpcomingFixtures()));
   document.getElementById('load-external-data')?.addEventListener('click', () => safeRun(() => loadAndRenderExternalData()));

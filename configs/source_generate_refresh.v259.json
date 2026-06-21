@@ -1,0 +1,25 @@
+{
+  "schema": "omnibet.source_generate_refresh_contract.v259",
+  "contract_id": "v259_source_generate_refresh",
+  "goal": "let_desktop_source_view_generate_local_report_then_refresh_display",
+  "workflow_id": "generate_source_terminal_report",
+  "frontend_helper": "generateAndRenderSourceTerminal",
+  "buttons": [
+    "generate-source-terminal-report",
+    "generate-source-terminal-report-topbar"
+  ],
+  "refresh_loader": "loadAndRenderSourceTerminal",
+  "expected_output": ".omnibet-local/reports/local_v256_source_terminal_report.json",
+  "paper_only": true,
+  "local_only": true,
+  "read_only_surface": true,
+  "network_calls_allowed": false,
+  "acceptance": {
+    "generate_refresh_helper_added": true,
+    "source_page_button_added": true,
+    "topbar_button_added": true,
+    "app_bindings_added": true,
+    "smoke_added": true,
+    "ci_workflow_added": true
+  }
+}

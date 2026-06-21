@@ -44,6 +44,7 @@
         <div class="topbar-actions">
           <button id="load-dashboard-report">Load local dashboard report</button>
           <button id="load-dashboard-sample">Load bundled sample</button>
+          <button id="generate-source-terminal-report-topbar">Generate source report</button>
           <button id="load-source-terminal-report">Load source terminal</button>
           <button id="load-source-terminal-sample">Load source sample</button>
           <button id="load-review-report">Load local review report</button>
@@ -74,7 +75,12 @@
 
       <section id="source-terminal" class="page" data-page-panel="source-terminal">
         <h2>Source Terminal</h2>
-        <p class="warn">v257 read-only source terminal. It exposes adapter health and normalized preview counts; downstream actions stay locked.</p>
+        <p class="warn">v259 read-only source terminal. Generate a local source report, then inspect adapter health and normalized preview counts.</p>
+        <div class="card">
+          <button id="generate-source-terminal-report">Generate source report</button>
+          <button id="load-source-terminal-report">Reload generated report</button>
+          <button id="load-source-terminal-sample">Load bundled source sample</button>
+        </div>
         <div class="grid">
           <div id="source-terminal-summary" class="card"><div class="muted">Load source terminal first.</div></div>
           <div id="source-terminal-readiness" class="card"><div class="muted">Load source terminal first.</div></div>
