@@ -1,0 +1,27 @@
+[
+  {
+    "id": "fixture-spain-cape-verde-2026",
+    "sport_key": "soccer_international",
+    "commence_time": "2026-06-16T19:00:00Z",
+    "home_team": "Spain",
+    "away_team": "Cape Verde",
+    "bookmakers": [
+      {
+        "key": "sample_bookmaker",
+        "title": "Sample Bookmaker",
+        "last_update": "2026-06-16T18:30:00Z",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2026-06-16T18:30:00Z",
+            "outcomes": [
+              {"name": "Spain", "price": 1.35},
+              {"name": "Draw", "price": 4.75},
+              {"name": "Cape Verde", "price": 8.5}
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
