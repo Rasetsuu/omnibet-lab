@@ -1,0 +1,36 @@
+name: OmniBet v240 Silver Promotion Preview
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  silver-promotion-preview:
+    name: v240 silver promotion preview
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Run silver promotion preview smoke
+        run: |
+          mkdir -p reports
+          python python_lab/silver_promotion_preview_smoke.py --root . --out reports/ci_v240_silver_promotion_preview.json
+      - name: Rust silver promotion tests
+        run: cargo test --manifest-path rust-core/Cargo.toml silver_promote_v240
+      - name: Upload silver promotion preview report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v240-silver-promotion-preview-report
+          path: reports/ci_v240_silver_promotion_preview.json
+          if-no-files-found: warn
