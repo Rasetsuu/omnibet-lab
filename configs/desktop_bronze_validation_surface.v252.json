@@ -1,0 +1,34 @@
+{
+  "schema": "omnibet.desktop_bronze_validation_surface.v252",
+  "goal": "surface_quarantined_bronze_validation_status_in_the_desktop_market_terminal",
+  "source_report_schema": "omnibet.bronze_validation_batch_report.v252",
+  "panels": {
+    "candidate_readiness": true,
+    "review_reason_counts": true,
+    "value_validation_rows": true,
+    "blocked_row_filters": true
+  },
+  "display_fields": {
+    "total_rows": true,
+    "value_ok_rows": true,
+    "blocked_rows": true,
+    "ready_for_bronze_write": true,
+    "ready_for_evaluation": true,
+    "ready_for_training": true,
+    "reason_counts": true
+  },
+  "actions_allowed": {
+    "inspect_rows": true,
+    "export_report": true,
+    "import_rows": false,
+    "promote_rows": false,
+    "run_evaluation": false,
+    "train_model": false,
+    "place_bets": false
+  },
+  "safety": {
+    "paper_only": true,
+    "quarantine_only": true,
+    "read_only_surface": true
+  }
+}
