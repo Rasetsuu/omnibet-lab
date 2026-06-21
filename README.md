@@ -2,7 +2,7 @@
 
 Local-first football prediction and evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, and **v248 local historical source verification**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, **v248 local historical source verification**, and **v249 bronze candidate preview**.
 
 OmniBet is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -43,6 +43,7 @@ Mode: PAPER_ONLY
 - Rust historical source manifest validation for declared local candidate sources.
 - Rust historical source verification for local existence, SHA-256, and row-count checks.
 - Rust quarantined bronze-candidate preview rows from verified local source files.
+- Rust bronze preview row classification for fixture/result, odds, and lineup/event-context rows.
 - Tauri desktop shell with command bridge to allowlisted Rust CLIs and local offline workflows.
 
 ## Provider / storage chain
@@ -64,23 +65,26 @@ v234 provider runtime contracts
 → v247 historical source manifest validation
 → v248 local historical source verification
 → v249 bronze candidate preview
+→ v250 bronze preview classification
 ```
 
-## Bronze candidate preview
+## Bronze preview classification
 
-The v249 direction builds quarantined preview rows from verified local historical source files.
+The v250 direction classifies quarantined v249 preview rows before any import or promotion path can use them.
 
-Each row includes:
+Known classes:
 
 ```text
-row id
-task id
-source id
-source kind
-relative path
-row number
-raw line SHA-256
-quarantine flags
+fixtures_results -> fixture_result
+odds -> odds_snapshot
+lineups_events -> lineup_event_context
+```
+
+Unknown source kinds stay blocked for review:
+
+```text
+classification_status: review_required
+row_class: unknown
 ```
 
 Safety flags remain locked:
@@ -92,8 +96,6 @@ promotion allowed: false
 evaluation allowed: false
 training dataset promotion allowed: false
 ```
-
-If v248 verification fails, v249 emits no preview rows.
 
 ## Bigger-picture plan
 
@@ -154,6 +156,7 @@ python python_lab/historical_import_plan_smoke.py --root . --out reports/local_v
 python python_lab/historical_source_files_smoke.py --root . --out reports/local_v247_historical_source_files.json
 python python_lab/historical_source_verification_smoke.py --root . --out reports/local_v248_historical_source_verification.json
 python python_lab/bronze_candidate_preview_smoke.py --root . --out reports/local_v249_bronze_candidate_preview.json
+python python_lab/bronze_preview_classification_smoke.py --root . --out reports/local_v250_bronze_preview_classification.json
 ```
 
 Rust checks:
@@ -161,6 +164,7 @@ Rust checks:
 ```bash
 cargo test --manifest-path rust-core/Cargo.toml bronze_cache
 cargo test --manifest-path rust-core/Cargo.toml bronze_candidate_v249
+cargo test --manifest-path rust-core/Cargo.toml bronze_classify_v250
 cargo test --manifest-path rust-core/Cargo.toml market_registry
 cargo test --manifest-path rust-core/Cargo.toml silver_market
 cargo test --manifest-path rust-core/Cargo.toml idmap_v239
