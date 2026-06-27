@@ -2,7 +2,7 @@
 
 Local-first football prediction and evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, **v248 local historical source verification**, **v249 bronze candidate preview**, **v250 bronze preview classification**, **v251 bronze preview field-schema checks**, **v252 bronze validation batch**, **v253 provider/data beta slice**, **v254 offline adapter contracts**, **v255 provider normalization preview**, **v256 source terminal report**, **v257 desktop source view**, **v258 source report generation**, **v259 source generate-refresh flow**, **v260 source terminal filters and row details**, **v261 upcoming/live fixture source contract**, **v262-v265 source-to-context bridge**, **v266-v270 storage v2 compression foundation**, **v271-v280 historical dataset foundation**, **v281-v290 baseline training and evaluation**, **v291-v300 market terminal MVP**, **v301-v310 local dataset materialization preview**, **v311-v320 Rust Storage V2 writers**, and **v321-v330 Rust walk-forward evaluator**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, **v248 local historical source verification**, **v249 bronze candidate preview**, **v250 bronze preview classification**, **v251 bronze preview field-schema checks**, **v252 bronze validation batch**, **v253 provider/data beta slice**, **v254 offline adapter contracts**, **v255 provider normalization preview**, **v256 source terminal report**, **v257 desktop source view**, **v258 source report generation**, **v259 source generate-refresh flow**, **v260 source terminal filters and row details**, **v261 upcoming/live fixture source contract**, **v262-v265 source-to-context bridge**, **v266-v270 storage v2 compression foundation**, **v271-v280 historical dataset foundation**, **v281-v290 baseline training and evaluation**, **v291-v300 market terminal MVP**, **v301-v310 local dataset materialization preview**, **v311-v320 Rust Storage V2 writers**, **v321-v330 Rust walk-forward evaluator**, and **v331-v340 baseline training reports**.
 
 OmniBet is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -35,15 +35,16 @@ Mode: PAPER_ONLY
 - Offline deterministic data samples and compressed JSONL.GZ data packs.
 - Rust provider metadata/status/snapshot contracts with credential-status-only reporting.
 - Rust offline provider sample parsers for The Odds API-style odds/markets and API-Football-style fixtures/live state.
-- Rust bronze/silver/provider/historical/storage/model/market-terminal/materialization/evaluation contract validation gates.
+- Rust bronze/silver/provider/historical/storage/model/market-terminal/materialization/evaluation/report contract validation gates.
 - Rust Storage V2 preview writers for JSONL.Zstd, JSON.Zstd, and JSONL.Gzip with manifests, hashes, row counts, verification, and retention gates.
 - Rust no-leak walk-forward evaluator for prediction-time boundaries, feature timestamp checks, settlement/label ordering, market-family splits, no-random-split enforcement, and coverage gates.
+- Rust baseline report runner that blocks reports when walk-forward evaluator gates fail, plus no-vig preview, artifact manifest, and trust gate.
 - Rust-facing Storage V2 compression contract validation for JSONL.Zstd, Parquet.Zstd, provider cache manifests, writer migration, and walk-forward loader shape.
 - Offline upcoming/live fixture source contract for date-range and live-state rows.
 - Offline source-to-context bridge for odds snapshots, live snapshots, retention policy, and prediction-ready context bundles.
 - Baseline/evaluation foundation for no-vig baselines, calibration, walk-forward reports, paper CLV, trust gates, and market-terminal table shape.
 - Local dataset materialization preview for manifests, fixture/odds/settlement/CLV previews, Bronze/Silver/Gold candidates, and readiness blockers.
-- Tauri desktop source view, live-source bridge sample panel, market-terminal MVP panel, dataset-materialization preview panel, storage-writer status panel, and walk-forward evaluator panel.
+- Tauri desktop source view, live-source bridge sample panel, market-terminal MVP panel, dataset-materialization preview panel, storage-writer status panel, walk-forward evaluator panel, and baseline-report status panel.
 - Tauri desktop shell with command bridge to allowlisted Rust CLIs and local offline workflows.
 
 ## Provider / storage chain
@@ -85,6 +86,7 @@ v234 provider runtime contracts
 → v301-v310 local dataset materialization preview
 → v311-v320 Rust Storage V2 writers
 → v321-v330 Rust walk-forward evaluator
+→ v331-v340 baseline training reports
 ```
 
 ## Execution roadmap
@@ -92,6 +94,37 @@ v234 provider runtime contracts
 The v301+ execution roadmap is locked in [`docs/execution_roadmap_v301_plus.md`](docs/execution_roadmap_v301_plus.md).
 
 It defines when to move stable logic from Python to Rust, when to implement the chosen compression path, when training starts, when prediction improvements begin, and how the UI evolves from bundled samples to generated local reports.
+
+## Baseline training reports
+
+The v331-v340 bridge adds the first baseline report runner shape after the Rust walk-forward evaluator.
+
+```text
+v331 1X2 no-vig baseline report runner
+v332 totals no-vig baseline report runner
+v333 BTTS no-vig baseline report runner
+v334 simple Poisson/Elo/team-strength candidate report
+v335 blocked report when evaluator gates fail
+v336 model artifact manifest
+v337 baseline metrics report writer
+v338 desktop model report status panel
+v339 trust gate integration
+v340 baseline training smoke
+```
+
+Contract, sample, docs, Rust module, desktop renderer, and smoke:
+
+```text
+configs/baseline_training_reports.v331_v340.json
+data/modeling/v331_v340/baseline_training_reports.sample.json
+docs/baseline_training_reports_v331_v340.md
+rust-core/src/baseline_reports_v331.rs
+tauri-app/src/baseline-reports.sample.json
+tauri-app/src/baseline_reports.js
+python_lab/baseline_training_reports_smoke.py
+```
+
+The bundled sample is intentionally blocked because the v321-v330 walk-forward sample is not ready. Metric fields stay null and trust remains `blocked_sample`.
 
 ## Rust walk-forward evaluator
 
@@ -108,18 +141,6 @@ v327 evaluation-window report writer
 v328 coverage/readiness gate integration
 v329 desktop evaluator status panel
 v330 walk-forward evaluator smoke
-```
-
-Contract, sample, docs, Rust module, desktop renderer, and smoke:
-
-```text
-configs/walk_forward_evaluator.v321_v330.json
-data/evaluation/v321_v330/walk_forward_evaluator.sample.json
-docs/walk_forward_evaluator_v321_v330.md
-rust-core/src/walk_forward_v321.rs
-tauri-app/src/walk-forward-evaluator.sample.json
-tauri-app/src/walk_forward_evaluator.js
-python_lab/walk_forward_evaluator_smoke.py
 ```
 
 The bundled sample intentionally fails one feature timestamp check and coverage gates. That is expected: the evaluator must block unsafe training rather than produce fake readiness.
@@ -189,7 +210,7 @@ v299 disabled bilet-builder placeholder
 v300 desktop market terminal MVP smoke
 ```
 
-## Baseline training and evaluation
+## Baseline training and evaluation foundation
 
 The v281-v290 bridge defines baseline model/evaluation contracts before any model can be trusted in the market terminal.
 
@@ -217,44 +238,21 @@ v275 coverage/readiness report
 v276-v280 first leak-safe dataset build plan
 ```
 
-## Storage V2 compression foundation
+## Next phase: v341-v350 calibration, CLV, and no-vig comparison reports
 
-The v266-v270 bridge turns the earlier Storage V2 roadmap into stricter Rust-facing contracts and samples.
-
-```text
-v266 JSONL.Zstd raw snapshot contract
-v267 Parquet.Zstd Silver/Gold metadata contract
-v268 Rust provider cache manifest direction
-v269 Silver/Gold writer migration plan
-v270 walk-forward dataset loader shape
-```
-
-## Source-to-context bridge
-
-The v262-v265 bridge batches the remaining live-source phase into one coherent offline-safe slice.
+The next larger phase should prepare calibration/CLV/no-vig comparison reporting, still gated by evaluator and baseline status:
 
 ```text
-v262 odds snapshot source contract
-v263 desktop upcoming/live matches sample panel
-v264 live snapshot storage and retention contract
-v265 prediction-ready match context bundle
-```
-
-## Next phase: v331-v340 first actual baseline training reports
-
-The next larger phase should start baseline training/report contracts only through evaluator gates:
-
-```text
-v331 1X2 no-vig baseline report runner
-v332 totals no-vig baseline report runner
-v333 BTTS no-vig baseline report runner
-v334 simple Poisson/Elo/team-strength candidate report
-v335 blocked report when evaluator gates fail
-v336 model artifact manifest
-v337 baseline metrics report writer
-v338 desktop model report status panel
-v339 trust gate integration
-v340 baseline training smoke
+v341 calibration report contract
+v342 reliability table preview
+v343 Brier/log-loss report shape
+v344 no-vig baseline delta report
+v345 paper CLV report shape
+v346 closing-line value summary
+v347 model trust gate update
+v348 desktop calibration/CLV panel
+v349 blocked report when baseline gates fail
+v350 calibration/CLV smoke
 ```
 
 ## Actual beta direction
@@ -295,6 +293,7 @@ python python_lab/local_dataset_materialization_preview.py --root . --out report
 python python_lab/local_dataset_materialization_smoke.py --root . --out reports/local_v301_v310_local_dataset_materialization.json
 python python_lab/storage_v2_writers_smoke.py --root . --out reports/local_v311_v320_storage_v2_writers.json
 python python_lab/walk_forward_evaluator_smoke.py --root . --out reports/local_v321_v330_walk_forward_evaluator.json
+python python_lab/baseline_training_reports_smoke.py --root . --out reports/local_v331_v340_baseline_training_reports.json
 ```
 
 Rust checks:
@@ -308,4 +307,5 @@ cargo test --manifest-path rust-core/Cargo.toml market_terminal_mvp
 cargo test --manifest-path rust-core/Cargo.toml local_dataset_materialization
 cargo test --manifest-path rust-core/Cargo.toml storage_v2_writers
 cargo test --manifest-path rust-core/Cargo.toml walk_forward_evaluator
+cargo test --manifest-path rust-core/Cargo.toml baseline_reports
 ```

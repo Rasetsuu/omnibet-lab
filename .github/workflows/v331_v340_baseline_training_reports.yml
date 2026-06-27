@@ -1,0 +1,36 @@
+name: OmniBet v331-v340 Baseline Training Reports
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  baseline-training-reports:
+    name: v331-v340 baseline training reports
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Rust baseline reports test
+        run: cargo test --manifest-path rust-core/Cargo.toml baseline_reports
+      - name: Run v331-v340 baseline reports smoke
+        run: |
+          mkdir -p reports
+          python python_lab/baseline_training_reports_smoke.py --root . --out reports/ci_v331_v340_baseline_training_reports.json
+      - name: Upload v331-v340 baseline reports report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v331-v340-baseline-training-reports-report
+          path: reports/ci_v331_v340_baseline_training_reports.json
+          if-no-files-found: warn

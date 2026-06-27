@@ -1,4 +1,5 @@
 pub mod baseline_eval_v281;
+pub mod baseline_reports_v331;
 pub mod bronze_cache;
 pub mod bronze_candidate_v249;
 pub mod bronze_classify_v250;
@@ -41,6 +42,7 @@ pub mod typed_rows;
 pub mod walk_forward_v321;
 
 pub use baseline_eval_v281::*;
+pub use baseline_reports_v331::*;
 pub use bronze_cache::*;
 pub use bronze_candidate_v249::*;
 pub use bronze_classify_v250::*;
