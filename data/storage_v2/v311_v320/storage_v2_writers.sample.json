@@ -1,0 +1,139 @@
+{
+  "schema": "omnibet.storage_v2_writers_sample.v311_v320",
+  "sample_id": "v311_v320_rust_storage_writers_compression_sample",
+  "generated_at": "2026-06-27T00:00:00Z",
+  "paper_only": true,
+  "local_first": true,
+  "credential_values_present": false,
+  "live_provider_calls_present": false,
+  "real_money_recommendations_present": false,
+  "summary": {
+    "writer_targets": 5,
+    "implemented_codecs_now": 3,
+    "manifest_only_codecs_now": 1,
+    "sample_tables": 4,
+    "ready_for_real_storage": false
+  },
+  "writer_status_rows": [
+    {
+      "writer_id": "bronze_raw_jsonl_zstd_writer",
+      "layer": "bronze_raw_snapshots",
+      "codec": "jsonl.zstd",
+      "status": "rust_writer_available_for_preview",
+      "writes_real_storage": false,
+      "next_action": "wire_to_provider_cache_manifest_after_review"
+    },
+    {
+      "writer_id": "bronze_raw_json_zstd_writer",
+      "layer": "bronze_raw_payloads",
+      "codec": "json.zstd",
+      "status": "rust_writer_available_for_preview",
+      "writes_real_storage": false,
+      "next_action": "wire_to_raw_payload_archive_after_review"
+    },
+    {
+      "writer_id": "ci_runtime_jsonl_gzip_writer",
+      "layer": "ci_runtime_packs",
+      "codec": "jsonl.gzip",
+      "status": "compat_writer_preserved",
+      "writes_real_storage": false,
+      "next_action": "keep_for_small_ci_runtime_packs"
+    },
+    {
+      "writer_id": "silver_parquet_zstd_manifest_writer",
+      "layer": "silver_canonical_facts",
+      "codec": "parquet.zstd",
+      "status": "manifest_writer_only",
+      "writes_real_storage": false,
+      "next_action": "add_real_parquet_writer_after_table_schema_lock"
+    },
+    {
+      "writer_id": "gold_parquet_zstd_manifest_writer",
+      "layer": "gold_training_features",
+      "codec": "parquet.zstd",
+      "status": "manifest_writer_only",
+      "writes_real_storage": false,
+      "next_action": "add_real_parquet_writer_after_feature_schema_lock"
+    }
+  ],
+  "sample_table_manifests": [
+    {
+      "schema": "omnibet.storage_v2_table_manifest.v311",
+      "writer_id": "bronze_raw_jsonl_zstd_writer",
+      "layer": "bronze_raw_snapshots",
+      "table": "provider_odds_snapshot_preview",
+      "codec": "jsonl.zstd",
+      "relative_path": "bronze/provider_odds_snapshot_preview.jsonl.zst",
+      "row_count": 3,
+      "uncompressed_bytes": 512,
+      "compressed_bytes": 220,
+      "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "created_at": "2026-06-27T00:00:00Z",
+      "credential_values_stored": false,
+      "network_calls_performed": false,
+      "retention_policy": "temporary_delete_after_verified_promotion",
+      "promotion_state": "preview_only"
+    },
+    {
+      "schema": "omnibet.storage_v2_table_manifest.v311",
+      "writer_id": "ci_runtime_jsonl_gzip_writer",
+      "layer": "ci_runtime_packs",
+      "table": "small_runtime_pack_preview",
+      "codec": "jsonl.gzip",
+      "relative_path": "runtime/small_runtime_pack_preview.jsonl.gz",
+      "row_count": 2,
+      "uncompressed_bytes": 240,
+      "compressed_bytes": 180,
+      "content_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "created_at": "2026-06-27T00:00:00Z",
+      "credential_values_stored": false,
+      "network_calls_performed": false,
+      "retention_policy": "small_pack_keep",
+      "promotion_state": "preview_only"
+    },
+    {
+      "schema": "omnibet.storage_v2_table_manifest.v311",
+      "writer_id": "silver_parquet_zstd_manifest_writer",
+      "layer": "silver_canonical_facts",
+      "table": "silver_fixture_facts_preview",
+      "codec": "parquet.zstd",
+      "relative_path": "silver/silver_fixture_facts_preview.parquet",
+      "row_count": 2,
+      "uncompressed_bytes": 0,
+      "compressed_bytes": 0,
+      "content_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "created_at": "2026-06-27T00:00:00Z",
+      "credential_values_stored": false,
+      "network_calls_performed": false,
+      "retention_policy": "long_term_keep",
+      "promotion_state": "manifest_only"
+    },
+    {
+      "schema": "omnibet.storage_v2_table_manifest.v311",
+      "writer_id": "gold_parquet_zstd_manifest_writer",
+      "layer": "gold_training_features",
+      "table": "gold_market_features_preview",
+      "codec": "parquet.zstd",
+      "relative_path": "gold/gold_market_features_preview.parquet",
+      "row_count": 2,
+      "uncompressed_bytes": 0,
+      "compressed_bytes": 0,
+      "content_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "created_at": "2026-06-27T00:00:00Z",
+      "credential_values_stored": false,
+      "network_calls_performed": false,
+      "retention_policy": "long_term_keep",
+      "promotion_state": "manifest_only"
+    }
+  ],
+  "retention_gate_preview": {
+    "bronze_can_delete": false,
+    "reason": "promotion_state_not_verified_promoted",
+    "requires": [
+      "content_hash_match",
+      "row_count_match",
+      "promotion_state_verified_promoted"
+    ]
+  },
+  "next_phase": "v321_v330_rust_dataset_loader_walk_forward_evaluator"
+}
