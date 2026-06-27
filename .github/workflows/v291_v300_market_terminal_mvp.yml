@@ -1,0 +1,36 @@
+name: OmniBet v291-v300 Market Terminal MVP
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  market-terminal-mvp:
+    name: v291-v300 market terminal MVP
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Rust market terminal MVP test
+        run: cargo test --manifest-path rust-core/Cargo.toml market_terminal_mvp
+      - name: Run v291-v300 market terminal MVP smoke
+        run: |
+          mkdir -p reports
+          python python_lab/market_terminal_mvp_smoke.py --root . --out reports/ci_v291_v300_market_terminal_mvp.json
+      - name: Upload v291-v300 market terminal MVP report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v291-v300-market-terminal-mvp-report
+          path: reports/ci_v291_v300_market_terminal_mvp.json
+          if-no-files-found: warn

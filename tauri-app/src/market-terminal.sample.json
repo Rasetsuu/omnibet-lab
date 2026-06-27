@@ -1,0 +1,126 @@
+{
+  "schema": "omnibet.market_terminal_mvp_sample.v291_v300",
+  "sample_id": "v291_v300_market_terminal_mvp_sample",
+  "generated_at": "2026-06-27T00:00:00Z",
+  "paper_only": true,
+  "credential_values_present": false,
+  "real_money_recommendations_present": false,
+  "summary": {
+    "fixtures": 2,
+    "prediction_rows": 3,
+    "paper_watch_rows": 1,
+    "paper_ledger_rows": 1,
+    "bilet_builder_enabled": false,
+    "ready_for_real_predictions": false
+  },
+  "fixtures": [
+    {
+      "canonical_fixture_id": "canonical:fixture:inter-milan:2026-06-27",
+      "label": "Inter vs Milan",
+      "competition": "Italy Serie A",
+      "status": "live",
+      "kickoff_time": "2026-06-27T11:00:00Z",
+      "source_freshness": "fresh_sample",
+      "available_markets": ["1x2", "next_goal"],
+      "trust_summary": "partial_context_live_model_not_validated"
+    },
+    {
+      "canonical_fixture_id": "canonical:fixture:ars-che:2026-06-28",
+      "label": "Arsenal vs Chelsea",
+      "competition": "England Premier League",
+      "status": "scheduled",
+      "kickoff_time": "2026-06-28T18:00:00Z",
+      "source_freshness": "offline_sample",
+      "available_markets": ["1x2", "totals"],
+      "trust_summary": "pre_match_lineups_missing"
+    }
+  ],
+  "prediction_rows": [
+    {
+      "canonical_fixture_id": "canonical:fixture:inter-milan:2026-06-27",
+      "market_key": "1x2",
+      "selection_key": "home",
+      "model_probability": null,
+      "fair_odds_decimal": null,
+      "bookmaker_odds_decimal": 2.05,
+      "no_vig_probability": null,
+      "edge_vs_no_vig": null,
+      "trust_status": "sample_only",
+      "blockers": ["model_not_validated", "historical_dataset_not_ready"],
+      "allowed_action": "inspect",
+      "movement_preview": {
+        "opening_price_decimal": 2.15,
+        "current_price_decimal": 2.05,
+        "closing_price_decimal": null,
+        "movement_status": "closing_price_missing"
+      }
+    },
+    {
+      "canonical_fixture_id": "canonical:fixture:inter-milan:2026-06-27",
+      "market_key": "next_goal",
+      "selection_key": "home",
+      "model_probability": null,
+      "fair_odds_decimal": null,
+      "bookmaker_odds_decimal": 2.4,
+      "no_vig_probability": null,
+      "edge_vs_no_vig": null,
+      "trust_status": "unsupported",
+      "blockers": ["live_micro_market_model_missing", "no_walk_forward_evaluation"],
+      "allowed_action": "inspect",
+      "movement_preview": {
+        "opening_price_decimal": null,
+        "current_price_decimal": 2.4,
+        "closing_price_decimal": null,
+        "movement_status": "in_play_sample_only"
+      }
+    },
+    {
+      "canonical_fixture_id": "canonical:fixture:ars-che:2026-06-28",
+      "market_key": "totals",
+      "selection_key": "over_2_5",
+      "model_probability": null,
+      "fair_odds_decimal": null,
+      "bookmaker_odds_decimal": 1.91,
+      "no_vig_probability": null,
+      "edge_vs_no_vig": null,
+      "trust_status": "sample_only",
+      "blockers": ["gold_features_missing", "calibration_report_missing"],
+      "allowed_action": "inspect",
+      "movement_preview": {
+        "opening_price_decimal": 1.95,
+        "current_price_decimal": 1.91,
+        "closing_price_decimal": null,
+        "movement_status": "pre_match_sample_only"
+      }
+    }
+  ],
+  "paper_watchlist": [
+    {
+      "paper_watch_id": "watch:sample:0001",
+      "canonical_fixture_id": "canonical:fixture:ars-che:2026-06-28",
+      "market_key": "totals",
+      "selection_key": "over_2_5",
+      "captured_price_decimal": 1.91,
+      "captured_at": "2026-06-27T12:00:00Z",
+      "trust_status": "sample_only",
+      "status": "paper_watch_only"
+    }
+  ],
+  "paper_ledger_preview": [
+    {
+      "paper_ticket_id": "paper:terminal:sample:0001",
+      "status": "draft_preview_disabled",
+      "selections_count": 1,
+      "paper_stake_units": 0,
+      "real_stake_allowed": false,
+      "settlement_status": "not_settled"
+    }
+  ],
+  "bilet_builder_placeholder": {
+    "enabled": false,
+    "disabled_reason": "model_not_validated_for_bilet_builder",
+    "minimum_required_trust_status": "validated_paper",
+    "current_best_status": "sample_only",
+    "allowed_action": "inspect"
+  }
+}
