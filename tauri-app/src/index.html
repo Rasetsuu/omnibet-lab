@@ -81,34 +81,240 @@
         </div>
       </header>
 
-      <section id="dashboard" class="page active-page" data-page-panel="dashboard"><h2>Dashboard</h2><p class="muted">Desktop-first dashboard over local pipeline reports.</p><div class="grid dashboard-grid"><div id="dashboard-events" class="card"><h3>Event list</h3><div class="muted">Not loaded.</div></div><div id="dashboard-markets" class="card"><h3>Market snapshots</h3><div class="muted">Not loaded.</div></div><div id="dashboard-unknowns" class="card"><h3>Unknown market queue</h3><div class="muted">Not loaded.</div></div><div id="dashboard-features" class="card"><h3>Feature snapshot preview</h3><div class="muted">Not loaded.</div></div><div id="dashboard-settlement" class="card"><h3>Settlement report</h3><div class="muted">Not loaded.</div></div><div id="dashboard-accounting" class="card"><h3>Result accounting report</h3><div class="muted">Not loaded.</div></div></div></section>
-      <section id="source-terminal" class="page" data-page-panel="source-terminal"><h2>Source Terminal</h2><p class="warn">v260 read-only source terminal.</p><div class="card"><button id="generate-source-terminal-report">Generate source report</button><button id="load-source-terminal-report">Reload generated report</button><button id="load-source-terminal-sample">Load bundled source sample</button></div><div class="grid"><div id="source-terminal-summary" class="card"><div class="muted">Load source terminal first.</div></div><div id="source-terminal-readiness" class="card"><div class="muted">Load source terminal first.</div></div><div id="source-terminal-actions" class="card"><div class="muted">Load source terminal first.</div></div><div id="source-terminal-blockers" class="card"><div class="muted">Load source terminal first.</div></div></div></section>
-      <section id="live-source" class="page" data-page-panel="live-source"><h2>Live Source Bridge</h2><p class="warn">v262-v265 PAPER_ONLY offline source-to-context bridge.</p><div class="grid"><div id="live-source-summary" class="card"><div class="muted">Load live source bridge first.</div></div><div id="live-source-matches" class="card"><div class="muted">Load live source bridge first.</div></div><div id="live-source-odds" class="card"><div class="muted">Load live source bridge first.</div></div><div id="live-source-context" class="card"><div class="muted">Load live source bridge first.</div></div></div><div id="live-source-selected" class="card"><div class="muted">Select a match after loading the bridge.</div></div></section>
-      <section id="market-terminal" class="page" data-page-panel="market-terminal"><h2>Market Terminal MVP</h2><p class="warn">v291-v300 PAPER_ONLY market terminal MVP.</p><div class="grid"><div id="market-terminal-summary" class="card"><div class="muted">Load market terminal MVP first.</div></div><div id="market-terminal-fixtures" class="card"><div class="muted">Load market terminal MVP first.</div></div><div id="market-terminal-predictions" class="card"><div class="muted">Load market terminal MVP first.</div></div><div id="market-terminal-selected" class="card"><div class="muted">Select a fixture after loading the MVP.</div></div><div id="market-terminal-watchlist" class="card"><div class="muted">Load market terminal MVP first.</div></div><div id="market-terminal-ledger" class="card"><div class="muted">Load market terminal MVP first.</div></div><div id="market-terminal-bilet-builder" class="card"><div class="muted">Load market terminal MVP first.</div></div></div></section>
-      <section id="dataset-materialization" class="page" data-page-panel="dataset-materialization"><h2>Dataset Materialization Preview</h2><p class="warn">v301-v310 PAPER_ONLY local materialization preview.</p><div class="grid"><div id="dataset-materialization-summary" class="card"><div class="muted">Load dataset materialization first.</div></div><div id="dataset-materialization-manifests" class="card"><div class="muted">Load dataset materialization first.</div></div><div id="dataset-materialization-fixtures" class="card"><div class="muted">Load dataset materialization first.</div></div><div id="dataset-materialization-odds" class="card"><div class="muted">Load dataset materialization first.</div></div><div id="dataset-materialization-settlements" class="card"><div class="muted">Load dataset materialization first.</div></div><div id="dataset-materialization-clv" class="card"><div class="muted">Load dataset materialization first.</div></div><div id="dataset-materialization-candidates" class="card"><div class="muted">Load dataset materialization first.</div></div><div id="dataset-materialization-readiness" class="card"><div class="muted">Load dataset materialization first.</div></div></div></section>
-      <section id="storage-writers" class="page" data-page-panel="storage-writers"><h2>Storage Writers</h2><p class="warn">v311-v320 Rust Storage V2 writer status.</p><div class="grid"><div id="storage-writers-summary" class="card"><div class="muted">Load storage writers first.</div></div><div id="storage-writers-targets" class="card"><div class="muted">Load storage writers first.</div></div><div id="storage-writers-manifests" class="card"><div class="muted">Load storage writers first.</div></div><div id="storage-writers-retention" class="card"><div class="muted">Load storage writers first.</div></div><div id="storage-writers-next" class="card"><div class="muted">Load storage writers first.</div></div></div></section>
-      <section id="walk-forward-evaluator" class="page" data-page-panel="walk-forward-evaluator"><h2>Walk-Forward Evaluator</h2><p class="warn">v321-v330 no-leak evaluator status.</p><div class="grid"><div id="walk-forward-summary" class="card"><div class="muted">Load evaluator first.</div></div><div id="walk-forward-windows" class="card"><div class="muted">Load evaluator first.</div></div><div id="walk-forward-safety" class="card"><div class="muted">Load evaluator first.</div></div><div id="walk-forward-coverage" class="card"><div class="muted">Load evaluator first.</div></div><div id="walk-forward-next" class="card"><div class="muted">Load evaluator first.</div></div></div></section>
-      <section id="baseline-reports" class="page" data-page-panel="baseline-reports"><h2>Baseline Reports</h2><p class="warn">v331-v340 baseline report status.</p><div class="grid"><div id="baseline-reports-summary" class="card"><div class="muted">Load baseline reports first.</div></div><div id="baseline-reports-rows" class="card"><div class="muted">Load baseline reports first.</div></div><div id="baseline-reports-artifact" class="card"><div class="muted">Load baseline reports first.</div></div><div id="baseline-reports-trust" class="card"><div class="muted">Load baseline reports first.</div></div><div id="baseline-reports-next" class="card"><div class="muted">Load baseline reports first.</div></div></div></section>
-      <section id="calibration-clv" class="page" data-page-panel="calibration-clv"><h2>Calibration / CLV Reports</h2><p class="warn">v341-v350 calibration, no-vig delta, and paper CLV reports.</p><div class="grid"><div id="calibration-clv-summary" class="card"><div class="muted">Load calibration / CLV first.</div></div><div id="calibration-clv-bins" class="card"><div class="muted">Load calibration / CLV first.</div></div><div id="calibration-clv-metrics" class="card"><div class="muted">Load calibration / CLV first.</div></div><div id="calibration-clv-no-vig" class="card"><div class="muted">Load calibration / CLV first.</div></div><div id="calibration-clv-paper-clv" class="card"><div class="muted">Load calibration / CLV first.</div></div><div id="calibration-clv-trust" class="card"><div class="muted">Load calibration / CLV first.</div></div><div id="calibration-clv-next" class="card"><div class="muted">Load calibration / CLV first.</div></div></div></section>
-      <section id="green-sample" class="page" data-page-panel="green-sample"><h2>Green Evaluator Sample</h2><p class="warn">v351-v360 tiny green sample.</p><div class="grid"><div id="green-sample-summary" class="card"><div class="muted">Load green sample first.</div></div><div id="green-sample-manifests" class="card"><div class="muted">Load green sample first.</div></div><div id="green-sample-fixtures" class="card"><div class="muted">Load green sample first.</div></div><div id="green-sample-predictions" class="card"><div class="muted">Load green sample first.</div></div><div id="green-sample-metrics" class="card"><div class="muted">Load green sample first.</div></div><div id="green-sample-clv" class="card"><div class="muted">Load green sample first.</div></div><div id="green-sample-trust" class="card"><div class="muted">Load green sample first.</div></div></div></section>
-      <section id="generated-green" class="page" data-page-panel="generated-green"><h2>Generated Green Report</h2><p class="warn">v391-v400 generated local import history. Runs only the fixed allowlisted local runner and remains sample_only.</p><div class="card"><button id="run-generated-green-report">Run generated green report</button><button id="load-generated-green-status-page">Reload generated green report</button></div><div class="grid"><div id="generated-green-command" class="card"><div class="muted">Run generated green first.</div></div><div id="generated-green-history" class="card"><div class="muted">Run or load generated green first.</div></div><div id="generated-green-summary" class="card"><div class="muted">Load generated green first.</div></div><div id="generated-green-sources" class="card"><div class="muted">Load generated green first.</div></div><div id="generated-green-walk-forward" class="card"><div class="muted">Load generated green first.</div></div><div id="generated-green-baseline" class="card"><div class="muted">Load generated green first.</div></div><div id="generated-green-calibration" class="card"><div class="muted">Load generated green first.</div></div><div id="generated-green-storage" class="card"><div class="muted">Load generated green first.</div></div><div id="generated-green-trust" class="card"><div class="muted">Load generated green first.</div></div></div></section>
+      <section id="dashboard" class="page active-page" data-page-panel="dashboard">
+        <h2>Dashboard</h2>
+        <p class="muted">Desktop-first dashboard over local pipeline reports. Tauri command path is preferred; browser fallback remains only for static preview.</p>
+        <div class="grid dashboard-grid">
+          <div id="dashboard-events" class="card"><h3>Event list</h3><div class="muted">Not loaded.</div></div>
+          <div id="dashboard-markets" class="card"><h3>Market snapshots</h3><div class="muted">Not loaded.</div></div>
+          <div id="dashboard-unknowns" class="card"><h3>Unknown market queue</h3><div class="muted">Not loaded.</div></div>
+          <div id="dashboard-features" class="card"><h3>Feature snapshot preview</h3><div class="muted">Not loaded.</div></div>
+          <div id="dashboard-settlement" class="card"><h3>Settlement report</h3><div class="muted">Not loaded.</div></div>
+          <div id="dashboard-accounting" class="card"><h3>Result accounting report</h3><div class="muted">Not loaded.</div></div>
+        </div>
+      </section>
+
+      <section id="source-terminal" class="page" data-page-panel="source-terminal">
+        <h2>Source Terminal</h2>
+        <p class="warn">v260 read-only source terminal. Generate a local source report, then filter and inspect adapter health, normalized preview counts, and sample row details.</p>
+        <div class="card">
+          <button id="generate-source-terminal-report">Generate source report</button>
+          <button id="load-source-terminal-report">Reload generated report</button>
+          <button id="load-source-terminal-sample">Load bundled source sample</button>
+        </div>
+        <div class="grid">
+          <div id="source-terminal-summary" class="card"><div class="muted">Load source terminal first.</div></div>
+          <div id="source-terminal-readiness" class="card"><div class="muted">Load source terminal first.</div></div>
+          <div id="source-terminal-actions" class="card"><div class="muted">Load source terminal first.</div></div>
+          <div id="source-terminal-blockers" class="card"><div class="muted">Load source terminal first.</div></div>
+        </div>
+      </section>
+
+      <section id="live-source" class="page" data-page-panel="live-source">
+        <h2>Live Source Bridge</h2>
+        <p class="warn">v262-v265 PAPER_ONLY offline source-to-context bridge. This shows readiness, not betting recommendations.</p>
+        <div class="grid">
+          <div id="live-source-summary" class="card"><div class="muted">Load live source bridge first.</div></div>
+          <div id="live-source-matches" class="card"><div class="muted">Load live source bridge first.</div></div>
+          <div id="live-source-odds" class="card"><div class="muted">Load live source bridge first.</div></div>
+          <div id="live-source-context" class="card"><div class="muted">Load live source bridge first.</div></div>
+        </div>
+        <div id="live-source-selected" class="card"><div class="muted">Select a match after loading the bridge.</div></div>
+      </section>
+
+      <section id="market-terminal" class="page" data-page-panel="market-terminal">
+        <h2>Market Terminal MVP</h2>
+        <p class="warn">v291-v300 PAPER_ONLY market terminal MVP. Inspect and paper-watch only; bilet builder remains disabled until validated_paper trust.</p>
+        <div class="grid">
+          <div id="market-terminal-summary" class="card"><div class="muted">Load market terminal MVP first.</div></div>
+          <div id="market-terminal-fixtures" class="card"><div class="muted">Load market terminal MVP first.</div></div>
+          <div id="market-terminal-predictions" class="card"><div class="muted">Load market terminal MVP first.</div></div>
+          <div id="market-terminal-selected" class="card"><div class="muted">Select a fixture after loading the MVP.</div></div>
+          <div id="market-terminal-watchlist" class="card"><div class="muted">Load market terminal MVP first.</div></div>
+          <div id="market-terminal-ledger" class="card"><div class="muted">Load market terminal MVP first.</div></div>
+          <div id="market-terminal-bilet-builder" class="card"><div class="muted">Load market terminal MVP first.</div></div>
+        </div>
+      </section>
+
+      <section id="dataset-materialization" class="page" data-page-panel="dataset-materialization">
+        <h2>Dataset Materialization Preview</h2>
+        <p class="warn">v301-v310 PAPER_ONLY local materialization preview. Generates/loads preview reports only; no live calls and no real Bronze/Silver/Gold writes.</p>
+        <div class="grid">
+          <div id="dataset-materialization-summary" class="card"><div class="muted">Load dataset materialization first.</div></div>
+          <div id="dataset-materialization-manifests" class="card"><div class="muted">Load dataset materialization first.</div></div>
+          <div id="dataset-materialization-fixtures" class="card"><div class="muted">Load dataset materialization first.</div></div>
+          <div id="dataset-materialization-odds" class="card"><div class="muted">Load dataset materialization first.</div></div>
+          <div id="dataset-materialization-settlements" class="card"><div class="muted">Load dataset materialization first.</div></div>
+          <div id="dataset-materialization-clv" class="card"><div class="muted">Load dataset materialization first.</div></div>
+          <div id="dataset-materialization-candidates" class="card"><div class="muted">Load dataset materialization first.</div></div>
+          <div id="dataset-materialization-readiness" class="card"><div class="muted">Load dataset materialization first.</div></div>
+        </div>
+      </section>
+
+      <section id="storage-writers" class="page" data-page-panel="storage-writers">
+        <h2>Storage Writers</h2>
+        <p class="warn">v311-v320 Rust Storage V2 writer status. JSONL.Zstd/JSON.Zstd/Gzip preview writers are active; Parquet.Zstd is manifest-only until table schemas are locked.</p>
+        <div class="grid">
+          <div id="storage-writers-summary" class="card"><div class="muted">Load storage writers first.</div></div>
+          <div id="storage-writers-targets" class="card"><div class="muted">Load storage writers first.</div></div>
+          <div id="storage-writers-manifests" class="card"><div class="muted">Load storage writers first.</div></div>
+          <div id="storage-writers-retention" class="card"><div class="muted">Load storage writers first.</div></div>
+          <div id="storage-writers-next" class="card"><div class="muted">Load storage writers first.</div></div>
+        </div>
+      </section>
+
+      <section id="walk-forward-evaluator" class="page" data-page-panel="walk-forward-evaluator">
+        <h2>Walk-Forward Evaluator</h2>
+        <p class="warn">v321-v330 no-leak evaluator status. It blocks training when feature timestamps, settlement labels, random splits, or coverage gates are unsafe.</p>
+        <div class="grid">
+          <div id="walk-forward-summary" class="card"><div class="muted">Load evaluator first.</div></div>
+          <div id="walk-forward-windows" class="card"><div class="muted">Load evaluator first.</div></div>
+          <div id="walk-forward-safety" class="card"><div class="muted">Load evaluator first.</div></div>
+          <div id="walk-forward-coverage" class="card"><div class="muted">Load evaluator first.</div></div>
+          <div id="walk-forward-next" class="card"><div class="muted">Load evaluator first.</div></div>
+        </div>
+      </section>
+
+      <section id="baseline-reports" class="page" data-page-panel="baseline-reports">
+        <h2>Baseline Reports</h2>
+        <p class="warn">v331-v340 baseline report status. Reports stay blocked until walk-forward gates, calibration, CLV, and no-vig checks are safe.</p>
+        <div class="grid">
+          <div id="baseline-reports-summary" class="card"><div class="muted">Load baseline reports first.</div></div>
+          <div id="baseline-reports-rows" class="card"><div class="muted">Load baseline reports first.</div></div>
+          <div id="baseline-reports-artifact" class="card"><div class="muted">Load baseline reports first.</div></div>
+          <div id="baseline-reports-trust" class="card"><div class="muted">Load baseline reports first.</div></div>
+          <div id="baseline-reports-next" class="card"><div class="muted">Load baseline reports first.</div></div>
+        </div>
+      </section>
+
+      <section id="calibration-clv" class="page" data-page-panel="calibration-clv">
+        <h2>Calibration / CLV Reports</h2>
+        <p class="warn">v341-v350 calibration, no-vig delta, and paper CLV reports. This remains blocked until evaluator and baseline report gates pass.</p>
+        <div class="grid">
+          <div id="calibration-clv-summary" class="card"><div class="muted">Load calibration / CLV first.</div></div>
+          <div id="calibration-clv-bins" class="card"><div class="muted">Load calibration / CLV first.</div></div>
+          <div id="calibration-clv-metrics" class="card"><div class="muted">Load calibration / CLV first.</div></div>
+          <div id="calibration-clv-no-vig" class="card"><div class="muted">Load calibration / CLV first.</div></div>
+          <div id="calibration-clv-paper-clv" class="card"><div class="muted">Load calibration / CLV first.</div></div>
+          <div id="calibration-clv-trust" class="card"><div class="muted">Load calibration / CLV first.</div></div>
+          <div id="calibration-clv-next" class="card"><div class="muted">Load calibration / CLV first.</div></div>
+        </div>
+      </section>
+
+      <section id="green-sample" class="page" data-page-panel="green-sample">
+        <h2>Green Evaluator Sample</h2>
+        <p class="warn">v351-v360 tiny green sample. It can pass sample gates, but remains sample_only and does not unlock terminal predictions or bilet builder.</p>
+        <div class="grid">
+          <div id="green-sample-summary" class="card"><div class="muted">Load green sample first.</div></div>
+          <div id="green-sample-manifests" class="card"><div class="muted">Load green sample first.</div></div>
+          <div id="green-sample-fixtures" class="card"><div class="muted">Load green sample first.</div></div>
+          <div id="green-sample-predictions" class="card"><div class="muted">Load green sample first.</div></div>
+          <div id="green-sample-metrics" class="card"><div class="muted">Load green sample first.</div></div>
+          <div id="green-sample-clv" class="card"><div class="muted">Load green sample first.</div></div>
+          <div id="green-sample-trust" class="card"><div class="muted">Load green sample first.</div></div>
+        </div>
+      </section>
+
+      <section id="generated-green" class="page" data-page-panel="generated-green">
+        <h2>Generated Green Report</h2>
+        <p class="warn">v391-v400 generated local import history. Runs only the fixed allowlisted local runner and remains sample_only.</p>
+        <div class="card">
+          <button id="run-generated-green-report">Run generated green report</button>
+          <button id="load-generated-green-status-page">Reload generated green report</button>
+        </div>
+        <div class="grid">
+          <div id="generated-green-command" class="card"><div class="muted">Run generated green first.</div></div>
+          <div id="generated-green-history" class="card"><div class="muted">Run or load generated green first.</div></div>
+          <div id="generated-green-summary" class="card"><div class="muted">Load generated green first.</div></div>
+          <div id="generated-green-sources" class="card"><div class="muted">Load generated green first.</div></div>
+          <div id="generated-green-walk-forward" class="card"><div class="muted">Load generated green first.</div></div>
+          <div id="generated-green-baseline" class="card"><div class="muted">Load generated green first.</div></div>
+          <div id="generated-green-calibration" class="card"><div class="muted">Load generated green first.</div></div>
+          <div id="generated-green-storage" class="card"><div class="muted">Load generated green first.</div></div>
+          <div id="generated-green-trust" class="card"><div class="muted">Load generated green first.</div></div>
+        </div>
+      </section>
 
       <section id="events" class="page" data-page-panel="events"><h2>Events</h2><div id="page-events" class="card"><div class="muted">Load a dashboard report first.</div></div></section>
       <section id="markets" class="page" data-page-panel="markets"><h2>Markets</h2><div id="page-markets" class="card"><div class="muted">Load a dashboard report first.</div></div></section>
-      <section id="unknowns" class="page" data-page-panel="unknowns"><h2>Unknown Market Review</h2><p class="muted">v53 local review UI.</p><div id="review-unknown-markets-panel" class="card"><div class="muted">Load a review report first.</div></div><div id="page-unknowns" class="card"><div class="muted">Load a dashboard or review report first.</div></div></section>
-      <section id="identity-review" class="page" data-page-panel="identity-review"><h2>Provider Identity Review</h2><p class="muted">v54 local review UI.</p><div id="review-identity-candidates-panel" class="card"><div class="muted">Load a review report first.</div></div><div id="page-identity-review" class="card"><div class="muted">Load a review report first.</div></div></section>
+      <section id="unknowns" class="page" data-page-panel="unknowns"><h2>Unknown Market Review</h2><p class="muted">v53 local review UI. Decisions are UI-only until a later persistence milestone.</p><div id="review-unknown-markets-panel" class="card"><div class="muted">Load a review report first.</div></div><div id="page-unknowns" class="card"><div class="muted">Load a dashboard or review report first.</div></div></section>
+      <section id="identity-review" class="page" data-page-panel="identity-review"><h2>Provider Identity Review</h2><p class="muted">v54 local review UI for provider team/player/event identity candidates.</p><div id="review-identity-candidates-panel" class="card"><div class="muted">Load a review report first.</div></div><div id="page-identity-review" class="card"><div class="muted">Load a review report first.</div></div></section>
       <section id="features" class="page" data-page-panel="features"><h2>Features</h2><div id="page-features" class="card"><div class="muted">Load a dashboard report first.</div></div></section>
       <section id="settlement" class="page" data-page-panel="settlement"><h2>Settlement</h2><div id="page-settlement" class="card"><div class="muted">Load a dashboard report first.</div></div></section>
       <section id="accounting" class="page" data-page-panel="accounting"><h2>Accounting</h2><div id="page-accounting" class="card"><div class="muted">Load a dashboard report first.</div></div></section>
-      <section id="models" class="page" data-page-panel="models"><h2>Models</h2><p class="warn">PAPER_ONLY forecast research.</p><div class="grid"><div id="model-card-panel" class="card"><h3>Model registry</h3><div class="muted">Load model phase sample first.</div></div><div id="model-backtest-panel" class="card"><h3>Chronological backtest</h3><div class="muted">Load model phase sample first.</div></div><div id="model-calibration-panel" class="card"><h3>Calibration</h3><div class="muted">Load model phase sample first.</div></div></div><div id="model-explanations-panel" class="card"><h3>Example explanations</h3><div class="muted">Load model phase sample first.</div></div><div class="card"><button id="pack-summary-button">Load Pack Summary</button></div></section>
-      <section id="upcoming" class="page" data-page-panel="upcoming"><h2>Upcoming fixtures</h2><p class="warn">PAPER_ONLY local upcoming fixture flow.</p><button id="predict-selected-upcoming-fixture">Predict selected fixture</button><button id="export-forecast-snapshot">Export forecast snapshot</button><div class="grid"><div id="upcoming-fixtures-panel" class="card"><div class="muted">Load upcoming fixtures first.</div></div><div id="upcoming-selected-fixture" class="card"><div class="muted">No fixture selected.</div></div></div><div id="upcoming-forecast-snapshot" class="card"><div class="muted">No forecast snapshot yet.</div></div></section>
-      <section id="external-data" class="page" data-page-panel="external-data"><h2>External Data</h2><p class="warn">Manual opt-in contracts only.</p><button id="import-external-fixtures">Import cached fixtures to Upcoming</button><div class="grid"><div id="external-data-capabilities" class="card"><div class="muted">Load external data sample first.</div></div><div id="external-data-connectors" class="card"><div class="muted">Load external data sample first.</div></div><div id="external-data-cache" class="card"><div class="muted">Load external data sample first.</div></div></div></section>
-      <section id="desktop-beta" class="page" data-page-panel="desktop-beta"><h2>Desktop Beta</h2><p class="warn">PAPER_ONLY local desktop beta.</p><div id="desktop-beta-panel" class="card"><div class="muted">Load desktop beta sample first.</div></div><div id="beta-workflow-panel" class="card"><div class="muted">Load beta workflow sample first.</div></div><div id="beta-release-train-panel" class="card"><div class="muted">Load beta release train first.</div></div><div id="local-import-workflow" class="card"><h3>v141-v148 Local import workflow</h3><p class="muted">Choose a local CSV, JSON, or JSONL file, preview normalized rows, run integrity checks, and export a local import bundle.</p><input id="local-import-file" type="file" accept=".csv,.json,.jsonl" /><button id="run-local-import-preview">Preview local import</button><button id="export-local-import-bundle">Export local bundle</button><div class="grid"><div id="local-import-preview" class="card"><div class="muted">No import preview yet.</div></div><div id="local-import-integrity" class="card"><div class="muted">No integrity report yet.</div></div><div id="local-import-bundle" class="card"><div class="muted">No bundle manifest yet.</div></div></div></div></section>
-      <section id="settings" class="page" data-page-panel="settings"><h2>Settings and Local Runs</h2><p class="muted">v55-v56 settings and allowlisted local workflow controls.</p><div class="grid"><div id="settings-paths" class="card"><h3>Local paths</h3><div class="muted">Load settings first.</div></div><div id="settings-runtime" class="card"><h3>Runtime</h3><div class="muted">Load settings first.</div></div><div id="settings-providers" class="card"><h3>Providers</h3><div class="muted">Load settings first.</div></div><div id="settings-safety" class="card"><h3>Safety</h3><div class="muted">Load settings first.</div></div></div><div id="local-run-buttons" class="card"><h3>Local workflow controls</h3><div class="muted">Load settings first.</div></div></section>
+
+      <section id="models" class="page" data-page-panel="models">
+        <h2>Models</h2>
+        <p class="warn">PAPER_ONLY forecast research. Probabilities are not recommendations.</p>
+        <div class="grid">
+          <div id="model-card-panel" class="card"><h3>Model registry</h3><div class="muted">Load model phase sample first.</div></div>
+          <div id="model-backtest-panel" class="card"><h3>Chronological backtest</h3><div class="muted">Load model phase sample first.</div></div>
+          <div id="model-calibration-panel" class="card"><h3>Calibration</h3><div class="muted">Load model phase sample first.</div></div>
+        </div>
+        <div id="model-explanations-panel" class="card"><h3>Example explanations</h3><div class="muted">Load model phase sample first.</div></div>
+        <div class="card"><button id="pack-summary-button">Load Pack Summary</button></div>
+      </section>
+
+      <section id="upcoming" class="page" data-page-panel="upcoming">
+        <h2>Upcoming fixtures</h2>
+        <p class="warn">PAPER_ONLY local upcoming fixture flow. Load local fixtures, pick a match, then preview the selected fixture.</p>
+        <button id="predict-selected-upcoming-fixture">Predict selected fixture</button>
+        <button id="export-forecast-snapshot">Export forecast snapshot</button>
+        <div class="grid">
+          <div id="upcoming-fixtures-panel" class="card"><div class="muted">Load upcoming fixtures first.</div></div>
+          <div id="upcoming-selected-fixture" class="card"><div class="muted">No fixture selected.</div></div>
+        </div>
+        <div id="upcoming-forecast-snapshot" class="card"><div class="muted">No forecast snapshot yet.</div></div>
+      </section>
+
+      <section id="external-data" class="page" data-page-panel="external-data">
+        <h2>External Data</h2>
+        <p class="warn">Manual opt-in contracts only. Local cache first, no secret values, no automatic calls.</p>
+        <button id="import-external-fixtures">Import cached fixtures to Upcoming</button>
+        <div class="grid">
+          <div id="external-data-capabilities" class="card"><div class="muted">Load external data sample first.</div></div>
+          <div id="external-data-connectors" class="card"><div class="muted">Load external data sample first.</div></div>
+          <div id="external-data-cache" class="card"><div class="muted">Load external data sample first.</div></div>
+        </div>
+      </section>
+
+      <section id="desktop-beta" class="page" data-page-panel="desktop-beta">
+        <h2>Desktop Beta</h2>
+        <p class="warn">PAPER_ONLY local desktop beta. Import, report, backup, and checklist panels are local/offline only.</p>
+        <div id="desktop-beta-panel" class="card"><div class="muted">Load desktop beta sample first.</div></div>
+        <div id="beta-workflow-panel" class="card"><div class="muted">Load beta workflow sample first.</div></div>
+        <div id="beta-release-train-panel" class="card"><div class="muted">Load beta release train first.</div></div>
+        <div id="local-import-workflow" class="card">
+          <h3>v141-v148 Local import workflow</h3>
+          <p class="muted">Choose a local CSV, JSON, or JSONL file, preview normalized rows, run integrity checks, and export a local import bundle.</p>
+          <input id="local-import-file" type="file" accept=".csv,.json,.jsonl" />
+          <button id="run-local-import-preview">Preview local import</button>
+          <button id="export-local-import-bundle">Export local bundle</button>
+          <div class="grid">
+            <div id="local-import-preview" class="card"><div class="muted">No import preview yet.</div></div>
+            <div id="local-import-integrity" class="card"><div class="muted">No integrity report yet.</div></div>
+            <div id="local-import-bundle" class="card"><div class="muted">No bundle manifest yet.</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="settings" class="page" data-page-panel="settings">
+        <h2>Settings and Local Runs</h2>
+        <p class="muted">v55-v56 settings and allowlisted local workflow controls. API key values are never displayed.</p>
+        <div class="grid">
+          <div id="settings-paths" class="card"><h3>Local paths</h3><div class="muted">Load settings first.</div></div>
+          <div id="settings-runtime" class="card"><h3>Runtime</h3><div class="muted">Load settings first.</div></div>
+          <div id="settings-providers" class="card"><h3>Providers</h3><div class="muted">Load settings first.</div></div>
+          <div id="settings-safety" class="card"><h3>Safety</h3><div class="muted">Load settings first.</div></div>
+        </div>
+        <div id="local-run-buttons" class="card"><h3>Local workflow controls</h3><div class="muted">Load settings first.</div></div>
+      </section>
+
       <section id="simple" class="page" data-page-panel="simple"><h2>Simple</h2><p>Quick fixture check.</p><input id="home" value="Spain" /><input id="away" value="Cape Verde" /><button id="predict-fixture-button">Preview</button></section>
       <section id="detailed" class="page" data-page-panel="detailed"><h2>Detailed</h2><button id="detailed-pack-summary-button">Load Pack Summary</button></section>
       <section id="advanced" class="page" data-page-panel="advanced"><h2>Advanced</h2><p>Future home for model comparison, calibration, and CI report views.</p><button id="ping-button">Ping Backend</button></section>
-      <section id="builder" class="page" data-page-panel="builder"><h2>Market Builder</h2><p class="warn">PAPER_ONLY research preview.</p><button id="value-report-button">Generate Offline Report Preview</button></section>
+      <section id="builder" class="page" data-page-panel="builder"><h2>Market Builder</h2><p class="warn">PAPER_ONLY research preview. No live execution, no recommendation output.</p><button id="value-report-button">Generate Offline Report Preview</button></section>
+
       <section class="output-panel card"><h2>Output</h2><pre id="out">Ready.</pre></section>
     </main>
   </div>
