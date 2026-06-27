@@ -1,0 +1,57 @@
+{
+  "schema": "omnibet.source_terminal_filters_details_contract.v260",
+  "milestone": "v260_source_terminal_filters_details",
+  "paper_only": true,
+  "read_only": true,
+  "live_fetch_enabled": false,
+  "downstream_actions_enabled": false,
+  "page_id": "source-terminal",
+  "filter_ids": [
+    "source-terminal-provider-filter",
+    "source-terminal-row-type-filter",
+    "source-terminal-readiness-filter",
+    "source-terminal-blocker-filter"
+  ],
+  "panel_ids": [
+    "source-terminal-summary",
+    "source-terminal-readiness",
+    "source-terminal-actions",
+    "source-terminal-blockers",
+    "source-terminal-filters",
+    "source-terminal-row-details"
+  ],
+  "button_ids": [
+    "generate-source-terminal-report",
+    "generate-source-terminal-report-topbar",
+    "load-source-terminal-report",
+    "load-source-terminal-report-topbar",
+    "load-source-terminal-sample",
+    "load-source-terminal-sample-topbar"
+  ],
+  "unique_html_id_prefixes": [
+    "load-source-terminal-report",
+    "load-source-terminal-sample"
+  ],
+  "required_row_fields": [
+    "row_id",
+    "provider",
+    "row_type",
+    "readiness",
+    "blocker_reason",
+    "next_action",
+    "sample"
+  ],
+  "acceptance": {
+    "source_terminal_keeps_v259_generate_refresh": true,
+    "filters_render_locally": true,
+    "row_details_render_locally": true,
+    "dynamic_detail_panels_render_if_missing": true,
+    "adapter_health_details_visible": true,
+    "legacy_count_only_reports_still_render": true,
+    "duplicate_source_load_ids_removed": true,
+    "page_and_topbar_source_load_buttons_bound": true,
+    "no_live_provider_calls": true,
+    "no_secret_values_displayed": true,
+    "paper_only_read_only": true
+  }
+}

@@ -1,7 +1,7 @@
 {
-  "schema": "omnibet.source_terminal_desktop_sample.v257",
-  "report_id": "v257_bundled_source_terminal_sample",
-  "created_at": "2026-06-21T00:00:00Z",
+  "schema": "omnibet.source_terminal_desktop_sample.v260",
+  "report_id": "v260_bundled_source_terminal_sample",
+  "created_at": "2026-06-27T00:00:00Z",
   "paper_only": true,
   "quarantine_only": true,
   "source_terminal_visible": true,
@@ -20,7 +20,124 @@
     "ready_for_downstream_use": false,
     "reason": "offline_source_terminal_preview_ready_but_quarantined"
   },
-  "allowed_ui_actions": ["inspect_adapters", "inspect_rows", "export_report"],
-  "locked_ui_actions": ["provider_call", "bronze_write", "evaluation_run", "model_fit", "external_execution"],
-  "blocker_summary": []
+  "adapter_health": [
+    {
+      "provider": "the_odds_api",
+      "provider_role": "odds",
+      "status": "ok",
+      "credential_status": "not_required_for_sample",
+      "normalized_rows": 3,
+      "readiness": "preview_ready",
+      "blocker_reason": "none",
+      "next_action": "inspect_odds_snapshot_rows"
+    },
+    {
+      "provider": "api_football",
+      "provider_role": "fixtures_live_state",
+      "status": "ok",
+      "credential_status": "not_required_for_sample",
+      "normalized_rows": 2,
+      "readiness": "preview_ready",
+      "blocker_reason": "none",
+      "next_action": "inspect_fixture_and_event_rows"
+    }
+  ],
+  "normalized_preview_rows": [
+    {
+      "row_id": "odds:sample:ars-che:home",
+      "provider": "the_odds_api",
+      "row_type": "odds_snapshot_candidate",
+      "readiness": "quarantined_preview",
+      "blocker_reason": "requires_market_mapping_review",
+      "next_action": "review_market_alias_and_selection_mapping",
+      "sample": {
+        "fixture": "Arsenal vs Chelsea",
+        "market": "h2h",
+        "selection": "Arsenal",
+        "price_decimal": 2.05,
+        "bookmaker": "sample_book",
+        "last_update": "2026-06-27T10:00:00Z"
+      }
+    },
+    {
+      "row_id": "odds:sample:ars-che:draw",
+      "provider": "the_odds_api",
+      "row_type": "odds_snapshot_candidate",
+      "readiness": "quarantined_preview",
+      "blocker_reason": "requires_market_mapping_review",
+      "next_action": "review_market_alias_and_selection_mapping",
+      "sample": {
+        "fixture": "Arsenal vs Chelsea",
+        "market": "h2h",
+        "selection": "Draw",
+        "price_decimal": 3.55,
+        "bookmaker": "sample_book",
+        "last_update": "2026-06-27T10:00:00Z"
+      }
+    },
+    {
+      "row_id": "odds:sample:ars-che:away",
+      "provider": "the_odds_api",
+      "row_type": "odds_snapshot_candidate",
+      "readiness": "quarantined_preview",
+      "blocker_reason": "requires_market_mapping_review",
+      "next_action": "review_market_alias_and_selection_mapping",
+      "sample": {
+        "fixture": "Arsenal vs Chelsea",
+        "market": "h2h",
+        "selection": "Chelsea",
+        "price_decimal": 3.2,
+        "bookmaker": "sample_book",
+        "last_update": "2026-06-27T10:00:00Z"
+      }
+    },
+    {
+      "row_id": "fixture:sample:ars-che",
+      "provider": "api_football",
+      "row_type": "fixture_result_candidate",
+      "readiness": "preview_ready",
+      "blocker_reason": "none",
+      "next_action": "inspect_fixture_identity_mapping",
+      "sample": {
+        "fixture_id": 123456,
+        "home_team": "Arsenal",
+        "away_team": "Chelsea",
+        "kickoff_time": "2026-06-28T18:00:00Z",
+        "status": "scheduled"
+      }
+    },
+    {
+      "row_id": "event:sample:ars-che:shot",
+      "provider": "api_football",
+      "row_type": "event_context_candidate",
+      "readiness": "quarantined_preview",
+      "blocker_reason": "requires_event_context_schema_review",
+      "next_action": "review_event_context_fields",
+      "sample": {
+        "fixture_id": 123456,
+        "minute": 12,
+        "team": "Arsenal",
+        "event_type": "Shot",
+        "detail": "On Target"
+      }
+    }
+  ],
+  "allowed_ui_actions": [
+    "inspect_adapters",
+    "inspect_rows",
+    "filter_rows",
+    "inspect_row_detail",
+    "export_report"
+  ],
+  "locked_ui_actions": [
+    "provider_call",
+    "bronze_write",
+    "evaluation_run",
+    "model_fit",
+    "external_execution"
+  ],
+  "blocker_summary": [
+    "requires_market_mapping_review",
+    "requires_event_context_schema_review"
+  ]
 }

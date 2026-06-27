@@ -42,6 +42,10 @@ function bindSourceGenerateButton(id) {
   document.getElementById(id)?.addEventListener('click', () => safeRun(() => generateAndRenderSourceTerminal()));
 }
 
+function bindSourceLoadButton(id, pathHint = null) {
+  document.getElementById(id)?.addEventListener('click', () => safeRun(() => loadAndRenderSourceTerminal(pathHint)));
+}
+
 function bind() {
   document.querySelectorAll('.nav-button').forEach(btn => {
     btn.addEventListener('click', () => showPage(btn.dataset.page));
@@ -53,8 +57,10 @@ function bind() {
   document.getElementById('load-review-sample')?.addEventListener('click', () => safeRun(() => loadAndRenderReviews('tauri-app/src/review-data.sample.json')));
   document.getElementById('load-settings-report')?.addEventListener('click', () => safeRun(() => loadAndRenderSettings(null)));
   document.getElementById('load-settings-sample')?.addEventListener('click', () => safeRun(() => loadAndRenderSettings('tauri-app/src/settings-data.sample.json')));
-  document.getElementById('load-source-terminal-report')?.addEventListener('click', () => safeRun(() => loadAndRenderSourceTerminal(null)));
-  document.getElementById('load-source-terminal-sample')?.addEventListener('click', () => safeRun(() => loadAndRenderSourceTerminal('tauri-app/src/source-terminal.sample.json')));
+  bindSourceLoadButton('load-source-terminal-report', null);
+  bindSourceLoadButton('load-source-terminal-report-topbar', null);
+  bindSourceLoadButton('load-source-terminal-sample', 'tauri-app/src/source-terminal.sample.json');
+  bindSourceLoadButton('load-source-terminal-sample-topbar', 'tauri-app/src/source-terminal.sample.json');
   bindSourceGenerateButton('generate-source-terminal-report');
   bindSourceGenerateButton('generate-source-terminal-report-topbar');
   document.getElementById('load-phase2-forecast')?.addEventListener('click', () => safeRun(() => loadAndRenderPhase2Forecast()));

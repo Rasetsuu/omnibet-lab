@@ -2,7 +2,7 @@
 
 Local-first football prediction and evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, **v248 local historical source verification**, **v249 bronze candidate preview**, **v250 bronze preview classification**, **v251 bronze preview field-schema checks**, **v252 bronze validation batch**, **v253 provider/data beta slice**, **v254 offline adapter contracts**, **v255 provider normalization preview**, **v256 source terminal report**, **v257 desktop source view**, **v258 source report generation**, and **v259 source generate-refresh flow**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, **v248 local historical source verification**, **v249 bronze candidate preview**, **v250 bronze preview classification**, **v251 bronze preview field-schema checks**, **v252 bronze validation batch**, **v253 provider/data beta slice**, **v254 offline adapter contracts**, **v255 provider normalization preview**, **v256 source terminal report**, **v257 desktop source view**, **v258 source report generation**, **v259 source generate-refresh flow**, and **v260 source terminal filters and row details**.
 
 OmniBet is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -53,6 +53,7 @@ Mode: PAPER_ONLY
 - Tauri desktop source view for loading and rendering the source-terminal report.
 - Tauri desktop workflow for generating the local source-terminal report file.
 - Tauri desktop source view button flow for generating and refreshing the local source report.
+- Tauri desktop source filters, adapter details, and normalized row sample inspection.
 - Tauri desktop shell with command bridge to allowlisted Rust CLIs and local offline workflows.
 
 ## Provider / storage chain
@@ -84,6 +85,27 @@ v234 provider runtime contracts
 → v257 desktop source view
 → v258 source report generation
 → v259 source generate-refresh flow
+→ v260 source terminal filters and row details
+```
+
+## Source Terminal filters and row details
+
+The v260 direction extends the desktop source view with local row filters and sample inspection.
+
+```text
+provider/type/readiness/blocker filters
+adapter health details
+normalized preview row samples
+next-action hints
+read-only, paper-only, no live provider calls
+```
+
+Contract and docs:
+
+```text
+configs/source_terminal_filters_details.v260.json
+docs/source_terminal_filters_details_v260.md
+python_lab/source_terminal_filters_details_smoke.py
 ```
 
 ## Source generate-refresh flow
@@ -164,6 +186,7 @@ python python_lab/compile_python_sources.py
 python python_lab/source_terminal_generate.py --root . --out reports/local_v258_generated_source_terminal_report.json
 python python_lab/source_terminal_generation_smoke.py --root . --out reports/local_v258_source_terminal_generation.json
 python python_lab/source_generate_refresh_smoke.py --root . --out reports/local_v259_source_generate_refresh.json
+python python_lab/source_terminal_filters_details_smoke.py --root . --out reports/local_v260_source_terminal_filters_details.json
 ```
 
 Rust checks:
