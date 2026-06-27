@@ -38,6 +38,7 @@ pub mod storage_v2;
 pub mod storage_v2_compression_v266;
 pub mod storage_v2_writers_v311;
 pub mod typed_rows;
+pub mod walk_forward_v321;
 
 pub use baseline_eval_v281::*;
 pub use bronze_cache::*;
@@ -79,6 +80,7 @@ pub use storage_v2::*;
 pub use storage_v2_compression_v266::*;
 pub use storage_v2_writers_v311::*;
 pub use typed_rows::*;
+pub use walk_forward_v321::*;
 
 pub mod value;
 pub use value::*;
