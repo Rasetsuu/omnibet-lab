@@ -1,0 +1,127 @@
+{
+  "schema": "omnibet.green_evaluator_sample_contract.v351_v360",
+  "milestone": "v351_v360_green_evaluator_sample",
+  "paper_only": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "real_money_recommendations_allowed": false,
+  "validated_paper_allowed": false,
+  "sample_only_allowed": true,
+  "versions": {
+    "v351": "local_fixture_odds_settlement_minipack_contract",
+    "v352": "source_manifest_hash_checks_for_minipack",
+    "v353": "eligible_walk_forward_window_sample",
+    "v354": "baseline_report_sample_with_non_null_metrics",
+    "v355": "calibration_sample_with_non_null_bins",
+    "v356": "paper_clv_sample_with_closing_odds",
+    "v357": "desktop_reload_from_green_sample",
+    "v358": "trust_gate_sample_only_not_validated_paper",
+    "v359": "no_recommendation_output_enforcement",
+    "v360": "green_evaluator_baseline_calibration_smoke"
+  },
+  "rust_targets": {
+    "module": "rust-core/src/green_sample_v351.rs",
+    "test_filter": "green_evaluator_sample",
+    "future_binary": "omnibet-green-sample-check"
+  },
+  "required_source_manifest_fields": [
+    "source_id",
+    "local_path",
+    "content_sha256",
+    "row_count",
+    "codec",
+    "observed_at_policy",
+    "credential_values_present"
+  ],
+  "required_fixture_fields": [
+    "canonical_fixture_id",
+    "competition_id",
+    "season_id",
+    "home_team_id",
+    "away_team_id",
+    "kickoff_at",
+    "final_result",
+    "settled_at"
+  ],
+  "required_odds_fields": [
+    "canonical_fixture_id",
+    "market_family",
+    "selection_key",
+    "captured_at",
+    "price_decimal",
+    "closing_price_decimal",
+    "source_id"
+  ],
+  "required_prediction_fields": [
+    "canonical_fixture_id",
+    "market_family",
+    "selection_key",
+    "prediction_time",
+    "feature_observed_at",
+    "model_probability",
+    "no_vig_probability",
+    "label_created_at",
+    "settled_at",
+    "outcome"
+  ],
+  "green_gate_requirements": {
+    "minimum_fixture_rows": 2,
+    "minimum_prediction_rows": 4,
+    "minimum_market_families": 2,
+    "feature_observed_at_lte_prediction_time": true,
+    "label_created_at_gte_settled_at": true,
+    "settled_at_gt_prediction_time": true,
+    "random_split_used": false,
+    "recommendation_output_present": false,
+    "trust_status": "sample_only"
+  },
+  "metric_requirements": {
+    "baseline_metrics_non_null_when_green": true,
+    "calibration_bins_non_null_when_green": true,
+    "paper_clv_non_null_when_green": true,
+    "allowed_metric_fields": [
+      "log_loss",
+      "brier_score",
+      "calibration_ece",
+      "average_clv_decimal",
+      "positive_clv_ratio",
+      "delta_vs_no_vig"
+    ]
+  },
+  "desktop_status_panel": {
+    "sample_path": "tauri-app/src/green-evaluator-sample.sample.json",
+    "panel_ids": [
+      "green-sample-summary",
+      "green-sample-manifests",
+      "green-sample-fixtures",
+      "green-sample-predictions",
+      "green-sample-metrics",
+      "green-sample-clv",
+      "green-sample-trust"
+    ],
+    "button_ids": ["load-green-sample-status"]
+  },
+  "forbidden_outputs": [
+    "real_money_recommendation",
+    "stake_size",
+    "profitability_claim",
+    "validated_paper_claim",
+    "live_provider_fetch",
+    "random_train_test_split"
+  ],
+  "acceptance": {
+    "local_minipack_contract_defined": true,
+    "source_manifest_hash_checks_defined": true,
+    "eligible_walk_forward_window_sample_defined": true,
+    "baseline_report_has_non_null_sample_metrics": true,
+    "calibration_sample_has_non_null_bins": true,
+    "paper_clv_sample_has_closing_odds": true,
+    "desktop_reload_from_green_sample_added": true,
+    "trust_gate_sample_only_not_validated_paper": true,
+    "no_recommendation_output_enforced": true,
+    "rust_validation_module_added": true,
+    "python_smoke_and_ci_added": true,
+    "no_live_calls_no_credentials_no_recommendations": true
+  }
+}
