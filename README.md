@@ -2,7 +2,7 @@
 
 Local-first football prediction and evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, **v248 local historical source verification**, **v249 bronze candidate preview**, **v250 bronze preview classification**, **v251 bronze preview field-schema checks**, **v252 bronze validation batch**, **v253 provider/data beta slice**, **v254 offline adapter contracts**, **v255 provider normalization preview**, **v256 source terminal report**, **v257 desktop source view**, **v258 source report generation**, **v259 source generate-refresh flow**, **v260 source terminal filters and row details**, **v261 upcoming/live fixture source contract**, **v262-v265 source-to-context bridge**, **v266-v270 storage v2 compression foundation**, **v271-v280 historical dataset foundation**, **v281-v290 baseline training and evaluation**, **v291-v300 market terminal MVP**, **v301-v310 local dataset materialization preview**, **v311-v320 Rust Storage V2 writers**, **v321-v330 Rust walk-forward evaluator**, **v331-v340 baseline training reports**, **v341-v350 calibration, CLV, and no-vig reports**, **v351-v360 green evaluator sample**, and **v361-v370 local import runner and storage-backed green sample**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, **v248 local historical source verification**, **v249 bronze candidate preview**, **v250 bronze preview classification**, **v251 bronze preview field-schema checks**, **v252 bronze validation batch**, **v253 provider/data beta slice**, **v254 offline adapter contracts**, **v255 provider normalization preview**, **v256 source terminal report**, **v257 desktop source view**, **v258 source report generation**, **v259 source generate-refresh flow**, **v260 source terminal filters and row details**, **v261 upcoming/live fixture source contract**, **v262-v265 source-to-context bridge**, **v266-v270 storage v2 compression foundation**, **v271-v280 historical dataset foundation**, **v281-v290 baseline training and evaluation**, **v291-v300 market terminal MVP**, **v301-v310 local dataset materialization preview**, **v311-v320 Rust Storage V2 writers**, **v321-v330 Rust walk-forward evaluator**, **v331-v340 baseline training reports**, **v341-v350 calibration, CLV, and no-vig reports**, **v351-v360 green evaluator sample**, **v361-v370 local import runner and storage-backed green sample**, **v371-v380 generated report writer and desktop reload**, **v381-v390 generated command bridge**, **v391-v400 generated history index**, and **v401-v410 historical source import v1**.
 
 OmniBet is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -36,18 +36,19 @@ Mode: PAPER_ONLY
 - Rust provider metadata/status/snapshot contracts with credential-status-only reporting.
 - Rust offline provider sample parsers for The Odds API-style odds/markets and API-Football-style fixtures/live state.
 - Rust bronze/silver/provider/historical/storage/model/market-terminal/materialization/evaluation/report contract validation gates.
+- Rust historical source import validator for local fixture, odds, settlement, and identity mapping packs.
 - Rust Storage V2 preview writers for JSONL.Zstd, JSON.Zstd, and JSONL.Gzip with manifests, hashes, row counts, verification, and retention gates.
 - Rust no-leak walk-forward evaluator for prediction-time boundaries, feature timestamp checks, settlement/label ordering, market-family splits, no-random-split enforcement, and coverage gates.
 - Rust baseline report runner that blocks reports when walk-forward evaluator gates fail, plus no-vig preview, artifact manifest, and trust gate.
 - Rust calibration/CLV report helper layer for calibration gaps, Brier score, no-vig deltas, CLV, blocked reports, and trust gate updates.
 - Rust green-sample validation for a tiny internally consistent local mini-pack with non-null sample metrics while still staying `sample_only`.
-- Rust local import runner foundation for JSONL mini-pack parsing, source manifest SHA-256 verification, generated green reports, and storage-manifest shaped output.
+- Rust local import runner foundation for JSONL mini-pack parsing, source manifest SHA-256 verification, generated green reports, storage-manifest output, generated command bridge, and run-history archive/index output.
 - Rust-facing Storage V2 compression contract validation for JSONL.Zstd, Parquet.Zstd, provider cache manifests, writer migration, and walk-forward loader shape.
 - Offline upcoming/live fixture source contract for date-range and live-state rows.
 - Offline source-to-context bridge for odds snapshots, live snapshots, retention policy, and prediction-ready context bundles.
 - Baseline/evaluation foundation for no-vig baselines, calibration, walk-forward reports, paper CLV, trust gates, and market-terminal table shape.
 - Local dataset materialization preview for manifests, fixture/odds/settlement/CLV previews, Bronze/Silver/Gold candidates, and readiness blockers.
-- Tauri desktop source view, live-source bridge sample panel, market-terminal MVP panel, dataset-materialization preview panel, storage-writer status panel, walk-forward evaluator panel, baseline-report status panel, calibration/CLV status panel, green-sample status panel, and generated-green status panel.
+- Tauri desktop source view, live-source bridge sample panel, market-terminal MVP panel, dataset-materialization preview panel, storage-writer status panel, walk-forward evaluator panel, baseline-report status panel, calibration/CLV status panel, green-sample status panel, generated-green status panel, and generated-run history panel.
 - Tauri desktop shell with command bridge to allowlisted Rust CLIs and local offline workflows.
 
 ## Provider / storage chain
@@ -93,6 +94,10 @@ v234 provider runtime contracts
 → v341-v350 calibration, CLV, and no-vig reports
 → v351-v360 green evaluator sample
 → v361-v370 local import runner and storage-backed green sample
+→ v371-v380 generated report writer and desktop reload
+→ v381-v390 generated command bridge
+→ v391-v400 generated history index
+→ v401-v410 historical source import v1
 ```
 
 ## Execution roadmap
@@ -100,6 +105,108 @@ v234 provider runtime contracts
 The v301+ execution roadmap is locked in [`docs/execution_roadmap_v301_plus.md`](docs/execution_roadmap_v301_plus.md).
 
 It defines when to move stable logic from Python to Rust, when to implement the chosen compression path, when training starts, when prediction improvements begin, and how the UI evolves from bundled samples to generated local reports.
+
+## Historical source import v1
+
+The v401-v410 bridge starts the real-data pivot. It defines a safe local historical source import layer for fixture, odds, settlement, and identity mapping files.
+
+```text
+v401 historical import source contract
+v402 local file manifest schema
+v403 fixture history row schema
+v404 odds history row schema
+v405 settlement/result history row schema
+v406 provider/team identity mapping preview
+v407 import validation report
+v408 Rust historical import validator
+v409 CI historical import smoke
+v410 historical import docs
+```
+
+Contract, local sample pack, docs, Rust module, and smoke:
+
+```text
+configs/historical_source_import.v401_v410.json
+data/historical/v401_v410/historical_import.sample.json
+data/historical/v401_v410/fixtures.sample.json
+data/historical/v401_v410/odds.sample.json
+data/historical/v401_v410/settlements.sample.json
+data/historical/v401_v410/identity_map.sample.json
+docs/historical_source_import_v401_v410.md
+rust-core/src/historical_source_import_v401.rs
+python_lab/historical_source_import_smoke.py
+```
+
+This phase validates local files only. It checks fixture references, prematch odds timing, decimal odds, settlement label timing, identity mapping confidence, and output report safety. It can mark a pack `ready_for_materialization`, but it still keeps `ready_for_training = false`.
+
+## Generated report persistence and history
+
+The v391-v400 bridge makes generated green reports persistent instead of only overwriting latest files.
+
+```text
+v391 generated run id contract
+v392 immutable generated report archive
+v393 generated storage history manifest
+v394 local history index writer
+v395 latest pointer + history index split
+v396 desktop history panel
+v397 failed run history preservation
+v398 sample_only trust gate preservation
+v399 CI history-index smoke
+v400 generated persistence docs
+```
+
+The local runner archives each run under:
+
+```text
+reports/generated_history/runs/<run_id>/
+```
+
+and maintains:
+
+```text
+reports/generated_history/index.json
+```
+
+Failed/integrity runs are preserved as safe `integrity_failed_sample_only` entries.
+
+## Generated command bridge
+
+The v381-v390 bridge connects the generated report writer to the desktop command bridge.
+
+```text
+v381 generated report command contract
+v382 allowlisted local-import-runner command
+v383 desktop Run Generated Green button
+v384 command result report panel
+v385 generated file reload after command
+v386 failure-safe integrity report display
+v387 sample_only trust gate preservation
+v388 no live calls/no credentials guard
+v389 CI command-bridge smoke
+v390 generated command bridge docs
+```
+
+The desktop invokes only the fixed allowlisted Rust binary `omnibet-local-import-runner`; no user shell command is accepted.
+
+## Generated report writer and desktop reload
+
+The v371-v380 bridge writes generated green outputs from the runner rather than only providing a generated-shaped sample.
+
+```text
+v371 generated report writer CLI shape
+v372 generated desktop sample writer
+v373 generated storage manifest writer
+v374 mini-pack integrity failure report
+v375 generated report reload button path
+v376 sample_only trust gate preservation
+v377 generated artifacts upload in CI
+v378 local import runner docs update
+v379 no recommendation output enforcement
+v380 generated report writer smoke
+```
+
+This keeps the generated report path `sample_only` and reloadable in the Generated Green desktop panel.
 
 ## Local import runner and storage-backed green sample
 
@@ -304,21 +411,21 @@ v275 coverage/readiness report
 v276-v280 first leak-safe dataset build plan
 ```
 
-## Next phase: v371-v380 real generated report writer and desktop reload
+## Next phase: v411-v420 historical materialization from local files
 
-The next larger phase should write generated green outputs from the runner rather than only providing a generated-shaped sample:
+The next larger phase should turn validated historical source rows into materialized local dataset layers:
 
 ```text
-v371 generated report writer CLI shape
-v372 generated desktop sample writer
-v373 generated storage manifest writer
-v374 mini-pack integrity failure report
-v375 generated report reload button path
-v376 sample_only trust gate preservation
-v377 generated artifacts upload in CI
-v378 local import runner docs update
-v379 no recommendation output enforcement
-v380 generated report writer smoke
+v411 Bronze fixture import table
+v412 Bronze odds snapshot import table
+v413 Bronze settlement import table
+v414 identity mapping application
+v415 Silver normalized fixture table
+v416 Silver normalized odds table
+v417 Gold evaluation candidate preview
+v418 materialization manifest writer
+v419 CI materialization smoke
+v420 materialization docs
 ```
 
 ## Actual beta direction
@@ -363,6 +470,10 @@ python python_lab/baseline_training_reports_smoke.py --root . --out reports/loca
 python python_lab/calibration_clv_reports_smoke.py --root . --out reports/local_v341_v350_calibration_clv_reports.json
 python python_lab/green_evaluator_sample_smoke.py --root . --out reports/local_v351_v360_green_evaluator_sample.json
 python python_lab/local_import_runner_smoke.py --root . --out reports/local_v361_v370_local_import_runner.json
+python python_lab/generated_report_writer_smoke.py --root . --out reports/local_v371_v380_generated_report_writer.json
+python python_lab/generated_command_bridge_smoke.py --root . --out reports/local_v381_v390_generated_command_bridge.json
+python python_lab/generated_history_index_smoke.py --root . --out reports/local_v391_v400_generated_history_index.json
+python python_lab/historical_source_import_smoke.py --root . --out reports/local_v401_v410_historical_source_import.json --validation-out reports/local_v401_v410_historical_source_import_validation.json
 ```
 
 Rust checks:
@@ -380,4 +491,6 @@ cargo test --manifest-path rust-core/Cargo.toml baseline_reports
 cargo test --manifest-path rust-core/Cargo.toml calibration_clv
 cargo test --manifest-path rust-core/Cargo.toml green_evaluator_sample
 cargo test --manifest-path rust-core/Cargo.toml local_import_runner
+cargo test --manifest-path rust-core/Cargo.toml generated_report_writer
+cargo test --manifest-path rust-core/Cargo.toml historical_source_import
 ```
