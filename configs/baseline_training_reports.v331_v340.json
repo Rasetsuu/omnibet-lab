@@ -1,0 +1,137 @@
+{
+  "schema": "omnibet.baseline_training_reports_contract.v331_v340",
+  "milestone": "v331_v340_first_baseline_training_reports",
+  "paper_only": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "real_money_recommendations_allowed": false,
+  "training_requires_walk_forward_ready": true,
+  "blocked_report_required_when_gates_fail": true,
+  "versions": {
+    "v331": "one_x_two_no_vig_baseline_report_runner",
+    "v332": "totals_no_vig_baseline_report_runner",
+    "v333": "btts_no_vig_baseline_report_runner",
+    "v334": "simple_poisson_elo_team_strength_candidate_report",
+    "v335": "blocked_report_when_evaluator_gates_fail",
+    "v336": "model_artifact_manifest",
+    "v337": "baseline_metrics_report_writer",
+    "v338": "desktop_model_report_status_panel",
+    "v339": "trust_gate_integration",
+    "v340": "baseline_training_smoke"
+  },
+  "rust_targets": {
+    "module": "rust-core/src/baseline_reports_v331.rs",
+    "test_filter": "baseline_training_reports",
+    "future_binary": "omnibet-baseline-report"
+  },
+  "baseline_families": [
+    {
+      "baseline_id": "no_vig_1x2_v331",
+      "market_family": "1x2",
+      "baseline_type": "market_implied_no_vig",
+      "requires_decimal_prices": true,
+      "requires_walk_forward_ready": true
+    },
+    {
+      "baseline_id": "no_vig_totals_v332",
+      "market_family": "totals",
+      "baseline_type": "market_implied_no_vig",
+      "requires_decimal_prices": true,
+      "requires_walk_forward_ready": true
+    },
+    {
+      "baseline_id": "no_vig_btts_v333",
+      "market_family": "btts",
+      "baseline_type": "market_implied_no_vig",
+      "requires_decimal_prices": true,
+      "requires_walk_forward_ready": true
+    },
+    {
+      "baseline_id": "poisson_elo_team_strength_candidate_v334",
+      "market_family": "1x2",
+      "baseline_type": "simple_team_strength_candidate",
+      "requires_decimal_prices": false,
+      "requires_walk_forward_ready": true
+    }
+  ],
+  "required_report_fields": [
+    "schema",
+    "report_id",
+    "status",
+    "walk_forward_status",
+    "baseline_rows",
+    "artifact_manifest",
+    "trust_gate",
+    "blocked_reason",
+    "recommendation_output_present"
+  ],
+  "required_baseline_row_fields": [
+    "baseline_id",
+    "market_family",
+    "baseline_type",
+    "status",
+    "sample_rows",
+    "eligible_rows",
+    "log_loss",
+    "brier_score",
+    "calibration_ece",
+    "paper_clv_avg",
+    "blocked_reason"
+  ],
+  "artifact_manifest_required_fields": [
+    "artifact_id",
+    "artifact_type",
+    "created_at",
+    "source_report",
+    "model_family",
+    "market_families",
+    "training_rows",
+    "status",
+    "content_sha256",
+    "credential_values_stored",
+    "recommendation_output_present"
+  ],
+  "trust_gate": {
+    "default_status": "blocked_sample",
+    "allowed_statuses": ["blocked_sample", "sample_only", "experimental_paper", "validated_paper"],
+    "minimum_for_terminal_prediction": "experimental_paper",
+    "minimum_for_bilet_builder": "validated_paper",
+    "requires_walk_forward_ready": true,
+    "requires_no_vig_comparison": true,
+    "requires_calibration_report": true,
+    "requires_clv_report": true
+  },
+  "desktop_status_panel": {
+    "sample_path": "tauri-app/src/baseline-reports.sample.json",
+    "panel_ids": [
+      "baseline-reports-summary",
+      "baseline-reports-rows",
+      "baseline-reports-artifact",
+      "baseline-reports-trust",
+      "baseline-reports-next"
+    ],
+    "button_ids": ["load-baseline-reports-status"]
+  },
+  "forbidden_outputs": [
+    "real_money_recommendation",
+    "stake_size",
+    "profitability_claim",
+    "live_provider_fetch",
+    "random_train_test_split"
+  ],
+  "acceptance": {
+    "one_x_two_no_vig_runner_defined": true,
+    "totals_no_vig_runner_defined": true,
+    "btts_no_vig_runner_defined": true,
+    "simple_poisson_elo_candidate_report_defined": true,
+    "blocked_report_when_gates_fail_defined": true,
+    "model_artifact_manifest_defined": true,
+    "baseline_metrics_report_writer_defined": true,
+    "desktop_model_report_status_panel_added": true,
+    "trust_gate_integration_defined": true,
+    "rust_validation_module_added": true,
+    "python_smoke_and_ci_added": true,
+    "no_live_calls_no_credentials_no_recommendations": true
+  }
+}
