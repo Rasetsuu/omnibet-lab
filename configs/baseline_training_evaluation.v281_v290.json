@@ -1,0 +1,192 @@
+{
+  "schema": "omnibet.baseline_training_evaluation_contract.v281_v290",
+  "milestone": "v281_v290_baseline_training_evaluation",
+  "paper_only": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "real_money_recommendations_allowed": false,
+  "training_on_unsettled_games_allowed": false,
+  "random_split_allowed": false,
+  "versions": {
+    "v281": "1x2_baseline_contract",
+    "v282": "totals_btts_baseline_contract",
+    "v283": "no_vig_market_baseline_comparison",
+    "v284": "calibration_report_contract",
+    "v285": "walk_forward_evaluation_report",
+    "v286": "paper_clv_report_contract",
+    "v287": "model_trust_gate",
+    "v288_v290": "market_terminal_prediction_table_preparation"
+  },
+  "dataset_requirements": {
+    "storage_contract": "omnibet.storage_v2_compression_contract.v266_v270",
+    "historical_contract": "omnibet.historical_dataset_foundation_contract.v271_v280",
+    "required_gold_tables": [
+      "gold_match_features",
+      "gold_team_snapshots",
+      "gold_market_features",
+      "labels",
+      "settlements",
+      "clv_reports"
+    ],
+    "required_time_columns": [
+      "prediction_time",
+      "feature_observed_at",
+      "label_created_at",
+      "settled_at"
+    ],
+    "minimum_ready_rows_before_training": 1000,
+    "minimum_settlement_coverage_ratio": 0.95,
+    "minimum_odds_coverage_ratio": 0.6
+  },
+  "baseline_models": [
+    {
+      "baseline_id": "baseline_1x2_market_implied_no_vig",
+      "version": "v281",
+      "market_family": "1x2",
+      "model_family": "market_baseline",
+      "outputs": ["home_win_probability", "draw_probability", "away_win_probability"],
+      "required_inputs": ["odds_snapshot", "market_key", "selection_key", "prediction_time"],
+      "allowed_for_gui": true,
+      "paper_only": true
+    },
+    {
+      "baseline_id": "baseline_1x2_poisson_or_elo_candidate",
+      "version": "v281",
+      "market_family": "1x2",
+      "model_family": "research_candidate",
+      "outputs": ["home_win_probability", "draw_probability", "away_win_probability"],
+      "required_inputs": ["team_strength_snapshot", "recent_form_snapshot", "fixture_context", "prediction_time"],
+      "allowed_for_gui": false,
+      "paper_only": true
+    },
+    {
+      "baseline_id": "baseline_totals_market_implied_no_vig",
+      "version": "v282",
+      "market_family": "totals",
+      "model_family": "market_baseline",
+      "outputs": ["over_probability", "under_probability"],
+      "required_inputs": ["odds_snapshot", "line", "prediction_time"],
+      "allowed_for_gui": true,
+      "paper_only": true
+    },
+    {
+      "baseline_id": "baseline_btts_market_implied_no_vig",
+      "version": "v282",
+      "market_family": "btts",
+      "model_family": "market_baseline",
+      "outputs": ["yes_probability", "no_probability"],
+      "required_inputs": ["odds_snapshot", "prediction_time"],
+      "allowed_for_gui": true,
+      "paper_only": true
+    }
+  ],
+  "evaluation_metrics": {
+    "classification_metrics": ["log_loss", "brier_score", "accuracy_for_reference_only"],
+    "calibration_metrics": ["ece", "mce", "calibration_bins", "reliability_table"],
+    "market_comparison_metrics": ["no_vig_edge", "closing_line_value", "paper_roi_reference_only", "yield_reference_only"],
+    "required_report_fields": [
+      "model_id",
+      "market_family",
+      "walk_forward_window_id",
+      "prediction_count",
+      "log_loss",
+      "brier_score",
+      "calibration_ece",
+      "no_vig_baseline_delta",
+      "paper_clv_avg",
+      "trust_gate_status"
+    ]
+  },
+  "walk_forward_evaluation": {
+    "target_runtime": "rust",
+    "random_split_allowed": false,
+    "required_window_fields": [
+      "window_id",
+      "train_start",
+      "train_end",
+      "validation_start",
+      "validation_end",
+      "test_start",
+      "test_end",
+      "prediction_time_column",
+      "label_created_at_column"
+    ],
+    "minimum_windows_before_trust": 3,
+    "minimum_predictions_per_market_family": 300,
+    "required_safety_checks": [
+      "feature_observed_at_lte_prediction_time",
+      "label_created_after_settlement",
+      "no_random_shuffle_split",
+      "market_family_specific_validation",
+      "settlement_coverage_threshold_met"
+    ]
+  },
+  "paper_clv_report": {
+    "required_fields": [
+      "paper_ticket_id",
+      "canonical_fixture_id",
+      "market_key",
+      "selection_key",
+      "paper_price_decimal",
+      "closing_price_decimal",
+      "no_vig_price_decimal",
+      "paper_clv",
+      "captured_at",
+      "closing_captured_at"
+    ],
+    "requires_closing_odds": true,
+    "real_stake_allowed": false
+  },
+  "model_trust_gate": {
+    "allowed_statuses": [
+      "unsupported",
+      "sample_only",
+      "low_data",
+      "experimental",
+      "paper_watch",
+      "validated_paper"
+    ],
+    "minimum_status_for_market_terminal_probability": "paper_watch",
+    "minimum_status_for_bilet_builder": "validated_paper",
+    "required_gate_fields": [
+      "model_id",
+      "market_family",
+      "data_coverage_status",
+      "walk_forward_status",
+      "calibration_status",
+      "clv_status",
+      "trust_status",
+      "blockers"
+    ],
+    "default_status": "sample_only"
+  },
+  "market_terminal_prediction_table": {
+    "prepared_columns": [
+      "canonical_fixture_id",
+      "market_key",
+      "selection_key",
+      "model_probability",
+      "fair_odds_decimal",
+      "bookmaker_odds_decimal",
+      "no_vig_probability",
+      "edge_vs_no_vig",
+      "trust_status",
+      "blockers",
+      "allowed_action"
+    ],
+    "allowed_actions": ["inspect", "paper_watch_only"],
+    "forbidden_actions": ["recommend_real_bet", "place_bet", "auto_stake", "claim_profitability"]
+  },
+  "acceptance": {
+    "baseline_contracts_define_1x2_totals_btts": true,
+    "no_vig_market_baseline_required": true,
+    "calibration_and_walk_forward_reports_required": true,
+    "paper_clv_report_requires_closing_odds": true,
+    "model_trust_gate_blocks_unvalidated_models": true,
+    "market_terminal_table_is_paper_only": true,
+    "no_random_split_or_unsettled_training": true,
+    "rust_validation_module_added": true,
+    "docs_smoke_and_workflow_added": true
+  }
+}
