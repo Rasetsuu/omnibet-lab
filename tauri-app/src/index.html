@@ -220,15 +220,72 @@
       <section id="settlement" class="page" data-page-panel="settlement"><h2>Settlement</h2><div id="page-settlement" class="card"><div class="muted">Load a dashboard report first.</div></div></section>
       <section id="accounting" class="page" data-page-panel="accounting"><h2>Accounting</h2><div id="page-accounting" class="card"><div class="muted">Load a dashboard report first.</div></div></section>
 
-      <section id="models" class="page" data-page-panel="models"><h2>Models</h2><p class="warn">PAPER_ONLY forecast research. Probabilities are not recommendations.</p><div class="grid"><div id="model-card-panel" class="card"><h3>Model registry</h3><div class="muted">Load model phase sample first.</div></div><div id="model-backtest-panel" class="card"><h3>Chronological backtest</h3><div class="muted">Load model phase sample first.</div></div><div id="model-calibration-panel" class="card"><h3>Calibration</h3><div class="muted">Load model phase sample first.</div></div></div><div id="model-explanations-panel" class="card"><h3>Example explanations</h3><div class="muted">Load model phase sample first.</div></div><div class="card"><button id="pack-summary-button">Load Pack Summary</button></div></section>
+      <section id="models" class="page" data-page-panel="models">
+        <h2>Models</h2>
+        <p class="warn">PAPER_ONLY forecast research. Probabilities are not recommendations.</p>
+        <div class="grid">
+          <div id="model-card-panel" class="card"><h3>Model registry</h3><div class="muted">Load model phase sample first.</div></div>
+          <div id="model-backtest-panel" class="card"><h3>Chronological backtest</h3><div class="muted">Load model phase sample first.</div></div>
+          <div id="model-calibration-panel" class="card"><h3>Calibration</h3><div class="muted">Load model phase sample first.</div></div>
+        </div>
+        <div id="model-explanations-panel" class="card"><h3>Example explanations</h3><div class="muted">Load model phase sample first.</div></div>
+        <div class="card"><button id="pack-summary-button">Load Pack Summary</button></div>
+      </section>
 
-      <section id="upcoming" class="page" data-page-panel="upcoming"><h2>Upcoming fixtures</h2><p class="warn">PAPER_ONLY local upcoming fixture flow. Load local fixtures, pick a match, then preview the selected fixture.</p><button id="predict-selected-upcoming-fixture">Predict selected fixture</button><button id="export-forecast-snapshot">Export forecast snapshot</button><div class="grid"><div id="upcoming-fixtures-panel" class="card"><div class="muted">Load upcoming fixtures first.</div></div><div id="upcoming-selected-fixture" class="card"><div class="muted">No fixture selected.</div></div></div><div id="upcoming-forecast-snapshot" class="card"><div class="muted">No forecast snapshot yet.</div></div></section>
+      <section id="upcoming" class="page" data-page-panel="upcoming">
+        <h2>Upcoming fixtures</h2>
+        <p class="warn">PAPER_ONLY local upcoming fixture flow. Load local fixtures, pick a match, then preview the selected fixture.</p>
+        <button id="predict-selected-upcoming-fixture">Predict selected fixture</button>
+        <button id="export-forecast-snapshot">Export forecast snapshot</button>
+        <div class="grid">
+          <div id="upcoming-fixtures-panel" class="card"><div class="muted">Load upcoming fixtures first.</div></div>
+          <div id="upcoming-selected-fixture" class="card"><div class="muted">No fixture selected.</div></div>
+        </div>
+        <div id="upcoming-forecast-snapshot" class="card"><div class="muted">No forecast snapshot yet.</div></div>
+      </section>
 
-      <section id="external-data" class="page" data-page-panel="external-data"><h2>External Data</h2><p class="warn">Manual opt-in contracts only. Local cache first, no secret values, no automatic calls.</p><button id="import-external-fixtures">Import cached fixtures to Upcoming</button><div class="grid"><div id="external-data-capabilities" class="card"><div class="muted">Load external data sample first.</div></div><div id="external-data-connectors" class="card"><div class="muted">Load external data sample first.</div></div><div id="external-data-cache" class="card"><div class="muted">Load external data sample first.</div></div></div></section>
+      <section id="external-data" class="page" data-page-panel="external-data">
+        <h2>External Data</h2>
+        <p class="warn">Manual opt-in contracts only. Local cache first, no secret values, no automatic calls.</p>
+        <button id="import-external-fixtures">Import cached fixtures to Upcoming</button>
+        <div class="grid">
+          <div id="external-data-capabilities" class="card"><div class="muted">Load external data sample first.</div></div>
+          <div id="external-data-connectors" class="card"><div class="muted">Load external data sample first.</div></div>
+          <div id="external-data-cache" class="card"><div class="muted">Load external data sample first.</div></div>
+        </div>
+      </section>
 
-      <section id="desktop-beta" class="page" data-page-panel="desktop-beta"><h2>Desktop Beta</h2><p class="warn">PAPER_ONLY local desktop beta. Import, report, backup, and checklist panels are local/offline only.</p><div id="desktop-beta-panel" class="card"><div class="muted">Load desktop beta sample first.</div></div><div id="beta-workflow-panel" class="card"><div class="muted">Load beta workflow sample first.</div></div><div id="beta-release-train-panel" class="card"><div class="muted">Load beta release train sample first.</div></div><div id="local-import-workflow" class="card"><h3>v141-v148 Local import workflow</h3><p class="muted">Choose a local CSV, JSON, or JSONL file, preview normalized rows, run integrity checks, and export a local import bundle.</p><input id="local-import-file" type="file" accept=".csv,.json,.jsonl" /><button id="run-local-import-preview">Preview local import</button><button id="export-local-import-bundle">Export local bundle</button><div class="grid"><div id="local-import-preview" class="card"><div class="muted">No import preview yet.</div></div><div id="local-import-integrity" class="card"><div class="muted">No integrity report yet.</div></div><div id="local-import-bundle" class="card"><div class="muted">No bundle manifest yet.</div></div></div></div></section>
+      <section id="desktop-beta" class="page" data-page-panel="desktop-beta">
+        <h2>Desktop Beta</h2>
+        <p class="warn">PAPER_ONLY local desktop beta. Import, report, backup, and checklist panels are local/offline only.</p>
+        <div id="desktop-beta-panel" class="card"><div class="muted">Load desktop beta sample first.</div></div>
+        <div id="beta-workflow-panel" class="card"><div class="muted">Load beta workflow sample first.</div></div>
+        <div id="beta-release-train-panel" class="card"><div class="muted">Load beta release train sample first.</div></div>
+        <div id="local-import-workflow" class="card">
+          <h3>v141-v148 Local import workflow</h3>
+          <p class="muted">Choose a local CSV, JSON, or JSONL file, preview normalized rows, run integrity checks, and export a local import bundle.</p>
+          <input id="local-import-file" type="file" accept=".csv,.json,.jsonl" />
+          <button id="run-local-import-preview">Preview local import</button>
+          <button id="export-local-import-bundle">Export local bundle</button>
+          <div class="grid">
+            <div id="local-import-preview" class="card"><div class="muted">No import preview yet.</div></div>
+            <div id="local-import-integrity" class="card"><div class="muted">No integrity report yet.</div></div>
+            <div id="local-import-bundle" class="card"><div class="muted">No bundle manifest yet.</div></div>
+          </div>
+        </div>
+      </section>
 
-      <section id="settings" class="page" data-page-panel="settings"><h2>Settings and Local Runs</h2><p class="muted">v55-v56 settings and allowlisted local workflow controls. API key values are never displayed.</p><div class="grid"><div id="settings-paths" class="card"><h3>Local paths</h3><div class="muted">Load settings first.</div></div><div id="settings-runtime" class="card"><h3>Runtime</h3><div class="muted">Load settings first.</div></div><div id="settings-providers" class="card"><h3>Providers</h3><div class="muted">Load settings first.</div></div><div id="settings-safety" class="card"><h3>Safety</h3><div class="muted">Load settings first.</div></div></div><div id="local-run-buttons" class="card"><h3>Local workflow controls</h3><div class="muted">Load settings first.</div></div></section>
+      <section id="settings" class="page" data-page-panel="settings">
+        <h2>Settings and Local Runs</h2>
+        <p class="muted">v55-v56 settings and allowlisted local workflow controls. API key values are never displayed.</p>
+        <div class="grid">
+          <div id="settings-paths" class="card"><h3>Local paths</h3><div class="muted">Load settings first.</div></div>
+          <div id="settings-runtime" class="card"><h3>Runtime</h3><div class="muted">Load settings first.</div></div>
+          <div id="settings-providers" class="card"><h3>Providers</h3><div class="muted">Load settings first.</div></div>
+          <div id="settings-safety" class="card"><h3>Safety</h3><div class="muted">Load settings first.</div></div>
+        </div>
+        <div id="local-run-buttons" class="card"><h3>Local workflow controls</h3><div class="muted">Load settings first.</div></div>
+      </section>
 
       <section id="simple" class="page" data-page-panel="simple"><h2>Simple</h2><p>Quick fixture check.</p><input id="home" value="Spain" /><input id="away" value="Cape Verde" /><button id="predict-fixture-button">Preview</button></section>
       <section id="detailed" class="page" data-page-panel="detailed"><h2>Detailed</h2><button id="detailed-pack-summary-button">Load Pack Summary</button></section>
