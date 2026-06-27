@@ -1,0 +1,151 @@
+{
+  "schema": "omnibet.baseline_training_evaluation_sample.v281_v290",
+  "sample_id": "v281_v290_baseline_training_evaluation_sample",
+  "generated_at": "2026-06-27T00:00:00Z",
+  "paper_only": true,
+  "credential_values_present": false,
+  "real_money_recommendations_present": false,
+  "dataset_status": {
+    "storage_contract": "omnibet.storage_v2_compression_contract.v266_v270",
+    "historical_contract": "omnibet.historical_dataset_foundation_contract.v271_v280",
+    "ready_for_real_training": false,
+    "blockers": [
+      "historical_sources_not_materialized",
+      "settlement_labels_not_materialized",
+      "closing_odds_not_materialized",
+      "minimum_ready_rows_not_met"
+    ]
+  },
+  "baseline_models": [
+    {
+      "model_id": "baseline_1x2_market_implied_no_vig_sample",
+      "baseline_id": "baseline_1x2_market_implied_no_vig",
+      "market_family": "1x2",
+      "model_family": "market_baseline",
+      "prediction_count": 0,
+      "trust_status": "sample_only",
+      "allowed_action": "inspect"
+    },
+    {
+      "model_id": "baseline_totals_market_implied_no_vig_sample",
+      "baseline_id": "baseline_totals_market_implied_no_vig",
+      "market_family": "totals",
+      "model_family": "market_baseline",
+      "prediction_count": 0,
+      "trust_status": "sample_only",
+      "allowed_action": "inspect"
+    },
+    {
+      "model_id": "baseline_btts_market_implied_no_vig_sample",
+      "baseline_id": "baseline_btts_market_implied_no_vig",
+      "market_family": "btts",
+      "model_family": "market_baseline",
+      "prediction_count": 0,
+      "trust_status": "sample_only",
+      "allowed_action": "inspect"
+    }
+  ],
+  "walk_forward_report": {
+    "schema": "omnibet.walk_forward_evaluation_report.sample.v285",
+    "ready": false,
+    "windows": [
+      {
+        "window_id": "wf:sample:2021_2026:result",
+        "train_start": "2021-07-01T00:00:00Z",
+        "train_end": "2024-06-30T23:59:59Z",
+        "validation_start": "2024-07-01T00:00:00Z",
+        "validation_end": "2025-06-30T23:59:59Z",
+        "test_start": "2025-07-01T00:00:00Z",
+        "test_end": "2026-06-30T23:59:59Z",
+        "prediction_time_column": "prediction_time",
+        "label_created_at_column": "label_created_at",
+        "random_split_allowed": false,
+        "status": "blocked_until_gold_features_exist"
+      }
+    ],
+    "safety_checks": [
+      "feature_observed_at_lte_prediction_time",
+      "label_created_after_settlement",
+      "no_random_shuffle_split",
+      "market_family_specific_validation",
+      "settlement_coverage_threshold_met"
+    ]
+  },
+  "evaluation_rows": [
+    {
+      "model_id": "baseline_1x2_market_implied_no_vig_sample",
+      "market_family": "1x2",
+      "walk_forward_window_id": "wf:sample:2021_2026:result",
+      "prediction_count": 0,
+      "log_loss": null,
+      "brier_score": null,
+      "calibration_ece": null,
+      "no_vig_baseline_delta": null,
+      "paper_clv_avg": null,
+      "trust_gate_status": "sample_only",
+      "blocker_reason": "gold_features_and_settlements_missing"
+    }
+  ],
+  "calibration_report": {
+    "schema": "omnibet.calibration_report.sample.v284",
+    "ready": false,
+    "metrics": ["ece", "mce", "calibration_bins", "reliability_table"],
+    "blocker_reason": "prediction_count_below_threshold"
+  },
+  "paper_clv_report": {
+    "schema": "omnibet.paper_clv_report.sample.v286",
+    "ready": false,
+    "requires_closing_odds": true,
+    "real_stake_allowed": false,
+    "rows": [
+      {
+        "paper_ticket_id": "paper:sample:ticket:0001",
+        "canonical_fixture_id": "canonical:fixture:sample",
+        "market_key": "1x2",
+        "selection_key": "home",
+        "paper_price_decimal": 2.05,
+        "closing_price_decimal": null,
+        "no_vig_price_decimal": null,
+        "paper_clv": null,
+        "captured_at": "2026-06-27T12:00:00Z",
+        "closing_captured_at": null,
+        "blocker_reason": "closing_odds_not_available"
+      }
+    ]
+  },
+  "model_trust_gate_rows": [
+    {
+      "model_id": "baseline_1x2_market_implied_no_vig_sample",
+      "market_family": "1x2",
+      "data_coverage_status": "blocked",
+      "walk_forward_status": "blocked",
+      "calibration_status": "blocked",
+      "clv_status": "blocked",
+      "trust_status": "sample_only",
+      "blockers": ["not_enough_gold_rows", "no_settlement_labels", "no_closing_odds"]
+    }
+  ],
+  "market_terminal_prediction_table_sample": [
+    {
+      "canonical_fixture_id": "canonical:fixture:inter-milan:2026-06-27",
+      "market_key": "1x2",
+      "selection_key": "home",
+      "model_probability": null,
+      "fair_odds_decimal": null,
+      "bookmaker_odds_decimal": 2.05,
+      "no_vig_probability": null,
+      "edge_vs_no_vig": null,
+      "trust_status": "sample_only",
+      "blockers": ["model_not_validated", "historical_dataset_not_ready"],
+      "allowed_action": "inspect"
+    }
+  ],
+  "summary": {
+    "ready_for_real_training": false,
+    "ready_for_market_terminal_predictions": false,
+    "baseline_models": 3,
+    "evaluation_rows": 1,
+    "trust_gate_rows": 1,
+    "next_phase": "v291_v300_market_terminal_mvp"
+  }
+}

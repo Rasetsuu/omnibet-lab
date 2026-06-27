@@ -1,0 +1,36 @@
+name: OmniBet v281-v290 Baseline Training Evaluation
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  baseline-training-evaluation:
+    name: v281-v290 baseline training evaluation
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Rust baseline training evaluation test
+        run: cargo test --manifest-path rust-core/Cargo.toml baseline_training_evaluation
+      - name: Run v281-v290 baseline training evaluation smoke
+        run: |
+          mkdir -p reports
+          python python_lab/baseline_training_evaluation_smoke.py --root . --out reports/ci_v281_v290_baseline_training_evaluation.json
+      - name: Upload v281-v290 baseline training evaluation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v281-v290-baseline-training-evaluation-report
+          path: reports/ci_v281_v290_baseline_training_evaluation.json
+          if-no-files-found: warn
