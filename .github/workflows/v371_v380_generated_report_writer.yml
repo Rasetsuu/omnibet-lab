@@ -1,0 +1,47 @@
+name: OmniBet v371-v380 Generated Report Writer
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  generated-report-writer:
+    name: v371-v380 generated report writer
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Rust generated report writer test
+        run: cargo test --manifest-path rust-core/Cargo.toml generated_report_writer local_import_runner
+      - name: Generate v371-v380 local reports
+        run: |
+          mkdir -p reports
+          cargo run --manifest-path rust-core/Cargo.toml --bin omnibet-local-import-runner -- \
+            --root . \
+            --report-out reports/generated_v371_v380_green_sample.json \
+            --desktop-out tauri-app/src/generated-green-sample.generated.json \
+            --storage-manifest-out reports/generated_v371_v380_storage_manifest.json
+      - name: Run v371-v380 generated report writer smoke
+        run: |
+          python python_lab/generated_report_writer_smoke.py --root . --out reports/ci_v371_v380_generated_report_writer.json
+      - name: Upload v371-v380 generated report artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v371-v380-generated-report-writer-artifacts
+          path: |
+            reports/generated_v371_v380_green_sample.json
+            reports/generated_v371_v380_storage_manifest.json
+            reports/ci_v371_v380_generated_report_writer.json
+            tauri-app/src/generated-green-sample.generated.json
+          if-no-files-found: warn
