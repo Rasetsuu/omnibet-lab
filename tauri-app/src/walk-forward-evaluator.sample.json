@@ -1,0 +1,40 @@
+{
+  "schema": "omnibet.walk_forward_evaluator_desktop_sample.v321_v330",
+  "paper_only": true,
+  "generated_at": "2026-06-27T00:00:00Z",
+  "summary": {
+    "windows": 2,
+    "total_rows": 5,
+    "eligible_rows": 3,
+    "blocked_rows": 2,
+    "ready_for_training": false,
+    "status": "blocked"
+  },
+  "window_rows": [
+    {"window_id": "wf:2026-06:1x2", "market_family": "1x2", "prediction_time": "2026-06-15T12:00:00Z", "rows": 3, "coverage_status": "blocked", "blockers": ["minimum_eval_rows_not_met", "closing_odds_coverage_below_threshold"]},
+    {"window_id": "wf:2026-06:totals", "market_family": "totals", "prediction_time": "2026-06-16T12:00:00Z", "rows": 2, "coverage_status": "blocked", "blockers": ["minimum_eval_rows_not_met", "settlement_coverage_below_threshold"]}
+  ],
+  "safety_rows": [
+    {"check": "prediction_time_within_evaluation_window", "status": "pass", "failures": 0},
+    {"check": "feature_observed_at_lte_prediction_time", "status": "fail", "failures": 1},
+    {"check": "label_created_at_gte_settled_at", "status": "pass", "failures": 0},
+    {"check": "label_created_at_gt_prediction_time", "status": "pass", "failures": 0},
+    {"check": "settled_at_gt_prediction_time", "status": "pass", "failures": 0},
+    {"check": "market_family_matches_window", "status": "pass", "failures": 0},
+    {"check": "no_random_split", "status": "pass", "failures": 0},
+    {"check": "coverage_gate_checked", "status": "fail", "failures": 1}
+  ],
+  "coverage_readiness": {
+    "ready_for_training": false,
+    "actual_eval_rows": 3,
+    "minimum_eval_rows": 100,
+    "actual_settlement_coverage_ratio": 1.0,
+    "minimum_settlement_coverage_ratio": 0.95,
+    "actual_closing_odds_coverage_ratio": 0.8,
+    "minimum_closing_odds_coverage_ratio": 0.6,
+    "actual_min_market_family_rows": 1,
+    "minimum_market_family_rows": 30,
+    "blockers": ["minimum_eval_rows_not_met", "minimum_market_family_rows_not_met", "feature_timestamp_failure_present"]
+  },
+  "next_phase": "v331-v340 first actual baseline training reports after evaluator gates pass"
+}
