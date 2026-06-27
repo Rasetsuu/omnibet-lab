@@ -138,26 +138,10 @@ pub fn validate_local_import_runner_contract(contract: &Value) -> Result<(), Str
             return Err(format!("{flag} must be false"));
         }
     }
-    require_array_items(
-        contract,
-        "required_fixture_fields",
-        &["canonical_fixture_id", "competition_id", "season_id", "home_team_id", "away_team_id", "kickoff_at", "final_result", "settled_at"],
-    )?;
-    require_array_items(
-        contract,
-        "required_odds_fields",
-        &["canonical_fixture_id", "market_family", "selection_key", "captured_at", "price_decimal", "closing_price_decimal", "source_id"],
-    )?;
-    require_array_items(
-        contract,
-        "required_settlement_fields",
-        &["canonical_fixture_id", "market_family", "selection_key", "outcome", "settled_at", "label_created_at"],
-    )?;
-    require_array_items(
-        contract,
-        "required_generated_report_fields",
-        &["schema", "status", "source_manifest_verified", "walk_forward_report", "baseline_report", "calibration_report", "paper_clv_summary", "trust_gate", "recommendation_output_present"],
-    )?;
+    require_array_items(contract, "required_fixture_fields", &["canonical_fixture_id", "competition_id", "season_id", "home_team_id", "away_team_id", "kickoff_at", "final_result", "settled_at"])?;
+    require_array_items(contract, "required_odds_fields", &["canonical_fixture_id", "market_family", "selection_key", "captured_at", "price_decimal", "closing_price_decimal", "source_id"])?;
+    require_array_items(contract, "required_settlement_fields", &["canonical_fixture_id", "market_family", "selection_key", "outcome", "settled_at", "label_created_at"])?;
+    require_array_items(contract, "required_generated_report_fields", &["schema", "status", "source_manifest_verified", "walk_forward_report", "baseline_report", "calibration_report", "paper_clv_summary", "trust_gate", "recommendation_output_present"])?;
     let storage = contract.get("storage_contract").and_then(Value::as_object).ok_or_else(|| "storage_contract missing".to_string())?;
     if storage.get("preferred_output_codec").and_then(Value::as_str) != Some("jsonl.zstd") {
         return Err("preferred output codec must be jsonl.zstd".to_string());
@@ -250,13 +234,13 @@ pub fn build_generated_green_report(
         if odds_row.price_decimal <= 1.0 || odds_row.closing_price_decimal <= 1.0 {
             return Err("decimal odds must be above 1.0".to_string());
         }
-        if odds_row.captured_at >= fixture_settled_at(fixtures, &odds_row.canonical_fixture_id)? {
+        if odds_row.captured_at.as_str() >= fixture_settled_at(fixtures, &odds_row.canonical_fixture_id)? {
             return Err("odds captured_at must be before settled_at".to_string());
         }
         market_families.insert(odds_row.market_family.clone());
     }
     for settlement in settlements {
-        if settlement.label_created_at < settlement.settled_at {
+        if settlement.label_created_at.as_str() < settlement.settled_at.as_str() {
             return Err("label_created_at must be >= settled_at".to_string());
         }
         if settlement.outcome > 1 {
@@ -331,8 +315,9 @@ mod tests {
         let fixtures: Vec<LocalFixtureRowV361> = parse_jsonl_rows(include_str!("../../data/local_sources/v361_v370/fixtures.jsonl")).expect("parse fixtures");
         let odds: Vec<LocalOddsRowV361> = parse_jsonl_rows(include_str!("../../data/local_sources/v361_v370/odds.jsonl")).expect("parse odds");
         let settlements: Vec<LocalSettlementRowV361> = parse_jsonl_rows(include_str!("../../data/local_sources/v361_v370/settlements.jsonl")).expect("parse settlements");
-        let report = build_generated_green_report(false, &fixtures, &odds, &settlements).expect("build report");
+        let report = build_generated_green_report(true, &fixtures, &odds, &settlements).expect("build report");
         assert_eq!(report.status, "generated_sample_only");
+        assert!(report.source_manifest_verified);
         assert_eq!(report.fixtures_loaded, 2);
         assert_eq!(report.odds_rows_loaded, 4);
         assert_eq!(report.settlement_rows_loaded, 4);
