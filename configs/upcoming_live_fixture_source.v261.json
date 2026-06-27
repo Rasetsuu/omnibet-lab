@@ -1,0 +1,102 @@
+{
+  "schema": "omnibet.upcoming_live_fixture_source_contract.v261",
+  "milestone": "v261_upcoming_live_fixture_source_contract",
+  "paper_only": true,
+  "local_first": true,
+  "live_fetch_enabled_in_ci": false,
+  "credential_values_allowed": false,
+  "provider_targets": [
+    "api_football",
+    "sportmonks_candidate"
+  ],
+  "source_roles": {
+    "api_football": [
+      "fixture_date_range",
+      "live_fixture_state",
+      "lineup_availability",
+      "event_availability",
+      "stats_availability"
+    ],
+    "sportmonks_candidate": [
+      "fixture_date_range",
+      "livescore_state",
+      "lineup_event_stats_includes"
+    ]
+  },
+  "request_contracts": {
+    "fixture_date_range": {
+      "required_fields": [
+        "provider",
+        "date_from",
+        "date_to",
+        "timezone",
+        "captured_at"
+      ],
+      "max_preview_days": 3,
+      "ci_network_allowed": false
+    },
+    "live_fixture_state": {
+      "required_fields": [
+        "provider",
+        "captured_at"
+      ],
+      "ci_network_allowed": false
+    }
+  },
+  "normalized_row_fields": [
+    "provider",
+    "provider_fixture_id",
+    "canonical_fixture_id",
+    "competition_id",
+    "competition_name",
+    "season",
+    "home_team",
+    "away_team",
+    "kickoff_time",
+    "status",
+    "phase",
+    "minute",
+    "home_score",
+    "away_score",
+    "lineup_available",
+    "event_data_available",
+    "stats_available",
+    "observed_at",
+    "captured_at",
+    "freshness_status",
+    "prediction_readiness",
+    "blocker_reason",
+    "next_action"
+  ],
+  "allowed_statuses": [
+    "scheduled",
+    "live",
+    "halftime",
+    "finished",
+    "postponed",
+    "cancelled",
+    "unknown"
+  ],
+  "allowed_freshness": [
+    "fresh_sample",
+    "stale_sample",
+    "missing_timestamp",
+    "unknown"
+  ],
+  "allowed_prediction_readiness": [
+    "fixture_visible",
+    "prediction_context_partial",
+    "blocked"
+  ],
+  "acceptance": {
+    "offline_sample_has_scheduled_rows": true,
+    "offline_sample_has_live_row": true,
+    "normalized_rows_have_required_fields": true,
+    "timestamps_are_prediction_time_safe": true,
+    "lineup_event_stats_availability_explicit": true,
+    "readiness_and_blockers_explicit": true,
+    "no_live_provider_calls_in_ci": true,
+    "no_secret_values_in_sample": true,
+    "readme_and_docs_updated": true
+  }
+}
