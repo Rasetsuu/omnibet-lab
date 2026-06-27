@@ -24,9 +24,7 @@
     "generate-source-terminal-report",
     "generate-source-terminal-report-topbar",
     "load-source-terminal-report",
-    "load-source-terminal-report-topbar",
-    "load-source-terminal-sample",
-    "load-source-terminal-sample-topbar"
+    "load-source-terminal-sample"
   ],
   "required_row_fields": [
     "row_id",
@@ -41,8 +39,9 @@
     "source_terminal_keeps_v259_generate_refresh": true,
     "filters_render_locally": true,
     "row_details_render_locally": true,
+    "dynamic_detail_panels_render_if_missing": true,
     "adapter_health_details_visible": true,
-    "duplicate_source_load_ids_removed": true,
+    "legacy_count_only_reports_still_render": true,
     "no_live_provider_calls": true,
     "no_secret_values_displayed": true,
     "paper_only_read_only": true
