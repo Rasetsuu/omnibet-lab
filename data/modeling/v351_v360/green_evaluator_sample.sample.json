@@ -1,0 +1,213 @@
+{
+  "schema": "omnibet.green_evaluator_sample.v351_v360",
+  "sample_id": "v351_v360_green_evaluator_sample",
+  "generated_at": "2026-06-27T00:00:00Z",
+  "paper_only": true,
+  "local_first": true,
+  "credential_values_present": false,
+  "live_provider_calls_present": false,
+  "real_money_recommendations_present": false,
+  "random_split_used": false,
+  "trust_status": "sample_only",
+  "validated_paper_claim_present": false,
+  "summary": {
+    "status": "green_sample",
+    "ready_for_evaluation": true,
+    "ready_for_baseline_report": true,
+    "ready_for_calibration_clv_report": true,
+    "terminal_prediction_allowed": false,
+    "bilet_builder_allowed": false,
+    "fixture_rows": 2,
+    "prediction_rows": 4,
+    "market_families": 3,
+    "source_manifests": 3
+  },
+  "source_manifests": [
+    {
+      "source_id": "green_sample_fixtures_v351",
+      "local_path": "data/local_sources/v351_v360/fixtures.jsonl",
+      "content_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "row_count": 2,
+      "codec": "jsonl",
+      "observed_at_policy": "kickoff_and_result_rows_are_static_sample_only",
+      "credential_values_present": false
+    },
+    {
+      "source_id": "green_sample_odds_v351",
+      "local_path": "data/local_sources/v351_v360/odds.jsonl",
+      "content_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "row_count": 4,
+      "codec": "jsonl",
+      "observed_at_policy": "captured_at_lte_prediction_time",
+      "credential_values_present": false
+    },
+    {
+      "source_id": "green_sample_settlements_v351",
+      "local_path": "data/local_sources/v351_v360/settlements.jsonl",
+      "content_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "row_count": 4,
+      "codec": "jsonl",
+      "observed_at_policy": "labels_created_after_settlement_only",
+      "credential_values_present": false
+    }
+  ],
+  "fixtures": [
+    {
+      "canonical_fixture_id": "fixture:green:001",
+      "competition_id": "eng_premier_sample",
+      "season_id": "2025_2026_sample",
+      "home_team_id": "team:arsenal_sample",
+      "away_team_id": "team:chelsea_sample",
+      "kickoff_at": "2026-01-02T18:00:00Z",
+      "final_result": "home",
+      "settled_at": "2026-01-02T20:00:00Z"
+    },
+    {
+      "canonical_fixture_id": "fixture:green:002",
+      "competition_id": "esp_laliga_sample",
+      "season_id": "2025_2026_sample",
+      "home_team_id": "team:barcelona_sample",
+      "away_team_id": "team:madrid_sample",
+      "kickoff_at": "2026-01-03T20:00:00Z",
+      "final_result": "away",
+      "settled_at": "2026-01-03T22:00:00Z"
+    }
+  ],
+  "odds_rows": [
+    {
+      "canonical_fixture_id": "fixture:green:001",
+      "market_family": "1x2",
+      "selection_key": "home",
+      "captured_at": "2026-01-01T10:00:00Z",
+      "price_decimal": 2.05,
+      "closing_price_decimal": 1.95,
+      "source_id": "green_sample_odds_v351"
+    },
+    {
+      "canonical_fixture_id": "fixture:green:001",
+      "market_family": "totals",
+      "selection_key": "over_2_5",
+      "captured_at": "2026-01-01T10:00:00Z",
+      "price_decimal": 1.95,
+      "closing_price_decimal": 2.0,
+      "source_id": "green_sample_odds_v351"
+    },
+    {
+      "canonical_fixture_id": "fixture:green:002",
+      "market_family": "1x2",
+      "selection_key": "away",
+      "captured_at": "2026-01-02T10:00:00Z",
+      "price_decimal": 2.3,
+      "closing_price_decimal": 2.2,
+      "source_id": "green_sample_odds_v351"
+    },
+    {
+      "canonical_fixture_id": "fixture:green:002",
+      "market_family": "btts",
+      "selection_key": "yes",
+      "captured_at": "2026-01-02T10:00:00Z",
+      "price_decimal": 1.85,
+      "closing_price_decimal": 1.8,
+      "source_id": "green_sample_odds_v351"
+    }
+  ],
+  "prediction_rows": [
+    {
+      "canonical_fixture_id": "fixture:green:001",
+      "market_family": "1x2",
+      "selection_key": "home",
+      "prediction_time": "2026-01-01T12:00:00Z",
+      "feature_observed_at": "2026-01-01T11:30:00Z",
+      "model_probability": 0.55,
+      "no_vig_probability": 0.52,
+      "label_created_at": "2026-01-02T20:05:00Z",
+      "settled_at": "2026-01-02T20:00:00Z",
+      "outcome": 1
+    },
+    {
+      "canonical_fixture_id": "fixture:green:001",
+      "market_family": "totals",
+      "selection_key": "over_2_5",
+      "prediction_time": "2026-01-01T12:00:00Z",
+      "feature_observed_at": "2026-01-01T11:30:00Z",
+      "model_probability": 0.48,
+      "no_vig_probability": 0.5,
+      "label_created_at": "2026-01-02T20:05:00Z",
+      "settled_at": "2026-01-02T20:00:00Z",
+      "outcome": 0
+    },
+    {
+      "canonical_fixture_id": "fixture:green:002",
+      "market_family": "1x2",
+      "selection_key": "away",
+      "prediction_time": "2026-01-02T12:00:00Z",
+      "feature_observed_at": "2026-01-02T11:30:00Z",
+      "model_probability": 0.46,
+      "no_vig_probability": 0.44,
+      "label_created_at": "2026-01-03T22:05:00Z",
+      "settled_at": "2026-01-03T22:00:00Z",
+      "outcome": 1
+    },
+    {
+      "canonical_fixture_id": "fixture:green:002",
+      "market_family": "btts",
+      "selection_key": "yes",
+      "prediction_time": "2026-01-02T12:00:00Z",
+      "feature_observed_at": "2026-01-02T11:30:00Z",
+      "model_probability": 0.57,
+      "no_vig_probability": 0.55,
+      "label_created_at": "2026-01-03T22:05:00Z",
+      "settled_at": "2026-01-03T22:00:00Z",
+      "outcome": 1
+    }
+  ],
+  "walk_forward_window": {
+    "window_id": "green_sample_window_001",
+    "train_start": "2025-08-01T00:00:00Z",
+    "train_end": "2025-12-31T23:59:59Z",
+    "evaluation_start": "2026-01-01T00:00:00Z",
+    "evaluation_end": "2026-01-04T00:00:00Z",
+    "status": "ready_for_evaluation",
+    "random_split_used": false
+  },
+  "baseline_report": {
+    "status": "ready_for_baseline_reports",
+    "metric_summary": [
+      {"market_family": "1x2", "sample_rows": 2, "eligible_rows": 2, "log_loss": 0.6872, "brier_score": 0.2471, "calibration_ece": 0.495, "status": "sample_only", "blocked_reason": null},
+      {"market_family": "totals", "sample_rows": 1, "eligible_rows": 1, "log_loss": 0.6539, "brier_score": 0.2304, "calibration_ece": 0.48, "status": "sample_only", "blocked_reason": null},
+      {"market_family": "btts", "sample_rows": 1, "eligible_rows": 1, "log_loss": 0.5621, "brier_score": 0.1849, "calibration_ece": 0.43, "status": "sample_only", "blocked_reason": null}
+    ]
+  },
+  "calibration_report": {
+    "status": "sample_only",
+    "calibration_bins": [
+      {"market_family": "1x2", "bin_id": "0.45_0.60", "predictions": 2, "avg_model_probability": 0.505, "empirical_hit_rate": 1.0, "calibration_gap": -0.495, "status": "sample_only", "blocked_reason": null},
+      {"market_family": "totals", "bin_id": "0.45_0.55", "predictions": 1, "avg_model_probability": 0.48, "empirical_hit_rate": 0.0, "calibration_gap": 0.48, "status": "sample_only", "blocked_reason": null},
+      {"market_family": "btts", "bin_id": "0.55_0.60", "predictions": 1, "avg_model_probability": 0.57, "empirical_hit_rate": 1.0, "calibration_gap": -0.43, "status": "sample_only", "blocked_reason": null}
+    ],
+    "no_vig_delta_rows": [
+      {"market_family": "1x2", "selection_key": "home", "model_probability": 0.55, "no_vig_probability": 0.52, "delta_vs_no_vig": 0.03, "status": "sample_only", "blocked_reason": null},
+      {"market_family": "totals", "selection_key": "over_2_5", "model_probability": 0.48, "no_vig_probability": 0.5, "delta_vs_no_vig": -0.02, "status": "sample_only", "blocked_reason": null},
+      {"market_family": "1x2", "selection_key": "away", "model_probability": 0.46, "no_vig_probability": 0.44, "delta_vs_no_vig": 0.02, "status": "sample_only", "blocked_reason": null},
+      {"market_family": "btts", "selection_key": "yes", "model_probability": 0.57, "no_vig_probability": 0.55, "delta_vs_no_vig": 0.02, "status": "sample_only", "blocked_reason": null}
+    ],
+    "paper_clv_summary": [
+      {"market_family": "1x2", "paper_watch_rows": 2, "closing_odds_rows": 2, "average_clv_decimal": 0.0484, "positive_clv_ratio": 1.0, "status": "sample_only", "blocked_reason": null},
+      {"market_family": "totals", "paper_watch_rows": 1, "closing_odds_rows": 1, "average_clv_decimal": -0.025, "positive_clv_ratio": 0.0, "status": "sample_only", "blocked_reason": null},
+      {"market_family": "btts", "paper_watch_rows": 1, "closing_odds_rows": 1, "average_clv_decimal": 0.0278, "positive_clv_ratio": 1.0, "status": "sample_only", "blocked_reason": null}
+    ]
+  },
+  "trust_gate": {
+    "status": "sample_only",
+    "terminal_prediction_allowed": false,
+    "bilet_builder_allowed": false,
+    "validated_paper": false,
+    "requires_before_validated": [
+      "larger_historical_rows",
+      "multiple_walk_forward_windows",
+      "stable_calibration",
+      "stable_paper_clv",
+      "provider_identity_mapping_review"
+    ]
+  }
+}

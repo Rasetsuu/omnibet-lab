@@ -23,6 +23,7 @@
         <button class="nav-button" data-page="walk-forward-evaluator">Walk-Forward Evaluator</button>
         <button class="nav-button" data-page="baseline-reports">Baseline Reports</button>
         <button class="nav-button" data-page="calibration-clv">Calibration / CLV</button>
+        <button class="nav-button" data-page="green-sample">Green Sample</button>
         <button class="nav-button" data-page="events">Events</button>
         <button class="nav-button" data-page="markets">Markets</button>
         <button class="nav-button" data-page="unknowns">Unknown Queue</button>
@@ -63,6 +64,7 @@
           <button id="load-walk-forward-evaluator-status">Load evaluator</button>
           <button id="load-baseline-reports-status">Load baseline reports</button>
           <button id="load-calibration-clv-status">Load calibration / CLV</button>
+          <button id="load-green-sample-status">Load green sample</button>
           <button id="load-review-report">Load local review report</button>
           <button id="load-review-sample">Load review sample</button>
           <button id="load-settings-report">Load settings</button>
@@ -196,6 +198,20 @@
         </div>
       </section>
 
+      <section id="green-sample" class="page" data-page-panel="green-sample">
+        <h2>Green Evaluator Sample</h2>
+        <p class="warn">v351-v360 tiny green sample. It can pass sample gates, but remains sample_only and does not unlock terminal predictions or bilet builder.</p>
+        <div class="grid">
+          <div id="green-sample-summary" class="card"><div class="muted">Load green sample first.</div></div>
+          <div id="green-sample-manifests" class="card"><div class="muted">Load green sample first.</div></div>
+          <div id="green-sample-fixtures" class="card"><div class="muted">Load green sample first.</div></div>
+          <div id="green-sample-predictions" class="card"><div class="muted">Load green sample first.</div></div>
+          <div id="green-sample-metrics" class="card"><div class="muted">Load green sample first.</div></div>
+          <div id="green-sample-clv" class="card"><div class="muted">Load green sample first.</div></div>
+          <div id="green-sample-trust" class="card"><div class="muted">Load green sample first.</div></div>
+        </div>
+      </section>
+
       <section id="events" class="page" data-page-panel="events"><h2>Events</h2><div id="page-events" class="card"><div class="muted">Load a dashboard report first.</div></div></section>
       <section id="markets" class="page" data-page-panel="markets"><h2>Markets</h2><div id="page-markets" class="card"><div class="muted">Load a dashboard report first.</div></div></section>
       <section id="unknowns" class="page" data-page-panel="unknowns"><h2>Unknown Market Review</h2><p class="muted">v53 local review UI. Decisions are UI-only until a later persistence milestone.</p><div id="review-unknown-markets-panel" class="card"><div class="muted">Load a review report first.</div></div><div id="page-unknowns" class="card"><div class="muted">Load a dashboard or review report first.</div></div></section>
@@ -299,6 +315,7 @@
   <script type="module" src="walk_forward_evaluator.js"></script>
   <script type="module" src="baseline_reports.js"></script>
   <script type="module" src="calibration_clv.js"></script>
+  <script type="module" src="green_sample.js"></script>
   <script type="module" src="app.js"></script>
 </body>
 </html>

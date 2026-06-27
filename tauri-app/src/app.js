@@ -17,6 +17,7 @@ import { loadAndRenderStorageWritersStatus } from './storage_writers.js';
 import { loadAndRenderWalkForwardEvaluatorStatus } from './walk_forward_evaluator.js';
 import { loadAndRenderBaselineReportsStatus } from './baseline_reports.js';
 import { loadAndRenderCalibrationClvStatus } from './calibration_clv.js';
+import { loadAndRenderGreenSampleStatus } from './green_sample.js';
 
 function out(x) {
   const el = document.getElementById('out');
@@ -83,6 +84,7 @@ function bind() {
   document.getElementById('load-walk-forward-evaluator-status')?.addEventListener('click', () => safeRun(() => loadAndRenderWalkForwardEvaluatorStatus()));
   document.getElementById('load-baseline-reports-status')?.addEventListener('click', () => safeRun(() => loadAndRenderBaselineReportsStatus()));
   document.getElementById('load-calibration-clv-status')?.addEventListener('click', () => safeRun(() => loadAndRenderCalibrationClvStatus()));
+  document.getElementById('load-green-sample-status')?.addEventListener('click', () => safeRun(() => loadAndRenderGreenSampleStatus()));
   document.getElementById('load-phase2-forecast')?.addEventListener('click', () => safeRun(() => loadAndRenderPhase2Forecast()));
   document.getElementById('load-upcoming-fixtures')?.addEventListener('click', () => safeRun(() => loadAndRenderUpcomingFixtures()));
   document.getElementById('load-external-data')?.addEventListener('click', () => safeRun(() => loadAndRenderExternalData()));

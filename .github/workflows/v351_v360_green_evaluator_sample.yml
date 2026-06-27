@@ -1,0 +1,36 @@
+name: OmniBet v351-v360 Green Evaluator Sample
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  green-evaluator-sample:
+    name: v351-v360 green evaluator sample
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Rust green evaluator sample test
+        run: cargo test --manifest-path rust-core/Cargo.toml green_evaluator_sample
+      - name: Run v351-v360 green evaluator sample smoke
+        run: |
+          mkdir -p reports
+          python python_lab/green_evaluator_sample_smoke.py --root . --out reports/ci_v351_v360_green_evaluator_sample.json
+      - name: Upload v351-v360 green evaluator sample report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v351-v360-green-evaluator-sample-report
+          path: reports/ci_v351_v360_green_evaluator_sample.json
+          if-no-files-found: warn
