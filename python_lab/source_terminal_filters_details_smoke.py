@@ -47,7 +47,7 @@ def build_report(root: Path) -> Dict[str, Any]:
         "html_source_page": source_terminal_page_exists and "generate-source-terminal-report" in html,
         "html_filter_ids_runtime_owned": all(filter_id in renderer_js for filter_id in filter_ids),
         "docs_updated": "v260 Source Terminal Filters and Row Details" in docs and "no live provider call" in docs,
-        "acceptance_enabled": all(acceptance.values()) and len(acceptance) == 8,
+        "acceptance_enabled": all(acceptance.values()) and len(acceptance) == 9,
     }
     return {
         "ok": all(checks.values()),
@@ -70,7 +70,7 @@ def main() -> None:
     ap.add_argument("--out", default="reports/ci_v260_source_terminal_filters_details.json")
     args = ap.parse_args()
     report = build_report(Path(args.root))
-    write_json(Path(args.out), report)
+    write_json(Path(args.out, ), report)
     print(json.dumps(report, indent=2, ensure_ascii=False))
     if not report["ok"]:
         raise SystemExit(1)
