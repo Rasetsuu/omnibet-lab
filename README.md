@@ -2,7 +2,7 @@
 
 Local-first football prediction and evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, **v248 local historical source verification**, **v249 bronze candidate preview**, **v250 bronze preview classification**, **v251 bronze preview field-schema checks**, **v252 bronze validation batch**, **v253 provider/data beta slice**, **v254 offline adapter contracts**, **v255 provider normalization preview**, **v256 source terminal report**, **v257 desktop source view**, **v258 source report generation**, **v259 source generate-refresh flow**, and **v260 source terminal filters and row details**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, **v248 local historical source verification**, **v249 bronze candidate preview**, **v250 bronze preview classification**, **v251 bronze preview field-schema checks**, **v252 bronze validation batch**, **v253 provider/data beta slice**, **v254 offline adapter contracts**, **v255 provider normalization preview**, **v256 source terminal report**, **v257 desktop source view**, **v258 source report generation**, **v259 source generate-refresh flow**, **v260 source terminal filters and row details**, and **v261 upcoming/live fixture source contract**.
 
 OmniBet is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -50,6 +50,7 @@ Mode: PAPER_ONLY
 - Rust offline provider adapter request/response contracts with local fixture validation.
 - Rust offline provider normalization preview rows for odds, fixture-result, and event-context candidates.
 - Rust source-terminal report combining adapter health, normalized preview counts, readiness badges, blockers, and locked desktop actions.
+- Offline upcoming/live fixture source contract for date-range and live-state rows.
 - Tauri desktop source view for loading and rendering the source-terminal report.
 - Tauri desktop workflow for generating the local source-terminal report file.
 - Tauri desktop source view button flow for generating and refreshing the local source report.
@@ -86,6 +87,30 @@ v234 provider runtime contracts
 → v258 source report generation
 → v259 source generate-refresh flow
 → v260 source terminal filters and row details
+→ v261 upcoming/live fixture source contract
+```
+
+## Upcoming/live fixture source contract
+
+The v261 direction defines how OmniBet asks what matches exist now and soon before the later odds, live-snapshot, and prediction-context phases.
+
+```text
+fixture date-range request contract
+live fixture-state request contract
+normalized scheduled/live fixture rows
+status/phase/freshness metadata
+lineup/event/stat availability flags
+prediction-readiness and blocker reasons
+read-only, paper-only, no CI live provider calls
+```
+
+Contract and docs:
+
+```text
+configs/upcoming_live_fixture_source.v261.json
+data/provider_fixtures/v261/upcoming_live_fixture_source.sample.json
+docs/upcoming_live_fixture_source_v261.md
+python_lab/upcoming_live_fixture_source_smoke.py
 ```
 
 ## Source Terminal filters and row details
@@ -187,6 +212,7 @@ python python_lab/source_terminal_generate.py --root . --out reports/local_v258_
 python python_lab/source_terminal_generation_smoke.py --root . --out reports/local_v258_source_terminal_generation.json
 python python_lab/source_generate_refresh_smoke.py --root . --out reports/local_v259_source_generate_refresh.json
 python python_lab/source_terminal_filters_details_smoke.py --root . --out reports/local_v260_source_terminal_filters_details.json
+python python_lab/upcoming_live_fixture_source_smoke.py --root . --out reports/local_v261_upcoming_live_fixture_source.json
 ```
 
 Rust checks:
