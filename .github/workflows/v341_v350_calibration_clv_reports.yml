@@ -1,0 +1,36 @@
+name: OmniBet v341-v350 Calibration CLV Reports
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  calibration-clv-reports:
+    name: v341-v350 calibration clv reports
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Rust calibration clv reports test
+        run: cargo test --manifest-path rust-core/Cargo.toml calibration_clv
+      - name: Run v341-v350 calibration clv smoke
+        run: |
+          mkdir -p reports
+          python python_lab/calibration_clv_reports_smoke.py --root . --out reports/ci_v341_v350_calibration_clv_reports.json
+      - name: Upload v341-v350 calibration clv report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v341-v350-calibration-clv-reports-report
+          path: reports/ci_v341_v350_calibration_clv_reports.json
+          if-no-files-found: warn
