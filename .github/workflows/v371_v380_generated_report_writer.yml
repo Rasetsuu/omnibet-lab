@@ -21,8 +21,10 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
       - name: Python compile
         run: python python_lab/compile_python_sources.py
-      - name: Rust generated report writer test
-        run: cargo test --manifest-path rust-core/Cargo.toml generated_report_writer local_import_runner
+      - name: Rust local import runner tests
+        run: cargo test --manifest-path rust-core/Cargo.toml local_import_runner
+      - name: Rust generated report writer tests
+        run: cargo test --manifest-path rust-core/Cargo.toml generated_report_writer
       - name: Generate v371-v380 local reports
         run: |
           mkdir -p reports
