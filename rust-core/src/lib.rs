@@ -36,6 +36,7 @@ pub mod silver_promote_v240;
 pub mod source_terminal_v256;
 pub mod storage_v2;
 pub mod storage_v2_compression_v266;
+pub mod storage_v2_writers_v311;
 pub mod typed_rows;
 
 pub use baseline_eval_v281::*;
@@ -76,6 +77,7 @@ pub use silver_promote_v240::*;
 pub use source_terminal_v256::*;
 pub use storage_v2::*;
 pub use storage_v2_compression_v266::*;
+pub use storage_v2_writers_v311::*;
 pub use typed_rows::*;
 
 pub mod value;
