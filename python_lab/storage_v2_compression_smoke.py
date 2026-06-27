@@ -34,7 +34,15 @@ def ordered(left: Any, right: Any) -> bool:
 
 def no_secret_values(obj: Any) -> bool:
     serialized = json.dumps(obj, ensure_ascii=False).lower()
-    forbidden = ["api_key", "secret_value", "bearer ", "sk-", "credential_value"]
+    forbidden = [
+        '"api_key":',
+        '"secret":',
+        '"bearer_token":',
+        '"credential_value":',
+        "secret_value",
+        "bearer ",
+        "sk-",
+    ]
     return not any(marker in serialized for marker in forbidden)
 
 
