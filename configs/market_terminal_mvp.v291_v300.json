@@ -1,0 +1,115 @@
+{
+  "schema": "omnibet.market_terminal_mvp_contract.v291_v300",
+  "milestone": "v291_v300_market_terminal_mvp",
+  "paper_only": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "real_money_recommendations_allowed": false,
+  "versions": {
+    "v291": "market_terminal_data_contract",
+    "v292": "fixture_market_selection_state",
+    "v293": "prediction_table_renderer",
+    "v294": "trust_blocker_display",
+    "v295": "paper_watchlist_action",
+    "v296": "market_movement_preview",
+    "v297": "paper_ledger_preview",
+    "v298": "source_freshness_badges",
+    "v299": "disabled_bilet_builder_placeholder",
+    "v300": "desktop_market_terminal_mvp_smoke"
+  },
+  "panel_ids": [
+    "market-terminal-summary",
+    "market-terminal-fixtures",
+    "market-terminal-predictions",
+    "market-terminal-selected",
+    "market-terminal-watchlist",
+    "market-terminal-ledger",
+    "market-terminal-bilet-builder"
+  ],
+  "button_ids": [
+    "load-market-terminal-mvp"
+  ],
+  "fixture_row_required_fields": [
+    "canonical_fixture_id",
+    "label",
+    "competition",
+    "status",
+    "kickoff_time",
+    "source_freshness",
+    "available_markets",
+    "trust_summary"
+  ],
+  "prediction_row_required_fields": [
+    "canonical_fixture_id",
+    "market_key",
+    "selection_key",
+    "model_probability",
+    "fair_odds_decimal",
+    "bookmaker_odds_decimal",
+    "no_vig_probability",
+    "edge_vs_no_vig",
+    "trust_status",
+    "blockers",
+    "allowed_action",
+    "movement_preview"
+  ],
+  "watchlist_required_fields": [
+    "paper_watch_id",
+    "canonical_fixture_id",
+    "market_key",
+    "selection_key",
+    "captured_price_decimal",
+    "captured_at",
+    "trust_status",
+    "status"
+  ],
+  "ledger_preview_required_fields": [
+    "paper_ticket_id",
+    "status",
+    "selections_count",
+    "paper_stake_units",
+    "real_stake_allowed",
+    "settlement_status"
+  ],
+  "allowed_actions": [
+    "inspect",
+    "paper_watch_only"
+  ],
+  "forbidden_actions": [
+    "recommend_real_bet",
+    "place_bet",
+    "auto_stake",
+    "claim_profitability",
+    "enable_bilet_builder_real_mode"
+  ],
+  "trust_statuses": [
+    "unsupported",
+    "sample_only",
+    "low_data",
+    "experimental",
+    "paper_watch",
+    "validated_paper"
+  ],
+  "minimum_bilet_builder_status": "validated_paper",
+  "default_disabled_reason": "model_not_validated_for_bilet_builder",
+  "source_freshness_badges": [
+    "fresh_sample",
+    "stale_sample",
+    "missing_timestamp",
+    "offline_sample"
+  ],
+  "acceptance": {
+    "market_terminal_data_contract_defined": true,
+    "fixture_and_market_selection_state_defined": true,
+    "prediction_table_renderer_wired": true,
+    "trust_and_blocker_display_required": true,
+    "paper_watchlist_action_is_safe": true,
+    "market_movement_preview_is_read_only": true,
+    "paper_ledger_preview_forbids_real_stake": true,
+    "source_freshness_badges_required": true,
+    "bilet_builder_placeholder_disabled": true,
+    "desktop_page_and_smoke_added": true,
+    "rust_validation_module_added": true
+  }
+}
