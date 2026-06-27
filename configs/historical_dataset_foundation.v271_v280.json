@@ -1,0 +1,194 @@
+{
+  "schema": "omnibet.historical_dataset_foundation_contract.v271_v280",
+  "milestone": "v271_v280_historical_dataset_foundation",
+  "paper_only": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "versions": {
+    "v271": "historical_source_coverage_matrix",
+    "v272": "league_tournament_import_window_targets",
+    "v273": "historical_source_manifest_bundle",
+    "v274": "settlement_and_closing_odds_target_contract",
+    "v275": "coverage_readiness_report",
+    "v276_v280": "first_leak_safe_dataset_build_plan"
+  },
+  "source_coverage_matrix": [
+    {
+      "source_id": "football_data_co_uk",
+      "priority": "primary_historical",
+      "roles": ["results", "match_stats", "bookmaker_odds", "closing_odds_proxy"],
+      "coverage_tier": "major_european_leagues",
+      "credential_required": false,
+      "adapter_status": "planned_local_csv_import"
+    },
+    {
+      "source_id": "api_football",
+      "priority": "primary_provider",
+      "roles": ["fixtures", "results", "lineups", "events", "match_stats", "live_state"],
+      "coverage_tier": "broad_api_coverage",
+      "credential_required": true,
+      "adapter_status": "offline_contract_first"
+    },
+    {
+      "source_id": "the_odds_api",
+      "priority": "primary_odds_provider",
+      "roles": ["bookmaker_odds", "market_snapshots", "odds_freshness"],
+      "coverage_tier": "market_availability_dependent",
+      "credential_required": true,
+      "adapter_status": "offline_contract_first"
+    },
+    {
+      "source_id": "statsbomb_open_data",
+      "priority": "research_event_data",
+      "roles": ["events", "lineups", "players", "shots"],
+      "coverage_tier": "limited_open_competitions",
+      "credential_required": false,
+      "adapter_status": "research_import_candidate"
+    },
+    {
+      "source_id": "football_data_org",
+      "priority": "secondary_fixture_results",
+      "roles": ["fixtures", "results", "competitions", "standings"],
+      "coverage_tier": "api_plan_dependent",
+      "credential_required": true,
+      "adapter_status": "manifest_candidate"
+    },
+    {
+      "source_id": "sportmonks_candidate",
+      "priority": "paid_coverage_candidate",
+      "roles": ["fixtures", "livescores", "lineups", "events", "statistics", "odds_candidate"],
+      "coverage_tier": "subscription_dependent",
+      "credential_required": true,
+      "adapter_status": "capability_review_required"
+    },
+    {
+      "source_id": "betfair_historical_candidate",
+      "priority": "exchange_price_candidate",
+      "roles": ["exchange_prices", "traded_volume", "market_movement", "closing_price_reference"],
+      "coverage_tier": "licensed_or_export_dependent",
+      "credential_required": true,
+      "adapter_status": "later_phase_candidate"
+    },
+    {
+      "source_id": "openfootball",
+      "priority": "open_results_backfill",
+      "roles": ["fixtures", "results"],
+      "coverage_tier": "open_dataset_backfill",
+      "credential_required": false,
+      "adapter_status": "manifest_candidate"
+    },
+    {
+      "source_id": "openligadb",
+      "priority": "open_results_backfill",
+      "roles": ["fixtures", "results"],
+      "coverage_tier": "league_dependent",
+      "credential_required": false,
+      "adapter_status": "manifest_candidate"
+    },
+    {
+      "source_id": "international_results",
+      "priority": "national_team_backfill",
+      "roles": ["fixtures", "results", "tournament_history"],
+      "coverage_tier": "international_matches",
+      "credential_required": false,
+      "adapter_status": "manifest_candidate"
+    }
+  ],
+  "league_tournament_targets": {
+    "league_targets": [
+      {
+        "target_id": "top_5_european_leagues",
+        "competitions": ["eng_premier", "esp_laliga", "ita_serie_a", "ger_bundesliga", "fra_ligue_1"],
+        "minimum_seasons": 5,
+        "required_domains": ["fixtures", "results", "odds", "settlements"],
+        "preferred_domains": ["lineups", "events", "match_stats", "closing_odds"]
+      },
+      {
+        "target_id": "secondary_european_leagues",
+        "competitions": ["ned_eredivisie", "por_primeira", "bel_first_division", "tur_super_lig"],
+        "minimum_seasons": 3,
+        "required_domains": ["fixtures", "results"],
+        "preferred_domains": ["odds", "settlements"]
+      }
+    ],
+    "tournament_targets": [
+      {
+        "target_id": "major_international_tournaments",
+        "competitions": ["world_cup", "euro", "copa_america", "afcon", "asian_cup"],
+        "minimum_tournament_editions": 3,
+        "required_domains": ["fixtures", "results", "settlements"],
+        "preferred_domains": ["lineups", "events", "odds", "closing_odds"]
+      }
+    ]
+  },
+  "historical_source_manifest_bundle": {
+    "target_runtime": "rust",
+    "required_manifest_fields": [
+      "source_id",
+      "provider",
+      "source_role",
+      "license_notes",
+      "local_path",
+      "expected_codec",
+      "expected_columns",
+      "season_start",
+      "season_end",
+      "sha256",
+      "row_count",
+      "observed_at_policy",
+      "promotion_target"
+    ],
+    "allowed_codecs": ["csv", "json", "jsonl.gzip", "jsonl.zstd", "parquet.zstd"],
+    "promotion_targets": ["bronze_raw_snapshot", "silver_candidate", "gold_feature_candidate"]
+  },
+  "settlement_and_closing_odds_targets": {
+    "market_families": ["1x2", "totals", "btts", "team_totals", "double_chance", "draw_no_bet"],
+    "settlement_required_fields": ["canonical_fixture_id", "market_key", "selection_key", "final_result", "settled_at", "label_created_at"],
+    "closing_odds_required_fields": ["canonical_fixture_id", "market_key", "selection_key", "bookmaker", "closing_price_decimal", "captured_at", "source_id"],
+    "paper_clv_required": true,
+    "label_after_settlement_only": true
+  },
+  "coverage_readiness_report": {
+    "minimum_ready_rows": 1000,
+    "minimum_completed_seasons_per_primary_league": 3,
+    "minimum_odds_coverage_ratio": 0.6,
+    "minimum_settlement_coverage_ratio": 0.95,
+    "blocker_reasons": [
+      "missing_local_source_file",
+      "hash_mismatch",
+      "insufficient_season_window",
+      "missing_odds_columns",
+      "missing_settlement_labels",
+      "identity_mapping_required",
+      "market_mapping_required"
+    ]
+  },
+  "first_dataset_build_plan": {
+    "target_runtime": "rust",
+    "storage_contract": "omnibet.storage_v2_compression_contract.v266_v270",
+    "stages": [
+      "verify_local_source_manifests",
+      "materialize_bronze_candidates",
+      "classify_bronze_rows",
+      "run_identity_mapping_review",
+      "run_market_mapping_review",
+      "write_silver_candidates",
+      "derive_gold_feature_candidates",
+      "attach_settlement_labels_after_final",
+      "emit_coverage_readiness_report"
+    ],
+    "forbidden_actions": ["random_split", "train_on_unsettled_games", "store_credentials", "live_provider_calls_in_ci"],
+    "ready_for_training_after_phase": false
+  },
+  "acceptance": {
+    "coverage_matrix_includes_primary_sources": true,
+    "top_league_and_tournament_targets_defined": true,
+    "manifest_bundle_requires_hashes_rows_lineage": true,
+    "settlement_and_closing_odds_targets_defined": true,
+    "coverage_readiness_thresholds_defined": true,
+    "dataset_build_plan_preserves_no_leak_boundaries": true,
+    "rust_validation_module_added": true,
+    "docs_smoke_and_workflow_added": true
+  }
+}
