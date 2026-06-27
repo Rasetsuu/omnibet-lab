@@ -80,7 +80,7 @@ def build_report(root: Path) -> Dict[str, Any]:
         "rust_module_exposed": "pub mod local_materialization_v301;" in rust_lib and "pub use local_materialization_v301::*;" in rust_lib,
         "rust_module_validation": "validate_local_dataset_materialization_contract" in rust_module and "writes_real_bronze_silver_gold" in rust_module and "recommend_real_bet" in rust_module,
         "docs_updated": "v301-v310 Local Dataset Materialization Preview" in docs and "Market Terminal reload" in docs,
-        "readme_updated": "v301-v310 real local dataset materialization preview" in readme,
+        "readme_updated": "v301-v310 local dataset materialization preview" in readme,
         "workflow_updated": "local_dataset_materialization_smoke.py" in workflow and "cargo test" in workflow,
         "acceptance_enabled": all(acceptance.values()) and len(acceptance) == 12,
     }
