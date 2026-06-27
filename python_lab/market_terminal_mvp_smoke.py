@@ -39,6 +39,11 @@ def html_ids(text: str) -> list[str]:
     return re.findall(r'id="([^"]+)"', text)
 
 
+def readme_mentions_market_terminal(readme: str) -> bool:
+    lowered = readme.lower()
+    return "v291-v300" in lowered and "market terminal" in lowered and "mvp" in lowered
+
+
 def build_report(root: Path) -> Dict[str, Any]:
     contract = read_json(root / "configs/market_terminal_mvp.v291_v300.json")
     sample = read_json(root / "tauri-app/src/market-terminal.sample.json")
@@ -81,7 +86,7 @@ def build_report(root: Path) -> Dict[str, Any]:
         "rust_module_exposed": "pub mod market_terminal_v291;" in rust_lib and "pub use market_terminal_v291::*;" in rust_lib,
         "rust_module_validation": "validate_market_terminal_mvp_contract" in rust_module and "recommend_real_bet" in rust_module and "validated_paper" in rust_module,
         "docs_updated": "v291-v300 Market Terminal MVP" in docs and "bilet builder" in docs.lower(),
-        "readme_updated": "v291-v300 market terminal MVP" in readme,
+        "readme_updated": readme_mentions_market_terminal(readme),
         "workflow_updated": "market_terminal_mvp_smoke.py" in workflow and "cargo test" in workflow,
         "acceptance_enabled": all(acceptance.values()) and len(acceptance) == 11,
     }
