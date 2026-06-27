@@ -12,6 +12,7 @@ blocker filter
 adapter health details
 normalized row sample details
 next-action hints
+unique topbar/page source-load button bindings
 ```
 
 ## Scope
@@ -28,6 +29,15 @@ source-terminal-row-details
 ```
 
 The filters are local UI-only controls over rows already present in the report. The detail panel shows the selected sample payload and the next review action.
+
+The topbar and page-level source-load buttons use unique IDs so both controls bind reliably:
+
+```text
+load-source-terminal-report
+load-source-terminal-report-topbar
+load-source-terminal-sample
+load-source-terminal-sample-topbar
+```
 
 ## Report shape
 
@@ -73,6 +83,7 @@ v259 generate-refresh buttons still work
 source report can be filtered by provider/type/readiness/blocker
 row sample details can be inspected locally
 adapter health details are visible
+topbar and page source-load buttons use unique IDs and both bind
 no live provider call or secret display is introduced
 README, contract, sample, and smoke are updated
 ```
