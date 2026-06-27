@@ -10,6 +10,7 @@ import { importExternalFixtureCacheToUpcoming, loadAndRenderExternalData } from 
 import { loadAndRenderBetaWorkflow } from './beta_workflow.js';
 import { loadAndRenderBetaReleaseTrain } from './beta_release_train.js';
 import { generateAndRenderSourceTerminal, loadAndRenderSourceTerminal } from './source_terminal.js';
+import { loadAndRenderLiveSourceBridge } from './live_source.js';
 
 function out(x) {
   const el = document.getElementById('out');
@@ -63,6 +64,7 @@ function bind() {
   bindSourceLoadButton('load-source-terminal-sample-topbar', 'tauri-app/src/source-terminal.sample.json');
   bindSourceGenerateButton('generate-source-terminal-report');
   bindSourceGenerateButton('generate-source-terminal-report-topbar');
+  document.getElementById('load-live-source-bridge')?.addEventListener('click', () => safeRun(() => loadAndRenderLiveSourceBridge()));
   document.getElementById('load-phase2-forecast')?.addEventListener('click', () => safeRun(() => loadAndRenderPhase2Forecast()));
   document.getElementById('load-upcoming-fixtures')?.addEventListener('click', () => safeRun(() => loadAndRenderUpcomingFixtures()));
   document.getElementById('load-external-data')?.addEventListener('click', () => safeRun(() => loadAndRenderExternalData()));
