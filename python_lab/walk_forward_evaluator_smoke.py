@@ -13,7 +13,7 @@ def read_json(path: Path) -> Dict[str, Any]:
 
 
 def write_json(path: Path, obj: Dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
+    path.parent.mkdir(parents=True)
     path.write_text(json.dumps(obj, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
@@ -29,6 +29,11 @@ def html_ids(text: str) -> list[str]:
 
 def required_subset(required: list[str], row: Dict[str, Any]) -> bool:
     return set(required).issubset(set(row.keys()))
+
+
+def readme_mentions_walk_forward(readme: str) -> bool:
+    lowered = readme.lower()
+    return "v321-v330" in lowered and ("walk-forward evaluator" in lowered or "walk-forward evaluation" in lowered)
 
 
 def build_report(root: Path) -> Dict[str, Any]:
@@ -77,7 +82,7 @@ def build_report(root: Path) -> Dict[str, Any]:
         "app_binding": "./walk_forward_evaluator.js" in app_js and "loadAndRenderWalkForwardEvaluatorStatus" in app_js and "load-walk-forward-evaluator-status" in app_js,
         "renderer_wired": "renderWalkForwardEvaluatorStatus" in renderer and "renderSafety" in renderer and "renderCoverage" in renderer,
         "docs_updated": "v321-v330 Rust Dataset Loader" in docs and "no-random-split" in docs,
-        "readme_updated": "v321-v330 Rust dataset loader" in readme,
+        "readme_updated": readme_mentions_walk_forward(readme),
         "workflow_updated": "walk_forward_evaluator_smoke.py" in workflow and "cargo test" in workflow,
         "acceptance_enabled": all(acceptance.values()) and len(acceptance) == 12,
     }
