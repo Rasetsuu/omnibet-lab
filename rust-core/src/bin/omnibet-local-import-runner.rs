@@ -218,3 +218,49 @@ fn main() {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn sample_report() -> GeneratedGreenReportV361 {
+        GeneratedGreenReportV361 {
+            schema: "omnibet.generated_green_report.v361_v370".to_string(),
+            status: "generated_sample_only".to_string(),
+            source_manifest_verified: true,
+            fixtures_loaded: 2,
+            odds_rows_loaded: 4,
+            settlement_rows_loaded: 4,
+            prediction_rows_generated: 4,
+            market_families: 3,
+            storage_manifest_written: true,
+            trust_status: "sample_only".to_string(),
+            validated_paper: false,
+            terminal_prediction_allowed: false,
+            bilet_builder_allowed: false,
+            recommendation_output_present: false,
+        }
+    }
+
+    #[test]
+    fn generated_report_writer_desktop_payload_stays_sample_only() {
+        let payload = desktop_payload(&sample_report());
+        assert_eq!(payload.get("schema").and_then(Value::as_str), Some("omnibet.generated_green_sample_desktop.v371_v380"));
+        assert_eq!(payload.pointer("/trust_gate/status").and_then(Value::as_str), Some("sample_only"));
+        assert_eq!(payload.pointer("/trust_gate/validated_paper").and_then(Value::as_bool), Some(false));
+        assert_eq!(payload.pointer("/trust_gate/terminal_prediction_allowed").and_then(Value::as_bool), Some(false));
+        assert_eq!(payload.pointer("/trust_gate/bilet_builder_allowed").and_then(Value::as_bool), Some(false));
+        assert_eq!(payload.get("recommendation_output_present").and_then(Value::as_bool), Some(false));
+    }
+
+    #[test]
+    fn generated_report_writer_failure_payload_stays_safe() {
+        let payload = failure_payload("forced failure");
+        assert_eq!(payload.get("status").and_then(Value::as_str), Some("integrity_failed_sample_only"));
+        assert_eq!(payload.pointer("/trust_gate/status").and_then(Value::as_str), Some("sample_only"));
+        assert_eq!(payload.pointer("/trust_gate/validated_paper").and_then(Value::as_bool), Some(false));
+        assert_eq!(payload.pointer("/trust_gate/terminal_prediction_allowed").and_then(Value::as_bool), Some(false));
+        assert_eq!(payload.pointer("/trust_gate/bilet_builder_allowed").and_then(Value::as_bool), Some(false));
+        assert_eq!(payload.get("recommendation_output_present").and_then(Value::as_bool), Some(false));
+    }
+}
