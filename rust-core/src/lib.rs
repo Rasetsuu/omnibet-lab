@@ -1,3 +1,4 @@
+pub mod baseline_eval_v281;
 pub mod bronze_cache;
 pub mod bronze_candidate_v249;
 pub mod bronze_classify_v250;
@@ -35,6 +36,7 @@ pub mod storage_v2;
 pub mod storage_v2_compression_v266;
 pub mod typed_rows;
 
+pub use baseline_eval_v281::*;
 pub use bronze_cache::*;
 pub use bronze_candidate_v249::*;
 pub use bronze_classify_v250::*;
