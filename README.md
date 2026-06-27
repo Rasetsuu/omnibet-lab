@@ -2,7 +2,7 @@
 
 Local-first football prediction and evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, **v248 local historical source verification**, **v249 bronze candidate preview**, **v250 bronze preview classification**, **v251 bronze preview field-schema checks**, **v252 bronze validation batch**, **v253 provider/data beta slice**, **v254 offline adapter contracts**, **v255 provider normalization preview**, **v256 source terminal report**, **v257 desktop source view**, **v258 source report generation**, **v259 source generate-refresh flow**, **v260 source terminal filters and row details**, **v261 upcoming/live fixture source contract**, **v262-v265 source-to-context bridge**, **v266-v270 storage v2 compression foundation**, **v271-v280 historical dataset foundation**, **v281-v290 baseline training and evaluation**, **v291-v300 market terminal MVP**, **v301-v310 local dataset materialization preview**, **v311-v320 Rust Storage V2 writers**, **v321-v330 Rust walk-forward evaluator**, **v331-v340 baseline training reports**, **v341-v350 calibration, CLV, and no-vig reports**, and **v351-v360 green evaluator sample**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, **v248 local historical source verification**, **v249 bronze candidate preview**, **v250 bronze preview classification**, **v251 bronze preview field-schema checks**, **v252 bronze validation batch**, **v253 provider/data beta slice**, **v254 offline adapter contracts**, **v255 provider normalization preview**, **v256 source terminal report**, **v257 desktop source view**, **v258 source report generation**, **v259 source generate-refresh flow**, **v260 source terminal filters and row details**, **v261 upcoming/live fixture source contract**, **v262-v265 source-to-context bridge**, **v266-v270 storage v2 compression foundation**, **v271-v280 historical dataset foundation**, **v281-v290 baseline training and evaluation**, **v291-v300 market terminal MVP**, **v301-v310 local dataset materialization preview**, **v311-v320 Rust Storage V2 writers**, **v321-v330 Rust walk-forward evaluator**, **v331-v340 baseline training reports**, **v341-v350 calibration, CLV, and no-vig reports**, **v351-v360 green evaluator sample**, and **v361-v370 local import runner and storage-backed green sample**.
 
 OmniBet is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -41,12 +41,13 @@ Mode: PAPER_ONLY
 - Rust baseline report runner that blocks reports when walk-forward evaluator gates fail, plus no-vig preview, artifact manifest, and trust gate.
 - Rust calibration/CLV report helper layer for calibration gaps, Brier score, no-vig deltas, CLV, blocked reports, and trust gate updates.
 - Rust green-sample validation for a tiny internally consistent local mini-pack with non-null sample metrics while still staying `sample_only`.
+- Rust local import runner foundation for JSONL mini-pack parsing, source manifest SHA-256 verification, generated green reports, and storage-manifest shaped output.
 - Rust-facing Storage V2 compression contract validation for JSONL.Zstd, Parquet.Zstd, provider cache manifests, writer migration, and walk-forward loader shape.
 - Offline upcoming/live fixture source contract for date-range and live-state rows.
 - Offline source-to-context bridge for odds snapshots, live snapshots, retention policy, and prediction-ready context bundles.
 - Baseline/evaluation foundation for no-vig baselines, calibration, walk-forward reports, paper CLV, trust gates, and market-terminal table shape.
 - Local dataset materialization preview for manifests, fixture/odds/settlement/CLV previews, Bronze/Silver/Gold candidates, and readiness blockers.
-- Tauri desktop source view, live-source bridge sample panel, market-terminal MVP panel, dataset-materialization preview panel, storage-writer status panel, walk-forward evaluator panel, baseline-report status panel, calibration/CLV status panel, and green-sample status panel.
+- Tauri desktop source view, live-source bridge sample panel, market-terminal MVP panel, dataset-materialization preview panel, storage-writer status panel, walk-forward evaluator panel, baseline-report status panel, calibration/CLV status panel, green-sample status panel, and generated-green status panel.
 - Tauri desktop shell with command bridge to allowlisted Rust CLIs and local offline workflows.
 
 ## Provider / storage chain
@@ -91,6 +92,7 @@ v234 provider runtime contracts
 → v331-v340 baseline training reports
 → v341-v350 calibration, CLV, and no-vig reports
 → v351-v360 green evaluator sample
+→ v361-v370 local import runner and storage-backed green sample
 ```
 
 ## Execution roadmap
@@ -98,6 +100,40 @@ v234 provider runtime contracts
 The v301+ execution roadmap is locked in [`docs/execution_roadmap_v301_plus.md`](docs/execution_roadmap_v301_plus.md).
 
 It defines when to move stable logic from Python to Rust, when to implement the chosen compression path, when training starts, when prediction improvements begin, and how the UI evolves from bundled samples to generated local reports.
+
+## Local import runner and storage-backed green sample
+
+The v361-v370 bridge turns the green sample into a generated local report path instead of only a bundled sample.
+
+```text
+v361 local mini-pack loader
+v362 source manifest hash verifier
+v363 fixture/odds/settlement row parser
+v364 generated walk-forward green report
+v365 generated baseline metrics report
+v366 generated calibration/CLV report
+v367 storage-writer integration for mini-pack outputs
+v368 desktop reload from generated green report
+v369 sample_only trust gate preservation
+v370 local import runner smoke
+```
+
+Contract, local mini-pack, docs, Rust module, desktop renderer, and smoke:
+
+```text
+configs/local_import_runner.v361_v370.json
+data/local_sources/v361_v370/fixtures.jsonl
+data/local_sources/v361_v370/odds.jsonl
+data/local_sources/v361_v370/settlements.jsonl
+data/local_sources/v361_v370/source_manifest.json
+docs/local_import_runner_v361_v370.md
+rust-core/src/local_import_runner_v361.rs
+tauri-app/src/generated-green-sample.sample.json
+tauri-app/src/generated_green.js
+python_lab/local_import_runner_smoke.py
+```
+
+This phase verifies local JSONL row counts and SHA-256 manifest entries, parses fixture/odds/settlement rows, and exposes a generated-green report shape. It still keeps `trust_status = sample_only`, `validated_paper = false`, terminal prediction disabled, and bilet builder disabled.
 
 ## Green evaluator sample
 
@@ -114,18 +150,6 @@ v357 desktop reload from green sample
 v358 trust gate stays sample_only, not validated_paper
 v359 no recommendation output enforcement
 v360 green evaluator/baseline/calibration smoke
-```
-
-Contract, sample, docs, Rust module, desktop renderer, and smoke:
-
-```text
-configs/green_evaluator_sample.v351_v360.json
-data/modeling/v351_v360/green_evaluator_sample.sample.json
-docs/green_evaluator_sample_v351_v360.md
-rust-core/src/green_sample_v351.rs
-tauri-app/src/green-evaluator-sample.sample.json
-tauri-app/src/green_sample.js
-python_lab/green_evaluator_sample_smoke.py
 ```
 
 The bundled sample has non-null metrics, but the trust gate remains `sample_only`. It explicitly keeps `validated_paper = false`, terminal predictions disabled, and bilet builder disabled.
@@ -280,21 +304,21 @@ v275 coverage/readiness report
 v276-v280 first leak-safe dataset build plan
 ```
 
-## Next phase: v361-v370 local import runner and storage-backed green sample
+## Next phase: v371-v380 real generated report writer and desktop reload
 
-The next larger phase should turn the green sample into a generated local report path instead of only a bundled sample:
+The next larger phase should write generated green outputs from the runner rather than only providing a generated-shaped sample:
 
 ```text
-v361 local mini-pack loader
-v362 source manifest hash verifier
-v363 fixture/odds/settlement row parser
-v364 generated walk-forward green report
-v365 generated baseline metrics report
-v366 generated calibration/CLV report
-v367 storage-writer integration for mini-pack outputs
-v368 desktop reload from generated green report
-v369 sample_only trust gate preservation
-v370 local import runner smoke
+v371 generated report writer CLI shape
+v372 generated desktop sample writer
+v373 generated storage manifest writer
+v374 mini-pack integrity failure report
+v375 generated report reload button path
+v376 sample_only trust gate preservation
+v377 generated artifacts upload in CI
+v378 local import runner docs update
+v379 no recommendation output enforcement
+v380 generated report writer smoke
 ```
 
 ## Actual beta direction
@@ -338,6 +362,7 @@ python python_lab/walk_forward_evaluator_smoke.py --root . --out reports/local_v
 python python_lab/baseline_training_reports_smoke.py --root . --out reports/local_v331_v340_baseline_training_reports.json
 python python_lab/calibration_clv_reports_smoke.py --root . --out reports/local_v341_v350_calibration_clv_reports.json
 python python_lab/green_evaluator_sample_smoke.py --root . --out reports/local_v351_v360_green_evaluator_sample.json
+python python_lab/local_import_runner_smoke.py --root . --out reports/local_v361_v370_local_import_runner.json
 ```
 
 Rust checks:
@@ -354,4 +379,5 @@ cargo test --manifest-path rust-core/Cargo.toml walk_forward_evaluator
 cargo test --manifest-path rust-core/Cargo.toml baseline_reports
 cargo test --manifest-path rust-core/Cargo.toml calibration_clv
 cargo test --manifest-path rust-core/Cargo.toml green_evaluator_sample
+cargo test --manifest-path rust-core/Cargo.toml local_import_runner
 ```
