@@ -1,0 +1,35 @@
+{
+  "schema": "omnibet.local_import_source_manifest.v361_v370",
+  "generated_at": "2026-06-27T00:00:00Z",
+  "paper_only": true,
+  "credential_values_present": false,
+  "sources": [
+    {
+      "source_id": "green_sample_fixtures_v361",
+      "local_path": "data/local_sources/v361_v370/fixtures.jsonl",
+      "codec": "jsonl",
+      "content_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "row_count": 2,
+      "observed_at_policy": "fixture_rows_static_sample_only",
+      "credential_values_present": false
+    },
+    {
+      "source_id": "green_sample_odds_v361",
+      "local_path": "data/local_sources/v361_v370/odds.jsonl",
+      "codec": "jsonl",
+      "content_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "row_count": 4,
+      "observed_at_policy": "captured_at_lte_prediction_time",
+      "credential_values_present": false
+    },
+    {
+      "source_id": "green_sample_settlements_v361",
+      "local_path": "data/local_sources/v361_v370/settlements.jsonl",
+      "codec": "jsonl",
+      "content_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "row_count": 4,
+      "observed_at_policy": "labels_created_after_settlement_only",
+      "credential_values_present": false
+    }
+  ]
+}
