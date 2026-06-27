@@ -1,0 +1,36 @@
+name: OmniBet v266-v270 Storage V2 Compression
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  storage-v2-compression:
+    name: v266-v270 storage v2 compression
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Rust storage compression test
+        run: cargo test --manifest-path rust-core/Cargo.toml storage_v2_compression
+      - name: Run v266-v270 storage compression smoke
+        run: |
+          mkdir -p reports
+          python python_lab/storage_v2_compression_smoke.py --root . --out reports/ci_v266_v270_storage_v2_compression.json
+      - name: Upload v266-v270 storage compression report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v266-v270-storage-v2-compression-report
+          path: reports/ci_v266_v270_storage_v2_compression.json
+          if-no-files-found: warn
