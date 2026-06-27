@@ -1,0 +1,151 @@
+{
+  "schema": "omnibet.historical_dataset_foundation_sample.v271_v280",
+  "sample_id": "v271_v280_historical_dataset_foundation_sample",
+  "generated_at": "2026-06-27T00:00:00Z",
+  "paper_only": true,
+  "credential_values_present": false,
+  "source_coverage_rows": [
+    {
+      "source_id": "football_data_co_uk",
+      "priority": "primary_historical",
+      "roles": ["results", "match_stats", "bookmaker_odds", "closing_odds_proxy"],
+      "sample_competitions": ["eng_premier", "esp_laliga", "ita_serie_a"],
+      "sample_season_window": "2021-2026",
+      "credential_required": false,
+      "readiness": "manifest_ready"
+    },
+    {
+      "source_id": "api_football",
+      "priority": "primary_provider",
+      "roles": ["fixtures", "results", "lineups", "events", "match_stats", "live_state"],
+      "sample_competitions": ["world_cup", "euro", "eng_premier"],
+      "sample_season_window": "2021-2026",
+      "credential_required": true,
+      "readiness": "offline_contract_first"
+    },
+    {
+      "source_id": "the_odds_api",
+      "priority": "primary_odds_provider",
+      "roles": ["bookmaker_odds", "market_snapshots", "odds_freshness"],
+      "sample_competitions": ["eng_premier", "esp_laliga"],
+      "sample_season_window": "2024-2026",
+      "credential_required": true,
+      "readiness": "offline_contract_first"
+    },
+    {
+      "source_id": "statsbomb_open_data",
+      "priority": "research_event_data",
+      "roles": ["events", "lineups", "players", "shots"],
+      "sample_competitions": ["open_competition_sample"],
+      "sample_season_window": "coverage_limited",
+      "credential_required": false,
+      "readiness": "research_import_candidate"
+    }
+  ],
+  "import_window_targets": [
+    {
+      "target_id": "top_5_european_leagues",
+      "competitions": ["eng_premier", "esp_laliga", "ita_serie_a", "ger_bundesliga", "fra_ligue_1"],
+      "minimum_seasons": 5,
+      "required_domains": ["fixtures", "results", "odds", "settlements"],
+      "preferred_domains": ["lineups", "events", "match_stats", "closing_odds"],
+      "readiness": "target_defined_not_ingested"
+    },
+    {
+      "target_id": "major_international_tournaments",
+      "competitions": ["world_cup", "euro", "copa_america", "afcon", "asian_cup"],
+      "minimum_tournament_editions": 3,
+      "required_domains": ["fixtures", "results", "settlements"],
+      "preferred_domains": ["lineups", "events", "odds", "closing_odds"],
+      "readiness": "target_defined_not_ingested"
+    }
+  ],
+  "source_manifests": [
+    {
+      "source_id": "football_data_co_uk:epl:2021_2026",
+      "provider": "football_data_co_uk",
+      "source_role": "historical_results_odds_csv",
+      "license_notes": "manual_local_source_review_required",
+      "local_path": "data/local_sources/football_data_co_uk/epl_2021_2026.csv",
+      "expected_codec": "csv",
+      "expected_columns": ["Date", "HomeTeam", "AwayTeam", "FTHG", "FTAG", "FTR", "B365H", "B365D", "B365A"],
+      "season_start": "2021-2022",
+      "season_end": "2025-2026",
+      "sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "row_count": 1900,
+      "observed_at_policy": "row_date_at_or_before_prediction_time",
+      "promotion_target": "silver_candidate"
+    },
+    {
+      "source_id": "statsbomb_open_data:events:sample",
+      "provider": "statsbomb_open_data",
+      "source_role": "event_lineup_research_sample",
+      "license_notes": "open_data_license_review_required",
+      "local_path": "data/local_sources/statsbomb/events_sample.jsonl.zstd",
+      "expected_codec": "jsonl.zstd",
+      "expected_columns": ["match_id", "event_id", "type", "team", "player", "minute", "second"],
+      "season_start": "coverage_limited",
+      "season_end": "coverage_limited",
+      "sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "row_count": 63140,
+      "observed_at_policy": "event_time_after_kickoff_only_for_live_context",
+      "promotion_target": "bronze_raw_snapshot"
+    }
+  ],
+  "settlement_and_closing_odds_targets": [
+    {
+      "market_family": "1x2",
+      "settlement_fields": ["canonical_fixture_id", "market_key", "selection_key", "final_result", "settled_at", "label_created_at"],
+      "closing_odds_fields": ["canonical_fixture_id", "market_key", "selection_key", "bookmaker", "closing_price_decimal", "captured_at", "source_id"],
+      "paper_clv_required": true,
+      "readiness": "target_defined_not_filled"
+    },
+    {
+      "market_family": "totals",
+      "settlement_fields": ["canonical_fixture_id", "market_key", "line", "selection_key", "final_goals", "settled_at", "label_created_at"],
+      "closing_odds_fields": ["canonical_fixture_id", "market_key", "line", "selection_key", "bookmaker", "closing_price_decimal", "captured_at", "source_id"],
+      "paper_clv_required": true,
+      "readiness": "target_defined_not_filled"
+    }
+  ],
+  "coverage_readiness_report": {
+    "schema": "omnibet.historical_coverage_readiness_report.sample.v275",
+    "ready_for_training": false,
+    "ready_rows": 0,
+    "required_ready_rows": 1000,
+    "odds_coverage_ratio": 0.0,
+    "required_odds_coverage_ratio": 0.6,
+    "settlement_coverage_ratio": 0.0,
+    "required_settlement_coverage_ratio": 0.95,
+    "blockers": [
+      "local_source_files_not_verified",
+      "identity_mapping_required",
+      "market_mapping_required",
+      "settlement_labels_not_materialized"
+    ]
+  },
+  "first_dataset_build_plan": {
+    "target_runtime": "rust",
+    "storage_contract": "omnibet.storage_v2_compression_contract.v266_v270",
+    "stages": [
+      "verify_local_source_manifests",
+      "materialize_bronze_candidates",
+      "classify_bronze_rows",
+      "run_identity_mapping_review",
+      "run_market_mapping_review",
+      "write_silver_candidates",
+      "derive_gold_feature_candidates",
+      "attach_settlement_labels_after_final",
+      "emit_coverage_readiness_report"
+    ],
+    "forbidden_actions": ["random_split", "train_on_unsettled_games", "store_credentials", "live_provider_calls_in_ci"],
+    "ready_for_training_after_phase": false
+  },
+  "summary": {
+    "sources": 4,
+    "manifest_rows": 2,
+    "league_targets": 1,
+    "tournament_targets": 1,
+    "ready_for_training": false
+  }
+}
