@@ -81,6 +81,18 @@ v234 provider runtime contracts
 → v291-v300 market terminal MVP
 ```
 
+## Execution roadmap
+
+The v301+ execution roadmap is locked in [`docs/execution_roadmap_v301_plus.md`](docs/execution_roadmap_v301_plus.md).
+
+It defines when to move stable logic from Python to Rust, when to implement the chosen compression path, when training starts, when prediction improvements begin, and how the UI evolves from bundled samples to generated local reports.
+
+Immediate next phase:
+
+```text
+v301-v310 real local dataset materialization preview
+```
+
 ## Market terminal MVP
 
 The v291-v300 bridge creates the first desktop-facing market terminal MVP surface.
