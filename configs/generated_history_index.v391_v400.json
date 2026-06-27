@@ -1,0 +1,101 @@
+{
+  "schema": "omnibet.generated_history_index_contract.v391_v400",
+  "milestone": "v391_v400_generated_report_persistence_and_local_history_index",
+  "paper_only": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "real_money_recommendations_allowed": false,
+  "validated_paper_allowed": false,
+  "sample_only_allowed": true,
+  "versions": {
+    "v391": "generated_run_id_contract",
+    "v392": "immutable_generated_report_archive",
+    "v393": "generated_storage_history_manifest",
+    "v394": "local_history_index_writer",
+    "v395": "latest_pointer_history_index_split",
+    "v396": "desktop_history_panel",
+    "v397": "failed_run_history_preservation",
+    "v398": "sample_only_trust_gate_preservation",
+    "v399": "ci_history_index_smoke",
+    "v400": "generated_persistence_docs"
+  },
+  "runner": {
+    "binary": "omnibet-local-import-runner",
+    "new_args": ["--history-dir", "--history-index-out", "--run-id"],
+    "default_history_dir": "reports/generated_history/runs",
+    "default_history_index_out": "reports/generated_history/index.json",
+    "latest_report_out": "reports/generated_v371_v380_green_sample.json",
+    "latest_desktop_out": "tauri-app/src/generated-green-sample.generated.json",
+    "latest_storage_manifest_out": "reports/generated_v371_v380_storage_manifest.json"
+  },
+  "history_run_required_files": [
+    "green_report.json",
+    "desktop_report.json",
+    "storage_manifest.json",
+    "command_result.json"
+  ],
+  "history_index_required_fields": [
+    "schema",
+    "paper_only",
+    "latest_run_id",
+    "latest_status",
+    "run_count",
+    "runs",
+    "credential_values_present",
+    "recommendation_output_present"
+  ],
+  "history_run_required_fields": [
+    "run_id",
+    "status",
+    "ok",
+    "source_manifest_verified",
+    "trust_status",
+    "validated_paper",
+    "report_path",
+    "desktop_path",
+    "storage_manifest_path",
+    "command_result_path",
+    "content_sha256",
+    "recommendation_output_present"
+  ],
+  "desktop": {
+    "panel_ids": ["generated-green-history"],
+    "history_index_path": "reports/generated_history/index.json",
+    "fallback_history_index_path": "tauri-app/src/generated-history.sample.json",
+    "script": "tauri-app/src/generated_green.js"
+  },
+  "safety_invariants": {
+    "immutable_archive_required": true,
+    "latest_pointer_allowed": true,
+    "failed_runs_preserved": true,
+    "trust_status": "sample_only",
+    "validated_paper": false,
+    "terminal_prediction_allowed": false,
+    "bilet_builder_allowed": false,
+    "credential_values_allowed": false,
+    "recommendation_output_allowed": false
+  },
+  "forbidden_outputs": [
+    "real_money_recommendation",
+    "stake_size",
+    "profitability_claim",
+    "validated_paper_claim",
+    "live_provider_fetch",
+    "random_train_test_split",
+    "credential_value"
+  ],
+  "acceptance": {
+    "generated_run_id_contract_defined": true,
+    "immutable_generated_report_archive_added": true,
+    "generated_storage_history_manifest_added": true,
+    "local_history_index_writer_added": true,
+    "latest_pointer_history_index_split_added": true,
+    "desktop_history_panel_added": true,
+    "failed_run_history_preservation_added": true,
+    "sample_only_trust_gate_preserved": true,
+    "ci_history_index_smoke_added": true,
+    "generated_persistence_docs_added": true,
+    "no_live_calls_no_credentials_no_recommendations": true
+  }
+}

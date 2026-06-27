@@ -38,6 +38,7 @@ function renderCommand(result) {
       <tr><td>Command</td><td>${esc(result?.command)}</td></tr>
       <tr><td>Status code</td><td>${esc(result?.status_code)}</td></tr>
       <tr><td>Note</td><td>${esc(result?.note)}</td></tr>
+      <tr><td>Run id</td><td>${esc(result?.stdout_json?.run_id || result?.run_id)}</td></tr>
     </table>
     <pre>${esc(result?.stderr_text || result?.stdout_text || '')}</pre>
   `;
@@ -48,13 +49,14 @@ function renderSummary(payload) {
   if (!panel) return;
   const s = payload.summary || {};
   panel.innerHTML = `
-    <h3>v381-v390 Generated green report</h3>
+    <h3>v391-v400 Generated green report</h3>
     <p class="warn">Generated local mini-pack path. Still sample_only; no validated_paper claim and no recommendations.</p>
     <table>
       <tr><th>Field</th><th>Value</th></tr>
       <tr><td>Status</td><td>${esc(payload.status)}</td></tr>
       <tr><td>Manifest verified</td><td>${esc(payload.source_manifest_verified)}</td></tr>
       <tr><td>Generated fallback used</td><td>${esc(payload.generated_fallback_used || false)}</td></tr>
+      <tr><td>History index</td><td>${esc(payload.history_index_path)}</td></tr>
       <tr><td>Fixtures loaded</td><td>${esc(s.fixtures_loaded)}</td></tr>
       <tr><td>Odds rows loaded</td><td>${esc(s.odds_rows_loaded)}</td></tr>
       <tr><td>Settlement rows loaded</td><td>${esc(s.settlement_rows_loaded)}</td></tr>
@@ -125,6 +127,30 @@ function renderTrust(payload) {
   `;
 }
 
+function renderHistory(history) {
+  const panel = document.getElementById('generated-green-history');
+  if (!panel) return;
+  const runs = history?.runs || [];
+  panel.innerHTML = `
+    <h3>Generated run history</h3>
+    <p class="muted">Immutable local run archive index. Latest pointer may be overwritten, but each history run is kept.</p>
+    <table>
+      <tr><th>Field</th><th>Value</th></tr>
+      <tr><td>Latest run</td><td>${esc(history?.latest_run_id)}</td></tr>
+      <tr><td>Latest status</td><td>${esc(history?.latest_status)}</td></tr>
+      <tr><td>Run count</td><td>${esc(history?.run_count ?? runs.length)}</td></tr>
+      <tr><td>Fallback used</td><td>${esc(history?.generated_fallback_used || false)}</td></tr>
+    </table>
+    ${table(runs, ['Run', 'Status', 'OK', 'Trust', 'SHA256'], [r => r.run_id, r => r.status, r => r.ok, r => r.trust_status, r => r.content_sha256])}
+  `;
+}
+
+async function loadAndRenderGeneratedHistoryStatus(path = 'reports/generated_history/index.json') {
+  const history = await loadJsonWithFallback(path, 'tauri-app/src/generated-history.sample.json');
+  renderHistory(history);
+  return history;
+}
+
 export function renderGeneratedGreenStatus(payload) {
   renderSummary(payload);
   renderSources(payload);
@@ -138,7 +164,9 @@ export function renderGeneratedGreenStatus(payload) {
 
 export async function loadAndRenderGeneratedGreenStatus(path = 'tauri-app/src/generated-green-sample.generated.json') {
   const payload = await loadJsonWithFallback(path, 'tauri-app/src/generated-green-sample.sample.json');
-  return renderGeneratedGreenStatus(payload);
+  renderGeneratedGreenStatus(payload);
+  await loadAndRenderGeneratedHistoryStatus(payload.history_index_path || 'reports/generated_history/index.json');
+  return payload;
 }
 
 export async function runAndRenderGeneratedGreenStatus() {

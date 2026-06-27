@@ -1,0 +1,61 @@
+name: OmniBet v391-v400 Generated History Index
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  generated-history-index:
+    name: v391-v400 generated history index
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Rust local import runner tests
+        run: cargo test --manifest-path rust-core/Cargo.toml local_import_runner
+      - name: Rust generated report writer tests
+        run: cargo test --manifest-path rust-core/Cargo.toml generated_report_writer
+      - name: Generate v391-v400 local reports with history
+        run: |
+          mkdir -p reports
+          cargo run --manifest-path rust-core/Cargo.toml --bin omnibet-local-import-runner -- \
+            --root . \
+            --report-out reports/generated_v371_v380_green_sample.json \
+            --desktop-out tauri-app/src/generated-green-sample.generated.json \
+            --storage-manifest-out reports/generated_v371_v380_storage_manifest.json \
+            --history-dir reports/generated_history/runs \
+            --history-index-out reports/generated_history/index.json \
+            --run-id ci_v391_v400
+      - name: Run v371-v380 generated writer smoke
+        run: |
+          python python_lab/generated_report_writer_smoke.py --root . --out reports/ci_v371_v380_generated_report_writer.json
+      - name: Run v391-v400 generated history smoke
+        run: |
+          python python_lab/generated_history_index_smoke.py --root . --out reports/ci_v391_v400_generated_history_index.json
+      - name: Upload v391-v400 generated history artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v391-v400-generated-history-artifacts
+          path: |
+            reports/generated_v371_v380_green_sample.json
+            reports/generated_v371_v380_storage_manifest.json
+            reports/generated_history/index.json
+            reports/generated_history/runs/ci_v391_v400/green_report.json
+            reports/generated_history/runs/ci_v391_v400/desktop_report.json
+            reports/generated_history/runs/ci_v391_v400/storage_manifest.json
+            reports/generated_history/runs/ci_v391_v400/command_result.json
+            reports/ci_v371_v380_generated_report_writer.json
+            reports/ci_v391_v400_generated_history_index.json
+            tauri-app/src/generated-green-sample.generated.json
+          if-no-files-found: warn

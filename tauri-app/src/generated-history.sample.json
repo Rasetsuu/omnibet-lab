@@ -1,0 +1,28 @@
+{
+  "schema": "omnibet.generated_history_index.v391_v400",
+  "paper_only": true,
+  "latest_run_id": "sample_run_v391_v400",
+  "latest_status": "generated_sample_only",
+  "run_count": 1,
+  "runs": [
+    {
+      "run_id": "sample_run_v391_v400",
+      "status": "generated_sample_only",
+      "ok": true,
+      "source_manifest_verified": true,
+      "trust_status": "sample_only",
+      "validated_paper": false,
+      "report_path": "reports/generated_history/runs/sample_run_v391_v400/green_report.json",
+      "desktop_path": "reports/generated_history/runs/sample_run_v391_v400/desktop_report.json",
+      "storage_manifest_path": "reports/generated_history/runs/sample_run_v391_v400/storage_manifest.json",
+      "command_result_path": "reports/generated_history/runs/sample_run_v391_v400/command_result.json",
+      "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "credential_values_present": false,
+      "recommendation_output_present": false
+    }
+  ],
+  "credential_values_present": false,
+  "recommendation_output_present": false,
+  "trust_status": "sample_only",
+  "validated_paper": false
+}

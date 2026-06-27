@@ -57,6 +57,8 @@ def build_report(root: Path) -> Dict[str, Any]:
     ids = html_ids(html)
     acceptance = contract.get("acceptance", {})
     storage_fields = contract.get("storage_manifest_required_fields", [])
+    desktop_schema = generated_desktop.get("schema")
+    storage_schema = storage_manifest.get("schema")
 
     checks = {
         "schema_ok": contract.get("schema") == "omnibet.generated_report_writer_contract.v371_v380",
@@ -72,8 +74,8 @@ def build_report(root: Path) -> Dict[str, Any]:
         "desktop_reload_wired": "load-generated-green-status" in app_js and 'data-page="generated-green"' in html and 'src="generated_green.js"' in html,
         "html_ids_unique": len(ids) == len(set(ids)),
         "generated_report_exists": generated_report.get("schema") == "omnibet.generated_green_report.v361_v370" and generated_report.get("status") == "generated_sample_only",
-        "generated_desktop_exists": generated_desktop.get("schema") == "omnibet.generated_green_sample_desktop.v371_v380" and generated_desktop.get("summary", {}).get("trust_status") == "sample_only",
-        "generated_storage_manifest_exists": storage_manifest.get("schema") == "omnibet.generated_storage_manifest.v371_v380" and required_subset(storage_fields, storage_manifest),
+        "generated_desktop_exists": desktop_schema in {"omnibet.generated_green_sample_desktop.v371_v380", "omnibet.generated_green_sample_desktop.v391_v400"} and generated_desktop.get("summary", {}).get("trust_status") == "sample_only",
+        "generated_storage_manifest_exists": storage_schema in {"omnibet.generated_storage_manifest.v371_v380", "omnibet.generated_storage_manifest.v391_v400"} and required_subset(storage_fields, storage_manifest),
         "generated_outputs_safe": generated_report.get("recommendation_output_present") is False and generated_desktop.get("recommendation_output_present") is False and storage_manifest.get("recommendation_output_present") is False and no_secret_values(generated_report) and no_secret_values(generated_desktop) and no_secret_values(storage_manifest),
         "trust_stays_sample_only": generated_report.get("trust_status") == "sample_only" and generated_desktop.get("trust_gate", {}).get("status") == "sample_only" and generated_desktop.get("trust_gate", {}).get("validated_paper") is False and generated_desktop.get("trust_gate", {}).get("terminal_prediction_allowed") is False and generated_desktop.get("trust_gate", {}).get("bilet_builder_allowed") is False,
         "ci_generates_artifacts": "cargo run --manifest-path rust-core/Cargo.toml --bin omnibet-local-import-runner" in workflow and "generated_v371_v380_green_sample.json" in workflow and "generated_v371_v380_storage_manifest.json" in workflow and "upload-artifact" in workflow,
@@ -89,8 +91,8 @@ def build_report(root: Path) -> Dict[str, Any]:
         "acceptance": checks,
         "summary": {
             "generated_report_status": generated_report.get("status"),
-            "desktop_schema": generated_desktop.get("schema"),
-            "storage_schema": storage_manifest.get("schema"),
+            "desktop_schema": desktop_schema,
+            "storage_schema": storage_schema,
             "trust_status": generated_desktop.get("trust_gate", {}).get("status"),
         },
     }
