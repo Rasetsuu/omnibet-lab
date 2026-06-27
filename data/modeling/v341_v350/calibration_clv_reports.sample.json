@@ -1,0 +1,170 @@
+{
+  "schema": "omnibet.calibration_clv_reports_sample.v341_v350",
+  "sample_id": "v341_v350_calibration_clv_no_vig_reports_sample",
+  "generated_at": "2026-06-27T00:00:00Z",
+  "paper_only": true,
+  "local_first": true,
+  "credential_values_present": false,
+  "live_provider_calls_present": false,
+  "real_money_recommendations_present": false,
+  "walk_forward_status": "blocked",
+  "baseline_status": "blocked",
+  "summary": {
+    "report_status": "blocked",
+    "calibration_bins": 3,
+    "metric_rows": 3,
+    "no_vig_delta_rows": 3,
+    "paper_clv_rows": 3,
+    "trust_status": "blocked_sample",
+    "blocked_reason": "baseline_reports_not_ready"
+  },
+  "calibration_bins": [
+    {
+      "market_family": "1x2",
+      "bin_id": "0.40_0.50",
+      "probability_min": 0.4,
+      "probability_max": 0.5,
+      "predictions": 0,
+      "avg_model_probability": null,
+      "empirical_hit_rate": null,
+      "calibration_gap": null,
+      "status": "blocked",
+      "blocked_reason": "baseline_reports_not_ready"
+    },
+    {
+      "market_family": "totals",
+      "bin_id": "0.45_0.55",
+      "probability_min": 0.45,
+      "probability_max": 0.55,
+      "predictions": 0,
+      "avg_model_probability": null,
+      "empirical_hit_rate": null,
+      "calibration_gap": null,
+      "status": "blocked",
+      "blocked_reason": "baseline_reports_not_ready"
+    },
+    {
+      "market_family": "btts",
+      "bin_id": "0.50_0.60",
+      "probability_min": 0.5,
+      "probability_max": 0.6,
+      "predictions": 0,
+      "avg_model_probability": null,
+      "empirical_hit_rate": null,
+      "calibration_gap": null,
+      "status": "blocked",
+      "blocked_reason": "missing_market_family_rows"
+    }
+  ],
+  "metric_summary": [
+    {
+      "market_family": "1x2",
+      "sample_rows": 3,
+      "eligible_rows": 0,
+      "log_loss": null,
+      "brier_score": null,
+      "calibration_ece": null,
+      "status": "blocked",
+      "blocked_reason": "baseline_reports_not_ready"
+    },
+    {
+      "market_family": "totals",
+      "sample_rows": 2,
+      "eligible_rows": 0,
+      "log_loss": null,
+      "brier_score": null,
+      "calibration_ece": null,
+      "status": "blocked",
+      "blocked_reason": "baseline_reports_not_ready"
+    },
+    {
+      "market_family": "btts",
+      "sample_rows": 0,
+      "eligible_rows": 0,
+      "log_loss": null,
+      "brier_score": null,
+      "calibration_ece": null,
+      "status": "blocked",
+      "blocked_reason": "missing_market_family_rows"
+    }
+  ],
+  "no_vig_delta_rows": [
+    {
+      "market_family": "1x2",
+      "selection_key": "home",
+      "model_probability": null,
+      "no_vig_probability": 0.4723,
+      "delta_vs_no_vig": null,
+      "status": "blocked",
+      "blocked_reason": "baseline_reports_not_ready"
+    },
+    {
+      "market_family": "totals",
+      "selection_key": "over_2_5",
+      "model_probability": null,
+      "no_vig_probability": 0.5150,
+      "delta_vs_no_vig": null,
+      "status": "blocked",
+      "blocked_reason": "baseline_reports_not_ready"
+    },
+    {
+      "market_family": "btts",
+      "selection_key": "yes",
+      "model_probability": null,
+      "no_vig_probability": null,
+      "delta_vs_no_vig": null,
+      "status": "blocked",
+      "blocked_reason": "missing_market_family_rows"
+    }
+  ],
+  "paper_clv_summary": [
+    {
+      "market_family": "1x2",
+      "paper_watch_rows": 0,
+      "closing_odds_rows": 0,
+      "average_clv_decimal": null,
+      "positive_clv_ratio": null,
+      "status": "blocked",
+      "blocked_reason": "baseline_reports_not_ready"
+    },
+    {
+      "market_family": "totals",
+      "paper_watch_rows": 0,
+      "closing_odds_rows": 0,
+      "average_clv_decimal": null,
+      "positive_clv_ratio": null,
+      "status": "blocked",
+      "blocked_reason": "baseline_reports_not_ready"
+    },
+    {
+      "market_family": "btts",
+      "paper_watch_rows": 0,
+      "closing_odds_rows": 0,
+      "average_clv_decimal": null,
+      "positive_clv_ratio": null,
+      "status": "blocked",
+      "blocked_reason": "missing_market_family_rows"
+    }
+  ],
+  "trust_gate": {
+    "status": "blocked_sample",
+    "terminal_prediction_allowed": false,
+    "bilet_builder_allowed": false,
+    "requires": [
+      "walk_forward_ready",
+      "baseline_reports_ready",
+      "calibration_report",
+      "no_vig_delta_report",
+      "paper_clv_report"
+    ]
+  },
+  "report": {
+    "schema": "omnibet.calibration_clv_reports_report.v341_v350",
+    "report_id": "calibration-clv-report:v341-v350:blocked-sample",
+    "status": "blocked",
+    "walk_forward_status": "blocked",
+    "baseline_status": "blocked",
+    "blocked_reason": "baseline_reports_not_ready",
+    "recommendation_output_present": false
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "schema": "omnibet.calibration_clv_reports_contract.v341_v350",
+  "milestone": "v341_v350_calibration_clv_no_vig_reports",
+  "paper_only": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "real_money_recommendations_allowed": false,
+  "requires_walk_forward_ready": true,
+  "requires_baseline_reports_ready": true,
+  "blocked_report_required_when_gates_fail": true,
+  "versions": {
+    "v341": "calibration_report_contract",
+    "v342": "reliability_table_preview",
+    "v343": "brier_log_loss_report_shape",
+    "v344": "no_vig_baseline_delta_report",
+    "v345": "paper_clv_report_shape",
+    "v346": "closing_line_value_summary",
+    "v347": "model_trust_gate_update",
+    "v348": "desktop_calibration_clv_panel",
+    "v349": "blocked_report_when_baseline_gates_fail",
+    "v350": "calibration_clv_smoke"
+  },
+  "rust_targets": {
+    "module": "rust-core/src/calibration_clv_v341.rs",
+    "test_filter": "calibration_clv_reports",
+    "future_binary": "omnibet-calibration-clv-report"
+  },
+  "required_report_fields": [
+    "schema",
+    "report_id",
+    "status",
+    "walk_forward_status",
+    "baseline_status",
+    "calibration_bins",
+    "metric_summary",
+    "no_vig_delta_rows",
+    "paper_clv_summary",
+    "trust_gate",
+    "blocked_reason",
+    "recommendation_output_present"
+  ],
+  "calibration_bin_required_fields": [
+    "market_family",
+    "bin_id",
+    "probability_min",
+    "probability_max",
+    "predictions",
+    "avg_model_probability",
+    "empirical_hit_rate",
+    "calibration_gap"
+  ],
+  "metric_summary_required_fields": [
+    "market_family",
+    "sample_rows",
+    "eligible_rows",
+    "log_loss",
+    "brier_score",
+    "calibration_ece",
+    "status",
+    "blocked_reason"
+  ],
+  "no_vig_delta_required_fields": [
+    "market_family",
+    "selection_key",
+    "model_probability",
+    "no_vig_probability",
+    "delta_vs_no_vig",
+    "status",
+    "blocked_reason"
+  ],
+  "paper_clv_required_fields": [
+    "market_family",
+    "paper_watch_rows",
+    "closing_odds_rows",
+    "average_clv_decimal",
+    "positive_clv_ratio",
+    "status",
+    "blocked_reason"
+  ],
+  "trust_gate": {
+    "default_status": "blocked_sample",
+    "allowed_statuses": ["blocked_sample", "sample_only", "experimental_paper", "validated_paper"],
+    "minimum_for_terminal_prediction": "experimental_paper",
+    "minimum_for_bilet_builder": "validated_paper",
+    "requires_walk_forward_ready": true,
+    "requires_baseline_ready": true,
+    "requires_calibration_report": true,
+    "requires_no_vig_delta_report": true,
+    "requires_paper_clv_report": true
+  },
+  "desktop_status_panel": {
+    "sample_path": "tauri-app/src/calibration-clv.sample.json",
+    "panel_ids": [
+      "calibration-clv-summary",
+      "calibration-clv-bins",
+      "calibration-clv-metrics",
+      "calibration-clv-no-vig",
+      "calibration-clv-paper-clv",
+      "calibration-clv-trust",
+      "calibration-clv-next"
+    ],
+    "button_ids": ["load-calibration-clv-status"]
+  },
+  "forbidden_outputs": [
+    "real_money_recommendation",
+    "stake_size",
+    "profitability_claim",
+    "live_provider_fetch",
+    "random_train_test_split"
+  ],
+  "acceptance": {
+    "calibration_report_contract_defined": true,
+    "reliability_table_preview_defined": true,
+    "brier_log_loss_report_shape_defined": true,
+    "no_vig_baseline_delta_report_defined": true,
+    "paper_clv_report_shape_defined": true,
+    "closing_line_value_summary_defined": true,
+    "model_trust_gate_update_defined": true,
+    "desktop_calibration_clv_panel_added": true,
+    "blocked_report_when_baseline_gates_fail_defined": true,
+    "rust_validation_module_added": true,
+    "python_smoke_and_ci_added": true,
+    "no_live_calls_no_credentials_no_recommendations": true
+  }
+}
