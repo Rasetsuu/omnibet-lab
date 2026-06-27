@@ -1,0 +1,4 @@
+{"canonical_fixture_id":"fixture:green:001","market_family":"1x2","selection_key":"home","captured_at":"2026-01-01T10:00:00Z","price_decimal":2.05,"closing_price_decimal":1.95,"source_id":"green_sample_odds_v361"}
+{"canonical_fixture_id":"fixture:green:001","market_family":"totals","selection_key":"over_2_5","captured_at":"2026-01-01T10:00:00Z","price_decimal":1.95,"closing_price_decimal":2.00,"source_id":"green_sample_odds_v361"}
+{"canonical_fixture_id":"fixture:green:002","market_family":"1x2","selection_key":"away","captured_at":"2026-01-02T10:00:00Z","price_decimal":2.30,"closing_price_decimal":2.20,"source_id":"green_sample_odds_v361"}
+{"canonical_fixture_id":"fixture:green:002","market_family":"btts","selection_key":"yes","captured_at":"2026-01-02T10:00:00Z","price_decimal":1.85,"closing_price_decimal":1.80,"source_id":"green_sample_odds_v361"}

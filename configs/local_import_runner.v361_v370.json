@@ -1,0 +1,101 @@
+{
+  "schema": "omnibet.local_import_runner_contract.v361_v370",
+  "milestone": "v361_v370_local_import_runner_storage_backed_green_sample",
+  "paper_only": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "real_money_recommendations_allowed": false,
+  "validated_paper_allowed": false,
+  "sample_only_allowed": true,
+  "versions": {
+    "v361": "local_minipack_loader",
+    "v362": "source_manifest_hash_verifier",
+    "v363": "fixture_odds_settlement_row_parser",
+    "v364": "generated_walk_forward_green_report",
+    "v365": "generated_baseline_metrics_report",
+    "v366": "generated_calibration_clv_report",
+    "v367": "storage_writer_integration_for_minipack_outputs",
+    "v368": "desktop_reload_from_generated_green_report",
+    "v369": "sample_only_trust_gate_preservation",
+    "v370": "local_import_runner_smoke"
+  },
+  "rust_targets": {
+    "module": "rust-core/src/local_import_runner_v361.rs",
+    "test_filter": "local_import_runner",
+    "future_binary": "omnibet-local-import-runner"
+  },
+  "input_files": {
+    "fixtures": "data/local_sources/v361_v370/fixtures.jsonl",
+    "odds": "data/local_sources/v361_v370/odds.jsonl",
+    "settlements": "data/local_sources/v361_v370/settlements.jsonl",
+    "manifest": "data/local_sources/v361_v370/source_manifest.json"
+  },
+  "generated_outputs": {
+    "green_report": "reports/generated_v361_v370_green_sample.json",
+    "desktop_sample": "tauri-app/src/generated-green-sample.sample.json",
+    "storage_manifest": "reports/generated_v361_v370_storage_manifest.json"
+  },
+  "required_fixture_fields": ["canonical_fixture_id", "competition_id", "season_id", "home_team_id", "away_team_id", "kickoff_at", "final_result", "settled_at"],
+  "required_odds_fields": ["canonical_fixture_id", "market_family", "selection_key", "captured_at", "price_decimal", "closing_price_decimal", "source_id"],
+  "required_settlement_fields": ["canonical_fixture_id", "market_family", "selection_key", "outcome", "settled_at", "label_created_at"],
+  "required_generated_report_fields": ["schema", "status", "source_manifest_verified", "walk_forward_report", "baseline_report", "calibration_report", "paper_clv_summary", "trust_gate", "recommendation_output_present"],
+  "storage_contract": {
+    "target_contract": "omnibet.storage_v2_writers_contract.v311_v320",
+    "preferred_output_codec": "jsonl.zstd",
+    "fallback_output_codec": "jsonl.gzip",
+    "manifest_required": true,
+    "content_sha256_required": true,
+    "row_count_required": true
+  },
+  "green_gate_requirements": {
+    "minimum_fixture_rows": 2,
+    "minimum_odds_rows": 4,
+    "minimum_settlement_rows": 4,
+    "minimum_prediction_rows": 4,
+    "minimum_market_families": 2,
+    "feature_observed_at_lte_prediction_time": true,
+    "label_created_at_gte_settled_at": true,
+    "settled_at_gt_prediction_time": true,
+    "random_split_used": false,
+    "recommendation_output_present": false,
+    "trust_status": "sample_only"
+  },
+  "desktop_status_panel": {
+    "sample_path": "tauri-app/src/generated-green-sample.sample.json",
+    "panel_ids": [
+      "generated-green-summary",
+      "generated-green-sources",
+      "generated-green-walk-forward",
+      "generated-green-baseline",
+      "generated-green-calibration",
+      "generated-green-storage",
+      "generated-green-trust"
+    ],
+    "button_ids": ["load-generated-green-status"]
+  },
+  "forbidden_outputs": [
+    "real_money_recommendation",
+    "stake_size",
+    "profitability_claim",
+    "validated_paper_claim",
+    "live_provider_fetch",
+    "random_train_test_split",
+    "credential_value"
+  ],
+  "acceptance": {
+    "local_minipack_loader_defined": true,
+    "source_manifest_hash_verifier_defined": true,
+    "fixture_odds_settlement_parser_defined": true,
+    "generated_walk_forward_green_report_defined": true,
+    "generated_baseline_metrics_report_defined": true,
+    "generated_calibration_clv_report_defined": true,
+    "storage_writer_integration_defined": true,
+    "desktop_reload_from_generated_report_added": true,
+    "trust_gate_sample_only_preserved": true,
+    "no_recommendation_output_enforced": true,
+    "rust_validation_module_added": true,
+    "python_smoke_and_ci_added": true,
+    "no_live_calls_no_credentials_no_recommendations": true
+  }
+}

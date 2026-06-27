@@ -1,0 +1,36 @@
+name: OmniBet v361-v370 Local Import Runner
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  local-import-runner:
+    name: v361-v370 local import runner
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Rust local import runner test
+        run: cargo test --manifest-path rust-core/Cargo.toml local_import_runner
+      - name: Run v361-v370 local import runner smoke
+        run: |
+          mkdir -p reports
+          python python_lab/local_import_runner_smoke.py --root . --out reports/ci_v361_v370_local_import_runner.json
+      - name: Upload v361-v370 local import runner report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v361-v370-local-import-runner-report
+          path: reports/ci_v361_v370_local_import_runner.json
+          if-no-files-found: warn
