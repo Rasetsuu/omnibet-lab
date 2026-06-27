@@ -41,7 +41,7 @@
   "desktop_reload": {
     "generated_sample_path": "tauri-app/src/generated-green-sample.generated.json",
     "fallback_sample_path": "tauri-app/src/generated-green-sample.sample.json",
-    "button_ids": ["load-generated-green-status", "load-generated-green-generated-status"],
+    "button_ids": ["load-generated-green-status"],
     "script": "tauri-app/src/generated_green.js"
   },
   "integrity_failure_report": {
