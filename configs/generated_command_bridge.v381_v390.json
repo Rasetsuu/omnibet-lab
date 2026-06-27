@@ -1,0 +1,85 @@
+{
+  "schema": "omnibet.generated_command_bridge_contract.v381_v390",
+  "milestone": "v381_v390_generated_report_command_bridge_and_desktop_local_run_button",
+  "paper_only": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "real_money_recommendations_allowed": false,
+  "validated_paper_allowed": false,
+  "sample_only_allowed": true,
+  "versions": {
+    "v381": "generated_report_command_contract",
+    "v382": "allowlisted_local_import_runner_command",
+    "v383": "desktop_run_generated_green_button",
+    "v384": "command_result_report_panel",
+    "v385": "generated_file_reload_after_command",
+    "v386": "failure_safe_integrity_report_display",
+    "v387": "sample_only_trust_gate_preservation",
+    "v388": "no_live_calls_no_credentials_guard",
+    "v389": "ci_command_bridge_smoke",
+    "v390": "generated_command_bridge_docs"
+  },
+  "tauri_command": {
+    "command_name": "run_generated_green_report",
+    "allowlisted_binary": "omnibet-local-import-runner",
+    "shell_execution_allowed": false,
+    "default_args": [
+      "--root", ".",
+      "--report-out", "reports/generated_v371_v380_green_sample.json",
+      "--desktop-out", "tauri-app/src/generated-green-sample.generated.json",
+      "--storage-manifest-out", "reports/generated_v371_v380_storage_manifest.json"
+    ]
+  },
+  "desktop": {
+    "button_ids": ["run-generated-green-report", "load-generated-green-status"],
+    "panel_ids": [
+      "generated-green-command",
+      "generated-green-summary",
+      "generated-green-sources",
+      "generated-green-walk-forward",
+      "generated-green-baseline",
+      "generated-green-calibration",
+      "generated-green-storage",
+      "generated-green-trust"
+    ],
+    "script": "tauri-app/src/generated_green.js",
+    "generated_path": "tauri-app/src/generated-green-sample.generated.json",
+    "fallback_path": "tauri-app/src/generated-green-sample.sample.json"
+  },
+  "command_result_required_fields": [
+    "ok",
+    "mode",
+    "command",
+    "args",
+    "status_code",
+    "stdout_json",
+    "stdout_text",
+    "stderr_text",
+    "note"
+  ],
+  "safety_invariants": {
+    "allowlisted_only": true,
+    "shell_execution_allowed": false,
+    "live_provider_calls_allowed": false,
+    "credential_values_allowed": false,
+    "recommendation_output_allowed": false,
+    "trust_status": "sample_only",
+    "validated_paper": false,
+    "terminal_prediction_allowed": false,
+    "bilet_builder_allowed": false
+  },
+  "acceptance": {
+    "generated_report_command_contract_defined": true,
+    "allowlisted_local_import_runner_command_added": true,
+    "desktop_run_generated_green_button_added": true,
+    "command_result_report_panel_added": true,
+    "generated_file_reload_after_command_added": true,
+    "failure_safe_integrity_report_display_added": true,
+    "sample_only_trust_gate_preserved": true,
+    "no_live_calls_no_credentials_guarded": true,
+    "ci_command_bridge_smoke_added": true,
+    "generated_command_bridge_docs_added": true,
+    "no_recommendation_output_enforced": true
+  }
+}
