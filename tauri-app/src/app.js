@@ -18,7 +18,7 @@ import { loadAndRenderWalkForwardEvaluatorStatus } from './walk_forward_evaluato
 import { loadAndRenderBaselineReportsStatus } from './baseline_reports.js';
 import { loadAndRenderCalibrationClvStatus } from './calibration_clv.js';
 import { loadAndRenderGreenSampleStatus } from './green_sample.js';
-import { loadAndRenderGeneratedGreenStatus } from './generated_green.js';
+import { loadAndRenderGeneratedGreenStatus, runAndRenderGeneratedGreenStatus } from './generated_green.js';
 
 function out(x) {
   const el = document.getElementById('out');
@@ -87,7 +87,7 @@ function bind() {
   document.getElementById('load-calibration-clv-status')?.addEventListener('click', () => safeRun(() => loadAndRenderCalibrationClvStatus()));
   document.getElementById('load-green-sample-status')?.addEventListener('click', () => safeRun(() => loadAndRenderGreenSampleStatus()));
   document.getElementById('load-generated-green-status')?.addEventListener('click', () => safeRun(() => loadAndRenderGeneratedGreenStatus()));
-  document.getElementById('load-generated-green-generated-status')?.addEventListener('click', () => safeRun(() => loadAndRenderGeneratedGreenStatus('tauri-app/src/generated-green-sample.generated.json')));
+  document.getElementById('run-generated-green-report')?.addEventListener('click', () => safeRun(() => runAndRenderGeneratedGreenStatus()));
   document.getElementById('load-phase2-forecast')?.addEventListener('click', () => safeRun(() => loadAndRenderPhase2Forecast()));
   document.getElementById('load-upcoming-fixtures')?.addEventListener('click', () => safeRun(() => loadAndRenderUpcomingFixtures()));
   document.getElementById('load-external-data')?.addEventListener('click', () => safeRun(() => loadAndRenderExternalData()));
