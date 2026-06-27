@@ -82,7 +82,7 @@ def build_report(root: Path) -> Dict[str, Any]:
         "html_page_wired": 'data-page="market-terminal"' in html and all(panel_id in html for panel_id in contract.get("panel_ids", [])) and all(button_id in html for button_id in contract.get("button_ids", [])) and 'src="market_terminal.js"' in html,
         "html_ids_unique": len(ids) == len(set(ids)),
         "app_binding": "./market_terminal.js" in app_js and "loadAndRenderMarketTerminalMvp" in app_js and "load-market-terminal-mvp" in app_js,
-        "renderer_wired": "renderMarketTerminalMvp" in renderer and "renderPredictions" in renderer and "renderBiletBuilder" in renderer and "paper_watch_only" in renderer,
+        "renderer_wired": "renderMarketTerminalMvp" in renderer and "renderPredictions" in renderer and "renderBiletBuilder" in renderer and "allowed_action" in renderer,
         "rust_module_exposed": "pub mod market_terminal_v291;" in rust_lib and "pub use market_terminal_v291::*;" in rust_lib,
         "rust_module_validation": "validate_market_terminal_mvp_contract" in rust_module and "recommend_real_bet" in rust_module and "validated_paper" in rust_module,
         "docs_updated": "v291-v300 Market Terminal MVP" in docs and "bilet builder" in docs.lower(),
