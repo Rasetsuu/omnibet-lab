@@ -21,8 +21,8 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
       - name: Python compile
         run: python python_lab/compile_python_sources.py
-      - name: Rust baseline training reports test
-        run: cargo test --manifest-path rust-core/Cargo.toml baseline_training_reports
+      - name: Rust baseline reports test
+        run: cargo test --manifest-path rust-core/Cargo.toml baseline_reports
       - name: Run v331-v340 baseline reports smoke
         run: |
           mkdir -p reports
