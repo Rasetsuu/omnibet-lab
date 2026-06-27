@@ -8,6 +8,17 @@ async function loadJson(path) {
   return response.json();
 }
 
+async function loadJsonWithFallback(primaryPath, fallbackPath) {
+  try {
+    return await loadJson(primaryPath);
+  } catch (err) {
+    const payload = await loadJson(fallbackPath);
+    payload.generated_fallback_used = true;
+    payload.generated_fallback_error = String(err);
+    return payload;
+  }
+}
+
 function table(rows, headers, cells) {
   return `<table><tr>${headers.map(h => `<th>${esc(h)}</th>`).join('')}</tr>${rows.map(row => `<tr>${cells.map(fn => `<td>${esc(fn(row))}</td>`).join('')}</tr>`).join('')}</table>`;
 }
@@ -17,12 +28,13 @@ function renderSummary(payload) {
   if (!panel) return;
   const s = payload.summary || {};
   panel.innerHTML = `
-    <h3>v361-v370 Generated green report</h3>
+    <h3>v371-v380 Generated green report</h3>
     <p class="warn">Generated local mini-pack path. Still sample_only; no validated_paper claim and no recommendations.</p>
     <table>
       <tr><th>Field</th><th>Value</th></tr>
       <tr><td>Status</td><td>${esc(payload.status)}</td></tr>
       <tr><td>Manifest verified</td><td>${esc(payload.source_manifest_verified)}</td></tr>
+      <tr><td>Generated fallback used</td><td>${esc(payload.generated_fallback_used || false)}</td></tr>
       <tr><td>Fixtures loaded</td><td>${esc(s.fixtures_loaded)}</td></tr>
       <tr><td>Odds rows loaded</td><td>${esc(s.odds_rows_loaded)}</td></tr>
       <tr><td>Settlement rows loaded</td><td>${esc(s.settlement_rows_loaded)}</td></tr>
@@ -104,7 +116,7 @@ export function renderGeneratedGreenStatus(payload) {
   return payload;
 }
 
-export async function loadAndRenderGeneratedGreenStatus(path = 'tauri-app/src/generated-green-sample.sample.json') {
-  const payload = await loadJson(path);
+export async function loadAndRenderGeneratedGreenStatus(path = 'tauri-app/src/generated-green-sample.generated.json') {
+  const payload = await loadJsonWithFallback(path, 'tauri-app/src/generated-green-sample.sample.json');
   return renderGeneratedGreenStatus(payload);
 }
