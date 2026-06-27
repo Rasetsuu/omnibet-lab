@@ -19,6 +19,7 @@
         <button class="nav-button" data-page="live-source">Live Source</button>
         <button class="nav-button" data-page="market-terminal">Market Terminal</button>
         <button class="nav-button" data-page="dataset-materialization">Dataset Materialization</button>
+        <button class="nav-button" data-page="storage-writers">Storage Writers</button>
         <button class="nav-button" data-page="events">Events</button>
         <button class="nav-button" data-page="markets">Markets</button>
         <button class="nav-button" data-page="unknowns">Unknown Queue</button>
@@ -55,6 +56,7 @@
           <button id="generate-dataset-materialization-preview">Generate dataset preview</button>
           <button id="load-dataset-materialization-preview">Load dataset preview</button>
           <button id="load-dataset-materialization-sample">Load dataset sample</button>
+          <button id="load-storage-writers-status">Load storage writers</button>
           <button id="load-review-report">Load local review report</button>
           <button id="load-review-sample">Load review sample</button>
           <button id="load-settings-report">Load settings</button>
@@ -135,6 +137,18 @@
           <div id="dataset-materialization-clv" class="card"><div class="muted">Load dataset materialization first.</div></div>
           <div id="dataset-materialization-candidates" class="card"><div class="muted">Load dataset materialization first.</div></div>
           <div id="dataset-materialization-readiness" class="card"><div class="muted">Load dataset materialization first.</div></div>
+        </div>
+      </section>
+
+      <section id="storage-writers" class="page" data-page-panel="storage-writers">
+        <h2>Storage Writers</h2>
+        <p class="warn">v311-v320 Rust Storage V2 writer status. JSONL.Zstd/JSON.Zstd/Gzip preview writers are active; Parquet.Zstd is manifest-only until table schemas are locked.</p>
+        <div class="grid">
+          <div id="storage-writers-summary" class="card"><div class="muted">Load storage writers first.</div></div>
+          <div id="storage-writers-targets" class="card"><div class="muted">Load storage writers first.</div></div>
+          <div id="storage-writers-manifests" class="card"><div class="muted">Load storage writers first.</div></div>
+          <div id="storage-writers-retention" class="card"><div class="muted">Load storage writers first.</div></div>
+          <div id="storage-writers-next" class="card"><div class="muted">Load storage writers first.</div></div>
         </div>
       </section>
 
@@ -237,6 +251,7 @@
   <script type="module" src="live_source.js"></script>
   <script type="module" src="market_terminal.js"></script>
   <script type="module" src="dataset_materialization.js"></script>
+  <script type="module" src="storage_writers.js"></script>
   <script type="module" src="app.js"></script>
 </body>
 </html>
