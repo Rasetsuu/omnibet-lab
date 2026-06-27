@@ -18,7 +18,7 @@ import { loadAndRenderWalkForwardEvaluatorStatus } from './walk_forward_evaluato
 import { loadAndRenderBaselineReportsStatus } from './baseline_reports.js';
 import { loadAndRenderCalibrationClvStatus } from './calibration_clv.js';
 import { loadAndRenderGreenSampleStatus } from './green_sample.js';
-import { loadAndRenderGeneratedGreenStatus } from './generated_green.js';
+import { loadAndRenderGeneratedGreenStatus, runAndRenderGeneratedGreenStatus } from './generated_green.js';
 
 function out(x) {
   const el = document.getElementById('out');
@@ -59,6 +59,14 @@ function bindDatasetMaterializationLoadButton(id, pathHint = 'tauri-app/src/data
   document.getElementById(id)?.addEventListener('click', () => safeRun(() => loadAndRenderDatasetMaterialization(pathHint)));
 }
 
+function bindGeneratedGreenRunButton(id) {
+  document.getElementById(id)?.addEventListener('click', () => safeRun(() => runAndRenderGeneratedGreenStatus()));
+}
+
+function bindGeneratedGreenLoadButton(id) {
+  document.getElementById(id)?.addEventListener('click', () => safeRun(() => loadAndRenderGeneratedGreenStatus()));
+}
+
 function bind() {
   document.querySelectorAll('.nav-button').forEach(btn => {
     btn.addEventListener('click', () => showPage(btn.dataset.page));
@@ -86,8 +94,10 @@ function bind() {
   document.getElementById('load-baseline-reports-status')?.addEventListener('click', () => safeRun(() => loadAndRenderBaselineReportsStatus()));
   document.getElementById('load-calibration-clv-status')?.addEventListener('click', () => safeRun(() => loadAndRenderCalibrationClvStatus()));
   document.getElementById('load-green-sample-status')?.addEventListener('click', () => safeRun(() => loadAndRenderGreenSampleStatus()));
-  document.getElementById('load-generated-green-status')?.addEventListener('click', () => safeRun(() => loadAndRenderGeneratedGreenStatus()));
-  document.getElementById('load-generated-green-generated-status')?.addEventListener('click', () => safeRun(() => loadAndRenderGeneratedGreenStatus('tauri-app/src/generated-green-sample.generated.json')));
+  bindGeneratedGreenLoadButton('load-generated-green-status');
+  bindGeneratedGreenLoadButton('load-generated-green-status-page');
+  bindGeneratedGreenRunButton('run-generated-green-report');
+  bindGeneratedGreenRunButton('run-generated-green-report-topbar');
   document.getElementById('load-phase2-forecast')?.addEventListener('click', () => safeRun(() => loadAndRenderPhase2Forecast()));
   document.getElementById('load-upcoming-fixtures')?.addEventListener('click', () => safeRun(() => loadAndRenderUpcomingFixtures()));
   document.getElementById('load-external-data')?.addEventListener('click', () => safeRun(() => loadAndRenderExternalData()));

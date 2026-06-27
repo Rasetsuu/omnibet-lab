@@ -1,3 +1,5 @@
+import { invokeCommand } from './api.js';
+
 function esc(value) {
   return String(value ?? '').replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
 }
@@ -23,12 +25,30 @@ function table(rows, headers, cells) {
   return `<table><tr>${headers.map(h => `<th>${esc(h)}</th>`).join('')}</tr>${rows.map(row => `<tr>${cells.map(fn => `<td>${esc(fn(row))}</td>`).join('')}</tr>`).join('')}</table>`;
 }
 
+function renderCommand(result) {
+  const panel = document.getElementById('generated-green-command');
+  if (!panel) return;
+  panel.innerHTML = `
+    <h3>Command result</h3>
+    <p class="warn">Only the fixed allowlisted local import runner may execute. No shell command is accepted.</p>
+    <table>
+      <tr><th>Field</th><th>Value</th></tr>
+      <tr><td>OK</td><td>${esc(result?.ok)}</td></tr>
+      <tr><td>Mode</td><td>${esc(result?.mode)}</td></tr>
+      <tr><td>Command</td><td>${esc(result?.command)}</td></tr>
+      <tr><td>Status code</td><td>${esc(result?.status_code)}</td></tr>
+      <tr><td>Note</td><td>${esc(result?.note)}</td></tr>
+    </table>
+    <pre>${esc(result?.stderr_text || result?.stdout_text || '')}</pre>
+  `;
+}
+
 function renderSummary(payload) {
   const panel = document.getElementById('generated-green-summary');
   if (!panel) return;
   const s = payload.summary || {};
   panel.innerHTML = `
-    <h3>v371-v380 Generated green report</h3>
+    <h3>v381-v390 Generated green report</h3>
     <p class="warn">Generated local mini-pack path. Still sample_only; no validated_paper claim and no recommendations.</p>
     <table>
       <tr><th>Field</th><th>Value</th></tr>
@@ -119,4 +139,11 @@ export function renderGeneratedGreenStatus(payload) {
 export async function loadAndRenderGeneratedGreenStatus(path = 'tauri-app/src/generated-green-sample.generated.json') {
   const payload = await loadJsonWithFallback(path, 'tauri-app/src/generated-green-sample.sample.json');
   return renderGeneratedGreenStatus(payload);
+}
+
+export async function runAndRenderGeneratedGreenStatus() {
+  const commandResult = await invokeCommand('run_generated_green_report');
+  renderCommand(commandResult);
+  const payload = await loadAndRenderGeneratedGreenStatus('tauri-app/src/generated-green-sample.generated.json');
+  return { command_result: commandResult, generated_report: payload };
 }

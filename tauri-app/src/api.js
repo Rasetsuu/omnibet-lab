@@ -36,7 +36,8 @@ export const fallbackSettings = {
   local_workflows: [
     { workflow_id: 'generate_dashboard_report', label: 'Generate dashboard report', description: 'Offline dashboard report generation.', refresh_hint: 'dashboard' },
     { workflow_id: 'generate_review_report', label: 'Generate review report', description: 'Offline review report generation.', refresh_hint: 'review' },
-    { workflow_id: 'run_leak_guard', label: 'Run leak guard', description: 'Offline leak guard.', refresh_hint: 'features' }
+    { workflow_id: 'run_leak_guard', label: 'Run leak guard', description: 'Offline leak guard.', refresh_hint: 'features' },
+    { workflow_id: 'run_generated_green_report', label: 'Run generated green report', description: 'Offline generated report writer.', refresh_hint: 'generated-green' }
   ],
   safety: { paper_only: true, no_api_key_values: true, no_network: true, no_recommendation_output: true, allowlisted_workflows_only: true, review_decisions_local_only: true }
 };
@@ -79,6 +80,7 @@ const fallback = {
   pack_summary: () => ({ ok: true, format: 'omnibet.pack.v1', pack_name: 'browser preview', total_rows: 0, note: 'Open in Tauri for backend command invocation.' }),
   predict_fixture: ({ homeTeam, awayTeam }) => ({ ok: true, home_team: homeTeam, away_team: awayTeam, model_trust: 0.25, decision_mode: 'PAPER_ONLY', note: 'Browser fallback preview.' }),
   value_report: ({ homeTeam, awayTeam }) => ({ ok: true, fixture: `${homeTeam} vs ${awayTeam}`, mode: 'PAPER_ONLY_OFFLINE_PREVIEW', note: 'Browser fallback preview; no recommendation output.' }),
+  run_generated_green_report: async () => ({ ok: true, mode: 'browser_preview_no_execution', command: 'omnibet-local-import-runner', args: ['--root', '.', '--report-out', 'reports/generated_v371_v380_green_sample.json', '--desktop-out', 'tauri-app/src/generated-green-sample.generated.json', '--storage-manifest-out', 'reports/generated_v371_v380_storage_manifest.json'], status_code: 0, stdout_json: { ok: true, status: 'browser_preview_no_execution', trust_status: 'sample_only', validated_paper: false, recommendation_output_present: false }, stdout_text: '', stderr_text: '', note: 'Open in Tauri to run the allowlisted local import runner.' }),
   load_dashboard_report: async () => {
     try {
       const res = await fetch('dashboard-data.sample.json', { cache: 'no-store' });
