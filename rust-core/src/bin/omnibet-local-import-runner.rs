@@ -59,7 +59,7 @@ fn write_json(path: &Path, payload: &Value) -> Result<(), String> {
     fs::write(path, format!("{}\n", text)).map_err(|e| format!("write {}: {e}", path.display()))
 }
 
-fn desktop_payload(report: &GeneratedGreenReportV361) -> Value {
+fn desktop_payload(report: &GeneratedGreenReportV361, storage_manifest: &Value) -> Value {
     json!({
         "schema": "omnibet.generated_green_sample_desktop.v371_v380",
         "paper_only": true,
@@ -105,6 +105,7 @@ fn desktop_payload(report: &GeneratedGreenReportV361) -> Value {
             {"market_family": "totals", "average_clv_decimal": -0.025, "positive_clv_ratio": 0.0},
             {"market_family": "btts", "average_clv_decimal": 0.0278, "positive_clv_ratio": 1.0}
         ],
+        "storage_manifest": storage_manifest,
         "trust_gate": {
             "status": "sample_only",
             "validated_paper": false,
@@ -119,6 +120,7 @@ fn storage_manifest_payload(report: &GeneratedGreenReportV361, report_out: &Path
     let report_bytes = fs::read(report_out).map_err(|e| format!("read generated report for hash: {e}"))?;
     Ok(json!({
         "schema": "omnibet.generated_storage_manifest.v371_v380",
+        "generated_at": "2026-06-27T00:00:00Z",
         "generated_by": "omnibet-local-import-runner",
         "paper_only": true,
         "source_manifest_verified": report.source_manifest_verified,
@@ -157,9 +159,9 @@ fn run() -> Result<Value, String> {
     match load_minipack(&args.root) {
         Ok(report) => {
             write_generated_green_report(&args.report_out, &report)?;
-            let desktop = desktop_payload(&report);
-            write_json(&args.desktop_out, &desktop)?;
             let storage = storage_manifest_payload(&report, &args.report_out, &args.desktop_out)?;
+            let desktop = desktop_payload(&report, &storage);
+            write_json(&args.desktop_out, &desktop)?;
             write_json(&args.storage_manifest_out, &storage)?;
             Ok(json!({
                 "ok": true,
@@ -180,6 +182,7 @@ fn run() -> Result<Value, String> {
             write_json(&args.desktop_out, &failure)?;
             write_json(&args.storage_manifest_out, &json!({
                 "schema": "omnibet.generated_storage_manifest.v371_v380.failure",
+                "generated_at": "2026-06-27T00:00:00Z",
                 "paper_only": true,
                 "source_manifest_verified": false,
                 "status": "integrity_failed_sample_only",
@@ -244,8 +247,21 @@ mod tests {
 
     #[test]
     fn generated_report_writer_desktop_payload_stays_sample_only() {
-        let payload = desktop_payload(&sample_report());
+        let storage = json!({
+            "schema": "omnibet.generated_storage_manifest.v371_v380",
+            "generated_at": "2026-06-27T00:00:00Z",
+            "paper_only": true,
+            "source_manifest_verified": true,
+            "preferred_output_codec": "jsonl.zstd",
+            "fallback_output_codec": "jsonl.gzip",
+            "content_sha256": "abc",
+            "row_count": 4,
+            "credential_values_present": false,
+            "recommendation_output_present": false
+        });
+        let payload = desktop_payload(&sample_report(), &storage);
         assert_eq!(payload.get("schema").and_then(Value::as_str), Some("omnibet.generated_green_sample_desktop.v371_v380"));
+        assert_eq!(payload.pointer("/storage_manifest/schema").and_then(Value::as_str), Some("omnibet.generated_storage_manifest.v371_v380"));
         assert_eq!(payload.pointer("/trust_gate/status").and_then(Value::as_str), Some("sample_only"));
         assert_eq!(payload.pointer("/trust_gate/validated_paper").and_then(Value::as_bool), Some(false));
         assert_eq!(payload.pointer("/trust_gate/terminal_prediction_allowed").and_then(Value::as_bool), Some(false));
