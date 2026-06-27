@@ -2,7 +2,7 @@
 
 Local-first football prediction and evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, **v248 local historical source verification**, **v249 bronze candidate preview**, **v250 bronze preview classification**, **v251 bronze preview field-schema checks**, **v252 bronze validation batch**, **v253 provider/data beta slice**, **v254 offline adapter contracts**, **v255 provider normalization preview**, **v256 source terminal report**, **v257 desktop source view**, **v258 source report generation**, **v259 source generate-refresh flow**, **v260 source terminal filters and row details**, and **v261 upcoming/live fixture source contract**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, **v248 local historical source verification**, **v249 bronze candidate preview**, **v250 bronze preview classification**, **v251 bronze preview field-schema checks**, **v252 bronze validation batch**, **v253 provider/data beta slice**, **v254 offline adapter contracts**, **v255 provider normalization preview**, **v256 source terminal report**, **v257 desktop source view**, **v258 source report generation**, **v259 source generate-refresh flow**, **v260 source terminal filters and row details**, **v261 upcoming/live fixture source contract**, and **v262-v265 source-to-context bridge**.
 
 OmniBet is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -51,10 +51,12 @@ Mode: PAPER_ONLY
 - Rust offline provider normalization preview rows for odds, fixture-result, and event-context candidates.
 - Rust source-terminal report combining adapter health, normalized preview counts, readiness badges, blockers, and locked desktop actions.
 - Offline upcoming/live fixture source contract for date-range and live-state rows.
+- Offline source-to-context bridge for odds snapshots, live snapshots, retention policy, and prediction-ready context bundles.
 - Tauri desktop source view for loading and rendering the source-terminal report.
 - Tauri desktop workflow for generating the local source-terminal report file.
 - Tauri desktop source view button flow for generating and refreshing the local source report.
 - Tauri desktop source filters, adapter details, and normalized row sample inspection.
+- Tauri desktop live-source bridge sample panel for live/upcoming matches, odds preview, and context readiness.
 - Tauri desktop shell with command bridge to allowlisted Rust CLIs and local offline workflows.
 
 ## Provider / storage chain
@@ -88,7 +90,32 @@ v234 provider runtime contracts
 → v259 source generate-refresh flow
 → v260 source terminal filters and row details
 → v261 upcoming/live fixture source contract
+→ v262-v265 source-to-context bridge
 ```
+
+## Source-to-context bridge
+
+The v262-v265 bridge batches the remaining live-source phase into one coherent offline-safe slice.
+
+```text
+v262 odds snapshot source contract
+v263 desktop upcoming/live matches sample panel
+v264 live snapshot storage and retention contract
+v265 prediction-ready match context bundle
+```
+
+Contract, sample, docs, desktop panel, and smoke:
+
+```text
+configs/source_to_context_bridge.v262_v265.json
+data/provider_fixtures/v262_v265/source_to_context_bridge.sample.json
+tauri-app/src/live-source.sample.json
+tauri-app/src/live_source.js
+docs/source_to_context_bridge_v262_v265.md
+python_lab/source_to_context_bridge_smoke.py
+```
+
+This bridge is still paper-only and sample-first. It does not enable live provider calls, real prediction confidence, model fitting, Bronze/Silver/Gold writes, or real-money recommendations.
 
 ## Upcoming/live fixture source contract
 
@@ -167,22 +194,19 @@ reload the source view
 
 The flow is local-only and paper-only. It writes a report for inspection and then refreshes the desktop source view.
 
-## Next phase: v260-v265 live source bridge
+## Next phase: v266-v270 storage bridge
 
-The next planned phase is documented in [`docs/live_source_prediction_context_phase_v260_265.md`](docs/live_source_prediction_context_phase_v260_265.md).
+The v260-v265 live source bridge is now represented by source terminal filters, live/upcoming fixtures, odds snapshots, live snapshot retention, and prediction-ready context bundles.
 
-This phase should bridge the current source-terminal foundation into the future market terminal by adding:
+The next larger phase should move toward Rust Storage V2 and compression:
 
 ```text
-v260 source terminal filters and row details
-v261 upcoming/live fixture source contract
-v262 odds snapshot source contract
-v263 desktop upcoming/live matches panel
-v264 live snapshot storage and retention contract
-v265 prediction-ready match context bundle
+v266 JSONL.Zstd raw snapshot contract
+v267 Parquet.Zstd Silver/Gold metadata contract
+v268 Rust provider cache manifest direction
+v269 Silver/Gold writer migration plan
+v270 walk-forward dataset loader shape
 ```
-
-The phase keeps OmniBet paper-only, local-first, Windows/Linux-oriented, and no-future-leak. It should make the app understand which matches are live/upcoming, which data and odds exist, and what context a future model can safely receive.
 
 ## Actual beta direction
 
@@ -213,6 +237,7 @@ python python_lab/source_terminal_generation_smoke.py --root . --out reports/loc
 python python_lab/source_generate_refresh_smoke.py --root . --out reports/local_v259_source_generate_refresh.json
 python python_lab/source_terminal_filters_details_smoke.py --root . --out reports/local_v260_source_terminal_filters_details.json
 python python_lab/upcoming_live_fixture_source_smoke.py --root . --out reports/local_v261_upcoming_live_fixture_source.json
+python python_lab/source_to_context_bridge_smoke.py --root . --out reports/local_v262_v265_source_to_context_bridge.json
 ```
 
 Rust checks:
