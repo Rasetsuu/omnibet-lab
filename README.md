@@ -2,7 +2,7 @@
 
 Local-first football prediction and evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, **v248 local historical source verification**, **v249 bronze candidate preview**, **v250 bronze preview classification**, **v251 bronze preview field-schema checks**, **v252 bronze validation batch**, **v253 provider/data beta slice**, **v254 offline adapter contracts**, **v255 provider normalization preview**, **v256 source terminal report**, **v257 desktop source view**, **v258 source report generation**, **v259 source generate-refresh flow**, **v260 source terminal filters and row details**, **v261 upcoming/live fixture source contract**, and **v262-v265 source-to-context bridge**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, **v248 local historical source verification**, **v249 bronze candidate preview**, **v250 bronze preview classification**, **v251 bronze preview field-schema checks**, **v252 bronze validation batch**, **v253 provider/data beta slice**, **v254 offline adapter contracts**, **v255 provider normalization preview**, **v256 source terminal report**, **v257 desktop source view**, **v258 source report generation**, **v259 source generate-refresh flow**, **v260 source terminal filters and row details**, **v261 upcoming/live fixture source contract**, **v262-v265 source-to-context bridge**, and **v266-v270 storage v2 compression foundation**.
 
 OmniBet is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -50,6 +50,7 @@ Mode: PAPER_ONLY
 - Rust offline provider adapter request/response contracts with local fixture validation.
 - Rust offline provider normalization preview rows for odds, fixture-result, and event-context candidates.
 - Rust source-terminal report combining adapter health, normalized preview counts, readiness badges, blockers, and locked desktop actions.
+- Rust-facing Storage V2 compression contract validation for JSONL.Zstd, Parquet.Zstd, provider cache manifests, writer migration, and walk-forward loader shape.
 - Offline upcoming/live fixture source contract for date-range and live-state rows.
 - Offline source-to-context bridge for odds snapshots, live snapshots, retention policy, and prediction-ready context bundles.
 - Tauri desktop source view for loading and rendering the source-terminal report.
@@ -91,7 +92,32 @@ v234 provider runtime contracts
 → v260 source terminal filters and row details
 → v261 upcoming/live fixture source contract
 → v262-v265 source-to-context bridge
+→ v266-v270 storage v2 compression foundation
 ```
+
+## Storage V2 compression foundation
+
+The v266-v270 bridge turns the earlier Storage V2 roadmap into stricter Rust-facing contracts and samples.
+
+```text
+v266 JSONL.Zstd raw snapshot contract
+v267 Parquet.Zstd Silver/Gold metadata contract
+v268 Rust provider cache manifest direction
+v269 Silver/Gold writer migration plan
+v270 walk-forward dataset loader shape
+```
+
+Contract, sample, docs, Rust module, and smoke:
+
+```text
+configs/storage_v2_compression.v266_v270.json
+data/storage_v2/v266_v270/storage_v2_compression.sample.json
+docs/storage_v2_compression_v266_v270.md
+rust-core/src/storage_v2_compression_v266.rs
+python_lab/storage_v2_compression_smoke.py
+```
+
+This foundation preserves JSONL.GZ compatibility for small CI/runtime packs while moving large historical/training paths toward temporary JSONL.Zstd Bronze and long-term Parquet.Zstd Silver/Gold. It does not ingest large real datasets or train models yet.
 
 ## Source-to-context bridge
 
@@ -194,18 +220,17 @@ reload the source view
 
 The flow is local-only and paper-only. It writes a report for inspection and then refreshes the desktop source view.
 
-## Next phase: v266-v270 storage bridge
+## Next phase: v271-v280 historical dataset foundation
 
-The v260-v265 live source bridge is now represented by source terminal filters, live/upcoming fixtures, odds snapshots, live snapshot retention, and prediction-ready context bundles.
-
-The next larger phase should move toward Rust Storage V2 and compression:
+The next larger phase should move from storage shape into historical dataset build planning:
 
 ```text
-v266 JSONL.Zstd raw snapshot contract
-v267 Parquet.Zstd Silver/Gold metadata contract
-v268 Rust provider cache manifest direction
-v269 Silver/Gold writer migration plan
-v270 walk-forward dataset loader shape
+v271 historical source coverage matrix
+v272 league/tournament import window targets
+v273 historical source manifest bundle
+v274 settlement and closing-odds target contract
+v275 coverage/readiness report
+v276-v280 first leak-safe dataset build plan
 ```
 
 ## Actual beta direction
@@ -238,10 +263,12 @@ python python_lab/source_generate_refresh_smoke.py --root . --out reports/local_
 python python_lab/source_terminal_filters_details_smoke.py --root . --out reports/local_v260_source_terminal_filters_details.json
 python python_lab/upcoming_live_fixture_source_smoke.py --root . --out reports/local_v261_upcoming_live_fixture_source.json
 python python_lab/source_to_context_bridge_smoke.py --root . --out reports/local_v262_v265_source_to_context_bridge.json
+python python_lab/storage_v2_compression_smoke.py --root . --out reports/local_v266_v270_storage_v2_compression.json
 ```
 
 Rust checks:
 
 ```bash
 cargo test --manifest-path rust-core/Cargo.toml source_terminal_v256
+cargo test --manifest-path rust-core/Cargo.toml storage_v2_compression
 ```

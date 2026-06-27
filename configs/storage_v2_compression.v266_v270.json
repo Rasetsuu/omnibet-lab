@@ -1,0 +1,173 @@
+{
+  "schema": "omnibet.storage_v2_compression_contract.v266_v270",
+  "milestone": "v266_v270_storage_v2_compression_foundation",
+  "paper_only": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "versions": {
+    "v266": "jsonl_zstd_raw_snapshot_contract",
+    "v267": "parquet_zstd_silver_gold_metadata_contract",
+    "v268": "rust_provider_cache_manifest_direction",
+    "v269": "silver_gold_writer_migration_plan",
+    "v270": "walk_forward_dataset_loader_shape"
+  },
+  "runtime_compatibility": {
+    "keep_jsonl_gzip_for_ci_runtime_packs": true,
+    "existing_pack_format": "omnibet.pack.v1",
+    "existing_pack_codec": "jsonl.gzip",
+    "small_runtime_cache_allowed": [
+      "sqlite",
+      "small_jsonl.gzip"
+    ]
+  },
+  "layers": {
+    "bronze_raw_snapshots": {
+      "codec": "jsonl.zstd",
+      "alternate_codec": "json.zstd",
+      "purpose": "temporary provider payload audit and replay",
+      "retention_days_default": 30,
+      "delete_raw_after_verified_promotion": true,
+      "partition_keys": [
+        "sport",
+        "source_id",
+        "request_kind",
+        "captured_date"
+      ],
+      "required_manifest_fields": [
+        "snapshot_id",
+        "source_id",
+        "request_kind",
+        "captured_at",
+        "observed_at",
+        "payload_sha256",
+        "payload_path",
+        "codec",
+        "compressed_bytes",
+        "uncompressed_bytes",
+        "row_count"
+      ]
+    },
+    "silver_canonical_facts": {
+      "codec": "parquet.zstd",
+      "purpose": "long-term normalized point-in-time football facts",
+      "partition_keys": [
+        "sport",
+        "competition_id",
+        "season_id",
+        "snapshot_date"
+      ],
+      "tables": [
+        "competitions",
+        "seasons",
+        "teams",
+        "players",
+        "matches",
+        "lineups",
+        "match_events",
+        "odds_snapshots",
+        "market_catalog",
+        "market_aliases",
+        "settlement_rules",
+        "provider_identity_map"
+      ],
+      "keep_long_term": true
+    },
+    "gold_training_features": {
+      "codec": "parquet.zstd",
+      "purpose": "long-term leak-safe training features and labels",
+      "partition_keys": [
+        "sport",
+        "market_family",
+        "feature_version",
+        "prediction_date"
+      ],
+      "tables": [
+        "gold_match_features",
+        "gold_team_snapshots",
+        "gold_player_snapshots",
+        "gold_market_features",
+        "gold_live_state_features",
+        "labels",
+        "settlements",
+        "paper_ledger",
+        "clv_reports"
+      ],
+      "keep_long_term": true
+    }
+  },
+  "provider_cache_manifest": {
+    "target_runtime": "rust",
+    "python_allowed_for_prototypes": true,
+    "required_fields": [
+      "cache_id",
+      "provider",
+      "source_role",
+      "captured_at",
+      "observed_at_min",
+      "observed_at_max",
+      "row_count",
+      "codec",
+      "content_sha256",
+      "lineage_inputs",
+      "promotion_state"
+    ],
+    "forbidden_fields": [
+      "api_key",
+      "secret",
+      "bearer_token",
+      "credential_value"
+    ]
+  },
+  "writer_migration_plan": {
+    "target_runtime": "rust",
+    "silver_writer_inputs": [
+      "verified_bronze_snapshot_manifest",
+      "identity_mapping_review",
+      "market_mapping_review"
+    ],
+    "gold_writer_inputs": [
+      "silver_fact_manifest",
+      "feature_recipe_manifest",
+      "prediction_time_windows",
+      "settlement_manifest"
+    ],
+    "writer_outputs": [
+      "table_manifest",
+      "row_counts",
+      "content_hashes",
+      "partition_summary",
+      "leakage_boundary_report"
+    ]
+  },
+  "walk_forward_dataset_loader": {
+    "target_runtime": "rust",
+    "random_split_allowed": false,
+    "required_window_fields": [
+      "train_start",
+      "train_end",
+      "validation_start",
+      "validation_end",
+      "test_start",
+      "test_end",
+      "prediction_time_column",
+      "label_available_after_column"
+    ],
+    "required_safety_checks": [
+      "feature_observed_at_lte_prediction_time",
+      "label_created_after_settlement",
+      "no_random_shuffle_split",
+      "market_family_specific_validation"
+    ]
+  },
+  "acceptance": {
+    "jsonl_gzip_compat_preserved": true,
+    "bronze_uses_zstd_and_is_temporary": true,
+    "silver_gold_use_parquet_zstd": true,
+    "provider_cache_manifest_has_no_credentials": true,
+    "silver_gold_writer_plan_is_rust_targeted": true,
+    "walk_forward_loader_shape_forbids_random_split": true,
+    "content_hashes_and_row_counts_required": true,
+    "docs_smoke_and_workflow_added": true
+  }
+}
