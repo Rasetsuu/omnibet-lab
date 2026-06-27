@@ -20,6 +20,7 @@
         <button class="nav-button" data-page="market-terminal">Market Terminal</button>
         <button class="nav-button" data-page="dataset-materialization">Dataset Materialization</button>
         <button class="nav-button" data-page="storage-writers">Storage Writers</button>
+        <button class="nav-button" data-page="walk-forward-evaluator">Walk-Forward Evaluator</button>
         <button class="nav-button" data-page="events">Events</button>
         <button class="nav-button" data-page="markets">Markets</button>
         <button class="nav-button" data-page="unknowns">Unknown Queue</button>
@@ -57,6 +58,7 @@
           <button id="load-dataset-materialization-preview">Load dataset preview</button>
           <button id="load-dataset-materialization-sample">Load dataset sample</button>
           <button id="load-storage-writers-status">Load storage writers</button>
+          <button id="load-walk-forward-evaluator-status">Load evaluator</button>
           <button id="load-review-report">Load local review report</button>
           <button id="load-review-sample">Load review sample</button>
           <button id="load-settings-report">Load settings</button>
@@ -149,6 +151,18 @@
           <div id="storage-writers-manifests" class="card"><div class="muted">Load storage writers first.</div></div>
           <div id="storage-writers-retention" class="card"><div class="muted">Load storage writers first.</div></div>
           <div id="storage-writers-next" class="card"><div class="muted">Load storage writers first.</div></div>
+        </div>
+      </section>
+
+      <section id="walk-forward-evaluator" class="page" data-page-panel="walk-forward-evaluator">
+        <h2>Walk-Forward Evaluator</h2>
+        <p class="warn">v321-v330 no-leak evaluator status. It blocks training when feature timestamps, settlement labels, random splits, or coverage gates are unsafe.</p>
+        <div class="grid">
+          <div id="walk-forward-summary" class="card"><div class="muted">Load evaluator first.</div></div>
+          <div id="walk-forward-windows" class="card"><div class="muted">Load evaluator first.</div></div>
+          <div id="walk-forward-safety" class="card"><div class="muted">Load evaluator first.</div></div>
+          <div id="walk-forward-coverage" class="card"><div class="muted">Load evaluator first.</div></div>
+          <div id="walk-forward-next" class="card"><div class="muted">Load evaluator first.</div></div>
         </div>
       </section>
 
@@ -252,6 +266,7 @@
   <script type="module" src="market_terminal.js"></script>
   <script type="module" src="dataset_materialization.js"></script>
   <script type="module" src="storage_writers.js"></script>
+  <script type="module" src="walk_forward_evaluator.js"></script>
   <script type="module" src="app.js"></script>
 </body>
 </html>
