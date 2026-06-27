@@ -1,0 +1,226 @@
+{
+  "schema": "omnibet.local_dataset_materialization_sample.v301_v310",
+  "sample_id": "v301_v310_local_dataset_materialization_preview_sample",
+  "generated_at": "2026-06-27T00:00:00Z",
+  "paper_only": true,
+  "local_first": true,
+  "credential_values_present": false,
+  "real_money_recommendations_present": false,
+  "live_provider_calls_present": false,
+  "summary": {
+    "manifest_rows": 3,
+    "fixture_preview_rows": 2,
+    "odds_preview_rows": 3,
+    "settlement_preview_rows": 2,
+    "clv_preview_rows": 2,
+    "candidate_rows": 4,
+    "ready_for_training": false,
+    "market_terminal_reload_ready": true
+  },
+  "source_manifests": [
+    {
+      "source_id": "football_data_co_uk:epl:sample",
+      "provider": "football_data_co_uk",
+      "source_role": "historical_results_odds_csv",
+      "local_path": "data/local_sources/football_data_co_uk/epl_sample.csv",
+      "expected_codec": "csv",
+      "sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "row_count": 2,
+      "observed_at_policy": "row_date_at_or_before_prediction_time",
+      "promotion_target": "silver_candidate",
+      "readiness": "ready_for_review"
+    },
+    {
+      "source_id": "the_odds_api:sample_snapshot",
+      "provider": "the_odds_api",
+      "source_role": "odds_snapshot_export",
+      "local_path": "data/local_sources/the_odds_api/odds_snapshot_sample.jsonl.zstd",
+      "expected_codec": "jsonl.zstd",
+      "sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "row_count": 3,
+      "observed_at_policy": "captured_at_at_or_before_prediction_time",
+      "promotion_target": "bronze_raw_snapshot",
+      "readiness": "preview_only"
+    },
+    {
+      "source_id": "settlement:manual_sample",
+      "provider": "manual_local_review",
+      "source_role": "settlement_label_seed",
+      "local_path": "data/local_sources/settlements/settlement_sample.json",
+      "expected_codec": "json",
+      "sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "row_count": 2,
+      "observed_at_policy": "label_created_after_settled_at",
+      "promotion_target": "gold_feature_candidate",
+      "readiness": "ready_for_review"
+    }
+  ],
+  "fixture_result_preview": [
+    {
+      "canonical_fixture_id": "canonical:fixture:ars-che:2026-06-28",
+      "home_team": "Arsenal",
+      "away_team": "Chelsea",
+      "competition_id": "eng_premier",
+      "kickoff_time": "2026-06-28T18:00:00Z",
+      "result_status": "scheduled_sample",
+      "source_id": "football_data_co_uk:epl:sample",
+      "observed_at": "2026-06-27T12:00:00Z",
+      "candidate_state": "preview_only"
+    },
+    {
+      "canonical_fixture_id": "canonical:fixture:inter-milan:2026-06-27",
+      "home_team": "Inter",
+      "away_team": "Milan",
+      "competition_id": "ita_serie_a",
+      "kickoff_time": "2026-06-27T11:00:00Z",
+      "result_status": "finished_sample",
+      "source_id": "football_data_co_uk:epl:sample",
+      "observed_at": "2026-06-27T14:00:00Z",
+      "candidate_state": "preview_only"
+    }
+  ],
+  "odds_import_preview": [
+    {
+      "canonical_fixture_id": "canonical:fixture:ars-che:2026-06-28",
+      "market_key": "1x2",
+      "selection_key": "home",
+      "bookmaker": "sample_book",
+      "price_decimal": 2.05,
+      "captured_at": "2026-06-27T12:00:00Z",
+      "source_id": "the_odds_api:sample_snapshot",
+      "candidate_state": "preview_only"
+    },
+    {
+      "canonical_fixture_id": "canonical:fixture:ars-che:2026-06-28",
+      "market_key": "totals",
+      "selection_key": "over_2_5",
+      "bookmaker": "sample_book",
+      "price_decimal": 1.91,
+      "captured_at": "2026-06-27T12:00:00Z",
+      "source_id": "the_odds_api:sample_snapshot",
+      "candidate_state": "preview_only"
+    },
+    {
+      "canonical_fixture_id": "canonical:fixture:inter-milan:2026-06-27",
+      "market_key": "1x2",
+      "selection_key": "home",
+      "bookmaker": "sample_book",
+      "price_decimal": 2.05,
+      "captured_at": "2026-06-27T12:00:00Z",
+      "source_id": "the_odds_api:sample_snapshot",
+      "candidate_state": "preview_only"
+    }
+  ],
+  "settlement_label_preview": [
+    {
+      "canonical_fixture_id": "canonical:fixture:inter-milan:2026-06-27",
+      "market_key": "1x2",
+      "selection_key": "draw",
+      "final_result": "draw",
+      "settled_at": "2026-06-27T13:55:00Z",
+      "label_created_at": "2026-06-27T14:00:00Z",
+      "candidate_state": "preview_only"
+    },
+    {
+      "canonical_fixture_id": "canonical:fixture:inter-milan:2026-06-27",
+      "market_key": "totals",
+      "selection_key": "under_2_5",
+      "final_result": "under_2_5",
+      "settled_at": "2026-06-27T13:55:00Z",
+      "label_created_at": "2026-06-27T14:00:00Z",
+      "candidate_state": "preview_only"
+    }
+  ],
+  "closing_odds_clv_preview": [
+    {
+      "canonical_fixture_id": "canonical:fixture:inter-milan:2026-06-27",
+      "market_key": "1x2",
+      "selection_key": "home",
+      "paper_price_decimal": 2.05,
+      "closing_price_decimal": 2.0,
+      "paper_clv": 0.025,
+      "candidate_state": "preview_only"
+    },
+    {
+      "canonical_fixture_id": "canonical:fixture:ars-che:2026-06-28",
+      "market_key": "totals",
+      "selection_key": "over_2_5",
+      "paper_price_decimal": 1.91,
+      "closing_price_decimal": null,
+      "paper_clv": null,
+      "candidate_state": "blocked"
+    }
+  ],
+  "candidate_materialization_preview": [
+    {
+      "candidate_id": "bronze:candidate:odds_snapshot_sample",
+      "candidate_type": "bronze_raw_candidate",
+      "source_rows": 3,
+      "target_layer": "bronze_raw_snapshots",
+      "codec_target": "jsonl.zstd",
+      "row_count": 3,
+      "content_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+      "promotion_state": "preview_only",
+      "blockers": []
+    },
+    {
+      "candidate_id": "silver:candidate:fixture_result_sample",
+      "candidate_type": "silver_fact_candidate",
+      "source_rows": 2,
+      "target_layer": "silver_canonical_facts",
+      "codec_target": "parquet.zstd",
+      "row_count": 2,
+      "content_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+      "promotion_state": "ready_for_review",
+      "blockers": ["identity_mapping_review_required"]
+    },
+    {
+      "candidate_id": "gold:candidate:market_features_sample",
+      "candidate_type": "gold_feature_candidate",
+      "source_rows": 2,
+      "target_layer": "gold_training_features",
+      "codec_target": "parquet.zstd",
+      "row_count": 2,
+      "content_sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+      "promotion_state": "blocked",
+      "blockers": ["settlement_coverage_below_threshold", "closing_odds_coverage_below_threshold"]
+    },
+    {
+      "candidate_id": "market-terminal:candidate:preview_sample",
+      "candidate_type": "market_terminal_preview_candidate",
+      "source_rows": 3,
+      "target_layer": "market_terminal_preview",
+      "codec_target": "json",
+      "row_count": 3,
+      "content_sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+      "promotion_state": "ready_for_review",
+      "blockers": []
+    }
+  ],
+  "coverage_readiness": {
+    "ready_for_training": false,
+    "ready_rows": 2,
+    "minimum_ready_rows": 1000,
+    "odds_coverage_ratio": 0.5,
+    "minimum_odds_coverage_ratio": 0.6,
+    "settlement_coverage_ratio": 0.5,
+    "minimum_settlement_coverage_ratio": 0.95,
+    "closing_odds_coverage_ratio": 0.5,
+    "minimum_closing_odds_coverage_ratio": 0.6,
+    "blockers": [
+      "identity_mapping_review_required",
+      "settlement_coverage_below_threshold",
+      "closing_odds_coverage_below_threshold",
+      "minimum_ready_rows_not_met"
+    ]
+  },
+  "market_terminal_reload_preview": {
+    "schema": "omnibet.market_terminal_reload_preview.v310",
+    "source": "generated_local_preview",
+    "paper_only": true,
+    "allowed_actions": ["inspect", "paper_watch_only"],
+    "fixtures": 2,
+    "prediction_rows": 3,
+    "trust_status": "sample_only"
+  }
+}
