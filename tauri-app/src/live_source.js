@@ -20,6 +20,7 @@ function renderSummary(payload) {
   panel.innerHTML = `
     <h3>v262-v265 Source-to-context bridge</h3>
     <p class="warn">PAPER_ONLY offline sample. This is source/context readiness, not a betting recommendation.</p>
+    <p class="muted">Allowed actions are limited to inspect_context and paper_watch_only until later validation.</p>
     <table>
       <tr><th>Metric</th><th>Value</th></tr>
       <tr><td>Live now</td><td>${esc(s.live_now)}</td></tr>
