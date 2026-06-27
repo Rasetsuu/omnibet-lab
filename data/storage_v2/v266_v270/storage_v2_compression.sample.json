@@ -1,0 +1,106 @@
+{
+  "schema": "omnibet.storage_v2_compression_sample.v266_v270",
+  "sample_id": "v266_v270_storage_v2_compression_foundation_sample",
+  "generated_at": "2026-06-27T00:00:00Z",
+  "paper_only": true,
+  "credential_values_present": false,
+  "runtime_pack_compatibility": {
+    "existing_pack_format": "omnibet.pack.v1",
+    "existing_codec": "jsonl.gzip",
+    "kept_for_ci_and_small_runtime": true
+  },
+  "bronze_raw_snapshot_manifest": {
+    "snapshot_id": "bronze:raw:api_football:live_fixture:2026-06-27",
+    "source_id": "api_football",
+    "request_kind": "live_fixture_state",
+    "captured_at": "2026-06-27T12:00:00Z",
+    "observed_at": "2026-06-27T11:59:30Z",
+    "payload_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "payload_path": "bronze/sport=football/source_id=api_football/request_kind=live_fixture_state/captured_date=2026-06-27/part-0001.jsonl.zstd",
+    "codec": "jsonl.zstd",
+    "compressed_bytes": 640,
+    "uncompressed_bytes": 4096,
+    "row_count": 2,
+    "retention_days": 30,
+    "delete_raw_after_verified_promotion": true,
+    "promotion_state": "pending_silver_fact_review"
+  },
+  "silver_table_manifest": {
+    "table_id": "silver:football:matches:2026-2027",
+    "table_name": "matches",
+    "codec": "parquet.zstd",
+    "partition_keys": {
+      "sport": "football",
+      "competition_id": "ita_serie_a",
+      "season_id": "2026-2027",
+      "snapshot_date": "2026-06-27"
+    },
+    "row_count": 1,
+    "content_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "lineage_inputs": [
+      "bronze:raw:api_football:live_fixture:2026-06-27"
+    ],
+    "keep_long_term": true
+  },
+  "gold_feature_manifest": {
+    "table_id": "gold:football:market_features:h2h:v1:2026-06-27",
+    "table_name": "gold_market_features",
+    "codec": "parquet.zstd",
+    "partition_keys": {
+      "sport": "football",
+      "market_family": "result",
+      "feature_version": "v1",
+      "prediction_date": "2026-06-27"
+    },
+    "row_count": 1,
+    "content_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "prediction_time_column": "prediction_time",
+    "observed_at_column": "feature_observed_at",
+    "label_available_after_column": "label_created_at",
+    "lineage_inputs": [
+      "silver:football:matches:2026-2027"
+    ],
+    "keep_long_term": true
+  },
+  "provider_cache_manifest": {
+    "cache_id": "cache:provider:api_football:live_fixture:2026-06-27T120000Z",
+    "provider": "api_football",
+    "source_role": "live_fixture_state",
+    "captured_at": "2026-06-27T12:00:00Z",
+    "observed_at_min": "2026-06-27T11:59:00Z",
+    "observed_at_max": "2026-06-27T11:59:30Z",
+    "row_count": 2,
+    "codec": "jsonl.zstd",
+    "content_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "lineage_inputs": [
+      "offline_sample_v261_fixture_rows"
+    ],
+    "promotion_state": "source_cache_only"
+  },
+  "walk_forward_dataset_window": {
+    "dataset_id": "wf:football:result:v1:sample",
+    "train_start": "2021-07-01T00:00:00Z",
+    "train_end": "2025-06-30T23:59:59Z",
+    "validation_start": "2025-07-01T00:00:00Z",
+    "validation_end": "2026-01-31T23:59:59Z",
+    "test_start": "2026-02-01T00:00:00Z",
+    "test_end": "2026-06-30T23:59:59Z",
+    "prediction_time_column": "prediction_time",
+    "label_available_after_column": "label_created_at",
+    "random_split_allowed": false,
+    "safety_checks": [
+      "feature_observed_at_lte_prediction_time",
+      "label_created_after_settlement",
+      "no_random_shuffle_split",
+      "market_family_specific_validation"
+    ]
+  },
+  "summary": {
+    "bronze_codec": "jsonl.zstd",
+    "silver_codec": "parquet.zstd",
+    "gold_codec": "parquet.zstd",
+    "runtime_compat_codec": "jsonl.gzip",
+    "rust_targeted": true,
+    "ready_for_real_training": false
+  }
+}
