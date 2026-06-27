@@ -31,6 +31,7 @@ pub mod silver_market;
 pub mod silver_promote_v240;
 pub mod source_terminal_v256;
 pub mod storage_v2;
+pub mod storage_v2_compression_v266;
 pub mod typed_rows;
 
 pub use bronze_cache::*;
@@ -66,6 +67,7 @@ pub use silver_market::*;
 pub use silver_promote_v240::*;
 pub use source_terminal_v256::*;
 pub use storage_v2::*;
+pub use storage_v2_compression_v266::*;
 pub use typed_rows::*;
 
 pub mod value;
