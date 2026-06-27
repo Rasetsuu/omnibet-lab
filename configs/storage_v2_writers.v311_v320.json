@@ -1,0 +1,142 @@
+{
+  "schema": "omnibet.storage_v2_writers_contract.v311_v320",
+  "milestone": "v311_v320_rust_storage_writers_compression",
+  "paper_only": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "real_money_recommendations_allowed": false,
+  "versions": {
+    "v311": "jsonl_zstd_raw_snapshot_writer",
+    "v312": "json_zstd_raw_payload_writer",
+    "v313": "provider_cache_manifest_writer",
+    "v314": "bronze_manifest_verification",
+    "v315": "silver_table_manifest_writer",
+    "v316": "gold_feature_manifest_writer",
+    "v317": "row_counts_and_content_hashes",
+    "v318": "retention_delete_after_promotion_gates",
+    "v319": "local_storage_writer_smoke",
+    "v320": "desktop_storage_writer_status_panel"
+  },
+  "rust_targets": {
+    "module": "rust-core/src/storage_v2_writers_v311.rs",
+    "test_filter": "storage_v2_writers",
+    "binary_future": "omnibet-storage-writer"
+  },
+  "writer_targets": [
+    {
+      "writer_id": "bronze_raw_jsonl_zstd_writer",
+      "layer": "bronze_raw_snapshots",
+      "codec": "jsonl.zstd",
+      "extension": ".jsonl.zst",
+      "implemented_in_rust": true,
+      "writes_real_storage": false,
+      "requires_manifest": true,
+      "retention_policy": "temporary_delete_after_verified_promotion"
+    },
+    {
+      "writer_id": "bronze_raw_json_zstd_writer",
+      "layer": "bronze_raw_payloads",
+      "codec": "json.zstd",
+      "extension": ".json.zst",
+      "implemented_in_rust": true,
+      "writes_real_storage": false,
+      "requires_manifest": true,
+      "retention_policy": "temporary_delete_after_verified_promotion"
+    },
+    {
+      "writer_id": "silver_parquet_zstd_manifest_writer",
+      "layer": "silver_canonical_facts",
+      "codec": "parquet.zstd",
+      "extension": ".parquet",
+      "implemented_in_rust": true,
+      "writes_real_storage": false,
+      "requires_manifest": true,
+      "retention_policy": "long_term_keep"
+    },
+    {
+      "writer_id": "gold_parquet_zstd_manifest_writer",
+      "layer": "gold_training_features",
+      "codec": "parquet.zstd",
+      "extension": ".parquet",
+      "implemented_in_rust": true,
+      "writes_real_storage": false,
+      "requires_manifest": true,
+      "retention_policy": "long_term_keep"
+    },
+    {
+      "writer_id": "ci_runtime_jsonl_gzip_writer",
+      "layer": "ci_runtime_packs",
+      "codec": "jsonl.gzip",
+      "extension": ".jsonl.gz",
+      "implemented_in_rust": true,
+      "writes_real_storage": false,
+      "requires_manifest": true,
+      "retention_policy": "small_pack_keep"
+    }
+  ],
+  "required_manifest_fields": [
+    "schema",
+    "writer_id",
+    "layer",
+    "table",
+    "codec",
+    "relative_path",
+    "row_count",
+    "uncompressed_bytes",
+    "compressed_bytes",
+    "content_sha256",
+    "created_at",
+    "credential_values_stored",
+    "network_calls_performed",
+    "retention_policy",
+    "promotion_state"
+  ],
+  "bundle_manifest_required_fields": [
+    "schema",
+    "bundle_id",
+    "created_at",
+    "tables",
+    "total_rows",
+    "total_uncompressed_bytes",
+    "total_compressed_bytes",
+    "bundle_sha256",
+    "credential_values_stored",
+    "network_calls_performed"
+  ],
+  "allowed_codecs": ["jsonl.zstd", "json.zstd", "jsonl.gzip", "parquet.zstd"],
+  "implemented_codecs_now": ["jsonl.zstd", "json.zstd", "jsonl.gzip"],
+  "manifest_only_codecs_now": ["parquet.zstd"],
+  "retention_gates": {
+    "bronze_delete_after_verified_promotion": true,
+    "silver_keep_long_term": true,
+    "gold_keep_long_term": true,
+    "delete_requires_content_hash_match": true,
+    "delete_requires_row_count_match": true,
+    "delete_requires_promotion_state": "verified_promoted"
+  },
+  "desktop_status_panel": {
+    "sample_path": "tauri-app/src/storage-writers.sample.json",
+    "panel_ids": [
+      "storage-writers-summary",
+      "storage-writers-targets",
+      "storage-writers-manifests",
+      "storage-writers-retention",
+      "storage-writers-next"
+    ],
+    "button_ids": ["load-storage-writers-status"]
+  },
+  "acceptance": {
+    "jsonl_zstd_writer_defined_in_rust": true,
+    "json_zstd_writer_defined_in_rust": true,
+    "jsonl_gzip_compat_preserved": true,
+    "provider_cache_manifest_writer_defined": true,
+    "bronze_manifest_verification_defined": true,
+    "silver_gold_manifest_writers_defined": true,
+    "row_counts_and_hashes_required": true,
+    "retention_delete_after_promotion_gates_defined": true,
+    "desktop_storage_writer_status_panel_added": true,
+    "python_smoke_and_ci_added": true,
+    "no_live_calls_no_credentials_no_recommendations": true
+  }
+}
