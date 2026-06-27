@@ -1,0 +1,153 @@
+{
+  "schema": "omnibet.walk_forward_evaluator_sample.v321_v330",
+  "sample_id": "v321_v330_walk_forward_evaluator_sample",
+  "generated_at": "2026-06-27T00:00:00Z",
+  "paper_only": true,
+  "local_first": true,
+  "credential_values_present": false,
+  "live_provider_calls_present": false,
+  "real_money_recommendations_present": false,
+  "random_split_present": false,
+  "summary": {
+    "windows": 2,
+    "total_rows": 5,
+    "eligible_rows": 3,
+    "blocked_rows": 2,
+    "ready_for_training": false,
+    "overall_status": "blocked_until_coverage_thresholds_pass"
+  },
+  "windows": [
+    {
+      "window_id": "wf:2026-06:1x2",
+      "train_start": "2026-01-01T00:00:00Z",
+      "train_end": "2026-05-31T23:59:59Z",
+      "evaluation_start": "2026-06-01T00:00:00Z",
+      "evaluation_end": "2026-06-30T23:59:59Z",
+      "prediction_time": "2026-06-15T12:00:00Z",
+      "market_family": "1x2",
+      "rows": 3,
+      "coverage_status": "blocked",
+      "blockers": ["minimum_eval_rows_not_met", "closing_odds_coverage_below_threshold"]
+    },
+    {
+      "window_id": "wf:2026-06:totals",
+      "train_start": "2026-01-01T00:00:00Z",
+      "train_end": "2026-05-31T23:59:59Z",
+      "evaluation_start": "2026-06-01T00:00:00Z",
+      "evaluation_end": "2026-06-30T23:59:59Z",
+      "prediction_time": "2026-06-16T12:00:00Z",
+      "market_family": "totals",
+      "rows": 2,
+      "coverage_status": "blocked",
+      "blockers": ["minimum_eval_rows_not_met", "settlement_coverage_below_threshold"]
+    }
+  ],
+  "rows": [
+    {
+      "row_id": "eval:001",
+      "canonical_fixture_id": "canonical:fixture:inter-milan:2026-06-27",
+      "window_id": "wf:2026-06:1x2",
+      "market_family": "1x2",
+      "market_key": "1x2",
+      "selection_key": "home",
+      "prediction_time": "2026-06-15T12:00:00Z",
+      "feature_observed_at": "2026-06-15T11:50:00Z",
+      "label_created_at": "2026-06-27T14:00:00Z",
+      "settled_at": "2026-06-27T13:55:00Z",
+      "has_closing_odds": true,
+      "has_settlement_label": true,
+      "eligible_for_evaluation": true
+    },
+    {
+      "row_id": "eval:002",
+      "canonical_fixture_id": "canonical:fixture:ars-che:2026-06-28",
+      "window_id": "wf:2026-06:1x2",
+      "market_family": "1x2",
+      "market_key": "1x2",
+      "selection_key": "draw",
+      "prediction_time": "2026-06-15T12:00:00Z",
+      "feature_observed_at": "2026-06-15T11:45:00Z",
+      "label_created_at": "2026-06-28T21:00:00Z",
+      "settled_at": "2026-06-28T20:55:00Z",
+      "has_closing_odds": false,
+      "has_settlement_label": true,
+      "eligible_for_evaluation": false
+    },
+    {
+      "row_id": "eval:003",
+      "canonical_fixture_id": "canonical:fixture:bar-real:2026-06-29",
+      "window_id": "wf:2026-06:1x2",
+      "market_family": "1x2",
+      "market_key": "1x2",
+      "selection_key": "away",
+      "prediction_time": "2026-06-15T12:00:00Z",
+      "feature_observed_at": "2026-06-15T11:55:00Z",
+      "label_created_at": "2026-06-29T22:00:00Z",
+      "settled_at": "2026-06-29T21:55:00Z",
+      "has_closing_odds": true,
+      "has_settlement_label": true,
+      "eligible_for_evaluation": true
+    },
+    {
+      "row_id": "eval:004",
+      "canonical_fixture_id": "canonical:fixture:lyon-marseille:2026-06-30",
+      "window_id": "wf:2026-06:totals",
+      "market_family": "totals",
+      "market_key": "totals",
+      "selection_key": "over_2_5",
+      "prediction_time": "2026-06-16T12:00:00Z",
+      "feature_observed_at": "2026-06-16T11:55:00Z",
+      "label_created_at": "2026-06-30T21:00:00Z",
+      "settled_at": "2026-06-30T20:55:00Z",
+      "has_closing_odds": true,
+      "has_settlement_label": true,
+      "eligible_for_evaluation": true
+    },
+    {
+      "row_id": "eval:005",
+      "canonical_fixture_id": "canonical:fixture:porto-benfica:2026-06-30",
+      "window_id": "wf:2026-06:totals",
+      "market_family": "totals",
+      "market_key": "totals",
+      "selection_key": "under_2_5",
+      "prediction_time": "2026-06-16T12:00:00Z",
+      "feature_observed_at": "2026-06-16T12:05:00Z",
+      "label_created_at": "2026-06-30T22:00:00Z",
+      "settled_at": "2026-06-30T21:55:00Z",
+      "has_closing_odds": true,
+      "has_settlement_label": true,
+      "eligible_for_evaluation": false
+    }
+  ],
+  "safety_checks": [
+    {"check": "prediction_time_within_evaluation_window", "status": "pass", "failures": 0},
+    {"check": "feature_observed_at_lte_prediction_time", "status": "fail", "failures": 1},
+    {"check": "label_created_at_gte_settled_at", "status": "pass", "failures": 0},
+    {"check": "label_created_at_gt_prediction_time", "status": "pass", "failures": 0},
+    {"check": "settled_at_gt_prediction_time", "status": "pass", "failures": 0},
+    {"check": "market_family_matches_window", "status": "pass", "failures": 0},
+    {"check": "no_random_split", "status": "pass", "failures": 0},
+    {"check": "coverage_gate_checked", "status": "pass", "failures": 0}
+  ],
+  "coverage_readiness": {
+    "minimum_eval_rows": 100,
+    "actual_eval_rows": 3,
+    "minimum_settlement_coverage_ratio": 0.95,
+    "actual_settlement_coverage_ratio": 1.0,
+    "minimum_closing_odds_coverage_ratio": 0.6,
+    "actual_closing_odds_coverage_ratio": 0.8,
+    "minimum_market_family_rows": 30,
+    "actual_min_market_family_rows": 1,
+    "ready_for_training": false,
+    "blockers": ["minimum_eval_rows_not_met", "minimum_market_family_rows_not_met", "feature_timestamp_failure_present"]
+  },
+  "report": {
+    "schema": "omnibet.walk_forward_evaluator_report.v327",
+    "status": "blocked",
+    "eligible_rows": 3,
+    "blocked_rows": 2,
+    "random_split_used": false,
+    "recommendation_output_present": false,
+    "next_action": "increase_local_dataset_coverage_before_training"
+  }
+}

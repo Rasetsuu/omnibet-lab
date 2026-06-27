@@ -1,0 +1,105 @@
+{
+  "schema": "omnibet.walk_forward_evaluator_contract.v321_v330",
+  "milestone": "v321_v330_rust_dataset_loader_walk_forward_evaluator",
+  "paper_only": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "real_money_recommendations_allowed": false,
+  "random_split_allowed": false,
+  "versions": {
+    "v321": "dataset_window_loader",
+    "v322": "prediction_time_boundary_checks",
+    "v323": "feature_observed_at_lte_prediction_time_checks",
+    "v324": "label_created_after_settlement_checks",
+    "v325": "market_family_split_checks",
+    "v326": "no_random_split_enforcement",
+    "v327": "evaluation_window_report_writer",
+    "v328": "coverage_readiness_gate_integration",
+    "v329": "desktop_evaluator_status_panel",
+    "v330": "walk_forward_evaluator_smoke"
+  },
+  "rust_targets": {
+    "module": "rust-core/src/walk_forward_v321.rs",
+    "test_filter": "walk_forward_evaluator",
+    "future_binary": "omnibet-evaluate"
+  },
+  "window_required_fields": [
+    "window_id",
+    "train_start",
+    "train_end",
+    "evaluation_start",
+    "evaluation_end",
+    "prediction_time",
+    "market_family",
+    "rows",
+    "coverage_status",
+    "blockers"
+  ],
+  "row_required_fields": [
+    "row_id",
+    "canonical_fixture_id",
+    "market_family",
+    "market_key",
+    "selection_key",
+    "prediction_time",
+    "feature_observed_at",
+    "label_created_at",
+    "settled_at",
+    "has_closing_odds",
+    "has_settlement_label",
+    "eligible_for_evaluation"
+  ],
+  "required_safety_checks": [
+    "prediction_time_within_evaluation_window",
+    "feature_observed_at_lte_prediction_time",
+    "label_created_at_gte_settled_at",
+    "label_created_at_gt_prediction_time",
+    "settled_at_gt_prediction_time",
+    "market_family_matches_window",
+    "no_random_split",
+    "coverage_gate_checked"
+  ],
+  "allowed_market_families": ["1x2", "totals", "btts"],
+  "coverage_gates": {
+    "minimum_eval_rows": 100,
+    "minimum_settlement_coverage_ratio": 0.95,
+    "minimum_closing_odds_coverage_ratio": 0.6,
+    "minimum_market_family_rows": 30
+  },
+  "report_outputs": {
+    "local_report_path": ".omnibet-local/reports/local_v321_v330_walk_forward_evaluator.json",
+    "desktop_sample_path": "tauri-app/src/walk-forward-evaluator.sample.json"
+  },
+  "desktop_status_panel": {
+    "panel_ids": [
+      "walk-forward-summary",
+      "walk-forward-windows",
+      "walk-forward-safety",
+      "walk-forward-coverage",
+      "walk-forward-next"
+    ],
+    "button_ids": ["load-walk-forward-evaluator-status"]
+  },
+  "forbidden_outputs": [
+    "real_money_recommendation",
+    "stake_size",
+    "profitability_claim",
+    "live_provider_fetch",
+    "random_train_test_split"
+  ],
+  "acceptance": {
+    "dataset_window_loader_defined": true,
+    "prediction_time_boundaries_checked": true,
+    "feature_observed_at_lte_prediction_time_checked": true,
+    "label_created_after_settlement_checked": true,
+    "market_family_split_checked": true,
+    "random_split_forbidden": true,
+    "evaluation_window_report_writer_defined": true,
+    "coverage_readiness_gates_integrated": true,
+    "desktop_evaluator_status_panel_added": true,
+    "rust_validation_module_added": true,
+    "python_smoke_and_ci_added": true,
+    "no_live_calls_no_credentials_no_recommendations": true
+  }
+}
