@@ -1,0 +1,36 @@
+name: OmniBet v311-v320 Storage V2 Writers
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  storage-v2-writers:
+    name: v311-v320 storage v2 writers
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Rust storage v2 writers test
+        run: cargo test --manifest-path rust-core/Cargo.toml storage_v2_writers
+      - name: Run v311-v320 storage writers smoke
+        run: |
+          mkdir -p reports
+          python python_lab/storage_v2_writers_smoke.py --root . --out reports/ci_v311_v320_storage_v2_writers.json
+      - name: Upload v311-v320 storage writers report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v311-v320-storage-v2-writers-report
+          path: reports/ci_v311_v320_storage_v2_writers.json
+          if-no-files-found: warn

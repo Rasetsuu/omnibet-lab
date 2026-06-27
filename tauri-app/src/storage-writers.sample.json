@@ -1,0 +1,31 @@
+{
+  "schema": "omnibet.storage_writers_desktop_sample.v311_v320",
+  "paper_only": true,
+  "generated_at": "2026-06-27T00:00:00Z",
+  "summary": {
+    "writer_targets": 5,
+    "implemented_now": 3,
+    "manifest_only_now": 1,
+    "sample_manifests": 4,
+    "ready_for_real_storage": false
+  },
+  "writer_rows": [
+    {"writer_id": "bronze_raw_jsonl_zstd_writer", "layer": "bronze_raw_snapshots", "codec": "jsonl.zstd", "status": "rust_writer_available_for_preview", "next_action": "wire_to_provider_cache_manifest_after_review"},
+    {"writer_id": "bronze_raw_json_zstd_writer", "layer": "bronze_raw_payloads", "codec": "json.zstd", "status": "rust_writer_available_for_preview", "next_action": "wire_to_raw_payload_archive_after_review"},
+    {"writer_id": "ci_runtime_jsonl_gzip_writer", "layer": "ci_runtime_packs", "codec": "jsonl.gzip", "status": "compat_writer_preserved", "next_action": "keep_for_small_ci_runtime_packs"},
+    {"writer_id": "silver_parquet_zstd_manifest_writer", "layer": "silver_canonical_facts", "codec": "parquet.zstd", "status": "manifest_writer_only", "next_action": "add_real_parquet_writer_after_table_schema_lock"},
+    {"writer_id": "gold_parquet_zstd_manifest_writer", "layer": "gold_training_features", "codec": "parquet.zstd", "status": "manifest_writer_only", "next_action": "add_real_parquet_writer_after_feature_schema_lock"}
+  ],
+  "manifest_rows": [
+    {"table": "provider_odds_snapshot_preview", "codec": "jsonl.zstd", "row_count": 3, "compressed_bytes": 220, "retention_policy": "temporary_delete_after_verified_promotion", "promotion_state": "preview_only"},
+    {"table": "small_runtime_pack_preview", "codec": "jsonl.gzip", "row_count": 2, "compressed_bytes": 180, "retention_policy": "small_pack_keep", "promotion_state": "preview_only"},
+    {"table": "silver_fixture_facts_preview", "codec": "parquet.zstd", "row_count": 2, "compressed_bytes": 0, "retention_policy": "long_term_keep", "promotion_state": "manifest_only"},
+    {"table": "gold_market_features_preview", "codec": "parquet.zstd", "row_count": 2, "compressed_bytes": 0, "retention_policy": "long_term_keep", "promotion_state": "manifest_only"}
+  ],
+  "retention_gate": {
+    "bronze_can_delete": false,
+    "reason": "promotion_state_not_verified_promoted",
+    "requires": ["content_hash_match", "row_count_match", "promotion_state_verified_promoted"]
+  },
+  "next_phase": "v321-v330 Rust dataset loader + walk-forward evaluator"
+}

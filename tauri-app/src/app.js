@@ -13,6 +13,7 @@ import { generateAndRenderSourceTerminal, loadAndRenderSourceTerminal } from './
 import { loadAndRenderLiveSourceBridge } from './live_source.js';
 import { loadAndRenderMarketTerminalMvp } from './market_terminal.js';
 import { generateAndRenderDatasetMaterialization, loadAndRenderDatasetMaterialization } from './dataset_materialization.js';
+import { loadAndRenderStorageWritersStatus } from './storage_writers.js';
 
 function out(x) {
   const el = document.getElementById('out');
@@ -75,6 +76,7 @@ function bind() {
   document.getElementById('generate-dataset-materialization-preview')?.addEventListener('click', () => safeRun(() => generateAndRenderDatasetMaterialization()));
   bindDatasetMaterializationLoadButton('load-dataset-materialization-preview');
   bindDatasetMaterializationLoadButton('load-dataset-materialization-sample', 'tauri-app/src/dataset-materialization.sample.json');
+  document.getElementById('load-storage-writers-status')?.addEventListener('click', () => safeRun(() => loadAndRenderStorageWritersStatus()));
   document.getElementById('load-phase2-forecast')?.addEventListener('click', () => safeRun(() => loadAndRenderPhase2Forecast()));
   document.getElementById('load-upcoming-fixtures')?.addEventListener('click', () => safeRun(() => loadAndRenderUpcomingFixtures()));
   document.getElementById('load-external-data')?.addEventListener('click', () => safeRun(() => loadAndRenderExternalData()));
