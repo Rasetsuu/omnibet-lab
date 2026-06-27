@@ -2,7 +2,7 @@
 
 Local-first football prediction and evaluation research lab.
 
-Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, **v248 local historical source verification**, **v249 bronze candidate preview**, **v250 bronze preview classification**, **v251 bronze preview field-schema checks**, **v252 bronze validation batch**, **v253 provider/data beta slice**, **v254 offline adapter contracts**, **v255 provider normalization preview**, **v256 source terminal report**, **v257 desktop source view**, **v258 source report generation**, **v259 source generate-refresh flow**, **v260 source terminal filters and row details**, **v261 upcoming/live fixture source contract**, **v262-v265 source-to-context bridge**, **v266-v270 storage v2 compression foundation**, and **v271-v280 historical dataset foundation**.
+Current merged baseline: **v181-v228 beta release train** plus **v229 desktop release stabilization**, **v230 portable runtime lookup hardening**, **v231 release/source foundation**, **v232 final GUI market terminal contract**, **v233 storage v2 big-data foundation**, **v234 Rust provider runtime foundation**, **v235 offline provider sample parsers**, **v236 bronze snapshot cache**, **v237 canonical market registry**, **v238 silver market mapping preview**, **v239 identity mapping preview**, **v240 silver promotion preview**, **v241 review queue report**, **v242 sample market review patch**, **v243 silver fact preview bundle**, **v244 silver preview cache**, **v245 historical import contracts**, **v246 historical import plan preview**, **v247 historical source manifest validation**, **v248 local historical source verification**, **v249 bronze candidate preview**, **v250 bronze preview classification**, **v251 bronze preview field-schema checks**, **v252 bronze validation batch**, **v253 provider/data beta slice**, **v254 offline adapter contracts**, **v255 provider normalization preview**, **v256 source terminal report**, **v257 desktop source view**, **v258 source report generation**, **v259 source generate-refresh flow**, **v260 source terminal filters and row details**, **v261 upcoming/live fixture source contract**, **v262-v265 source-to-context bridge**, **v266-v270 storage v2 compression foundation**, **v271-v280 historical dataset foundation**, and **v281-v290 baseline training and evaluation**.
 
 OmniBet is a paper-only research tool for building, testing, and reviewing football prediction/value workflows without future leakage.
 
@@ -43,6 +43,7 @@ Mode: PAPER_ONLY
 - Rust historical source manifest validation for declared local candidate sources.
 - Rust historical source verification for local existence, SHA-256, and row-count checks.
 - Rust historical dataset foundation validation for source coverage, import windows, settlement/closing-odds targets, and leak-safe dataset build planning.
+- Rust baseline/evaluation foundation validation for no-vig baselines, calibration, walk-forward reports, paper CLV, trust gates, and market-terminal table shape.
 - Rust quarantined bronze-candidate preview rows from verified local source files.
 - Rust bronze preview row classification for fixture/result, odds, and lineup/event-context rows.
 - Rust bronze preview field-schema checks for classified rows.
@@ -95,7 +96,35 @@ v234 provider runtime contracts
 → v262-v265 source-to-context bridge
 → v266-v270 storage v2 compression foundation
 → v271-v280 historical dataset foundation
+→ v281-v290 baseline training and evaluation
 ```
+
+## Baseline training and evaluation
+
+The v281-v290 bridge defines baseline model/evaluation contracts before any model can be trusted in the market terminal.
+
+```text
+v281 1X2 baseline contract
+v282 totals/BTTS baseline contract
+v283 no-vig market baseline comparison
+v284 calibration report contract
+v285 walk-forward evaluation report
+v286 paper CLV report contract
+v287 model trust gate
+v288-v290 market terminal prediction table preparation
+```
+
+Contract, sample, docs, Rust module, and smoke:
+
+```text
+configs/baseline_training_evaluation.v281_v290.json
+data/training/v281_v290/baseline_training_evaluation.sample.json
+docs/baseline_training_evaluation_v281_v290.md
+rust-core/src/baseline_eval_v281.rs
+python_lab/baseline_training_evaluation_smoke.py
+```
+
+This foundation defines no-vig baselines, calibration metrics, walk-forward reports, paper CLV, trust gates, and paper-only market-terminal table shape. It does not claim prediction accuracy, train on real large datasets, or enable real-money recommendations.
 
 ## Historical dataset foundation
 
@@ -247,19 +276,21 @@ reload the source view
 
 The flow is local-only and paper-only. It writes a report for inspection and then refreshes the desktop source view.
 
-## Next phase: v281-v290 baseline training and evaluation
+## Next phase: v291-v300 market terminal MVP
 
-The next larger phase should move from historical dataset planning into model baseline contracts and evaluation reports:
+The next larger phase should move from model/evaluation contracts into a market-terminal MVP surface:
 
 ```text
-v281 1X2 baseline contract
-v282 totals/BTTS baseline contract
-v283 no-vig market baseline comparison
-v284 calibration report contract
-v285 walk-forward evaluation report
-v286 paper CLV report contract
-v287 model trust gate
-v288-v290 market terminal prediction table preparation
+v291 market terminal data contract
+v292 fixture/market selection state
+v293 prediction table renderer
+v294 trust/blocker display
+v295 paper-only add-to-watchlist action
+v296 market movement preview
+v297 paper ledger preview
+v298 source freshness badges
+v299 disabled bilet-builder placeholder
+v300 desktop market terminal MVP smoke
 ```
 
 ## Actual beta direction
@@ -294,6 +325,7 @@ python python_lab/upcoming_live_fixture_source_smoke.py --root . --out reports/l
 python python_lab/source_to_context_bridge_smoke.py --root . --out reports/local_v262_v265_source_to_context_bridge.json
 python python_lab/storage_v2_compression_smoke.py --root . --out reports/local_v266_v270_storage_v2_compression.json
 python python_lab/historical_dataset_foundation_smoke.py --root . --out reports/local_v271_v280_historical_dataset_foundation.json
+python python_lab/baseline_training_evaluation_smoke.py --root . --out reports/local_v281_v290_baseline_training_evaluation.json
 ```
 
 Rust checks:
@@ -302,4 +334,5 @@ Rust checks:
 cargo test --manifest-path rust-core/Cargo.toml source_terminal_v256
 cargo test --manifest-path rust-core/Cargo.toml storage_v2_compression
 cargo test --manifest-path rust-core/Cargo.toml historical_dataset_foundation
+cargo test --manifest-path rust-core/Cargo.toml baseline_training_evaluation
 ```
