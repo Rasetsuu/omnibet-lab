@@ -1,0 +1,11 @@
+{
+  "schema": "omnibet.identity_mapping_rows.v401_v410",
+  "rows": [
+    {"entity_type": "team", "source_id": "sample_historical_csv", "raw_name": "Manchester United", "canonical_id": "team:eng:manchester_united", "canonical_name": "Manchester United", "confidence": 1.0, "review_status": "accepted"},
+    {"entity_type": "team", "source_id": "sample_historical_csv", "raw_name": "Fulham", "canonical_id": "team:eng:fulham", "canonical_name": "Fulham", "confidence": 1.0, "review_status": "accepted"},
+    {"entity_type": "team", "source_id": "sample_historical_csv", "raw_name": "Arsenal", "canonical_id": "team:eng:arsenal", "canonical_name": "Arsenal", "confidence": 1.0, "review_status": "accepted"},
+    {"entity_type": "team", "source_id": "sample_historical_csv", "raw_name": "Wolverhampton Wanderers", "canonical_id": "team:eng:wolves", "canonical_name": "Wolverhampton Wanderers", "confidence": 0.88, "review_status": "accepted"},
+    {"entity_type": "team", "source_id": "sample_historical_csv", "raw_name": "Chelsea", "canonical_id": "team:eng:chelsea", "canonical_name": "Chelsea", "confidence": 1.0, "review_status": "accepted"},
+    {"entity_type": "team", "source_id": "sample_historical_csv", "raw_name": "Manchester City", "canonical_id": "team:eng:manchester_city", "canonical_name": "Manchester City", "confidence": 1.0, "review_status": "accepted"}
+  ]
+}
