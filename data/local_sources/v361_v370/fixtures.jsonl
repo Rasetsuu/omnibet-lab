@@ -1,0 +1,2 @@
+{"canonical_fixture_id":"fixture:green:001","competition_id":"eng_premier_sample","season_id":"2025_2026_sample","home_team_id":"team:arsenal_sample","away_team_id":"team:chelsea_sample","kickoff_at":"2026-01-02T18:00:00Z","final_result":"home","settled_at":"2026-01-02T20:00:00Z"}
+{"canonical_fixture_id":"fixture:green:002","competition_id":"esp_laliga_sample","season_id":"2025_2026_sample","home_team_id":"team:barcelona_sample","away_team_id":"team:madrid_sample","kickoff_at":"2026-01-03T20:00:00Z","final_result":"away","settled_at":"2026-01-03T22:00:00Z"}
