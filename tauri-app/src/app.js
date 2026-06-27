@@ -87,6 +87,7 @@ function bind() {
   document.getElementById('load-calibration-clv-status')?.addEventListener('click', () => safeRun(() => loadAndRenderCalibrationClvStatus()));
   document.getElementById('load-green-sample-status')?.addEventListener('click', () => safeRun(() => loadAndRenderGreenSampleStatus()));
   document.getElementById('load-generated-green-status')?.addEventListener('click', () => safeRun(() => loadAndRenderGeneratedGreenStatus()));
+  document.getElementById('load-generated-green-generated-status')?.addEventListener('click', () => safeRun(() => loadAndRenderGeneratedGreenStatus('tauri-app/src/generated-green-sample.generated.json')));
   document.getElementById('load-phase2-forecast')?.addEventListener('click', () => safeRun(() => loadAndRenderPhase2Forecast()));
   document.getElementById('load-upcoming-fixtures')?.addEventListener('click', () => safeRun(() => loadAndRenderUpcomingFixtures()));
   document.getElementById('load-external-data')?.addEventListener('click', () => safeRun(() => loadAndRenderExternalData()));

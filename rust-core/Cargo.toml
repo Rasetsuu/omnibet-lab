@@ -31,6 +31,10 @@ path = "src/bin/omnibet-model.rs"
 name = "omnibet-bronze-cache"
 path = "src/bin/omnibet-bronze-cache.rs"
 
+[[bin]]
+name = "omnibet-local-import-runner"
+path = "src/bin/omnibet-local-import-runner.rs"
+
 [dependencies]
 flate2 = "1"
 serde = { version = "1", features = ["derive"] }
