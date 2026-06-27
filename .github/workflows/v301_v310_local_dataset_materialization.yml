@@ -1,0 +1,38 @@
+name: OmniBet v301-v310 Local Dataset Materialization
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  local-dataset-materialization:
+    name: v301-v310 local dataset materialization
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Generate local dataset materialization preview
+        run: python python_lab/local_dataset_materialization_preview.py --root . --out reports/local_v301_v310_dataset_materialization.json --market-terminal-out reports/local_v301_v310_market_terminal_preview.json
+      - name: Rust local dataset materialization test
+        run: cargo test --manifest-path rust-core/Cargo.toml local_dataset_materialization
+      - name: Run v301-v310 local materialization smoke
+        run: |
+          mkdir -p reports
+          python python_lab/local_dataset_materialization_smoke.py --root . --out reports/ci_v301_v310_local_dataset_materialization.json
+      - name: Upload v301-v310 local materialization reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v301-v310-local-dataset-materialization-report
+          path: reports/*.json
+          if-no-files-found: warn

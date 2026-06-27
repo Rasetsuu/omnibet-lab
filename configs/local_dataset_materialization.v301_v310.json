@@ -1,0 +1,146 @@
+{
+  "schema": "omnibet.local_dataset_materialization_contract.v301_v310",
+  "milestone": "v301_v310_local_dataset_materialization_preview",
+  "paper_only": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "real_money_recommendations_allowed": false,
+  "writes_real_bronze_silver_gold": false,
+  "versions": {
+    "v301": "local_source_manifest_bundle_ui_report",
+    "v302": "fixture_result_local_import_preview",
+    "v303": "odds_local_import_preview",
+    "v304": "settlement_label_preview",
+    "v305": "closing_odds_clv_preview",
+    "v306": "bronze_to_silver_candidate_materialization_preview",
+    "v307": "gold_feature_candidate_preview",
+    "v308": "coverage_readiness_desktop_panel",
+    "v309": "local_only_dataset_build_smoke",
+    "v310": "market_terminal_reload_from_generated_local_preview"
+  },
+  "generated_report_path": ".omnibet-local/reports/local_v301_v310_dataset_materialization.json",
+  "desktop_sample_path": "tauri-app/src/dataset-materialization.sample.json",
+  "market_terminal_reload_path": ".omnibet-local/reports/local_v301_v310_market_terminal_preview.json",
+  "panel_ids": [
+    "dataset-materialization-summary",
+    "dataset-materialization-manifests",
+    "dataset-materialization-fixtures",
+    "dataset-materialization-odds",
+    "dataset-materialization-settlements",
+    "dataset-materialization-clv",
+    "dataset-materialization-candidates",
+    "dataset-materialization-readiness"
+  ],
+  "button_ids": [
+    "generate-dataset-materialization-preview",
+    "load-dataset-materialization-preview",
+    "load-dataset-materialization-sample"
+  ],
+  "manifest_required_fields": [
+    "source_id",
+    "provider",
+    "source_role",
+    "local_path",
+    "expected_codec",
+    "sha256",
+    "row_count",
+    "observed_at_policy",
+    "promotion_target",
+    "readiness"
+  ],
+  "fixture_preview_required_fields": [
+    "canonical_fixture_id",
+    "home_team",
+    "away_team",
+    "competition_id",
+    "kickoff_time",
+    "result_status",
+    "source_id",
+    "observed_at",
+    "candidate_state"
+  ],
+  "odds_preview_required_fields": [
+    "canonical_fixture_id",
+    "market_key",
+    "selection_key",
+    "bookmaker",
+    "price_decimal",
+    "captured_at",
+    "source_id",
+    "candidate_state"
+  ],
+  "settlement_preview_required_fields": [
+    "canonical_fixture_id",
+    "market_key",
+    "selection_key",
+    "final_result",
+    "settled_at",
+    "label_created_at",
+    "candidate_state"
+  ],
+  "clv_preview_required_fields": [
+    "canonical_fixture_id",
+    "market_key",
+    "selection_key",
+    "paper_price_decimal",
+    "closing_price_decimal",
+    "paper_clv",
+    "candidate_state"
+  ],
+  "candidate_preview_required_fields": [
+    "candidate_id",
+    "candidate_type",
+    "source_rows",
+    "target_layer",
+    "codec_target",
+    "row_count",
+    "content_sha256",
+    "promotion_state",
+    "blockers"
+  ],
+  "allowed_candidate_types": [
+    "bronze_raw_candidate",
+    "silver_fact_candidate",
+    "gold_feature_candidate",
+    "market_terminal_preview_candidate"
+  ],
+  "allowed_candidate_states": [
+    "preview_only",
+    "blocked",
+    "ready_for_review"
+  ],
+  "allowed_codecs": [
+    "csv",
+    "json",
+    "jsonl.gzip",
+    "jsonl.zstd",
+    "parquet.zstd"
+  ],
+  "coverage_readiness_thresholds": {
+    "minimum_ready_rows": 1000,
+    "minimum_odds_coverage_ratio": 0.6,
+    "minimum_settlement_coverage_ratio": 0.95,
+    "minimum_closing_odds_coverage_ratio": 0.6
+  },
+  "market_terminal_reload": {
+    "enabled": true,
+    "source": "generated_local_preview",
+    "allowed_actions": ["inspect", "paper_watch_only"],
+    "forbidden_actions": ["recommend_real_bet", "place_bet", "auto_stake", "claim_profitability"]
+  },
+  "acceptance": {
+    "local_manifest_bundle_preview_defined": true,
+    "fixture_result_import_preview_defined": true,
+    "odds_import_preview_defined": true,
+    "settlement_label_preview_defined": true,
+    "closing_odds_clv_preview_defined": true,
+    "bronze_silver_gold_candidate_previews_defined": true,
+    "coverage_readiness_panel_defined": true,
+    "generated_report_paths_defined": true,
+    "market_terminal_reload_path_defined": true,
+    "desktop_panel_and_smoke_added": true,
+    "rust_validation_module_added": true,
+    "no_live_calls_no_credentials_no_recommendations": true
+  }
+}

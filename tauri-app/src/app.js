@@ -12,6 +12,7 @@ import { loadAndRenderBetaReleaseTrain } from './beta_release_train.js';
 import { generateAndRenderSourceTerminal, loadAndRenderSourceTerminal } from './source_terminal.js';
 import { loadAndRenderLiveSourceBridge } from './live_source.js';
 import { loadAndRenderMarketTerminalMvp } from './market_terminal.js';
+import { generateAndRenderDatasetMaterialization, loadAndRenderDatasetMaterialization } from './dataset_materialization.js';
 
 function out(x) {
   const el = document.getElementById('out');
@@ -48,6 +49,10 @@ function bindSourceLoadButton(id, pathHint = null) {
   document.getElementById(id)?.addEventListener('click', () => safeRun(() => loadAndRenderSourceTerminal(pathHint)));
 }
 
+function bindDatasetMaterializationLoadButton(id, pathHint = 'tauri-app/src/dataset-materialization.sample.json') {
+  document.getElementById(id)?.addEventListener('click', () => safeRun(() => loadAndRenderDatasetMaterialization(pathHint)));
+}
+
 function bind() {
   document.querySelectorAll('.nav-button').forEach(btn => {
     btn.addEventListener('click', () => showPage(btn.dataset.page));
@@ -67,6 +72,9 @@ function bind() {
   bindSourceGenerateButton('generate-source-terminal-report-topbar');
   document.getElementById('load-live-source-bridge')?.addEventListener('click', () => safeRun(() => loadAndRenderLiveSourceBridge()));
   document.getElementById('load-market-terminal-mvp')?.addEventListener('click', () => safeRun(() => loadAndRenderMarketTerminalMvp()));
+  document.getElementById('generate-dataset-materialization-preview')?.addEventListener('click', () => safeRun(() => generateAndRenderDatasetMaterialization()));
+  bindDatasetMaterializationLoadButton('load-dataset-materialization-preview');
+  bindDatasetMaterializationLoadButton('load-dataset-materialization-sample', 'tauri-app/src/dataset-materialization.sample.json');
   document.getElementById('load-phase2-forecast')?.addEventListener('click', () => safeRun(() => loadAndRenderPhase2Forecast()));
   document.getElementById('load-upcoming-fixtures')?.addEventListener('click', () => safeRun(() => loadAndRenderUpcomingFixtures()));
   document.getElementById('load-external-data')?.addEventListener('click', () => safeRun(() => loadAndRenderExternalData()));

@@ -1,0 +1,53 @@
+{
+  "schema": "omnibet.dataset_materialization_desktop_sample.v301_v310",
+  "paper_only": true,
+  "source": "offline_materialization_sample",
+  "generated_at": "2026-06-27T00:00:00Z",
+  "summary": {
+    "manifest_rows": 3,
+    "fixture_rows": 2,
+    "odds_rows": 3,
+    "settlement_rows": 2,
+    "clv_rows": 2,
+    "candidate_rows": 4,
+    "ready_for_training": false,
+    "market_terminal_reload_ready": true
+  },
+  "manifest_rows": [
+    {"source_id": "football_data_co_uk:epl:sample", "provider": "football_data_co_uk", "source_role": "historical_results_odds_csv", "expected_codec": "csv", "row_count": 2, "readiness": "ready_for_review"},
+    {"source_id": "the_odds_api:sample_snapshot", "provider": "the_odds_api", "source_role": "odds_snapshot_export", "expected_codec": "jsonl.zstd", "row_count": 3, "readiness": "preview_only"},
+    {"source_id": "settlement:manual_sample", "provider": "manual_local_review", "source_role": "settlement_label_seed", "expected_codec": "json", "row_count": 2, "readiness": "ready_for_review"}
+  ],
+  "fixture_rows": [
+    {"canonical_fixture_id": "canonical:fixture:ars-che:2026-06-28", "label": "Arsenal vs Chelsea", "competition_id": "eng_premier", "result_status": "scheduled_sample", "candidate_state": "preview_only"},
+    {"canonical_fixture_id": "canonical:fixture:inter-milan:2026-06-27", "label": "Inter vs Milan", "competition_id": "ita_serie_a", "result_status": "finished_sample", "candidate_state": "preview_only"}
+  ],
+  "odds_rows": [
+    {"canonical_fixture_id": "canonical:fixture:ars-che:2026-06-28", "market_key": "1x2", "selection_key": "home", "price_decimal": 2.05, "candidate_state": "preview_only"},
+    {"canonical_fixture_id": "canonical:fixture:ars-che:2026-06-28", "market_key": "totals", "selection_key": "over_2_5", "price_decimal": 1.91, "candidate_state": "preview_only"},
+    {"canonical_fixture_id": "canonical:fixture:inter-milan:2026-06-27", "market_key": "1x2", "selection_key": "home", "price_decimal": 2.05, "candidate_state": "preview_only"}
+  ],
+  "settlement_rows": [
+    {"canonical_fixture_id": "canonical:fixture:inter-milan:2026-06-27", "market_key": "1x2", "selection_key": "draw", "final_result": "draw", "candidate_state": "preview_only"},
+    {"canonical_fixture_id": "canonical:fixture:inter-milan:2026-06-27", "market_key": "totals", "selection_key": "under_2_5", "final_result": "under_2_5", "candidate_state": "preview_only"}
+  ],
+  "clv_rows": [
+    {"canonical_fixture_id": "canonical:fixture:inter-milan:2026-06-27", "market_key": "1x2", "selection_key": "home", "paper_price_decimal": 2.05, "closing_price_decimal": 2.0, "paper_clv": 0.025, "candidate_state": "preview_only"},
+    {"canonical_fixture_id": "canonical:fixture:ars-che:2026-06-28", "market_key": "totals", "selection_key": "over_2_5", "paper_price_decimal": 1.91, "closing_price_decimal": null, "paper_clv": null, "candidate_state": "blocked"}
+  ],
+  "candidate_rows": [
+    {"candidate_id": "bronze:candidate:odds_snapshot_sample", "candidate_type": "bronze_raw_candidate", "target_layer": "bronze_raw_snapshots", "codec_target": "jsonl.zstd", "row_count": 3, "promotion_state": "preview_only", "blockers": []},
+    {"candidate_id": "silver:candidate:fixture_result_sample", "candidate_type": "silver_fact_candidate", "target_layer": "silver_canonical_facts", "codec_target": "parquet.zstd", "row_count": 2, "promotion_state": "ready_for_review", "blockers": ["identity_mapping_review_required"]},
+    {"candidate_id": "gold:candidate:market_features_sample", "candidate_type": "gold_feature_candidate", "target_layer": "gold_training_features", "codec_target": "parquet.zstd", "row_count": 2, "promotion_state": "blocked", "blockers": ["settlement_coverage_below_threshold", "closing_odds_coverage_below_threshold"]},
+    {"candidate_id": "market-terminal:candidate:preview_sample", "candidate_type": "market_terminal_preview_candidate", "target_layer": "market_terminal_preview", "codec_target": "json", "row_count": 3, "promotion_state": "ready_for_review", "blockers": []}
+  ],
+  "coverage_readiness": {
+    "ready_for_training": false,
+    "ready_rows": 2,
+    "minimum_ready_rows": 1000,
+    "odds_coverage_ratio": 0.5,
+    "settlement_coverage_ratio": 0.5,
+    "closing_odds_coverage_ratio": 0.5,
+    "blockers": ["identity_mapping_review_required", "settlement_coverage_below_threshold", "closing_odds_coverage_below_threshold", "minimum_ready_rows_not_met"]
+  }
+}
