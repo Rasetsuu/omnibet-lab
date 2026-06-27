@@ -1,0 +1,40 @@
+{
+  "schema": "omnibet.baseline_reports_desktop_sample.v331_v340",
+  "paper_only": true,
+  "generated_at": "2026-06-27T00:00:00Z",
+  "summary": {
+    "baseline_rows": 4,
+    "ready_for_training": false,
+    "report_status": "blocked",
+    "trust_status": "blocked_sample",
+    "blocked_reason": "walk_forward_evaluator_gates_failed"
+  },
+  "baseline_rows": [
+    {"baseline_id": "no_vig_1x2_v331", "market_family": "1x2", "baseline_type": "market_implied_no_vig", "status": "blocked", "sample_rows": 3, "eligible_rows": 2, "blocked_reason": "walk_forward_evaluator_gates_failed"},
+    {"baseline_id": "no_vig_totals_v332", "market_family": "totals", "baseline_type": "market_implied_no_vig", "status": "blocked", "sample_rows": 2, "eligible_rows": 1, "blocked_reason": "walk_forward_evaluator_gates_failed"},
+    {"baseline_id": "no_vig_btts_v333", "market_family": "btts", "baseline_type": "market_implied_no_vig", "status": "blocked", "sample_rows": 0, "eligible_rows": 0, "blocked_reason": "missing_market_family_rows"},
+    {"baseline_id": "poisson_elo_team_strength_candidate_v334", "market_family": "1x2", "baseline_type": "simple_team_strength_candidate", "status": "blocked", "sample_rows": 3, "eligible_rows": 2, "blocked_reason": "walk_forward_evaluator_gates_failed"}
+  ],
+  "artifact_manifest": {
+    "artifact_id": "artifact:baseline:v331_v340:blocked_sample",
+    "artifact_type": "baseline_report_manifest",
+    "source_report": ".omnibet-local/reports/local_v321_v330_walk_forward_evaluator.json",
+    "training_rows": 0,
+    "status": "blocked_sample",
+    "credential_values_stored": false,
+    "recommendation_output_present": false
+  },
+  "trust_gate": {
+    "status": "blocked_sample",
+    "terminal_prediction_allowed": false,
+    "bilet_builder_allowed": false,
+    "requires": ["walk_forward_ready", "no_vig_comparison", "calibration_report", "clv_report"]
+  },
+  "no_vig_preview": {
+    "prices_decimal": [2.05, 3.55, 3.8],
+    "overround": 0.0327,
+    "no_vig_probabilities": [0.4723, 0.2728, 0.2549],
+    "preview_only": true
+  },
+  "next_phase": "v341-v350 calibration, CLV, and no-vig comparison reports after evaluator/baseline gates pass"
+}
