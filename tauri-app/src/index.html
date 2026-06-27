@@ -17,6 +17,7 @@
         <button class="nav-button active" data-page="dashboard">Dashboard</button>
         <button class="nav-button" data-page="source-terminal">Source Terminal</button>
         <button class="nav-button" data-page="live-source">Live Source</button>
+        <button class="nav-button" data-page="market-terminal">Market Terminal</button>
         <button class="nav-button" data-page="events">Events</button>
         <button class="nav-button" data-page="markets">Markets</button>
         <button class="nav-button" data-page="unknowns">Unknown Queue</button>
@@ -49,6 +50,7 @@
           <button id="load-source-terminal-report-topbar">Load source terminal</button>
           <button id="load-source-terminal-sample-topbar">Load source sample</button>
           <button id="load-live-source-bridge">Load live source bridge</button>
+          <button id="load-market-terminal-mvp">Load market terminal MVP</button>
           <button id="load-review-report">Load local review report</button>
           <button id="load-review-sample">Load review sample</button>
           <button id="load-settings-report">Load settings</button>
@@ -101,6 +103,20 @@
           <div id="live-source-context" class="card"><div class="muted">Load live source bridge first.</div></div>
         </div>
         <div id="live-source-selected" class="card"><div class="muted">Select a match after loading the bridge.</div></div>
+      </section>
+
+      <section id="market-terminal" class="page" data-page-panel="market-terminal">
+        <h2>Market Terminal MVP</h2>
+        <p class="warn">v291-v300 PAPER_ONLY market terminal MVP. Inspect and paper-watch only; bilet builder remains disabled until validated_paper trust.</p>
+        <div class="grid">
+          <div id="market-terminal-summary" class="card"><div class="muted">Load market terminal MVP first.</div></div>
+          <div id="market-terminal-fixtures" class="card"><div class="muted">Load market terminal MVP first.</div></div>
+          <div id="market-terminal-predictions" class="card"><div class="muted">Load market terminal MVP first.</div></div>
+          <div id="market-terminal-selected" class="card"><div class="muted">Select a fixture after loading the MVP.</div></div>
+          <div id="market-terminal-watchlist" class="card"><div class="muted">Load market terminal MVP first.</div></div>
+          <div id="market-terminal-ledger" class="card"><div class="muted">Load market terminal MVP first.</div></div>
+          <div id="market-terminal-bilet-builder" class="card"><div class="muted">Load market terminal MVP first.</div></div>
+        </div>
       </section>
 
       <section id="events" class="page" data-page-panel="events"><h2>Events</h2><div id="page-events" class="card"><div class="muted">Load a dashboard report first.</div></div></section>
@@ -200,6 +216,7 @@
   <script type="module" src="beta_release_train.js"></script>
   <script type="module" src="source_terminal.js"></script>
   <script type="module" src="live_source.js"></script>
+  <script type="module" src="market_terminal.js"></script>
   <script type="module" src="app.js"></script>
 </body>
 </html>
