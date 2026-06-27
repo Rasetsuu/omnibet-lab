@@ -1,0 +1,50 @@
+{
+  "schema": "omnibet.green_evaluator_desktop_sample.v351_v360",
+  "paper_only": true,
+  "generated_at": "2026-06-27T00:00:00Z",
+  "summary": {
+    "status": "green_sample",
+    "ready_for_evaluation": true,
+    "ready_for_baseline_report": true,
+    "ready_for_calibration_clv_report": true,
+    "trust_status": "sample_only",
+    "validated_paper": false,
+    "terminal_prediction_allowed": false,
+    "bilet_builder_allowed": false,
+    "fixture_rows": 2,
+    "prediction_rows": 4,
+    "market_families": 3
+  },
+  "source_manifests": [
+    {"source_id": "green_sample_fixtures_v351", "row_count": 2, "content_sha256": "1111111111111111111111111111111111111111111111111111111111111111", "credential_values_present": false},
+    {"source_id": "green_sample_odds_v351", "row_count": 4, "content_sha256": "2222222222222222222222222222222222222222222222222222222222222222", "credential_values_present": false},
+    {"source_id": "green_sample_settlements_v351", "row_count": 4, "content_sha256": "3333333333333333333333333333333333333333333333333333333333333333", "credential_values_present": false}
+  ],
+  "fixtures": [
+    {"canonical_fixture_id": "fixture:green:001", "final_result": "home", "settled_at": "2026-01-02T20:00:00Z"},
+    {"canonical_fixture_id": "fixture:green:002", "final_result": "away", "settled_at": "2026-01-03T22:00:00Z"}
+  ],
+  "prediction_rows": [
+    {"canonical_fixture_id": "fixture:green:001", "market_family": "1x2", "selection_key": "home", "model_probability": 0.55, "no_vig_probability": 0.52, "outcome": 1},
+    {"canonical_fixture_id": "fixture:green:001", "market_family": "totals", "selection_key": "over_2_5", "model_probability": 0.48, "no_vig_probability": 0.5, "outcome": 0},
+    {"canonical_fixture_id": "fixture:green:002", "market_family": "1x2", "selection_key": "away", "model_probability": 0.46, "no_vig_probability": 0.44, "outcome": 1},
+    {"canonical_fixture_id": "fixture:green:002", "market_family": "btts", "selection_key": "yes", "model_probability": 0.57, "no_vig_probability": 0.55, "outcome": 1}
+  ],
+  "metric_summary": [
+    {"market_family": "1x2", "log_loss": 0.6872, "brier_score": 0.2471, "calibration_ece": 0.495, "status": "sample_only"},
+    {"market_family": "totals", "log_loss": 0.6539, "brier_score": 0.2304, "calibration_ece": 0.48, "status": "sample_only"},
+    {"market_family": "btts", "log_loss": 0.5621, "brier_score": 0.1849, "calibration_ece": 0.43, "status": "sample_only"}
+  ],
+  "paper_clv_summary": [
+    {"market_family": "1x2", "average_clv_decimal": 0.0484, "positive_clv_ratio": 1.0, "status": "sample_only"},
+    {"market_family": "totals", "average_clv_decimal": -0.025, "positive_clv_ratio": 0.0, "status": "sample_only"},
+    {"market_family": "btts", "average_clv_decimal": 0.0278, "positive_clv_ratio": 1.0, "status": "sample_only"}
+  ],
+  "trust_gate": {
+    "status": "sample_only",
+    "terminal_prediction_allowed": false,
+    "bilet_builder_allowed": false,
+    "validated_paper": false,
+    "requires_before_validated": ["larger_historical_rows", "multiple_walk_forward_windows", "stable_calibration", "stable_paper_clv"]
+  }
+}
