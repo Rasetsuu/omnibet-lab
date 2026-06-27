@@ -8,7 +8,7 @@
       "source_id": "green_sample_fixtures_v361",
       "local_path": "data/local_sources/v361_v370/fixtures.jsonl",
       "codec": "jsonl",
-      "content_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "content_sha256": "7f1000eab9a5c17656fb17f6e56a2dddc891f5699050a7cba612ad917356fdbf",
       "row_count": 2,
       "observed_at_policy": "fixture_rows_static_sample_only",
       "credential_values_present": false
@@ -17,7 +17,7 @@
       "source_id": "green_sample_odds_v361",
       "local_path": "data/local_sources/v361_v370/odds.jsonl",
       "codec": "jsonl",
-      "content_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "content_sha256": "dfaadcfb78af7f6b444ac3c76eb887f2170d2504a8121aeb15e0a946b0d1ff69",
       "row_count": 4,
       "observed_at_policy": "captured_at_lte_prediction_time",
       "credential_values_present": false
@@ -26,7 +26,7 @@
       "source_id": "green_sample_settlements_v361",
       "local_path": "data/local_sources/v361_v370/settlements.jsonl",
       "codec": "jsonl",
-      "content_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "content_sha256": "978a01150f7247706d9276b11b9388652e8ad694847e37cec89b0df98a0e8178",
       "row_count": 4,
       "observed_at_policy": "labels_created_after_settlement_only",
       "credential_values_present": false
