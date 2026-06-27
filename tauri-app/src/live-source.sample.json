@@ -1,0 +1,92 @@
+{
+  "schema": "omnibet.live_source_desktop_sample.v263_v265",
+  "paper_only": true,
+  "source": "offline_bridge_sample",
+  "generated_at": "2026-06-27T00:00:00Z",
+  "summary": {
+    "live_now": 1,
+    "upcoming": 1,
+    "odds_rows": 4,
+    "context_bundles": 2,
+    "blocked_or_partial": 2,
+    "ready_for_real_predictions": false
+  },
+  "matches": [
+    {
+      "canonical_fixture_id": "canonical:fixture:inter-milan:2026-06-27",
+      "label": "Inter vs Milan",
+      "competition": "Italy Serie A",
+      "status": "live",
+      "phase": "second_half",
+      "minute": 67,
+      "score": "1-1",
+      "odds_available": true,
+      "lineup_available": true,
+      "event_data_available": true,
+      "stats_available": true,
+      "prediction_readiness": "prediction_context_partial",
+      "trust_blockers": [
+        "player_prop_market_missing",
+        "live_model_not_validated"
+      ]
+    },
+    {
+      "canonical_fixture_id": "canonical:fixture:ars-che:2026-06-28",
+      "label": "Arsenal vs Chelsea",
+      "competition": "England Premier League",
+      "status": "scheduled",
+      "phase": "pre_match",
+      "minute": null,
+      "score": null,
+      "odds_available": true,
+      "lineup_available": false,
+      "event_data_available": false,
+      "stats_available": false,
+      "prediction_readiness": "prediction_context_partial",
+      "trust_blockers": [
+        "lineups_not_available_pre_match",
+        "player_props_missing"
+      ]
+    }
+  ],
+  "odds_preview": [
+    {
+      "canonical_fixture_id": "canonical:fixture:inter-milan:2026-06-27",
+      "market_key": "next_goal",
+      "selection_key": "home",
+      "bookmaker": "sample_book",
+      "price_decimal": 2.4,
+      "is_in_play": true,
+      "freshness_status": "fresh_sample"
+    },
+    {
+      "canonical_fixture_id": "canonical:fixture:ars-che:2026-06-28",
+      "market_key": "h2h",
+      "selection_key": "home",
+      "bookmaker": "sample_book",
+      "price_decimal": 2.05,
+      "is_in_play": false,
+      "freshness_status": "fresh_sample"
+    }
+  ],
+  "context_preview": [
+    {
+      "context_id": "ctx:live:inter-milan:2026-06-27T120000Z",
+      "canonical_fixture_id": "canonical:fixture:inter-milan:2026-06-27",
+      "prediction_readiness": "prediction_context_partial",
+      "allowed_actions": [
+        "inspect_context",
+        "paper_watch_only"
+      ]
+    },
+    {
+      "context_id": "ctx:pre:ars-che:2026-06-27T120000Z",
+      "canonical_fixture_id": "canonical:fixture:ars-che:2026-06-28",
+      "prediction_readiness": "prediction_context_partial",
+      "allowed_actions": [
+        "inspect_context",
+        "paper_watch_only"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,306 @@
+{
+  "schema": "omnibet.source_to_context_bridge_sample.v262_v265",
+  "sample_id": "v262_v265_offline_source_to_context_bridge_sample",
+  "generated_at": "2026-06-27T00:00:00Z",
+  "paper_only": true,
+  "local_first": true,
+  "live_fetch_enabled_in_ci": false,
+  "credential_values_present": false,
+  "fixture_rows": [
+    {
+      "provider": "api_football",
+      "provider_fixture_id": "af:fixture:1001",
+      "canonical_fixture_id": "canonical:fixture:ars-che:2026-06-28",
+      "competition_id": "eng_premier",
+      "competition_name": "England Premier League",
+      "season": "2026-2027",
+      "home_team": "Arsenal",
+      "away_team": "Chelsea",
+      "kickoff_time": "2026-06-28T18:00:00Z",
+      "status": "scheduled",
+      "phase": "pre_match",
+      "minute": null,
+      "home_score": null,
+      "away_score": null,
+      "lineup_available": false,
+      "event_data_available": false,
+      "stats_available": false,
+      "observed_at": "2026-06-27T12:00:00Z",
+      "captured_at": "2026-06-27T12:00:00Z",
+      "freshness_status": "fresh_sample",
+      "prediction_readiness": "prediction_context_partial",
+      "blocker_reason": "lineups_not_available_pre_match",
+      "next_action": "wait_for_lineups_or_predict_low_trust_pre_match"
+    },
+    {
+      "provider": "api_football",
+      "provider_fixture_id": "af:fixture:1002",
+      "canonical_fixture_id": "canonical:fixture:inter-milan:2026-06-27",
+      "competition_id": "ita_serie_a",
+      "competition_name": "Italy Serie A",
+      "season": "2026-2027",
+      "home_team": "Inter",
+      "away_team": "Milan",
+      "kickoff_time": "2026-06-27T11:00:00Z",
+      "status": "live",
+      "phase": "second_half",
+      "minute": 67,
+      "home_score": 1,
+      "away_score": 1,
+      "lineup_available": true,
+      "event_data_available": true,
+      "stats_available": true,
+      "observed_at": "2026-06-27T11:59:30Z",
+      "captured_at": "2026-06-27T12:00:00Z",
+      "freshness_status": "fresh_sample",
+      "prediction_readiness": "prediction_context_partial",
+      "blocker_reason": "joined_odds_snapshot_required_for_market_terminal",
+      "next_action": "join_with_v262_odds_snapshot_rows"
+    }
+  ],
+  "odds_snapshot_rows": [
+    {
+      "provider": "the_odds_api",
+      "provider_event_id": "toa:event:ars-che:2026-06-28",
+      "provider_fixture_id": "af:fixture:1001",
+      "canonical_fixture_id": "canonical:fixture:ars-che:2026-06-28",
+      "bookmaker": "sample_book",
+      "market_key": "h2h",
+      "selection_key": "home",
+      "price_decimal": 2.05,
+      "is_in_play": false,
+      "market_status": "open",
+      "last_update": "2026-06-27T11:58:00Z",
+      "observed_at": "2026-06-27T11:58:00Z",
+      "captured_at": "2026-06-27T12:00:00Z",
+      "freshness_status": "fresh_sample",
+      "missing_reason": "none"
+    },
+    {
+      "provider": "the_odds_api",
+      "provider_event_id": "toa:event:ars-che:2026-06-28",
+      "provider_fixture_id": "af:fixture:1001",
+      "canonical_fixture_id": "canonical:fixture:ars-che:2026-06-28",
+      "bookmaker": "sample_book",
+      "market_key": "h2h",
+      "selection_key": "draw",
+      "price_decimal": 3.55,
+      "is_in_play": false,
+      "market_status": "open",
+      "last_update": "2026-06-27T11:58:00Z",
+      "observed_at": "2026-06-27T11:58:00Z",
+      "captured_at": "2026-06-27T12:00:00Z",
+      "freshness_status": "fresh_sample",
+      "missing_reason": "none"
+    },
+    {
+      "provider": "the_odds_api",
+      "provider_event_id": "toa:event:inter-milan:2026-06-27",
+      "provider_fixture_id": "af:fixture:1002",
+      "canonical_fixture_id": "canonical:fixture:inter-milan:2026-06-27",
+      "bookmaker": "sample_book",
+      "market_key": "next_goal",
+      "selection_key": "home",
+      "price_decimal": 2.4,
+      "is_in_play": true,
+      "market_status": "open",
+      "last_update": "2026-06-27T11:59:45Z",
+      "observed_at": "2026-06-27T11:59:45Z",
+      "captured_at": "2026-06-27T12:00:00Z",
+      "freshness_status": "fresh_sample",
+      "missing_reason": "none"
+    },
+    {
+      "provider": "the_odds_api",
+      "provider_event_id": "toa:event:inter-milan:2026-06-27",
+      "provider_fixture_id": "af:fixture:1002",
+      "canonical_fixture_id": "canonical:fixture:inter-milan:2026-06-27",
+      "bookmaker": "sample_book",
+      "market_key": "player_shots_on_target",
+      "selection_key": "player_x_over_0_5",
+      "price_decimal": null,
+      "is_in_play": true,
+      "market_status": "missing",
+      "last_update": null,
+      "observed_at": "2026-06-27T12:00:00Z",
+      "captured_at": "2026-06-27T12:00:00Z",
+      "freshness_status": "missing_timestamp",
+      "missing_reason": "player_prop_not_supported_until_lineup_player_market_mapping"
+    }
+  ],
+  "live_snapshot_rows": [
+    {
+      "snapshot_id": "snap:pre:ars-che:2026-06-27T120000Z",
+      "snapshot_type": "pre_match",
+      "provider_fixture_id": "af:fixture:1001",
+      "canonical_fixture_id": "canonical:fixture:ars-che:2026-06-28",
+      "observed_at": "2026-06-27T12:00:00Z",
+      "captured_at": "2026-06-27T12:00:00Z",
+      "retention_tier": "raw_bronze_temporary",
+      "promotion_state": "pending_silver_fact_review",
+      "delete_raw_after_promotion": true,
+      "kept_long_term_fields": [
+        "canonical_fixture_id",
+        "kickoff_time",
+        "fixture_status",
+        "odds_snapshot_refs",
+        "prediction_snapshot_refs"
+      ]
+    },
+    {
+      "snapshot_id": "snap:live:inter-milan:2026-06-27T120000Z",
+      "snapshot_type": "live",
+      "provider_fixture_id": "af:fixture:1002",
+      "canonical_fixture_id": "canonical:fixture:inter-milan:2026-06-27",
+      "observed_at": "2026-06-27T11:59:30Z",
+      "captured_at": "2026-06-27T12:00:00Z",
+      "retention_tier": "raw_bronze_temporary",
+      "promotion_state": "pending_live_state_fact_review",
+      "delete_raw_after_promotion": true,
+      "kept_long_term_fields": [
+        "canonical_fixture_id",
+        "match_clock",
+        "score",
+        "card_state",
+        "lineup_refs",
+        "event_state_refs",
+        "odds_snapshot_refs",
+        "prediction_snapshot_refs"
+      ]
+    },
+    {
+      "snapshot_id": "snap:settlement:inter-milan:2026-06-27T140000Z",
+      "snapshot_type": "post_match_settlement",
+      "provider_fixture_id": "af:fixture:1002",
+      "canonical_fixture_id": "canonical:fixture:inter-milan:2026-06-27",
+      "observed_at": "2026-06-27T13:55:00Z",
+      "captured_at": "2026-06-27T14:00:00Z",
+      "retention_tier": "silver_fact_long_term",
+      "promotion_state": "settlement_label_separate_from_prediction_features",
+      "delete_raw_after_promotion": false,
+      "kept_long_term_fields": [
+        "canonical_fixture_id",
+        "final_score",
+        "settlement_labels",
+        "closing_odds_refs",
+        "paper_clv_refs"
+      ]
+    }
+  ],
+  "prediction_context_bundles": [
+    {
+      "context_id": "ctx:pre:ars-che:2026-06-27T120000Z",
+      "provider_fixture_id": "af:fixture:1001",
+      "canonical_fixture_id": "canonical:fixture:ars-che:2026-06-28",
+      "prediction_time": "2026-06-27T12:00:00Z",
+      "fixture_context": {
+        "home_team": "Arsenal",
+        "away_team": "Chelsea",
+        "competition_id": "eng_premier",
+        "kickoff_time": "2026-06-28T18:00:00Z",
+        "status": "scheduled"
+      },
+      "live_state_context": {
+        "phase": "pre_match",
+        "minute": null,
+        "score": null,
+        "lineup_available": false,
+        "event_data_available": false,
+        "stats_available": false
+      },
+      "odds_context": {
+        "markets_available": [
+          "h2h"
+        ],
+        "fresh_odds_rows": 2,
+        "missing_markets": [
+          "player_props"
+        ]
+      },
+      "market_availability_context": {
+        "supported_now": [
+          "h2h"
+        ],
+        "locked_until_later": [
+          "player_props",
+          "live_micro_markets"
+        ]
+      },
+      "data_freshness_context": {
+        "fixture_freshness": "fresh_sample",
+        "odds_freshness": "fresh_sample",
+        "lineup_freshness": "missing"
+      },
+      "trust_blockers": [
+        "lineups_not_available_pre_match",
+        "player_props_missing"
+      ],
+      "prediction_readiness": "prediction_context_partial",
+      "allowed_actions": [
+        "inspect_context",
+        "paper_watch_only"
+      ]
+    },
+    {
+      "context_id": "ctx:live:inter-milan:2026-06-27T120000Z",
+      "provider_fixture_id": "af:fixture:1002",
+      "canonical_fixture_id": "canonical:fixture:inter-milan:2026-06-27",
+      "prediction_time": "2026-06-27T12:00:00Z",
+      "fixture_context": {
+        "home_team": "Inter",
+        "away_team": "Milan",
+        "competition_id": "ita_serie_a",
+        "kickoff_time": "2026-06-27T11:00:00Z",
+        "status": "live"
+      },
+      "live_state_context": {
+        "phase": "second_half",
+        "minute": 67,
+        "score": "1-1",
+        "lineup_available": true,
+        "event_data_available": true,
+        "stats_available": true
+      },
+      "odds_context": {
+        "markets_available": [
+          "next_goal"
+        ],
+        "fresh_odds_rows": 1,
+        "missing_markets": [
+          "player_shots_on_target"
+        ]
+      },
+      "market_availability_context": {
+        "supported_now": [
+          "next_goal"
+        ],
+        "locked_until_later": [
+          "player_shots_on_target"
+        ]
+      },
+      "data_freshness_context": {
+        "fixture_freshness": "fresh_sample",
+        "odds_freshness": "fresh_sample",
+        "lineup_freshness": "fresh_sample"
+      },
+      "trust_blockers": [
+        "player_prop_market_missing",
+        "live_model_not_validated"
+      ],
+      "prediction_readiness": "prediction_context_partial",
+      "allowed_actions": [
+        "inspect_context",
+        "paper_watch_only"
+      ]
+    }
+  ],
+  "summary": {
+    "fixture_rows": 2,
+    "odds_rows": 4,
+    "live_snapshots": 3,
+    "context_bundles": 2,
+    "ready_for_model_training": false,
+    "ready_for_final_gui": false,
+    "next_phase": "v266_storage_v2_compression_foundation"
+  }
+}

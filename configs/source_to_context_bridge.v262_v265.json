@@ -1,0 +1,109 @@
+{
+  "schema": "omnibet.source_to_context_bridge_contract.v262_v265",
+  "milestone": "v262_v265_source_to_context_bridge",
+  "paper_only": true,
+  "local_first": true,
+  "live_fetch_enabled_in_ci": false,
+  "credential_values_allowed": false,
+  "real_money_recommendations_allowed": false,
+  "versions": {
+    "v262": "odds_snapshot_source_contract",
+    "v263": "desktop_upcoming_live_matches_sample_panel",
+    "v264": "live_snapshot_storage_retention_contract",
+    "v265": "prediction_ready_match_context_bundle"
+  },
+  "v262_odds_snapshot_required_fields": [
+    "provider",
+    "provider_event_id",
+    "provider_fixture_id",
+    "canonical_fixture_id",
+    "bookmaker",
+    "market_key",
+    "selection_key",
+    "price_decimal",
+    "is_in_play",
+    "market_status",
+    "last_update",
+    "observed_at",
+    "captured_at",
+    "freshness_status",
+    "missing_reason"
+  ],
+  "v263_desktop_panel_ids": [
+    "live-source-summary",
+    "live-source-matches",
+    "live-source-odds",
+    "live-source-context",
+    "live-source-selected"
+  ],
+  "v263_button_ids": [
+    "load-live-source-bridge"
+  ],
+  "v264_snapshot_required_fields": [
+    "snapshot_id",
+    "snapshot_type",
+    "provider_fixture_id",
+    "canonical_fixture_id",
+    "observed_at",
+    "captured_at",
+    "retention_tier",
+    "promotion_state",
+    "delete_raw_after_promotion",
+    "kept_long_term_fields"
+  ],
+  "v265_context_required_fields": [
+    "context_id",
+    "provider_fixture_id",
+    "canonical_fixture_id",
+    "prediction_time",
+    "fixture_context",
+    "live_state_context",
+    "odds_context",
+    "market_availability_context",
+    "data_freshness_context",
+    "trust_blockers",
+    "prediction_readiness",
+    "allowed_actions"
+  ],
+  "allowed_odds_freshness": [
+    "fresh_sample",
+    "stale_sample",
+    "missing_timestamp",
+    "unknown"
+  ],
+  "allowed_market_statuses": [
+    "open",
+    "suspended",
+    "closed",
+    "missing",
+    "unknown"
+  ],
+  "allowed_snapshot_types": [
+    "pre_match",
+    "live",
+    "post_match_settlement"
+  ],
+  "allowed_retention_tiers": [
+    "raw_bronze_temporary",
+    "silver_fact_long_term",
+    "gold_feature_long_term"
+  ],
+  "allowed_prediction_readiness": [
+    "context_visible",
+    "prediction_context_partial",
+    "blocked"
+  ],
+  "acceptance": {
+    "v262_odds_rows_have_required_fields": true,
+    "v262_odds_join_to_fixture_rows": true,
+    "v263_desktop_sample_panel_wired": true,
+    "v264_snapshots_have_retention_policy": true,
+    "v264_post_match_settlement_kept_separate": true,
+    "v265_context_bundles_have_required_fields": true,
+    "timestamps_preserve_no_leak_boundaries": true,
+    "no_ci_live_calls": true,
+    "no_secret_values": true,
+    "paper_only_no_recommendations": true,
+    "readme_and_docs_updated": true
+  }
+}
