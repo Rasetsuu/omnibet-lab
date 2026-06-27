@@ -63,6 +63,10 @@ function bindGeneratedGreenRunButton(id) {
   document.getElementById(id)?.addEventListener('click', () => safeRun(() => runAndRenderGeneratedGreenStatus()));
 }
 
+function bindGeneratedGreenLoadButton(id) {
+  document.getElementById(id)?.addEventListener('click', () => safeRun(() => loadAndRenderGeneratedGreenStatus()));
+}
+
 function bind() {
   document.querySelectorAll('.nav-button').forEach(btn => {
     btn.addEventListener('click', () => showPage(btn.dataset.page));
@@ -90,7 +94,8 @@ function bind() {
   document.getElementById('load-baseline-reports-status')?.addEventListener('click', () => safeRun(() => loadAndRenderBaselineReportsStatus()));
   document.getElementById('load-calibration-clv-status')?.addEventListener('click', () => safeRun(() => loadAndRenderCalibrationClvStatus()));
   document.getElementById('load-green-sample-status')?.addEventListener('click', () => safeRun(() => loadAndRenderGreenSampleStatus()));
-  document.getElementById('load-generated-green-status')?.addEventListener('click', () => safeRun(() => loadAndRenderGeneratedGreenStatus()));
+  bindGeneratedGreenLoadButton('load-generated-green-status');
+  bindGeneratedGreenLoadButton('load-generated-green-status-page');
   bindGeneratedGreenRunButton('run-generated-green-report');
   bindGeneratedGreenRunButton('run-generated-green-report-topbar');
   document.getElementById('load-phase2-forecast')?.addEventListener('click', () => safeRun(() => loadAndRenderPhase2Forecast()));
