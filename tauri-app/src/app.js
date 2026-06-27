@@ -59,6 +59,10 @@ function bindDatasetMaterializationLoadButton(id, pathHint = 'tauri-app/src/data
   document.getElementById(id)?.addEventListener('click', () => safeRun(() => loadAndRenderDatasetMaterialization(pathHint)));
 }
 
+function bindGeneratedGreenRunButton(id) {
+  document.getElementById(id)?.addEventListener('click', () => safeRun(() => runAndRenderGeneratedGreenStatus()));
+}
+
 function bind() {
   document.querySelectorAll('.nav-button').forEach(btn => {
     btn.addEventListener('click', () => showPage(btn.dataset.page));
@@ -87,7 +91,8 @@ function bind() {
   document.getElementById('load-calibration-clv-status')?.addEventListener('click', () => safeRun(() => loadAndRenderCalibrationClvStatus()));
   document.getElementById('load-green-sample-status')?.addEventListener('click', () => safeRun(() => loadAndRenderGreenSampleStatus()));
   document.getElementById('load-generated-green-status')?.addEventListener('click', () => safeRun(() => loadAndRenderGeneratedGreenStatus()));
-  document.getElementById('run-generated-green-report')?.addEventListener('click', () => safeRun(() => runAndRenderGeneratedGreenStatus()));
+  bindGeneratedGreenRunButton('run-generated-green-report');
+  bindGeneratedGreenRunButton('run-generated-green-report-topbar');
   document.getElementById('load-phase2-forecast')?.addEventListener('click', () => safeRun(() => loadAndRenderPhase2Forecast()));
   document.getElementById('load-upcoming-fixtures')?.addEventListener('click', () => safeRun(() => loadAndRenderUpcomingFixtures()));
   document.getElementById('load-external-data')?.addEventListener('click', () => safeRun(() => loadAndRenderExternalData()));
