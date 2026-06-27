@@ -1,6 +1,8 @@
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::{BTreeMap, BTreeSet};
+use std::fs;
+use std::path::Path;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct WalkForwardWindowV321 {
@@ -304,6 +306,15 @@ pub fn evaluate_walk_forward_sample(sample: &WalkForwardSampleV321) -> WalkForwa
     }
 }
 
+pub fn write_walk_forward_report(path: &Path, report: &WalkForwardEvaluatorReportV321) -> Result<(), String> {
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent).map_err(|e| format!("create report directory {}: {e}", parent.display()))?;
+    }
+    let text = serde_json::to_string_pretty(report)
+        .map_err(|e| format!("serialize walk-forward report: {e}"))?;
+    fs::write(path, format!("{}\n", text)).map_err(|e| format!("write walk-forward report {}: {e}", path.display()))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -332,5 +343,17 @@ mod tests {
             .safety_checks
             .iter()
             .any(|check| check.check == "feature_observed_at_lte_prediction_time" && check.failures == 1));
+    }
+
+    #[test]
+    fn writes_walk_forward_report() {
+        let sample = parse_walk_forward_sample(include_str!("../../data/evaluation/v321_v330/walk_forward_evaluator.sample.json"))
+            .expect("parse v321-v330 sample");
+        let report = evaluate_walk_forward_sample(&sample);
+        let path = std::env::temp_dir().join("omnibet_v321_walk_forward_report.json");
+        write_walk_forward_report(&path, &report).expect("write walk-forward report");
+        let text = fs::read_to_string(&path).expect("read walk-forward report");
+        assert!(text.contains("omnibet.walk_forward_evaluator_report.v327"));
+        fs::remove_file(path).expect("clean walk-forward report");
     }
 }
