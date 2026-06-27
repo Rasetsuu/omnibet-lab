@@ -1,0 +1,36 @@
+name: OmniBet v321-v330 Walk Forward Evaluator
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  walk-forward-evaluator:
+    name: v321-v330 walk-forward evaluator
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Rust walk-forward evaluator test
+        run: cargo test --manifest-path rust-core/Cargo.toml walk_forward_evaluator
+      - name: Run v321-v330 walk-forward evaluator smoke
+        run: |
+          mkdir -p reports
+          python python_lab/walk_forward_evaluator_smoke.py --root . --out reports/ci_v321_v330_walk_forward_evaluator.json
+      - name: Upload v321-v330 walk-forward evaluator report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v321-v330-walk-forward-evaluator-report
+          path: reports/ci_v321_v330_walk_forward_evaluator.json
+          if-no-files-found: warn
