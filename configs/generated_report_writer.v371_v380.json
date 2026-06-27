@@ -1,0 +1,90 @@
+{
+  "schema": "omnibet.generated_report_writer_contract.v371_v380",
+  "milestone": "v371_v380_real_generated_report_writer_and_desktop_reload",
+  "paper_only": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "real_money_recommendations_allowed": false,
+  "validated_paper_allowed": false,
+  "sample_only_allowed": true,
+  "versions": {
+    "v371": "generated_report_writer_cli_shape",
+    "v372": "generated_desktop_sample_writer",
+    "v373": "generated_storage_manifest_writer",
+    "v374": "minipack_integrity_failure_report",
+    "v375": "generated_report_reload_button_path",
+    "v376": "sample_only_trust_gate_preservation",
+    "v377": "generated_artifacts_upload_in_ci",
+    "v378": "local_import_runner_docs_update",
+    "v379": "no_recommendation_output_enforcement",
+    "v380": "generated_report_writer_smoke"
+  },
+  "rust_targets": {
+    "module_dependency": "rust-core/src/local_import_runner_v361.rs",
+    "binary": "rust-core/src/bin/omnibet-local-import-runner.rs",
+    "test_filter": "generated_report_writer"
+  },
+  "cli_contract": {
+    "binary_name": "omnibet-local-import-runner",
+    "default_root": ".",
+    "default_report_out": "reports/generated_v371_v380_green_sample.json",
+    "default_desktop_out": "tauri-app/src/generated-green-sample.generated.json",
+    "default_storage_manifest_out": "reports/generated_v371_v380_storage_manifest.json",
+    "accepted_args": ["--root", "--report-out", "--desktop-out", "--storage-manifest-out"]
+  },
+  "generated_outputs": {
+    "green_report_schema": "omnibet.generated_green_report.v361_v370",
+    "desktop_schema": "omnibet.generated_green_sample_desktop.v371_v380",
+    "storage_manifest_schema": "omnibet.generated_storage_manifest.v371_v380"
+  },
+  "desktop_reload": {
+    "generated_sample_path": "tauri-app/src/generated-green-sample.generated.json",
+    "fallback_sample_path": "tauri-app/src/generated-green-sample.sample.json",
+    "button_ids": ["load-generated-green-status", "load-generated-green-generated-status"],
+    "script": "tauri-app/src/generated_green.js"
+  },
+  "integrity_failure_report": {
+    "status": "integrity_failed_sample_only",
+    "must_preserve_paper_only": true,
+    "must_preserve_sample_only": true,
+    "must_disable_terminal_prediction": true,
+    "must_disable_bilet_builder": true
+  },
+  "storage_manifest_required_fields": [
+    "schema",
+    "generated_at",
+    "paper_only",
+    "source_manifest_verified",
+    "preferred_output_codec",
+    "fallback_output_codec",
+    "green_report_path",
+    "desktop_report_path",
+    "content_sha256",
+    "row_count",
+    "credential_values_present",
+    "recommendation_output_present"
+  ],
+  "forbidden_outputs": [
+    "real_money_recommendation",
+    "stake_size",
+    "profitability_claim",
+    "validated_paper_claim",
+    "live_provider_fetch",
+    "random_train_test_split",
+    "credential_value"
+  ],
+  "acceptance": {
+    "generated_report_writer_cli_defined": true,
+    "generated_desktop_sample_writer_defined": true,
+    "generated_storage_manifest_writer_defined": true,
+    "minipack_integrity_failure_report_defined": true,
+    "desktop_reload_generated_path_added": true,
+    "trust_gate_sample_only_preserved": true,
+    "generated_artifacts_uploaded_in_ci": true,
+    "local_import_runner_docs_updated": true,
+    "no_recommendation_output_enforced": true,
+    "python_smoke_and_ci_added": true,
+    "no_live_calls_no_credentials_no_recommendations": true
+  }
+}
