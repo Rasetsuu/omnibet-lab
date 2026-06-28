@@ -22,7 +22,13 @@ jobs:
       - name: Python compile
         run: python python_lab/compile_python_sources.py
       - name: Rust historical source import tests
-        run: cargo test --manifest-path rust-core/Cargo.toml historical_source_import
+        run: |
+          mkdir -p reports
+          set +e
+          cargo test --manifest-path rust-core/Cargo.toml historical_source_import 2>&1 | tee reports/debug_v401_cargo_historical_source_import.log
+          code=${PIPESTATUS[0]}
+          echo "exit_code=${code}" | tee reports/debug_v401_cargo_historical_source_import_exit.txt
+          exit ${code}
       - name: Run v401-v410 historical source import smoke
         run: |
           python python_lab/historical_source_import_smoke.py \
@@ -35,6 +41,8 @@ jobs:
         with:
           name: omnibet-v401-v410-historical-source-import-artifacts
           path: |
+            reports/debug_v401_cargo_historical_source_import.log
+            reports/debug_v401_cargo_historical_source_import_exit.txt
             reports/ci_v401_v410_historical_source_import.json
             reports/historical_source_import_v401_v410_validation.json
             data/historical/v401_v410/historical_import.sample.json
