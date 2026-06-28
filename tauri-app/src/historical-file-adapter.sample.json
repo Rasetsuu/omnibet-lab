@@ -1,0 +1,53 @@
+{
+  "schema": "omnibet.historical_file_adapter_desktop_sample.v461_v470",
+  "paper_only": true,
+  "adapter_report": {
+    "schema": "omnibet.historical_file_adapter_report.v451_v460",
+    "paper_only": true,
+    "status": "adapter_preview_valid",
+    "adapter_catalog_schema": "omnibet.historical_file_adapter_catalog.v451_v460",
+    "fixture_rows": 3,
+    "odds_rows": 9,
+    "settlement_rows": 9,
+    "identity_rows": 6,
+    "validation_errors": [],
+    "validation_warnings": [],
+    "ready_for_materialization": true,
+    "ready_for_training": false,
+    "trust_status": "sample_only",
+    "credential_values_present": false,
+    "recommendation_output_present": false
+  },
+  "normalized_preview": {
+    "schema": "omnibet.historical_file_adapter_normalized_preview.v451_v460",
+    "paper_only": true,
+    "fixtures": [
+      {"fixture_id": "fixture:adapter:001", "competition": "Sample League", "kickoff_utc": "2024-02-01T12:00:00Z", "home_team_raw": "Home Alpha", "away_team_raw": "Away Beta", "result_status": "final"},
+      {"fixture_id": "fixture:adapter:002", "competition": "Sample League", "kickoff_utc": "2024-02-02T15:00:00Z", "home_team_raw": "Home Gamma", "away_team_raw": "Away Delta", "result_status": "final"},
+      {"fixture_id": "fixture:adapter:003", "competition": "Sample League", "kickoff_utc": "2024-02-03T18:30:00Z", "home_team_raw": "Home Epsilon", "away_team_raw": "Away Zeta", "result_status": "final"}
+    ],
+    "odds": [
+      {"fixture_id": "fixture:adapter:001", "market_family": "1x2", "selection_id": "home", "bookmaker": "SampleBook", "captured_at_utc": "2024-02-01T11:55:00Z", "decimal_odds": 1.85, "is_closing_snapshot": true},
+      {"fixture_id": "fixture:adapter:001", "market_family": "1x2", "selection_id": "draw", "bookmaker": "SampleBook", "captured_at_utc": "2024-02-01T11:55:00Z", "decimal_odds": 3.40, "is_closing_snapshot": true},
+      {"fixture_id": "fixture:adapter:001", "market_family": "1x2", "selection_id": "away", "bookmaker": "SampleBook", "captured_at_utc": "2024-02-01T11:55:00Z", "decimal_odds": 4.20, "is_closing_snapshot": true}
+    ],
+    "settlements": [
+      {"fixture_id": "fixture:adapter:001", "market_family": "1x2", "selection_id": "home", "settlement_result": "win", "label_available_after_utc": "2024-02-01T14:00:00Z"},
+      {"fixture_id": "fixture:adapter:001", "market_family": "1x2", "selection_id": "draw", "settlement_result": "loss", "label_available_after_utc": "2024-02-01T14:00:00Z"},
+      {"fixture_id": "fixture:adapter:001", "market_family": "1x2", "selection_id": "away", "settlement_result": "loss", "label_available_after_utc": "2024-02-01T14:00:00Z"}
+    ],
+    "identities": [
+      {"entity_type": "team", "raw_name": "Home Alpha", "canonical_id": "team:home_alpha", "canonical_name": "Home Alpha", "confidence": 1.0, "review_status": "accepted"},
+      {"entity_type": "team", "raw_name": "Away Beta", "canonical_id": "team:away_beta", "canonical_name": "Away Beta", "confidence": 1.0, "review_status": "accepted"}
+    ],
+    "ready_for_training": false,
+    "trust_status": "sample_only",
+    "credential_values_present": false,
+    "recommendation_output_present": false
+  },
+  "ready_for_materialization": true,
+  "ready_for_training": false,
+  "trust_status": "sample_only",
+  "credential_values_present": false,
+  "recommendation_output_present": false
+}
