@@ -150,11 +150,16 @@ jobs:
           cp configs/desktop_beta_release_readiness.v471_v480.json "$package_dir/configs/desktop_beta_release_readiness.v471_v480.json"
           cp docs/beta_vs_model_quality_policy.md "$package_dir/docs/beta_vs_model_quality_policy.md"
           cp docs/desktop_beta_release_readiness_v471_v480.md "$package_dir/docs/desktop_beta_release_readiness_v471_v480.md"
+          cp scripts/run-omnibet-lab-linux.sh "$package_dir/run-omnibet-lab-linux.sh"
+          chmod +x "$package_dir/run-omnibet-lab-linux.sh" || true
 
           cat > "$package_dir/README_RUN.txt" <<'EOF'
           OmniBet Lab desktop beta release package.
 
-          Run OmniBet-Lab.exe on Windows or ./omnibet-lab on Linux from this directory.
+          Windows: run OmniBet-Lab.exe from this directory.
+          Linux: run ./run-omnibet-lab-linux.sh from this directory.
+          Linux fallback: run ./run-omnibet-lab-linux.sh --software if the WebView opens blank on KDE/Wayland/NVIDIA.
+          Direct Linux binary: ./omnibet-lab
 
           Included GUI beta panels:
           - Historical Materialization
@@ -243,7 +248,8 @@ jobs:
           Download the archive for your platform, unzip/extract it, and run the app from the extracted package directory:
 
           - Windows: `OmniBet-Lab.exe`
-          - Linux: `./omnibet-lab`
+          - Linux: `./run-omnibet-lab-linux.sh`
+          - Linux fallback for blank WebView on KDE/Wayland/NVIDIA: `./run-omnibet-lab-linux.sh --software`
 
           Included GUI beta panels:
           - Historical Materialization
