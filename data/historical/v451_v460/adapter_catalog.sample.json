@@ -1,0 +1,45 @@
+{
+  "schema": "omnibet.historical_file_adapter_catalog.v451_v460",
+  "paper_only": true,
+  "catalog_id": "local_csv_historical_adapter_sample",
+  "description": "Local-only sample adapter catalog for user-provided historical fixtures, odds, settlements, and identity mapping files.",
+  "adapters": [
+    {
+      "adapter_id": "fixture_csv_v451",
+      "kind": "fixture_csv",
+      "path": "data/historical/v451_v460/fixtures.adapter.sample.csv",
+      "delimiter": ",",
+      "header_required": true,
+      "schema_detection": "explicit_contract"
+    },
+    {
+      "adapter_id": "odds_csv_v453",
+      "kind": "odds_csv",
+      "path": "data/historical/v451_v460/odds.adapter.sample.csv",
+      "delimiter": ",",
+      "header_required": true,
+      "schema_detection": "explicit_contract"
+    },
+    {
+      "adapter_id": "settlement_csv_v454",
+      "kind": "settlement_csv",
+      "path": "data/historical/v451_v460/settlements.adapter.sample.csv",
+      "delimiter": ",",
+      "header_required": true,
+      "schema_detection": "explicit_contract"
+    },
+    {
+      "adapter_id": "identity_csv_v455",
+      "kind": "identity_csv",
+      "path": "data/historical/v451_v460/identity_map.adapter.sample.csv",
+      "delimiter": ",",
+      "header_required": true,
+      "schema_detection": "explicit_contract"
+    }
+  ],
+  "live_provider_calls_allowed": false,
+  "credential_values_present": false,
+  "recommendation_output_present": false,
+  "ready_for_training": false,
+  "trust_status": "sample_only"
+}
