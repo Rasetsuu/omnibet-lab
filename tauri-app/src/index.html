@@ -25,6 +25,7 @@
         <button class="nav-button" data-page="calibration-clv">Calibration / CLV</button>
         <button class="nav-button" data-page="green-sample">Green Sample</button>
         <button class="nav-button" data-page="generated-green">Generated Green</button>
+        <button class="nav-button" data-page="historical-materialization">Historical Materialization</button>
         <button class="nav-button" data-page="events">Events</button>
         <button class="nav-button" data-page="markets">Markets</button>
         <button class="nav-button" data-page="unknowns">Unknown Queue</button>
@@ -68,6 +69,7 @@
           <button id="load-green-sample-status">Load green sample</button>
           <button id="run-generated-green-report-topbar">Run generated green</button>
           <button id="load-generated-green-status">Load generated green</button>
+          <button id="load-historical-materialization-status">Load historical materialization</button>
           <button id="load-review-report">Load local review report</button>
           <button id="load-review-sample">Load review sample</button>
           <button id="load-settings-report">Load settings</button>
@@ -235,6 +237,23 @@
         </div>
       </section>
 
+      <section id="historical-materialization" class="page" data-page-panel="historical-materialization">
+        <h2>Historical Materialization</h2>
+        <p class="warn">v431-v440 generated historical materialization desktop reload panel. Preview only; training remains locked.</p>
+        <div class="card">
+          <button id="load-historical-materialization-status-page">Reload historical materialization</button>
+        </div>
+        <div class="grid">
+          <div id="historical-materialization-summary" class="card"><div class="muted">Load historical materialization first.</div></div>
+          <div id="historical-materialization-artifacts" class="card"><div class="muted">Load historical materialization first.</div></div>
+          <div id="historical-materialization-bronze" class="card"><div class="muted">Load historical materialization first.</div></div>
+          <div id="historical-materialization-silver" class="card"><div class="muted">Load historical materialization first.</div></div>
+          <div id="historical-materialization-gold" class="card"><div class="muted">Load historical materialization first.</div></div>
+          <div id="historical-materialization-manifest" class="card"><div class="muted">Load historical materialization first.</div></div>
+          <div id="historical-materialization-trust" class="card"><div class="muted">Load historical materialization first.</div></div>
+        </div>
+      </section>
+
       <section id="events" class="page" data-page-panel="events"><h2>Events</h2><div id="page-events" class="card"><div class="muted">Load a dashboard report first.</div></div></section>
       <section id="markets" class="page" data-page-panel="markets"><h2>Markets</h2><div id="page-markets" class="card"><div class="muted">Load a dashboard report first.</div></div></section>
       <section id="unknowns" class="page" data-page-panel="unknowns"><h2>Unknown Market Review</h2><p class="muted">v53 local review UI. Decisions are UI-only until a later persistence milestone.</p><div id="review-unknown-markets-panel" class="card"><div class="muted">Load a review report first.</div></div><div id="page-unknowns" class="card"><div class="muted">Load a dashboard or review report first.</div></div></section>
@@ -340,6 +359,7 @@
   <script type="module" src="calibration_clv.js"></script>
   <script type="module" src="green_sample.js"></script>
   <script type="module" src="generated_green.js"></script>
+  <script type="module" src="historical_materialization.js"></script>
   <script type="module" src="app.js"></script>
 </body>
 </html>
