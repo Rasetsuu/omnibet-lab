@@ -1,0 +1,81 @@
+{
+  "schema": "omnibet.historical_materialization_desktop_contract.v431_v440",
+  "milestone": "v431_v440_historical_materialization_desktop_reload_panel",
+  "paper_only": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "real_money_recommendations_allowed": false,
+  "validated_paper_allowed": false,
+  "training_allowed": false,
+  "depends_on": [
+    "omnibet.historical_materialization_command_contract.v421_v430",
+    "omnibet.historical_materialization_command_report.v421_v430"
+  ],
+  "versions": {
+    "v431": "desktop_materialization_report_contract",
+    "v432": "generated_materialization_report_loader",
+    "v433": "bronze_artifact_summary_panel",
+    "v434": "silver_artifact_summary_panel",
+    "v435": "gold_candidate_summary_panel",
+    "v436": "materialization_manifest_panel",
+    "v437": "trust_and_training_lock_panel",
+    "v438": "fallback_sample_for_desktop_reload",
+    "v439": "ci_desktop_reload_smoke",
+    "v440": "desktop_reload_docs"
+  },
+  "desktop": {
+    "page_id": "historical-materialization",
+    "nav_label": "Historical Materialization",
+    "buttons": [
+      "load-historical-materialization-status"
+    ],
+    "panel_ids": [
+      "historical-materialization-summary",
+      "historical-materialization-artifacts",
+      "historical-materialization-bronze",
+      "historical-materialization-silver",
+      "historical-materialization-gold",
+      "historical-materialization-manifest",
+      "historical-materialization-trust"
+    ],
+    "renderer": "tauri-app/src/historical_materialization.js",
+    "generated_report_path": "reports/generated_historical_materialization_v421_v430_report.json",
+    "fallback_sample_path": "tauri-app/src/historical-materialization.sample.json"
+  },
+  "report_required_fields": [
+    "schema",
+    "paper_only",
+    "status",
+    "run_id",
+    "artifact_dir",
+    "materialization_report",
+    "materialization_manifest",
+    "ready_for_walk_forward",
+    "ready_for_training",
+    "trust_status",
+    "credential_values_present",
+    "recommendation_output_present"
+  ],
+  "summary_required_fields": [
+    "status",
+    "run_id",
+    "artifact_dir",
+    "ready_for_walk_forward",
+    "ready_for_training",
+    "trust_status"
+  ],
+  "acceptance": {
+    "desktop_materialization_report_contract_added": true,
+    "generated_materialization_report_loader_added": true,
+    "bronze_artifact_summary_panel_added": true,
+    "silver_artifact_summary_panel_added": true,
+    "gold_candidate_summary_panel_added": true,
+    "materialization_manifest_panel_added": true,
+    "trust_and_training_lock_panel_added": true,
+    "fallback_sample_for_desktop_reload_added": true,
+    "ci_desktop_reload_smoke_added": true,
+    "desktop_reload_docs_added": true,
+    "training_remains_blocked_until_walk_forward_evaluation": true
+  }
+}
