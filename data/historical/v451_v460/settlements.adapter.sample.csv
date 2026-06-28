@@ -1,0 +1,10 @@
+fixture_id,market_family,selection_id,settled_at_utc,settlement_result,label_available_after_utc
+fixture:adapter:001,1x2,home,2024-02-01T14:00:00Z,win,2024-02-01T14:00:00Z
+fixture:adapter:001,1x2,draw,2024-02-01T14:00:00Z,loss,2024-02-01T14:00:00Z
+fixture:adapter:001,1x2,away,2024-02-01T14:00:00Z,loss,2024-02-01T14:00:00Z
+fixture:adapter:002,1x2,home,2024-02-02T17:00:00Z,loss,2024-02-02T17:00:00Z
+fixture:adapter:002,1x2,draw,2024-02-02T17:00:00Z,win,2024-02-02T17:00:00Z
+fixture:adapter:002,1x2,away,2024-02-02T17:00:00Z,loss,2024-02-02T17:00:00Z
+fixture:adapter:003,1x2,home,2024-02-03T20:30:00Z,loss,2024-02-03T20:30:00Z
+fixture:adapter:003,1x2,draw,2024-02-03T20:30:00Z,loss,2024-02-03T20:30:00Z
+fixture:adapter:003,1x2,away,2024-02-03T20:30:00Z,win,2024-02-03T20:30:00Z

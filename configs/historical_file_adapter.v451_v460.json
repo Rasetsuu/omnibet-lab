@@ -1,0 +1,130 @@
+{
+  "schema": "omnibet.historical_file_adapter_contract.v451_v460",
+  "milestone": "v451_v460_real_local_historical_file_adapter_import_ux",
+  "paper_only": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "real_money_recommendations_allowed": false,
+  "validated_paper_allowed": false,
+  "training_allowed": false,
+  "depends_on": [
+    "omnibet.historical_materialization_command_report.v421_v430",
+    "omnibet.historical_materialization_desktop_contract.v431_v440"
+  ],
+  "versions": {
+    "v451": "historical_file_adapter_contract",
+    "v452": "local_fixture_csv_adapter",
+    "v453": "local_odds_csv_adapter",
+    "v454": "local_settlement_csv_adapter",
+    "v455": "local_identity_csv_adapter",
+    "v456": "adapter_catalog_sample",
+    "v457": "local_adapter_preview_report",
+    "v458": "desktop_upload_ux_contract_placeholder",
+    "v459": "ci_file_adapter_smoke",
+    "v460": "file_adapter_docs"
+  },
+  "accepted_inputs": {
+    "fixture_csv": "data/historical/v451_v460/fixtures.adapter.sample.csv",
+    "odds_csv": "data/historical/v451_v460/odds.adapter.sample.csv",
+    "settlement_csv": "data/historical/v451_v460/settlements.adapter.sample.csv",
+    "identity_csv": "data/historical/v451_v460/identity_map.adapter.sample.csv",
+    "adapter_catalog": "data/historical/v451_v460/adapter_catalog.sample.json"
+  },
+  "output_preview_paths": {
+    "adapter_report": "reports/historical_file_adapter_v451_v460_report.json",
+    "normalized_preview": "reports/historical_file_adapter_v451_v460_normalized_preview.json"
+  },
+  "fixture_required_columns": [
+    "fixture_id",
+    "source_id",
+    "competition",
+    "season",
+    "kickoff_utc",
+    "home_team_raw",
+    "away_team_raw",
+    "home_team_canonical_id",
+    "away_team_canonical_id",
+    "final_home_score",
+    "final_away_score",
+    "result_status"
+  ],
+  "odds_required_columns": [
+    "fixture_id",
+    "source_id",
+    "market_family",
+    "market_id",
+    "selection_id",
+    "selection_raw",
+    "bookmaker",
+    "captured_at_utc",
+    "decimal_odds",
+    "is_closing_snapshot"
+  ],
+  "settlement_required_columns": [
+    "fixture_id",
+    "market_family",
+    "selection_id",
+    "settled_at_utc",
+    "settlement_result",
+    "label_available_after_utc"
+  ],
+  "identity_required_columns": [
+    "entity_type",
+    "source_id",
+    "raw_name",
+    "canonical_id",
+    "canonical_name",
+    "confidence",
+    "review_status"
+  ],
+  "validation_rules": {
+    "all_inputs_must_be_local_files": true,
+    "schema_detection_is_explicit_not_magic": true,
+    "fixture_ids_must_be_unique": true,
+    "odds_must_reference_existing_fixtures": true,
+    "settlements_must_reference_existing_fixtures": true,
+    "odds_decimal_must_be_gt_one": true,
+    "closing_odds_must_be_at_or_before_kickoff": true,
+    "labels_must_be_available_after_prediction_time": true,
+    "low_confidence_identity_requires_review": true,
+    "training_blocked_in_v451_v460": true
+  },
+  "desktop_placeholder": {
+    "future_page_id": "historical-file-adapter",
+    "future_button_id": "preview-historical-file-adapter",
+    "future_panels": [
+      "historical-file-adapter-inputs",
+      "historical-file-adapter-preview",
+      "historical-file-adapter-errors",
+      "historical-file-adapter-trust"
+    ]
+  },
+  "report_required_fields": [
+    "schema",
+    "paper_only",
+    "status",
+    "fixture_rows",
+    "odds_rows",
+    "settlement_rows",
+    "identity_rows",
+    "ready_for_materialization",
+    "ready_for_training",
+    "trust_status",
+    "credential_values_present",
+    "recommendation_output_present"
+  ],
+  "acceptance": {
+    "historical_file_adapter_contract_added": true,
+    "local_fixture_csv_adapter_added": true,
+    "local_odds_csv_adapter_added": true,
+    "local_settlement_csv_adapter_added": true,
+    "local_identity_csv_adapter_added": true,
+    "adapter_catalog_sample_added": true,
+    "local_adapter_preview_report_added": true,
+    "desktop_upload_ux_contract_placeholder_added": true,
+    "ci_file_adapter_smoke_added": true,
+    "file_adapter_docs_added": true,
+    "training_remains_blocked_until_walk_forward_evaluation": true
+  }
+}

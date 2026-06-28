@@ -1,0 +1,7 @@
+entity_type,source_id,raw_name,canonical_id,canonical_name,confidence,review_status
+team,local_csv_adapter,Home Alpha,team:home_alpha,Home Alpha,1.0,accepted
+team,local_csv_adapter,Away Beta,team:away_beta,Away Beta,1.0,accepted
+team,local_csv_adapter,Home Gamma,team:home_gamma,Home Gamma,1.0,accepted
+team,local_csv_adapter,Away Delta,team:away_delta,Away Delta,1.0,accepted
+team,local_csv_adapter,Home Epsilon,team:home_epsilon,Home Epsilon,1.0,accepted
+team,local_csv_adapter,Away Zeta,team:away_zeta,Away Zeta,1.0,accepted
