@@ -1,0 +1,10 @@
+fixture_id,source_id,market_family,market_id,selection_id,selection_raw,bookmaker,captured_at_utc,decimal_odds,is_closing_snapshot
+fixture:adapter:001,local_csv_adapter,1x2,football_1x2_regulation,home,Home Alpha,SampleBook,2024-02-01T11:55:00Z,1.85,true
+fixture:adapter:001,local_csv_adapter,1x2,football_1x2_regulation,draw,Draw,SampleBook,2024-02-01T11:55:00Z,3.40,true
+fixture:adapter:001,local_csv_adapter,1x2,football_1x2_regulation,away,Away Beta,SampleBook,2024-02-01T11:55:00Z,4.20,true
+fixture:adapter:002,local_csv_adapter,1x2,football_1x2_regulation,home,Home Gamma,SampleBook,2024-02-02T14:50:00Z,2.10,true
+fixture:adapter:002,local_csv_adapter,1x2,football_1x2_regulation,draw,Draw,SampleBook,2024-02-02T14:50:00Z,3.05,true
+fixture:adapter:002,local_csv_adapter,1x2,football_1x2_regulation,away,Away Delta,SampleBook,2024-02-02T14:50:00Z,3.70,true
+fixture:adapter:003,local_csv_adapter,1x2,football_1x2_regulation,home,Home Epsilon,SampleBook,2024-02-03T18:20:00Z,2.55,true
+fixture:adapter:003,local_csv_adapter,1x2,football_1x2_regulation,draw,Draw,SampleBook,2024-02-03T18:20:00Z,3.15,true
+fixture:adapter:003,local_csv_adapter,1x2,football_1x2_regulation,away,Away Zeta,SampleBook,2024-02-03T18:20:00Z,2.75,true
