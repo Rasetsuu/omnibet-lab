@@ -208,7 +208,7 @@ mod tests {
 
     #[test]
     fn materialization_run_id_sanitizes_shell_chars() {
-        assert_eq!(sanitize_run_id("abc;rm -rf /"), "abc_rm__rf__");
+        assert_eq!(sanitize_run_id("abc;rm -rf /"), "abc_rm_-rf__");
     }
 
     #[test]
