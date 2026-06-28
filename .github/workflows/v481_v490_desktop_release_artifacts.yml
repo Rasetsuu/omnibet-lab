@@ -1,0 +1,36 @@
+name: OmniBet v481-v490 Desktop Release Artifacts
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  desktop-release-artifacts:
+    name: v481-v490 desktop release artifacts
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Run v481-v490 desktop release artifact smoke
+        run: |
+          python python_lab/desktop_release_artifact_flow_smoke.py \
+            --root . \
+            --out reports/ci_v481_v490_desktop_release_artifacts.json
+      - name: Upload v481-v490 release artifact smoke artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v481-v490-desktop-release-artifacts
+          path: |
+            reports/ci_v481_v490_desktop_release_artifacts.json
+            configs/desktop_release_artifacts.v481_v490.json
+            docs/desktop_release_artifacts_v481_v490.md
+          if-no-files-found: warn
