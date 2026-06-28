@@ -19,6 +19,7 @@ import { loadAndRenderBaselineReportsStatus } from './baseline_reports.js';
 import { loadAndRenderCalibrationClvStatus } from './calibration_clv.js';
 import { loadAndRenderGreenSampleStatus } from './green_sample.js';
 import { loadAndRenderGeneratedGreenStatus, runAndRenderGeneratedGreenStatus } from './generated_green.js';
+import { loadAndRenderHistoricalMaterializationStatus } from './historical_materialization.js';
 
 function out(x) {
   const el = document.getElementById('out');
@@ -67,6 +68,10 @@ function bindGeneratedGreenLoadButton(id) {
   document.getElementById(id)?.addEventListener('click', () => safeRun(() => loadAndRenderGeneratedGreenStatus()));
 }
 
+function bindHistoricalMaterializationLoadButton(id) {
+  document.getElementById(id)?.addEventListener('click', () => safeRun(() => loadAndRenderHistoricalMaterializationStatus()));
+}
+
 function bind() {
   document.querySelectorAll('.nav-button').forEach(btn => {
     btn.addEventListener('click', () => showPage(btn.dataset.page));
@@ -98,6 +103,8 @@ function bind() {
   bindGeneratedGreenLoadButton('load-generated-green-status-page');
   bindGeneratedGreenRunButton('run-generated-green-report');
   bindGeneratedGreenRunButton('run-generated-green-report-topbar');
+  bindHistoricalMaterializationLoadButton('load-historical-materialization-status');
+  bindHistoricalMaterializationLoadButton('load-historical-materialization-status-page');
   document.getElementById('load-phase2-forecast')?.addEventListener('click', () => safeRun(() => loadAndRenderPhase2Forecast()));
   document.getElementById('load-upcoming-fixtures')?.addEventListener('click', () => safeRun(() => loadAndRenderUpcomingFixtures()));
   document.getElementById('load-external-data')?.addEventListener('click', () => safeRun(() => loadAndRenderExternalData()));
