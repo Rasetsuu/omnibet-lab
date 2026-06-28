@@ -219,6 +219,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Download built release assets
         uses: actions/download-artifact@v4
         with:
@@ -227,7 +230,7 @@ jobs:
           merge-multiple: true
 
       - name: List release assets
-        run: find build/release-assets -type f -maxdepth 2 -print -exec sha256sum {} \;
+        run: find build/release-assets -maxdepth 2 -type f -print -exec sha256sum {} \;
 
       - name: Write release notes
         shell: bash
@@ -260,16 +263,17 @@ jobs:
       - name: Create or update GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
         shell: bash
         run: |
           set -euo pipefail
           tag="${{ inputs.release_tag }}"
           name="${{ inputs.release_name }} ${tag}"
-          args=(--title "$name" --notes-file RELEASE_NOTES.md)
+          args=(--title "$name" --notes-file RELEASE_NOTES.md --repo "$GH_REPO")
           if [ "${{ inputs.prerelease }}" = "true" ]; then args+=(--prerelease); fi
           if [ "${{ inputs.draft }}" = "true" ]; then args+=(--draft); fi
-          if gh release view "$tag" >/dev/null 2>&1; then
-            gh release upload "$tag" build/release-assets/* --clobber
+          if gh release view "$tag" --repo "$GH_REPO" >/dev/null 2>&1; then
+            gh release upload "$tag" build/release-assets/* --repo "$GH_REPO" --clobber
             gh release edit "$tag" "${args[@]}"
           else
             gh release create "$tag" build/release-assets/* "${args[@]}"
