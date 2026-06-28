@@ -1,0 +1,75 @@
+{
+  "schema": "omnibet.historical_file_adapter_desktop_contract.v461_v470",
+  "milestone": "v461_v470_historical_file_adapter_desktop_panel",
+  "paper_only": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "real_money_recommendations_allowed": false,
+  "validated_paper_allowed": false,
+  "training_allowed": false,
+  "depends_on": [
+    "omnibet.historical_file_adapter_contract.v451_v460",
+    "omnibet.historical_file_adapter_report.v451_v460"
+  ],
+  "versions": {
+    "v461": "desktop_file_adapter_report_contract",
+    "v462": "adapter_catalog_loader_panel",
+    "v463": "fixture_csv_preview_panel",
+    "v464": "odds_csv_preview_panel",
+    "v465": "settlement_csv_preview_panel",
+    "v466": "identity_csv_preview_panel",
+    "v467": "adapter_validation_errors_panel",
+    "v468": "adapter_training_lock_panel",
+    "v469": "ci_adapter_desktop_smoke",
+    "v470": "adapter_desktop_docs"
+  },
+  "desktop": {
+    "page_id": "historical-file-adapter",
+    "nav_label": "Historical File Adapter",
+    "buttons": [
+      "load-historical-file-adapter-status"
+    ],
+    "panel_ids": [
+      "historical-file-adapter-summary",
+      "historical-file-adapter-inputs",
+      "historical-file-adapter-fixtures",
+      "historical-file-adapter-odds",
+      "historical-file-adapter-settlements",
+      "historical-file-adapter-identities",
+      "historical-file-adapter-errors",
+      "historical-file-adapter-trust"
+    ],
+    "renderer": "tauri-app/src/historical_file_adapter.js",
+    "generated_report_path": "reports/historical_file_adapter_v451_v460_report.json",
+    "normalized_preview_path": "reports/historical_file_adapter_v451_v460_normalized_preview.json",
+    "fallback_sample_path": "tauri-app/src/historical-file-adapter.sample.json"
+  },
+  "report_required_fields": [
+    "schema",
+    "paper_only",
+    "status",
+    "fixture_rows",
+    "odds_rows",
+    "settlement_rows",
+    "identity_rows",
+    "ready_for_materialization",
+    "ready_for_training",
+    "trust_status",
+    "credential_values_present",
+    "recommendation_output_present"
+  ],
+  "acceptance": {
+    "desktop_file_adapter_report_contract_added": true,
+    "adapter_catalog_loader_panel_added": true,
+    "fixture_csv_preview_panel_added": true,
+    "odds_csv_preview_panel_added": true,
+    "settlement_csv_preview_panel_added": true,
+    "identity_csv_preview_panel_added": true,
+    "adapter_validation_errors_panel_added": true,
+    "adapter_training_lock_panel_added": true,
+    "ci_adapter_desktop_smoke_added": true,
+    "adapter_desktop_docs_added": true,
+    "training_remains_blocked_until_walk_forward_evaluation": true
+  }
+}

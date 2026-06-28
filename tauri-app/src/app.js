@@ -20,6 +20,7 @@ import { loadAndRenderCalibrationClvStatus } from './calibration_clv.js';
 import { loadAndRenderGreenSampleStatus } from './green_sample.js';
 import { loadAndRenderGeneratedGreenStatus, runAndRenderGeneratedGreenStatus } from './generated_green.js';
 import { loadAndRenderHistoricalMaterializationStatus } from './historical_materialization.js';
+import { loadAndRenderHistoricalFileAdapterStatus } from './historical_file_adapter.js';
 
 function out(x) {
   const el = document.getElementById('out');
@@ -72,6 +73,10 @@ function bindHistoricalMaterializationLoadButton(id) {
   document.getElementById(id)?.addEventListener('click', () => safeRun(() => loadAndRenderHistoricalMaterializationStatus()));
 }
 
+function bindHistoricalFileAdapterLoadButton(id) {
+  document.getElementById(id)?.addEventListener('click', () => safeRun(() => loadAndRenderHistoricalFileAdapterStatus()));
+}
+
 function bind() {
   document.querySelectorAll('.nav-button').forEach(btn => {
     btn.addEventListener('click', () => showPage(btn.dataset.page));
@@ -105,6 +110,8 @@ function bind() {
   bindGeneratedGreenRunButton('run-generated-green-report-topbar');
   bindHistoricalMaterializationLoadButton('load-historical-materialization-status');
   bindHistoricalMaterializationLoadButton('load-historical-materialization-status-page');
+  bindHistoricalFileAdapterLoadButton('load-historical-file-adapter-status');
+  bindHistoricalFileAdapterLoadButton('load-historical-file-adapter-status-page');
   document.getElementById('load-phase2-forecast')?.addEventListener('click', () => safeRun(() => loadAndRenderPhase2Forecast()));
   document.getElementById('load-upcoming-fixtures')?.addEventListener('click', () => safeRun(() => loadAndRenderUpcomingFixtures()));
   document.getElementById('load-external-data')?.addEventListener('click', () => safeRun(() => loadAndRenderExternalData()));
