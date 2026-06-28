@@ -1,0 +1,76 @@
+{
+  "schema": "omnibet.historical_materialization_contract.v411_v420",
+  "milestone": "v411_v420_historical_materialization_from_validated_local_files",
+  "paper_only": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "real_money_recommendations_allowed": false,
+  "validated_paper_allowed": false,
+  "training_allowed": false,
+  "depends_on": [
+    "omnibet.historical_source_import_contract.v401_v410",
+    "omnibet.historical_import_validation_report.v401_v410"
+  ],
+  "versions": {
+    "v411": "bronze_fixture_import_table",
+    "v412": "bronze_odds_snapshot_import_table",
+    "v413": "bronze_settlement_import_table",
+    "v414": "identity_mapping_application",
+    "v415": "silver_normalized_fixture_table",
+    "v416": "silver_normalized_odds_table",
+    "v417": "gold_evaluation_candidate_preview",
+    "v418": "materialization_manifest_writer",
+    "v419": "ci_materialization_smoke",
+    "v420": "materialization_docs"
+  },
+  "input_sources": {
+    "historical_manifest": "data/historical/v401_v410/historical_import.sample.json",
+    "fixtures": "data/historical/v401_v410/fixtures.sample.json",
+    "odds": "data/historical/v401_v410/odds.sample.json",
+    "settlements": "data/historical/v401_v410/settlements.sample.json",
+    "identity_map": "data/historical/v401_v410/identity_map.sample.json"
+  },
+  "output_preview_paths": {
+    "report": "reports/historical_materialization_v411_v420_report.json",
+    "bronze_fixtures": "reports/materialized/v411_v420/bronze_fixtures.preview.json",
+    "bronze_odds": "reports/materialized/v411_v420/bronze_odds.preview.json",
+    "bronze_settlements": "reports/materialized/v411_v420/bronze_settlements.preview.json",
+    "silver_fixtures": "reports/materialized/v411_v420/silver_fixtures.preview.json",
+    "silver_odds": "reports/materialized/v411_v420/silver_odds.preview.json",
+    "gold_candidates": "reports/materialized/v411_v420/gold_evaluation_candidates.preview.json",
+    "manifest": "reports/materialized/v411_v420/materialization_manifest.json"
+  },
+  "bronze_fixture_required_fields": ["fixture_id", "source_id", "competition", "season", "kickoff_utc", "home_team_raw", "away_team_raw", "result_status"],
+  "bronze_odds_required_fields": ["fixture_id", "source_id", "market_family", "market_id", "selection_id", "bookmaker", "captured_at_utc", "decimal_odds", "is_closing_snapshot"],
+  "bronze_settlement_required_fields": ["fixture_id", "market_family", "selection_id", "settled_at_utc", "settlement_result", "label_available_after_utc"],
+  "silver_fixture_required_fields": ["fixture_id", "competition", "season", "kickoff_utc", "home_team_id", "away_team_id", "home_team_name", "away_team_name", "result_status"],
+  "silver_odds_required_fields": ["fixture_id", "market_family", "market_id", "selection_id", "bookmaker", "captured_at_utc", "decimal_odds", "no_vig_group_key", "is_closing_snapshot"],
+  "gold_candidate_required_fields": ["candidate_id", "fixture_id", "prediction_time_utc", "label_available_after_utc", "market_family", "selection_id", "decimal_odds", "settlement_result", "feature_leakage_safe"],
+  "manifest_required_fields": ["schema", "paper_only", "status", "bronze_tables", "silver_tables", "gold_tables", "content_hashes_present", "ready_for_training", "credential_values_present", "recommendation_output_present"],
+  "validation_rules": {
+    "requires_validated_import_report": true,
+    "bronze_preserves_raw_provider_fields": true,
+    "silver_applies_identity_map": true,
+    "gold_candidates_require_settlement_labels": true,
+    "prediction_time_must_be_before_kickoff": true,
+    "label_available_after_prediction_time": true,
+    "training_blocked_in_v411_v420": true
+  },
+  "accepted_preview_codecs": ["json", "jsonl.zstd", "json.zstd", "jsonl.gzip"],
+  "preferred_large_scale_codec": "jsonl.zstd",
+  "future_large_scale_codec": "parquet.zstd",
+  "acceptance": {
+    "bronze_fixture_import_table_added": true,
+    "bronze_odds_snapshot_import_table_added": true,
+    "bronze_settlement_import_table_added": true,
+    "identity_mapping_application_added": true,
+    "silver_normalized_fixture_table_added": true,
+    "silver_normalized_odds_table_added": true,
+    "gold_evaluation_candidate_preview_added": true,
+    "materialization_manifest_writer_added": true,
+    "ci_materialization_smoke_added": true,
+    "materialization_docs_added": true,
+    "training_remains_blocked_until_walk_forward_evaluation": true
+  }
+}
