@@ -1,0 +1,48 @@
+name: OmniBet v411-v420 Historical Materialization
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  historical-materialization:
+    name: v411-v420 historical materialization
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Rust historical materialization tests
+        run: cargo test --manifest-path rust-core/Cargo.toml historical_materialization
+      - name: Run v401-v410 historical source import smoke
+        run: |
+          python python_lab/historical_source_import_smoke.py \
+            --root . \
+            --out reports/ci_v401_v410_historical_source_import.json \
+            --validation-out reports/historical_source_import_v401_v410_validation.json
+      - name: Run v411-v420 historical materialization smoke
+        run: |
+          python python_lab/historical_materialization_smoke.py \
+            --root . \
+            --out reports/ci_v411_v420_historical_materialization.json \
+            --report-out reports/historical_materialization_v411_v420_report.json
+      - name: Upload v411-v420 historical materialization artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v411-v420-historical-materialization-artifacts
+          path: |
+            reports/ci_v401_v410_historical_source_import.json
+            reports/historical_source_import_v401_v410_validation.json
+            reports/ci_v411_v420_historical_materialization.json
+            reports/historical_materialization_v411_v420_report.json
+          if-no-files-found: warn
