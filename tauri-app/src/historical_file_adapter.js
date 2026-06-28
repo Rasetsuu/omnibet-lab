@@ -2,6 +2,58 @@ function esc(value) {
   return String(value ?? '').replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
 }
 
+function ensureHistoricalFileAdapterPage() {
+  const nav = document.querySelector('.nav');
+  if (nav && !document.querySelector('[data-page="historical-file-adapter"]')) {
+    const button = document.createElement('button');
+    button.className = 'nav-button';
+    button.dataset.page = 'historical-file-adapter';
+    button.textContent = 'Historical File Adapter';
+    nav.appendChild(button);
+  }
+
+  const topbar = document.querySelector('.topbar-actions');
+  if (topbar && !document.getElementById('load-historical-file-adapter-status')) {
+    const button = document.createElement('button');
+    button.id = 'load-historical-file-adapter-status';
+    button.textContent = 'Load historical file adapter';
+    topbar.appendChild(button);
+  }
+
+  const main = document.querySelector('.main-panel');
+  if (main && !document.getElementById('historical-file-adapter')) {
+    const section = document.createElement('section');
+    section.id = 'historical-file-adapter';
+    section.className = 'page';
+    section.dataset.pagePanel = 'historical-file-adapter';
+    section.innerHTML = `
+      <h2>Historical File Adapter</h2>
+      <p class="warn">v461-v470 local historical CSV adapter desktop panel. Preview only; training remains locked.</p>
+      <div class="card">
+        <button id="load-historical-file-adapter-status-page">Reload historical file adapter</button>
+      </div>
+      <div class="grid">
+        <div id="historical-file-adapter-summary" class="card"><div class="muted">Load historical file adapter first.</div></div>
+        <div id="historical-file-adapter-inputs" class="card"><div class="muted">Load historical file adapter first.</div></div>
+        <div id="historical-file-adapter-fixtures" class="card"><div class="muted">Load historical file adapter first.</div></div>
+        <div id="historical-file-adapter-odds" class="card"><div class="muted">Load historical file adapter first.</div></div>
+        <div id="historical-file-adapter-settlements" class="card"><div class="muted">Load historical file adapter first.</div></div>
+        <div id="historical-file-adapter-identities" class="card"><div class="muted">Load historical file adapter first.</div></div>
+        <div id="historical-file-adapter-errors" class="card"><div class="muted">Load historical file adapter first.</div></div>
+        <div id="historical-file-adapter-trust" class="card"><div class="muted">Load historical file adapter first.</div></div>
+      </div>
+    `;
+    const output = document.querySelector('.output-panel');
+    if (output) {
+      main.insertBefore(section, output);
+    } else {
+      main.appendChild(section);
+    }
+  }
+}
+
+ensureHistoricalFileAdapterPage();
+
 async function loadJson(path) {
   const response = await fetch(path);
   if (!response.ok) throw new Error(`failed to load ${path}: ${response.status}`);
@@ -135,6 +187,7 @@ function renderTrust(payload) {
 }
 
 export function renderHistoricalFileAdapterStatus(payload) {
+  ensureHistoricalFileAdapterPage();
   renderSummary(payload);
   renderInputs(payload);
   renderFixtures(payload);
