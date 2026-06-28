@@ -1,0 +1,61 @@
+{
+  "schema": "omnibet.historical_materialization_command_report.v421_v430",
+  "paper_only": true,
+  "status": "generated_materialization_preview",
+  "run_id": "desktop_sample_v431_v440",
+  "artifact_dir": "reports/materialized/v421_v430",
+  "materialization_report": {
+    "schema": "omnibet.historical_materialization_report.v411_v420",
+    "paper_only": true,
+    "status": "materialized_preview",
+    "source_import_status": "validated_for_materialization",
+    "bronze_fixture_rows": 3,
+    "bronze_odds_rows": 9,
+    "bronze_settlement_rows": 9,
+    "silver_fixture_rows": 3,
+    "silver_odds_rows": 9,
+    "gold_candidate_rows": 9,
+    "ready_for_walk_forward": true,
+    "ready_for_training": false,
+    "trust_status": "sample_only",
+    "validation_errors": [],
+    "credential_values_present": false,
+    "recommendation_output_present": false
+  },
+  "materialization_manifest": {
+    "schema": "omnibet.historical_materialization_manifest.v411_v420",
+    "paper_only": true,
+    "status": "materialized_preview",
+    "bronze_tables": [
+      {"table_id": "bronze_fixtures_v411", "row_count": 3, "status": "preview_written", "preview_path": "reports/materialized/v421_v430/bronze_fixtures.generated.json"},
+      {"table_id": "bronze_odds_v412", "row_count": 9, "status": "preview_written", "preview_path": "reports/materialized/v421_v430/bronze_odds.generated.json"},
+      {"table_id": "bronze_settlements_v413", "row_count": 9, "status": "preview_written", "preview_path": "reports/materialized/v421_v430/bronze_settlements.generated.json"}
+    ],
+    "silver_tables": [
+      {"table_id": "silver_fixtures_v415", "row_count": 3, "status": "preview_written", "preview_path": "reports/materialized/v421_v430/silver_fixtures.generated.json"},
+      {"table_id": "silver_odds_v416", "row_count": 9, "status": "preview_written", "preview_path": "reports/materialized/v421_v430/silver_odds.generated.json"}
+    ],
+    "gold_tables": [
+      {"table_id": "gold_evaluation_candidates_v417", "row_count": 9, "status": "preview_written", "preview_path": "reports/materialized/v421_v430/gold_evaluation_candidates.generated.json"}
+    ],
+    "content_hashes_present": false,
+    "preferred_large_scale_codec": "jsonl.zstd",
+    "future_large_scale_codec": "parquet.zstd",
+    "ready_for_training": false,
+    "credential_values_present": false,
+    "recommendation_output_present": false
+  },
+  "generated_artifacts": {
+    "bronze_fixtures": "reports/materialized/v421_v430/bronze_fixtures.generated.json",
+    "bronze_odds": "reports/materialized/v421_v430/bronze_odds.generated.json",
+    "bronze_settlements": "reports/materialized/v421_v430/bronze_settlements.generated.json",
+    "silver_fixtures": "reports/materialized/v421_v430/silver_fixtures.generated.json",
+    "silver_odds": "reports/materialized/v421_v430/silver_odds.generated.json",
+    "gold_candidates": "reports/materialized/v421_v430/gold_evaluation_candidates.generated.json"
+  },
+  "ready_for_walk_forward": true,
+  "ready_for_training": false,
+  "trust_status": "sample_only",
+  "credential_values_present": false,
+  "recommendation_output_present": false
+}
