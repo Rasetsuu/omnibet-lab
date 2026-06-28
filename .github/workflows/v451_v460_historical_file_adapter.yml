@@ -1,0 +1,43 @@
+name: OmniBet v451-v460 Historical File Adapter
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  historical-file-adapter:
+    name: v451-v460 historical file adapter
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Run v451-v460 historical file adapter smoke
+        run: |
+          python python_lab/historical_file_adapter_smoke.py \
+            --root . \
+            --out reports/ci_v451_v460_historical_file_adapter.json \
+            --adapter-report-out reports/historical_file_adapter_v451_v460_report.json \
+            --normalized-preview-out reports/historical_file_adapter_v451_v460_normalized_preview.json
+      - name: Upload v451-v460 historical file adapter artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v451-v460-historical-file-adapter-artifacts
+          path: |
+            reports/ci_v451_v460_historical_file_adapter.json
+            reports/historical_file_adapter_v451_v460_report.json
+            reports/historical_file_adapter_v451_v460_normalized_preview.json
+            data/historical/v451_v460/adapter_catalog.sample.json
+            data/historical/v451_v460/fixtures.adapter.sample.csv
+            data/historical/v451_v460/odds.adapter.sample.csv
+            data/historical/v451_v460/settlements.adapter.sample.csv
+            data/historical/v451_v460/identity_map.adapter.sample.csv
+          if-no-files-found: warn
