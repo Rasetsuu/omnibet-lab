@@ -1,0 +1,34 @@
+name: Debug v401 Cargo Probe
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  cargo-debug:
+    name: cargo baseline debug
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Capture baseline reports cargo output
+        run: |
+          mkdir -p reports
+          set +e
+          cargo test --manifest-path rust-core/Cargo.toml baseline_reports 2>&1 | tee reports/debug_v401_cargo_baseline_reports.log
+          code=${PIPESTATUS[0]}
+          echo "exit_code=${code}" | tee reports/debug_v401_cargo_baseline_reports_exit.txt
+          exit ${code}
+      - name: Upload debug cargo output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-v401-cargo-baseline-reports
+          path: |
+            reports/debug_v401_cargo_baseline_reports.log
+            reports/debug_v401_cargo_baseline_reports_exit.txt
+          if-no-files-found: warn
