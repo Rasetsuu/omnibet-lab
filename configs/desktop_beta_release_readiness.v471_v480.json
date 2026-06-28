@@ -1,0 +1,71 @@
+{
+  "schema": "omnibet.desktop_beta_release_readiness_contract.v471_v480",
+  "milestone": "v471_v480_windows_linux_desktop_beta_release_readiness",
+  "paper_only": true,
+  "desktop_beta_can_move_fast": true,
+  "model_training_must_move_slow": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "real_money_recommendations_allowed": false,
+  "validated_paper_allowed": false,
+  "training_allowed": false,
+  "depends_on": [
+    "omnibet.historical_file_adapter_desktop_contract.v461_v470",
+    "docs/beta_vs_model_quality_policy.md"
+  ],
+  "versions": {
+    "v471": "beta_vs_model_quality_policy",
+    "v472": "desktop_release_workflow_readiness_check",
+    "v473": "windows_release_asset_readiness",
+    "v474": "linux_release_asset_readiness",
+    "v475": "tauri_metadata_alignment_check",
+    "v476": "portable_package_content_check",
+    "v477": "release_notes_safety_check",
+    "v478": "downloadable_beta_user_path_check",
+    "v479": "ci_release_readiness_smoke",
+    "v480": "release_readiness_docs"
+  },
+  "release_expectations": {
+    "workflow_path": ".github/workflows/desktop_release.yml",
+    "workflow_dispatch_required": true,
+    "windows_runner_required": "windows-latest",
+    "linux_runner_required": "ubuntu-latest",
+    "node_version_required": "20",
+    "tauri_cli_major": "2",
+    "release_assets_required": true,
+    "github_release_publish_step_required": true,
+    "draft_release_default": true,
+    "prerelease_default": true
+  },
+  "package_expectations": {
+    "tauri_config": "tauri-app/src-tauri/tauri.conf.json",
+    "package_json": "tauri-app/package.json",
+    "product_name": "OmniBet Lab",
+    "identifier": "local.omnibet.lab",
+    "bundle_active": true,
+    "bundle_targets": "all",
+    "package_version_must_match_tauri_version": true
+  },
+  "safety_expectations": {
+    "release_notes_must_say_paper_only": true,
+    "release_notes_must_say_not_recommendations": true,
+    "policy_doc_required": true,
+    "ready_for_training_must_remain_false": true,
+    "recommendation_output_must_remain_false": true,
+    "credential_values_must_remain_false": true
+  },
+  "acceptance": {
+    "beta_vs_model_quality_policy_added": true,
+    "desktop_release_workflow_readiness_check_added": true,
+    "windows_release_asset_readiness_checked": true,
+    "linux_release_asset_readiness_checked": true,
+    "tauri_metadata_alignment_check_added": true,
+    "portable_package_content_check_added": true,
+    "release_notes_safety_check_added": true,
+    "downloadable_beta_user_path_check_added": true,
+    "ci_release_readiness_smoke_added": true,
+    "release_readiness_docs_added": true,
+    "training_remains_blocked_until_quality_gates": true
+  }
+}
