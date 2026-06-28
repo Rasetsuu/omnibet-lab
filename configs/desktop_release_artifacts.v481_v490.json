@@ -1,0 +1,77 @@
+{
+  "schema": "omnibet.desktop_release_artifacts_contract.v481_v490",
+  "milestone": "v481_v490_github_release_artifacts_downloadable_beta_flow",
+  "paper_only": true,
+  "desktop_beta_can_move_fast": true,
+  "model_training_must_move_slow": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "real_money_recommendations_allowed": false,
+  "validated_paper_allowed": false,
+  "training_allowed": false,
+  "depends_on": [
+    "omnibet.desktop_beta_release_readiness_contract.v471_v480",
+    "docs/beta_vs_model_quality_policy.md"
+  ],
+  "versions": {
+    "v481": "release_artifact_contract",
+    "v482": "package_gui_sample_assets",
+    "v483": "package_historical_adapter_sample_data",
+    "v484": "package_research_policy_docs",
+    "v485": "package_runtime_cli_runners",
+    "v486": "release_readme_user_path",
+    "v487": "release_notes_beta_safety_language",
+    "v488": "windows_linux_archive_expectations",
+    "v489": "ci_release_artifact_flow_smoke",
+    "v490": "release_artifact_docs"
+  },
+  "release_workflow": ".github/workflows/desktop_release.yml",
+  "required_packaged_assets": [
+    "tauri-app/src/historical-materialization.sample.json",
+    "tauri-app/src/historical-file-adapter.sample.json",
+    "data/historical/v451_v460/fixtures.adapter.sample.csv",
+    "data/historical/v451_v460/odds.adapter.sample.csv",
+    "data/historical/v451_v460/settlements.adapter.sample.csv",
+    "data/historical/v451_v460/identity_map.adapter.sample.csv",
+    "docs/beta_vs_model_quality_policy.md"
+  ],
+  "required_runtime_bins": [
+    "omnibet-pack",
+    "omnibet-infer",
+    "omnibet-value",
+    "omnibet-model",
+    "omnibet-local-import-runner",
+    "omnibet-historical-materialization-runner"
+  ],
+  "archive_expectations": {
+    "windows_archive_suffix": ".zip",
+    "linux_archive_suffix": ".tar.gz",
+    "windows_app_name": "OmniBet-Lab.exe",
+    "linux_app_name": "omnibet-lab",
+    "release_tag_example": "v0.6.0-beta.1",
+    "draft_release_default": true,
+    "prerelease_default": true
+  },
+  "release_notes_required_phrases": [
+    "PAPER_ONLY",
+    "not betting recommendations",
+    "not staking advice",
+    "not proof of edge",
+    "GUI beta can move fast",
+    "prediction/training engine must move slow"
+  ],
+  "acceptance": {
+    "release_artifact_contract_added": true,
+    "package_gui_sample_assets_checked": true,
+    "package_historical_adapter_sample_data_checked": true,
+    "package_research_policy_docs_checked": true,
+    "package_runtime_cli_runners_checked": true,
+    "release_readme_user_path_checked": true,
+    "release_notes_beta_safety_language_checked": true,
+    "windows_linux_archive_expectations_checked": true,
+    "ci_release_artifact_flow_smoke_added": true,
+    "release_artifact_docs_added": true,
+    "training_remains_blocked_until_quality_gates": true
+  }
+}
