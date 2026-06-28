@@ -314,7 +314,7 @@ pub fn build_gold_candidate_rows_v411(
                 selection_id: row.selection_id.clone(),
                 decimal_odds: row.decimal_odds,
                 settlement_result: settlement.settlement_result.clone(),
-                feature_leakage_safe: settlement.label_available_after_utc >= row.captured_at_utc,
+                feature_leakage_safe: settlement.label_available_after_utc.as_str() >= row.captured_at_utc.as_str(),
             })
         })
         .collect()
@@ -451,7 +451,8 @@ mod tests {
 
     #[test]
     fn silver_fixtures_apply_identity_map_v411() {
-        let rows = build_silver_fixture_rows_v411(&[fixture()], &identity_rows());
+        let fixtures = vec![fixture()];
+        let rows = build_silver_fixture_rows_v411(&fixtures, &identity_rows());
         assert_eq!(rows.len(), 1);
         assert_eq!(rows[0].home_team_id, "team:home");
         assert_eq!(rows[0].away_team_id, "team:away");
