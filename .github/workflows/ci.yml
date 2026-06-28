@@ -29,6 +29,15 @@ jobs:
           cargo --version
           rustc --version
 
+      - name: Capture Rust v401 debug output
+        run: |
+          mkdir -p reports
+          set +e
+          cargo test --manifest-path rust-core/Cargo.toml historical_source_import 2>&1 | tee reports/debug_ci_cargo_historical_source_import.log
+          code=${PIPESTATUS[0]}
+          echo "exit_code=${code}" | tee reports/debug_ci_cargo_historical_source_import_exit.txt
+          exit ${code}
+
       - name: Run OmniBet full local test harness
         run: bash tools/run_all_local_tests.sh
 
@@ -48,6 +57,8 @@ jobs:
         with:
           name: omnibet-ci-reports
           path: |
+            reports/debug_ci_cargo_historical_source_import.log
+            reports/debug_ci_cargo_historical_source_import_exit.txt
             reports/ci_*.json
             reports/v13_synthetic_event_pipeline.json
           if-no-files-found: warn
