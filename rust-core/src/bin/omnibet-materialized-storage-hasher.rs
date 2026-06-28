@@ -195,8 +195,8 @@ fn verification_report(manifest: &StorageManifestV441) -> Value {
     json!({
         "schema": "omnibet.materialized_storage_verification_report.v441_v450",
         "paper_only": true,
-        "status": manifest.status,
-        "run_id": manifest.run_id,
+        "status": manifest.status.clone(),
+        "run_id": manifest.run_id.clone(),
         "artifact_count": manifest.artifact_count,
         "total_source_bytes": total_source_bytes,
         "total_compressed_bytes": total_compressed_bytes,
