@@ -1,0 +1,36 @@
+name: OmniBet v471-v480 Desktop Beta Release Readiness
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  desktop-beta-release-readiness:
+    name: v471-v480 desktop beta release readiness
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Run v471-v480 desktop beta release readiness smoke
+        run: |
+          python python_lab/desktop_beta_release_readiness_smoke.py \
+            --root . \
+            --out reports/ci_v471_v480_desktop_beta_release_readiness.json
+      - name: Upload v471-v480 release readiness artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v471-v480-desktop-beta-release-readiness-artifacts
+          path: |
+            reports/ci_v471_v480_desktop_beta_release_readiness.json
+            docs/beta_vs_model_quality_policy.md
+            docs/desktop_beta_release_readiness_v471_v480.md
+          if-no-files-found: warn
