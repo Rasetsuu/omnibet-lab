@@ -1,0 +1,35 @@
+name: OmniBet v461-v470 Historical File Adapter Desktop
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  historical-file-adapter-desktop:
+    name: v461-v470 historical file adapter desktop
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Run v461-v470 historical file adapter desktop smoke
+        run: |
+          python python_lab/historical_file_adapter_desktop_smoke.py \
+            --root . \
+            --out reports/ci_v461_v470_historical_file_adapter_desktop.json
+      - name: Upload v461-v470 historical file adapter desktop artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v461-v470-historical-file-adapter-desktop-artifacts
+          path: |
+            reports/ci_v461_v470_historical_file_adapter_desktop.json
+            tauri-app/src/historical-file-adapter.sample.json
+          if-no-files-found: warn
