@@ -85,7 +85,16 @@ jobs:
         run: |
           set -euo pipefail
           package_dir="build/desktop-release/package"
-          mkdir -p "$package_dir/bin" "$package_dir/data" "$package_dir/data_packs" "$package_dir/rust-core/target/debug"
+          mkdir -p \
+            "$package_dir/bin" \
+            "$package_dir/configs" \
+            "$package_dir/data" \
+            "$package_dir/data/historical/v451_v460" \
+            "$package_dir/data_packs" \
+            "$package_dir/docs" \
+            "$package_dir/reports" \
+            "$package_dir/tauri-app/src" \
+            "$package_dir/rust-core/target/debug"
 
           if [ "${{ runner.os }}" = "Windows" ]; then
             app_src="tauri-app/src-tauri/target/release/omnibet_lab.exe"
@@ -101,30 +110,76 @@ jobs:
           cp "$app_src" "$app_dst"
           chmod +x "$app_dst" || true
 
-          for bin in omnibet-pack omnibet-infer omnibet-value omnibet-model; do
+          for bin in omnibet-pack omnibet-infer omnibet-value omnibet-model omnibet-local-import-runner omnibet-historical-materialization-runner; do
             src="rust-core/target/release/${bin}${cli_suffix}"
             test -s "$src"
             cp "$src" "$package_dir/${bin}${cli_suffix}"
             cp "$src" "$package_dir/bin/${bin}${cli_suffix}"
-            cp "$src" "$package_dir/rust-core/target/debug/${bin}"
-            chmod +x "$package_dir/${bin}${cli_suffix}" "$package_dir/bin/${bin}${cli_suffix}" "$package_dir/rust-core/target/debug/${bin}" || true
+            cp "$src" "$package_dir/rust-core/target/debug/${bin}${cli_suffix}"
+            chmod +x "$package_dir/${bin}${cli_suffix}" "$package_dir/bin/${bin}${cli_suffix}" "$package_dir/rust-core/target/debug/${bin}${cli_suffix}" || true
           done
 
           cp -R data_packs/football_core_v1 "$package_dir/data_packs/football_core_v1"
           cp data/sample_odds_spain_cape_verde.csv "$package_dir/data/sample_odds_spain_cape_verde.csv"
           cp data/sample_prices.csv "$package_dir/data/sample_prices.csv"
           cp data/sample_closing_odds_spain_cape_verde.csv "$package_dir/data/sample_closing_odds_spain_cape_verde.csv"
+          test -s data/historical/v451_v460/fixtures.adapter.sample.csv
+          test -s data/historical/v451_v460/odds.adapter.sample.csv
+          test -s data/historical/v451_v460/settlements.adapter.sample.csv
+          test -s data/historical/v451_v460/identity_map.adapter.sample.csv
+          cp data/historical/v451_v460/fixtures.adapter.sample.csv "$package_dir/data/historical/v451_v460/fixtures.adapter.sample.csv"
+          cp data/historical/v451_v460/odds.adapter.sample.csv "$package_dir/data/historical/v451_v460/odds.adapter.sample.csv"
+          cp data/historical/v451_v460/settlements.adapter.sample.csv "$package_dir/data/historical/v451_v460/settlements.adapter.sample.csv"
+          cp data/historical/v451_v460/identity_map.adapter.sample.csv "$package_dir/data/historical/v451_v460/identity_map.adapter.sample.csv"
+          cp data/historical/v451_v460/adapter_catalog.sample.json "$package_dir/data/historical/v451_v460/adapter_catalog.sample.json"
+
           cp tauri-app/src/dashboard-data.sample.json "$package_dir/dashboard-data.sample.json"
           cp tauri-app/src/review-data.sample.json "$package_dir/review-data.sample.json"
           cp tauri-app/src/settings-data.sample.json "$package_dir/settings-data.sample.json"
+          cp tauri-app/src/historical-materialization.sample.json "$package_dir/historical-materialization.sample.json"
+          cp tauri-app/src/historical-file-adapter.sample.json "$package_dir/historical-file-adapter.sample.json"
+          cp tauri-app/src/dashboard-data.sample.json "$package_dir/tauri-app/src/dashboard-data.sample.json"
+          cp tauri-app/src/review-data.sample.json "$package_dir/tauri-app/src/review-data.sample.json"
+          cp tauri-app/src/settings-data.sample.json "$package_dir/tauri-app/src/settings-data.sample.json"
+          cp tauri-app/src/historical-materialization.sample.json "$package_dir/tauri-app/src/historical-materialization.sample.json"
+          cp tauri-app/src/historical-file-adapter.sample.json "$package_dir/tauri-app/src/historical-file-adapter.sample.json"
+
+          cp configs/historical_file_adapter.v451_v460.json "$package_dir/configs/historical_file_adapter.v451_v460.json"
+          cp configs/historical_file_adapter_desktop.v461_v470.json "$package_dir/configs/historical_file_adapter_desktop.v461_v470.json"
+          cp configs/historical_materialization_command.v421_v430.json "$package_dir/configs/historical_materialization_command.v421_v430.json"
+          cp configs/desktop_beta_release_readiness.v471_v480.json "$package_dir/configs/desktop_beta_release_readiness.v471_v480.json"
+          cp docs/beta_vs_model_quality_policy.md "$package_dir/docs/beta_vs_model_quality_policy.md"
+          cp docs/desktop_beta_release_readiness_v471_v480.md "$package_dir/docs/desktop_beta_release_readiness_v471_v480.md"
 
           cat > "$package_dir/README_RUN.txt" <<'EOF'
           OmniBet Lab desktop beta release package.
 
           Run OmniBet-Lab.exe on Windows or ./omnibet-lab on Linux from this directory.
+
+          Included GUI beta panels:
+          - Historical Materialization
+          - Historical File Adapter
+          - Generated Green
+          - Dataset Materialization
+          - Storage Writers
+          - Walk-Forward Evaluator
+          - Baseline Reports
+          - Calibration / CLV
+
+          Included local sample assets:
+          - tauri-app/src/historical-materialization.sample.json
+          - tauri-app/src/historical-file-adapter.sample.json
+          - data/historical/v451_v460/fixtures.adapter.sample.csv
+          - data/historical/v451_v460/odds.adapter.sample.csv
+          - data/historical/v451_v460/settlements.adapter.sample.csv
+          - data/historical/v451_v460/identity_map.adapter.sample.csv
+
           The Rust runtime CLIs are bundled beside the app and in ./bin.
 
-          PAPER_ONLY research preview. Do not use outputs as betting recommendations.
+          PAPER_ONLY research preview.
+          Outputs are not betting recommendations, not staking advice, and not proof of edge.
+          GUI beta can move fast; prediction/training engine must move slow.
+          Training remains locked until no-leak walk-forward, calibration, CLV, no-vig, reproducibility, and performance gates pass.
           EOF
 
       - name: Prepare release manifest
@@ -187,7 +242,19 @@ jobs:
           - Windows: `OmniBet-Lab.exe`
           - Linux: `./omnibet-lab`
 
+          Included GUI beta panels:
+          - Historical Materialization
+          - Historical File Adapter
+          - Generated Green
+          - Dataset Materialization
+          - Storage Writers
+          - Walk-Forward Evaluator
+          - Baseline Reports
+          - Calibration / CLV
+
           This release is a research preview. Outputs are not betting recommendations, not staking advice, and not proof of edge.
+          GUI beta can move fast; prediction/training engine must move slow.
+          Training remains locked until no-leak walk-forward, calibration, CLV, no-vig, reproducibility, and performance gates pass.
           EOF
 
       - name: Create or update GitHub release
