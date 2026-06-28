@@ -1,0 +1,100 @@
+{
+  "schema": "omnibet.historical_materialization_command_contract.v421_v430",
+  "milestone": "v421_v430_historical_materialization_command_bridge_and_generated_artifacts",
+  "paper_only": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "real_money_recommendations_allowed": false,
+  "validated_paper_allowed": false,
+  "training_allowed": false,
+  "depends_on": [
+    "omnibet.historical_materialization_contract.v411_v420",
+    "omnibet.historical_materialization_report.v411_v420"
+  ],
+  "versions": {
+    "v421": "historical_materialization_cli_contract",
+    "v422": "allowlisted_materialization_command",
+    "v423": "generated_bronze_artifacts",
+    "v424": "generated_silver_artifacts",
+    "v425": "generated_gold_artifacts",
+    "v426": "generated_materialization_manifest",
+    "v427": "desktop_reload_contract_placeholder",
+    "v428": "failure_safe_materialization_report",
+    "v429": "ci_command_bridge_smoke",
+    "v430": "command_bridge_docs"
+  },
+  "cli": {
+    "binary_name": "omnibet-historical-materialization-runner",
+    "accepted_args": [
+      "--root",
+      "--report-out",
+      "--manifest-out",
+      "--artifact-dir",
+      "--run-id"
+    ],
+    "default_report_out": "reports/generated_historical_materialization_v421_v430_report.json",
+    "default_manifest_out": "reports/materialized/v421_v430/materialization_manifest.json",
+    "default_artifact_dir": "reports/materialized/v421_v430",
+    "shell_passthrough_allowed": false,
+    "freeform_command_allowed": false
+  },
+  "generated_artifacts": {
+    "bronze_fixtures": "bronze_fixtures.generated.json",
+    "bronze_odds": "bronze_odds.generated.json",
+    "bronze_settlements": "bronze_settlements.generated.json",
+    "silver_fixtures": "silver_fixtures.generated.json",
+    "silver_odds": "silver_odds.generated.json",
+    "gold_candidates": "gold_evaluation_candidates.generated.json",
+    "command_result": "command_result.json"
+  },
+  "report_required_fields": [
+    "schema",
+    "paper_only",
+    "status",
+    "run_id",
+    "artifact_dir",
+    "materialization_report",
+    "materialization_manifest",
+    "ready_for_walk_forward",
+    "ready_for_training",
+    "trust_status",
+    "credential_values_present",
+    "recommendation_output_present"
+  ],
+  "failure_report_required_fields": [
+    "schema",
+    "paper_only",
+    "status",
+    "run_id",
+    "error",
+    "ready_for_walk_forward",
+    "ready_for_training",
+    "trust_status",
+    "credential_values_present",
+    "recommendation_output_present"
+  ],
+  "desktop_placeholder": {
+    "future_page_id": "historical-materialization",
+    "future_button_id": "run-historical-materialization",
+    "future_panels": [
+      "historical-materialization-command",
+      "historical-materialization-summary",
+      "historical-materialization-artifacts",
+      "historical-materialization-trust"
+    ]
+  },
+  "acceptance": {
+    "historical_materialization_cli_contract_added": true,
+    "allowlisted_materialization_command_added": true,
+    "generated_bronze_artifacts_added": true,
+    "generated_silver_artifacts_added": true,
+    "generated_gold_artifacts_added": true,
+    "generated_materialization_manifest_added": true,
+    "desktop_reload_contract_placeholder_added": true,
+    "failure_safe_materialization_report_added": true,
+    "ci_command_bridge_smoke_added": true,
+    "command_bridge_docs_added": true,
+    "training_remains_blocked_until_walk_forward_evaluation": true
+  }
+}
