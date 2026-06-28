@@ -54,7 +54,7 @@ def build_report(root: Path) -> Dict[str, Any]:
         "tauri_metadata_ok": tauri_conf.get("productName") == package_expectations.get("product_name") and tauri_conf.get("identifier") == package_expectations.get("identifier"),
         "version_alignment_ok": tauri_conf.get("version") == package_json.get("version"),
         "bundle_targets_ok": tauri_conf.get("bundle", {}).get("active") is True and tauri_conf.get("bundle", {}).get("targets") == package_expectations.get("bundle_targets"),
-        "portable_package_has_run_readme": "README_RUN.txt" in release_workflow and "Run OmniBet-Lab.exe" in release_workflow and "./omnibet-lab" in release_workflow,
+        "portable_package_has_run_readme": "README_RUN.txt" in release_workflow and "OmniBet-Lab.exe" in release_workflow and "run-omnibet-lab-linux.sh" in release_workflow,
         "build_manifest_has_hashes": "sha256" in build_manifest and "artifact_count" in build_manifest and "desktop_download_manifest" in build_manifest,
         "docs_updated": "v471-v480 Desktop Beta Release Readiness" in docs and "Windows" in docs and "Linux" in docs and "ready_for_training = false" in docs,
         "workflow_updated": "desktop_beta_release_readiness_smoke.py" in workflow and "compile_python_sources.py" in workflow and "upload-artifact" in workflow,
