@@ -1,0 +1,92 @@
+{
+  "schema": "omnibet.materialized_storage_hashes_contract.v441_v450",
+  "milestone": "v441_v450_materialized_storage_hashes_and_compression_backed_artifacts",
+  "paper_only": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "real_money_recommendations_allowed": false,
+  "validated_paper_allowed": false,
+  "training_allowed": false,
+  "depends_on": [
+    "omnibet.historical_materialization_command_contract.v421_v430",
+    "omnibet.historical_materialization_command_report.v421_v430",
+    "omnibet.historical_materialization_desktop_contract.v431_v440"
+  ],
+  "versions": {
+    "v441": "materialized_artifact_hash_manifest_contract",
+    "v442": "sha256_for_generated_bronze_artifacts",
+    "v443": "sha256_for_generated_silver_artifacts",
+    "v444": "sha256_for_generated_gold_artifacts",
+    "v445": "zstd_compressed_artifact_copy_writer",
+    "v446": "compressed_size_ratio_report",
+    "v447": "storage_manifest_verification_report",
+    "v448": "desktop_storage_manifest_contract_placeholder",
+    "v449": "ci_storage_hash_smoke",
+    "v450": "storage_hash_docs"
+  },
+  "input_artifacts": [
+    "reports/materialized/v421_v430/bronze_fixtures.generated.json",
+    "reports/materialized/v421_v430/bronze_odds.generated.json",
+    "reports/materialized/v421_v430/bronze_settlements.generated.json",
+    "reports/materialized/v421_v430/silver_fixtures.generated.json",
+    "reports/materialized/v421_v430/silver_odds.generated.json",
+    "reports/materialized/v421_v430/gold_evaluation_candidates.generated.json",
+    "reports/materialized/v421_v430/materialization_manifest.json",
+    "reports/materialized/v421_v430/command_result.json"
+  ],
+  "outputs": {
+    "storage_manifest": "reports/materialized/v441_v450/materialized_storage_manifest.json",
+    "verification_report": "reports/materialized/v441_v450/materialized_storage_verification_report.json",
+    "compressed_artifact_dir": "reports/materialized/v441_v450/compressed"
+  },
+  "artifact_record_required_fields": [
+    "artifact_id",
+    "source_path",
+    "compressed_path",
+    "codec",
+    "source_bytes",
+    "compressed_bytes",
+    "sha256",
+    "compressed_sha256",
+    "compression_ratio",
+    "status"
+  ],
+  "manifest_required_fields": [
+    "schema",
+    "paper_only",
+    "status",
+    "run_id",
+    "artifact_count",
+    "artifacts",
+    "all_hashes_present",
+    "all_compressed_copies_present",
+    "ready_for_training",
+    "trust_status",
+    "credential_values_present",
+    "recommendation_output_present"
+  ],
+  "compression": {
+    "primary_codec": "zstd",
+    "compressed_extension": ".zst",
+    "level": 3,
+    "parquet_status": "future_table_schema_phase"
+  },
+  "desktop_placeholder": {
+    "future_panel_id": "historical-materialization-storage",
+    "future_button_id": "load-materialized-storage-manifest"
+  },
+  "acceptance": {
+    "materialized_artifact_hash_manifest_contract_added": true,
+    "sha256_for_generated_bronze_artifacts_added": true,
+    "sha256_for_generated_silver_artifacts_added": true,
+    "sha256_for_generated_gold_artifacts_added": true,
+    "zstd_compressed_artifact_copy_writer_added": true,
+    "compressed_size_ratio_report_added": true,
+    "storage_manifest_verification_report_added": true,
+    "desktop_storage_manifest_contract_placeholder_added": true,
+    "ci_storage_hash_smoke_added": true,
+    "storage_hash_docs_added": true,
+    "training_remains_blocked_until_walk_forward_evaluation": true
+  }
+}
