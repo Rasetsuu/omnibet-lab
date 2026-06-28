@@ -1,0 +1,47 @@
+{
+  "schema": "omnibet.fixture_history_rows.v401_v410",
+  "rows": [
+    {
+      "fixture_id": "fixture:sample:2024-08-16:man_utd_fulham",
+      "source_id": "sample_historical_csv",
+      "competition": "ENG Premier League",
+      "season": "2024-2025",
+      "kickoff_utc": "2024-08-16T19:00:00Z",
+      "home_team_raw": "Manchester United",
+      "away_team_raw": "Fulham",
+      "home_team_canonical_id": "team:eng:manchester_united",
+      "away_team_canonical_id": "team:eng:fulham",
+      "final_home_score": 1,
+      "final_away_score": 0,
+      "result_status": "final"
+    },
+    {
+      "fixture_id": "fixture:sample:2024-08-17:arsenal_wolves",
+      "source_id": "sample_historical_csv",
+      "competition": "ENG Premier League",
+      "season": "2024-2025",
+      "kickoff_utc": "2024-08-17T14:00:00Z",
+      "home_team_raw": "Arsenal",
+      "away_team_raw": "Wolverhampton Wanderers",
+      "home_team_canonical_id": "team:eng:arsenal",
+      "away_team_canonical_id": "team:eng:wolves",
+      "final_home_score": 2,
+      "final_away_score": 0,
+      "result_status": "final"
+    },
+    {
+      "fixture_id": "fixture:sample:2024-08-18:chelsea_man_city",
+      "source_id": "sample_historical_csv",
+      "competition": "ENG Premier League",
+      "season": "2024-2025",
+      "kickoff_utc": "2024-08-18T15:30:00Z",
+      "home_team_raw": "Chelsea",
+      "away_team_raw": "Manchester City",
+      "home_team_canonical_id": "team:eng:chelsea",
+      "away_team_canonical_id": "team:eng:manchester_city",
+      "final_home_score": 0,
+      "final_away_score": 2,
+      "result_status": "final"
+    }
+  ]
+}

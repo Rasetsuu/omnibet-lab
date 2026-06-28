@@ -1,0 +1,126 @@
+{
+  "schema": "omnibet.historical_source_import_contract.v401_v410",
+  "milestone": "v401_v410_real_historical_source_import_v1",
+  "paper_only": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "real_money_recommendations_allowed": false,
+  "validated_paper_allowed": false,
+  "training_allowed": false,
+  "versions": {
+    "v401": "historical_import_source_contract",
+    "v402": "local_file_manifest_schema",
+    "v403": "fixture_history_row_schema",
+    "v404": "odds_history_row_schema",
+    "v405": "settlement_result_history_row_schema",
+    "v406": "provider_team_identity_mapping_preview",
+    "v407": "import_validation_report",
+    "v408": "rust_historical_import_validator",
+    "v409": "ci_historical_import_smoke",
+    "v410": "historical_import_docs"
+  },
+  "accepted_local_file_types": ["json", "jsonl", "csv"],
+  "import_sources": {
+    "manifest": "data/historical/v401_v410/historical_import.sample.json",
+    "fixture_rows": "data/historical/v401_v410/fixtures.sample.json",
+    "odds_rows": "data/historical/v401_v410/odds.sample.json",
+    "settlement_rows": "data/historical/v401_v410/settlements.sample.json",
+    "identity_rows": "data/historical/v401_v410/identity_map.sample.json"
+  },
+  "fixture_required_fields": [
+    "fixture_id",
+    "source_id",
+    "competition",
+    "season",
+    "kickoff_utc",
+    "home_team_raw",
+    "away_team_raw",
+    "home_team_canonical_id",
+    "away_team_canonical_id",
+    "final_home_score",
+    "final_away_score",
+    "result_status"
+  ],
+  "odds_required_fields": [
+    "fixture_id",
+    "source_id",
+    "market_family",
+    "market_id",
+    "selection_id",
+    "selection_raw",
+    "bookmaker",
+    "captured_at_utc",
+    "decimal_odds",
+    "is_closing_snapshot"
+  ],
+  "settlement_required_fields": [
+    "fixture_id",
+    "market_family",
+    "selection_id",
+    "settled_at_utc",
+    "settlement_result",
+    "label_available_after_utc"
+  ],
+  "identity_required_fields": [
+    "entity_type",
+    "source_id",
+    "raw_name",
+    "canonical_id",
+    "canonical_name",
+    "confidence",
+    "review_status"
+  ],
+  "validation_rules": {
+    "fixture_ids_unique": true,
+    "odds_fixture_id_must_exist": true,
+    "settlement_fixture_id_must_exist": true,
+    "decimal_odds_must_be_gt_one": true,
+    "captured_before_kickoff_for_prematch": true,
+    "labels_available_after_kickoff": true,
+    "source_manifest_hashes_required": true,
+    "identity_low_confidence_requires_review": true,
+    "training_blocked_in_v401_v410": true
+  },
+  "report_required_fields": [
+    "schema",
+    "paper_only",
+    "status",
+    "source_manifest_verified",
+    "fixture_rows",
+    "odds_rows",
+    "settlement_rows",
+    "identity_rows",
+    "validation_errors",
+    "ready_for_materialization",
+    "ready_for_training",
+    "trust_status",
+    "credential_values_present",
+    "recommendation_output_present"
+  ],
+  "desktop": {
+    "future_page_id": "historical-import",
+    "future_panel_ids": [
+      "historical-import-summary",
+      "historical-import-sources",
+      "historical-import-fixtures",
+      "historical-import-odds",
+      "historical-import-settlements",
+      "historical-import-identity",
+      "historical-import-next"
+    ]
+  },
+  "acceptance": {
+    "historical_import_source_contract_defined": true,
+    "local_file_manifest_schema_added": true,
+    "fixture_history_row_schema_added": true,
+    "odds_history_row_schema_added": true,
+    "settlement_history_row_schema_added": true,
+    "provider_team_identity_mapping_preview_added": true,
+    "import_validation_report_added": true,
+    "rust_historical_import_validator_added": true,
+    "ci_historical_import_smoke_added": true,
+    "historical_import_docs_added": true,
+    "training_remains_blocked_until_evaluation": true
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "schema": "omnibet.historical_import_manifest.v401_v410",
+  "manifest_id": "historical-import:v401-v410:sample-pack",
+  "created_at": "2026-06-27T00:00:00Z",
+  "paper_only": true,
+  "local_first": true,
+  "source_type": "local_sample_pack",
+  "live_provider_calls_allowed": false,
+  "credential_values_present": false,
+  "recommendation_output_present": false,
+  "training_allowed": false,
+  "files": [
+    {
+      "file_id": "fixtures_sample",
+      "path": "data/historical/v401_v410/fixtures.sample.json",
+      "row_type": "fixture_history",
+      "format": "json",
+      "expected_rows": 3,
+      "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "file_id": "odds_sample",
+      "path": "data/historical/v401_v410/odds.sample.json",
+      "row_type": "odds_history",
+      "format": "json",
+      "expected_rows": 9,
+      "content_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    {
+      "file_id": "settlements_sample",
+      "path": "data/historical/v401_v410/settlements.sample.json",
+      "row_type": "settlement_history",
+      "format": "json",
+      "expected_rows": 9,
+      "content_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    {
+      "file_id": "identity_sample",
+      "path": "data/historical/v401_v410/identity_map.sample.json",
+      "row_type": "identity_mapping",
+      "format": "json",
+      "expected_rows": 6,
+      "content_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    }
+  ],
+  "safety": {
+    "no_random_split": true,
+    "labels_after_events_only": true,
+    "prematch_odds_captured_before_kickoff": true,
+    "manual_review_required_for_low_confidence_identity": true,
+    "ready_for_training": false
+  }
+}

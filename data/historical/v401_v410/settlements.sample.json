@@ -1,0 +1,14 @@
+{
+  "schema": "omnibet.settlement_history_rows.v401_v410",
+  "rows": [
+    {"fixture_id": "fixture:sample:2024-08-16:man_utd_fulham", "market_family": "1x2", "selection_id": "home", "settled_at_utc": "2024-08-16T21:00:00Z", "settlement_result": "win", "label_available_after_utc": "2024-08-16T21:00:00Z"},
+    {"fixture_id": "fixture:sample:2024-08-16:man_utd_fulham", "market_family": "1x2", "selection_id": "draw", "settled_at_utc": "2024-08-16T21:00:00Z", "settlement_result": "loss", "label_available_after_utc": "2024-08-16T21:00:00Z"},
+    {"fixture_id": "fixture:sample:2024-08-16:man_utd_fulham", "market_family": "1x2", "selection_id": "away", "settled_at_utc": "2024-08-16T21:00:00Z", "settlement_result": "loss", "label_available_after_utc": "2024-08-16T21:00:00Z"},
+    {"fixture_id": "fixture:sample:2024-08-17:arsenal_wolves", "market_family": "1x2", "selection_id": "home", "settled_at_utc": "2024-08-17T16:00:00Z", "settlement_result": "win", "label_available_after_utc": "2024-08-17T16:00:00Z"},
+    {"fixture_id": "fixture:sample:2024-08-17:arsenal_wolves", "market_family": "1x2", "selection_id": "draw", "settled_at_utc": "2024-08-17T16:00:00Z", "settlement_result": "loss", "label_available_after_utc": "2024-08-17T16:00:00Z"},
+    {"fixture_id": "fixture:sample:2024-08-17:arsenal_wolves", "market_family": "1x2", "selection_id": "away", "settled_at_utc": "2024-08-17T16:00:00Z", "settlement_result": "loss", "label_available_after_utc": "2024-08-17T16:00:00Z"},
+    {"fixture_id": "fixture:sample:2024-08-18:chelsea_man_city", "market_family": "1x2", "selection_id": "home", "settled_at_utc": "2024-08-18T17:30:00Z", "settlement_result": "loss", "label_available_after_utc": "2024-08-18T17:30:00Z"},
+    {"fixture_id": "fixture:sample:2024-08-18:chelsea_man_city", "market_family": "1x2", "selection_id": "draw", "settled_at_utc": "2024-08-18T17:30:00Z", "settlement_result": "loss", "label_available_after_utc": "2024-08-18T17:30:00Z"},
+    {"fixture_id": "fixture:sample:2024-08-18:chelsea_man_city", "market_family": "1x2", "selection_id": "away", "settled_at_utc": "2024-08-18T17:30:00Z", "settlement_result": "win", "label_available_after_utc": "2024-08-18T17:30:00Z"}
+  ]
+}
