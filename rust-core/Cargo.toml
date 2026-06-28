@@ -39,6 +39,10 @@ path = "src/bin/omnibet-local-import-runner.rs"
 name = "omnibet-historical-materialization-runner"
 path = "src/bin/omnibet-historical-materialization-runner.rs"
 
+[[bin]]
+name = "omnibet-materialized-storage-hasher"
+path = "src/bin/omnibet-materialized-storage-hasher.rs"
+
 [dependencies]
 flate2 = "1"
 serde = { version = "1", features = ["derive"] }

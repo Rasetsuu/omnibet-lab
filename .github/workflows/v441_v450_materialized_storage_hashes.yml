@@ -1,0 +1,62 @@
+name: OmniBet v441-v450 Materialized Storage Hashes
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  materialized-storage-hashes:
+    name: v441-v450 materialized storage hashes
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Rust materialized storage hash tests
+        run: cargo test --manifest-path rust-core/Cargo.toml materialized_storage_hashes
+      - name: Generate v421-v430 historical materialization artifacts
+        run: |
+          cargo run --manifest-path rust-core/Cargo.toml --bin omnibet-historical-materialization-runner -- \
+            --root . \
+            --report-out reports/generated_historical_materialization_v421_v430_report.json \
+            --manifest-out reports/materialized/v421_v430/materialization_manifest.json \
+            --artifact-dir reports/materialized/v421_v430 \
+            --run-id ci_v421_v430_for_v441
+      - name: Run v441-v450 materialized storage hasher
+        run: |
+          cargo run --manifest-path rust-core/Cargo.toml --bin omnibet-materialized-storage-hasher -- \
+            --root . \
+            --artifact-dir reports/materialized/v421_v430 \
+            --out-dir reports/materialized/v441_v450/compressed \
+            --manifest-out reports/materialized/v441_v450/materialized_storage_manifest.json \
+            --verification-out reports/materialized/v441_v450/materialized_storage_verification_report.json \
+            --run-id ci_v441_v450
+      - name: Run v441-v450 materialized storage smoke
+        run: |
+          python python_lab/materialized_storage_hashes_smoke.py \
+            --root . \
+            --manifest reports/materialized/v441_v450/materialized_storage_manifest.json \
+            --verification reports/materialized/v441_v450/materialized_storage_verification_report.json \
+            --out reports/ci_v441_v450_materialized_storage_hashes.json
+      - name: Upload v441-v450 materialized storage artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v441-v450-materialized-storage-hashes-artifacts
+          path: |
+            reports/generated_historical_materialization_v421_v430_report.json
+            reports/materialized/v421_v430/*.json
+            reports/materialized/v441_v450/materialized_storage_manifest.json
+            reports/materialized/v441_v450/materialized_storage_verification_report.json
+            reports/materialized/v441_v450/compressed/*.zst
+            reports/ci_v441_v450_materialized_storage_hashes.json
+          if-no-files-found: warn
