@@ -1,0 +1,58 @@
+name: OmniBet v421-v430 Historical Materialization Command
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  historical-materialization-command:
+    name: v421-v430 historical materialization command
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Python compile
+        run: python python_lab/compile_python_sources.py
+      - name: Rust historical materialization command tests
+        run: cargo test --manifest-path rust-core/Cargo.toml historical_materialization
+      - name: Run v421-v430 materialization command
+        run: |
+          cargo run --manifest-path rust-core/Cargo.toml --bin omnibet-historical-materialization-runner -- \
+            --root . \
+            --report-out reports/generated_historical_materialization_v421_v430_report.json \
+            --manifest-out reports/materialized/v421_v430/materialization_manifest.json \
+            --artifact-dir reports/materialized/v421_v430 \
+            --run-id ci_v421_v430
+      - name: Run v421-v430 materialization command smoke
+        run: |
+          python python_lab/historical_materialization_command_smoke.py \
+            --root . \
+            --generated-report reports/generated_historical_materialization_v421_v430_report.json \
+            --manifest reports/materialized/v421_v430/materialization_manifest.json \
+            --artifact-dir reports/materialized/v421_v430 \
+            --out reports/ci_v421_v430_historical_materialization_command.json
+      - name: Upload v421-v430 materialization command artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v421-v430-historical-materialization-command-artifacts
+          path: |
+            reports/generated_historical_materialization_v421_v430_report.json
+            reports/ci_v421_v430_historical_materialization_command.json
+            reports/materialized/v421_v430/materialization_manifest.json
+            reports/materialized/v421_v430/bronze_fixtures.generated.json
+            reports/materialized/v421_v430/bronze_odds.generated.json
+            reports/materialized/v421_v430/bronze_settlements.generated.json
+            reports/materialized/v421_v430/silver_fixtures.generated.json
+            reports/materialized/v421_v430/silver_odds.generated.json
+            reports/materialized/v421_v430/gold_evaluation_candidates.generated.json
+            reports/materialized/v421_v430/command_result.json
+          if-no-files-found: warn
