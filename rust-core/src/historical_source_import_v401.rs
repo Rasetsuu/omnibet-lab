@@ -146,23 +146,23 @@ pub fn validate_historical_import_pack(
 ) -> HistoricalImportValidationReportV401 {
     let mut errors = Vec::new();
     let mut warnings = Vec::new();
-    let mut fixture_ids = HashSet::new();
-    let mut kickoff_by_fixture: HashMap<&str, &str> = HashMap::new();
+    let mut fixture_ids: HashSet<String> = HashSet::new();
+    let mut kickoff_by_fixture: HashMap<String, String> = HashMap::new();
 
     for fixture in fixtures {
-        if !fixture_ids.insert(fixture.fixture_id.as_str()) {
+        if !fixture_ids.insert(fixture.fixture_id.clone()) {
             errors.push(format!("duplicate_fixture_id:{}", fixture.fixture_id));
         }
         if fixture.result_status != "final" {
             warnings.push(format!("non_final_fixture:{}", fixture.fixture_id));
         }
-        kickoff_by_fixture.insert(fixture.fixture_id.as_str(), fixture.kickoff_utc.as_str());
+        kickoff_by_fixture.insert(fixture.fixture_id.clone(), fixture.kickoff_utc.clone());
     }
 
     for row in odds {
-        match kickoff_by_fixture.get(row.fixture_id.as_str()) {
+        match kickoff_by_fixture.get(&row.fixture_id) {
             Some(kickoff) => {
-                if row.is_closing_snapshot && !is_before_or_equal(&row.captured_at_utc, kickoff) {
+                if row.is_closing_snapshot && !is_before_or_equal(row.captured_at_utc.as_str(), kickoff.as_str()) {
                     errors.push(format!("odds_after_kickoff:{}:{}", row.fixture_id, row.selection_id));
                 }
             }
@@ -174,9 +174,9 @@ pub fn validate_historical_import_pack(
     }
 
     for row in settlements {
-        match kickoff_by_fixture.get(row.fixture_id.as_str()) {
+        match kickoff_by_fixture.get(&row.fixture_id) {
             Some(kickoff) => {
-                if !is_after_or_equal(&row.label_available_after_utc, kickoff) {
+                if !is_after_or_equal(row.label_available_after_utc.as_str(), kickoff.as_str()) {
                     errors.push(format!("label_before_kickoff:{}:{}", row.fixture_id, row.selection_id));
                 }
             }
@@ -272,6 +272,7 @@ mod tests {
 
     #[test]
     fn validates_safe_historical_import_pack() {
+        let fixtures = vec![fixture()];
         let odds = vec![HistoricalOddsRowV401 {
             fixture_id: "fixture:test".to_string(),
             source_id: "source".to_string(),
@@ -301,7 +302,7 @@ mod tests {
             confidence: 1.0,
             review_status: "accepted".to_string(),
         }];
-        let report = validate_historical_import_pack(&[fixture()], &odds, &settlements, &identities, true);
+        let report = validate_historical_import_pack(&fixtures, &odds, &settlements, &identities, true);
         assert_eq!(report.status, "validated_for_materialization");
         assert!(report.ready_for_materialization);
         assert!(!report.ready_for_training);
@@ -311,6 +312,7 @@ mod tests {
 
     #[test]
     fn blocks_odds_after_kickoff() {
+        let fixtures = vec![fixture()];
         let odds = vec![HistoricalOddsRowV401 {
             fixture_id: "fixture:test".to_string(),
             source_id: "source".to_string(),
@@ -323,7 +325,7 @@ mod tests {
             decimal_odds: 1.8,
             is_closing_snapshot: true,
         }];
-        let report = validate_historical_import_pack(&[fixture()], &odds, &[], &[], true);
+        let report = validate_historical_import_pack(&fixtures, &odds, &[], &[], true);
         assert_eq!(report.status, "blocked_import_validation");
         assert!(report.validation_errors.iter().any(|e| e.contains("odds_after_kickoff")));
     }
