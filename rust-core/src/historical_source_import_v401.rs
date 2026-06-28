@@ -108,12 +108,12 @@ fn read_rows<T: for<'de> Deserialize<'de>>(path: &Path) -> Result<Vec<T>, String
     serde_json::from_value::<Vec<T>>(rows).map_err(|e| format!("decode {} rows: {e}", path.display()))
 }
 
-pub fn parse_historical_import_contract(root: &Path) -> Result<Value, String> {
+pub fn parse_historical_source_import_contract_v401(root: &Path) -> Result<Value, String> {
     read_json(&root.join("configs/historical_source_import.v401_v410.json"))
 }
 
-pub fn validate_historical_import_contract(root: &Path) -> Result<(), String> {
-    let contract = parse_historical_import_contract(root)?;
+pub fn validate_historical_source_import_contract_v401(root: &Path) -> Result<(), String> {
+    let contract = parse_historical_source_import_contract_v401(root)?;
     if contract.get("schema").and_then(Value::as_str) != Some("omnibet.historical_source_import_contract.v401_v410") {
         return Err("unexpected historical import contract schema".to_string());
     }
@@ -221,7 +221,7 @@ pub fn validate_historical_import_pack(
 }
 
 pub fn load_and_validate_historical_import(root: &Path) -> Result<HistoricalImportValidationReportV401, String> {
-    validate_historical_import_contract(root)?;
+    validate_historical_source_import_contract_v401(root)?;
     let paths = default_historical_import_paths(root);
     let manifest = read_json(&paths.manifest)?;
     let source_manifest_verified = manifest
