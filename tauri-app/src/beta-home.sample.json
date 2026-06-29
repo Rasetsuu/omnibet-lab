@@ -1,0 +1,56 @@
+{
+  "schema": "omnibet.beta_home_sample.v491_v500",
+  "paper_only": true,
+  "title": "OmniBet Lab Desktop Beta",
+  "subtitle": "Local-first football research GUI. Start with demo data, import historical files, or inspect materialization status.",
+  "status": "beta_open_and_walk_preview",
+  "primary_actions": [
+    {
+      "id": "open-beta-demo-flow",
+      "title": "Start with demo",
+      "description": "Load the safe bundled sample reports and inspect the GUI without connecting to live providers.",
+      "target_page": "generated-green",
+      "button_id": "load-generated-green-status-page"
+    },
+    {
+      "id": "open-historical-file-adapter-flow",
+      "title": "Import historical files",
+      "description": "Preview local CSV fixtures, odds, settlements, and identity maps before materialization.",
+      "target_page": "historical-file-adapter",
+      "button_id": "load-historical-file-adapter-status-page"
+    },
+    {
+      "id": "open-historical-materialization-flow",
+      "title": "View materialization",
+      "description": "Inspect Bronze/Silver/Gold preview layers and generated artifact status.",
+      "target_page": "historical-materialization",
+      "button_id": "load-historical-materialization-status-page"
+    },
+    {
+      "id": "open-world-cup-paper-lab-flow",
+      "title": "World Cup paper lab",
+      "description": "Upcoming/current tournament flow placeholder. Predictions remain paper-only until training gates pass.",
+      "target_page": "upcoming",
+      "button_id": "load-upcoming-fixtures"
+    }
+  ],
+  "world_cup_paper_lab": {
+    "status": "placeholder_not_live_connected",
+    "safe_use": "Use only completed historical matches for training; use upcoming matches only for pre-kickoff paper evaluation.",
+    "next_step": "Add local World Cup fixture CSV/JSON import before any live provider flow."
+  },
+  "trust": {
+    "ready_for_training": false,
+    "trust_status": "sample_only",
+    "credential_values_present": false,
+    "recommendation_output_present": false,
+    "live_provider_calls_allowed": false,
+    "message": "GUI beta can move fast; prediction/training engine must move slow."
+  },
+  "next": [
+    "Make the first screen obvious and calm.",
+    "Keep advanced debug panels available but secondary.",
+    "Add local World Cup paper fixtures next.",
+    "Only train after no-leak historical evaluation gates pass."
+  ]
+}

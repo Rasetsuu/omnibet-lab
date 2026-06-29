@@ -133,22 +133,26 @@ jobs:
           cp data/historical/v451_v460/identity_map.adapter.sample.csv "$package_dir/data/historical/v451_v460/identity_map.adapter.sample.csv"
           cp data/historical/v451_v460/adapter_catalog.sample.json "$package_dir/data/historical/v451_v460/adapter_catalog.sample.json"
 
+          cp tauri-app/src/beta-home.sample.json "$package_dir/beta-home.sample.json"
           cp tauri-app/src/dashboard-data.sample.json "$package_dir/dashboard-data.sample.json"
           cp tauri-app/src/review-data.sample.json "$package_dir/review-data.sample.json"
           cp tauri-app/src/settings-data.sample.json "$package_dir/settings-data.sample.json"
           cp tauri-app/src/historical-materialization.sample.json "$package_dir/historical-materialization.sample.json"
           cp tauri-app/src/historical-file-adapter.sample.json "$package_dir/historical-file-adapter.sample.json"
+          cp tauri-app/src/beta-home.sample.json "$package_dir/tauri-app/src/beta-home.sample.json"
           cp tauri-app/src/dashboard-data.sample.json "$package_dir/tauri-app/src/dashboard-data.sample.json"
           cp tauri-app/src/review-data.sample.json "$package_dir/tauri-app/src/review-data.sample.json"
           cp tauri-app/src/settings-data.sample.json "$package_dir/tauri-app/src/settings-data.sample.json"
           cp tauri-app/src/historical-materialization.sample.json "$package_dir/tauri-app/src/historical-materialization.sample.json"
           cp tauri-app/src/historical-file-adapter.sample.json "$package_dir/tauri-app/src/historical-file-adapter.sample.json"
 
+          cp configs/beta_open_walk_gui.v491_v500.json "$package_dir/configs/beta_open_walk_gui.v491_v500.json"
           cp configs/historical_file_adapter.v451_v460.json "$package_dir/configs/historical_file_adapter.v451_v460.json"
           cp configs/historical_file_adapter_desktop.v461_v470.json "$package_dir/configs/historical_file_adapter_desktop.v461_v470.json"
           cp configs/historical_materialization_command.v421_v430.json "$package_dir/configs/historical_materialization_command.v421_v430.json"
           cp configs/desktop_beta_release_readiness.v471_v480.json "$package_dir/configs/desktop_beta_release_readiness.v471_v480.json"
           cp docs/beta_vs_model_quality_policy.md "$package_dir/docs/beta_vs_model_quality_policy.md"
+          cp docs/beta_open_walk_gui_v491_v500.md "$package_dir/docs/beta_open_walk_gui_v491_v500.md"
           cp docs/desktop_beta_release_readiness_v471_v480.md "$package_dir/docs/desktop_beta_release_readiness_v471_v480.md"
           cp scripts/run-omnibet-lab-linux.sh "$package_dir/run-omnibet-lab-linux.sh"
           chmod +x "$package_dir/run-omnibet-lab-linux.sh" || true
@@ -161,7 +165,15 @@ jobs:
           Linux fallback: run ./run-omnibet-lab-linux.sh --software if the WebView opens blank on KDE/Wayland/NVIDIA.
           Direct Linux binary: ./omnibet-lab
 
+          First screen:
+          - Start Here
+          - Start with demo
+          - Import historical files
+          - View materialization
+          - World Cup paper lab placeholder
+
           Included GUI beta panels:
+          - Start Here
           - Historical Materialization
           - Historical File Adapter
           - Generated Green
@@ -172,6 +184,7 @@ jobs:
           - Calibration / CLV
 
           Included local sample assets:
+          - tauri-app/src/beta-home.sample.json
           - tauri-app/src/historical-materialization.sample.json
           - tauri-app/src/historical-file-adapter.sample.json
           - data/historical/v451_v460/fixtures.adapter.sample.csv
@@ -251,7 +264,15 @@ jobs:
           - Linux: `./run-omnibet-lab-linux.sh`
           - Linux fallback for blank WebView on KDE/Wayland/NVIDIA: `./run-omnibet-lab-linux.sh --software`
 
+          First screen:
+          - Start Here
+          - Start with demo
+          - Import historical files
+          - View materialization
+          - World Cup paper lab placeholder
+
           Included GUI beta panels:
+          - Start Here
           - Historical Materialization
           - Historical File Adapter
           - Generated Green

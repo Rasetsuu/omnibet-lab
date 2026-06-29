@@ -1,0 +1,69 @@
+{
+  "schema": "omnibet.beta_open_walk_gui_contract.v491_v500",
+  "milestone": "v491_v500_beta_open_and_walk_gui",
+  "paper_only": true,
+  "desktop_beta_can_move_fast": true,
+  "model_training_must_move_slow": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "real_money_recommendations_allowed": false,
+  "validated_paper_allowed": false,
+  "training_allowed": false,
+  "depends_on": [
+    "omnibet.desktop_release_artifacts_contract.v481_v490",
+    "docs/beta_vs_model_quality_policy.md"
+  ],
+  "versions": {
+    "v491": "beta_home_contract",
+    "v492": "default_start_page",
+    "v493": "guided_demo_card",
+    "v494": "historical_import_card",
+    "v495": "materialization_card",
+    "v496": "world_cup_paper_lab_placeholder",
+    "v497": "training_lock_explainer",
+    "v498": "open_walk_release_notes",
+    "v499": "ci_open_walk_gui_smoke",
+    "v500": "open_walk_gui_docs"
+  },
+  "desktop": {
+    "page_id": "beta-home",
+    "nav_label": "Start Here",
+    "renderer": "tauri-app/src/beta_home.js",
+    "fallback_sample_path": "tauri-app/src/beta-home.sample.json",
+    "default_page": "beta-home",
+    "primary_actions": [
+      "open-beta-demo-flow",
+      "open-historical-file-adapter-flow",
+      "open-historical-materialization-flow",
+      "open-world-cup-paper-lab-flow"
+    ],
+    "panel_ids": [
+      "beta-home-hero",
+      "beta-home-actions",
+      "beta-home-world-cup",
+      "beta-home-trust",
+      "beta-home-next"
+    ]
+  },
+  "release_expectations": {
+    "linux_launcher_required": "run-omnibet-lab-linux.sh",
+    "windows_entrypoint": "OmniBet-Lab.exe",
+    "first_screen_should_not_be_dashboard_debug_grid": true,
+    "start_page_must_explain_training_locked": true,
+    "start_page_must_explain_paper_only": true
+  },
+  "acceptance": {
+    "beta_home_contract_added": true,
+    "default_start_page_added": true,
+    "guided_demo_card_added": true,
+    "historical_import_card_added": true,
+    "materialization_card_added": true,
+    "world_cup_paper_lab_placeholder_added": true,
+    "training_lock_explainer_added": true,
+    "open_walk_release_notes_added": true,
+    "ci_open_walk_gui_smoke_added": true,
+    "open_walk_gui_docs_added": true,
+    "training_remains_blocked_until_quality_gates": true
+  }
+}
