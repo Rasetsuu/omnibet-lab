@@ -1,0 +1,49 @@
+{
+  "schema": "omnibet.paper_market_builder_preview_contract.v521_v530",
+  "milestone": "v521_v530_paper_market_builder_preview",
+  "paper_only": true,
+  "normal_gui_focus": "market_builder_preview_cards",
+  "bet_builder_name_in_gui_allowed": false,
+  "paper_market_builder_name_required": true,
+  "recommendation_output_allowed": false,
+  "staking_output_allowed": false,
+  "training_visible_in_normal_gui": false,
+  "live_provider_calls_allowed": false,
+  "versions": {
+    "v521": "paper_market_builder_contract",
+    "v522": "explicit_paper_lean_card",
+    "v523": "goals_and_btts_preview",
+    "v524": "team_goals_preview",
+    "v525": "score_band_candidates",
+    "v526": "risk_flags_visible",
+    "v527": "raw_snapshot_hidden",
+    "v528": "normal_output_debug_hidden",
+    "v529": "roadmap_after_market_builder_doc",
+    "v530": "ci_paper_market_builder_smoke"
+  },
+  "desktop": {
+    "renderer": "tauri-app/src/simple_matches.js",
+    "required_labels": [
+      "Paper lean",
+      "Confidence",
+      "Main lines",
+      "Goals preview",
+      "GG / BTTS",
+      "Team goals",
+      "Score-band candidates",
+      "Risk flags"
+    ]
+  },
+  "acceptance": {
+    "paper_market_builder_contract_added": true,
+    "explicit_paper_lean_card_added": true,
+    "goals_and_btts_preview_added": true,
+    "team_goals_preview_added": true,
+    "score_band_candidates_added": true,
+    "risk_flags_visible": true,
+    "raw_snapshot_hidden": true,
+    "normal_output_debug_hidden": true,
+    "roadmap_after_market_builder_doc_added": true,
+    "ci_paper_market_builder_smoke_added": true
+  }
+}
