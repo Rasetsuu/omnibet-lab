@@ -1,0 +1,34 @@
+{
+  "schema": "omnibet.adapter_samples_contract.v591_v620",
+  "milestone": "v591_v620_adapter_samples",
+  "paper_only": true,
+  "local_first": true,
+  "ci_downloads_allowed": false,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "purpose": "Add small local source-shape samples and normalize them into one common preview pack.",
+  "inputs": {
+    "csv_match_sample": "data/source_samples/v591_v620/football_data_sample.csv",
+    "json_match_sample": "data/source_samples/v591_v620/openfootball_sample.json",
+    "json_event_sample": "data/source_samples/v591_v620/statsbomb_events_sample.json",
+    "csv_rating_sample": "data/source_samples/v591_v620/elo_ratings_sample.csv"
+  },
+  "outputs": {
+    "ci_report": "reports/ci_v591_v620_adapter_samples.json",
+    "normalized_pack": "reports/normalized_historical_pack_v591_v620.json"
+  },
+  "minimum_fields": {
+    "fixture": ["source_id", "fixture_id", "kickoff_utc", "home_name", "away_name"],
+    "result": ["source_id", "fixture_id", "home_score", "away_score", "result_label", "label_available_after_utc"],
+    "event": ["source_id", "fixture_id", "event_type", "team_name", "minute"],
+    "rating": ["source_id", "team_name", "rating_timestamp_utc", "rating_value"]
+  },
+  "acceptance": {
+    "contract_added": true,
+    "samples_added": true,
+    "normalizer_added": true,
+    "normalized_pack_written": true,
+    "ci_smoke_added": true,
+    "docs_added": true
+  }
+}

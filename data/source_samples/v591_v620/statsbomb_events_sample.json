@@ -1,0 +1,9 @@
+{
+  "schema": "omnibet.statsbomb_event_shaped_sample.v591_v620",
+  "events": [
+    {"fixture_id": "sample-brazil-japan-20260629", "minute": 12, "team": "Brazil", "type": {"name": "Shot"}, "player": {"name": "Brazil Player A"}},
+    {"fixture_id": "sample-brazil-japan-20260629", "minute": 27, "team": "Japan", "type": {"name": "Pass"}, "player": {"name": "Japan Player A"}},
+    {"fixture_id": "sample-germany-paraguay-20260629", "minute": 44, "team": "Germany", "type": {"name": "Foul Committed"}, "player": {"name": "Germany Player A"}},
+    {"fixture_id": "sample-netherlands-morocco-20260630", "minute": 68, "team": "Morocco", "type": {"name": "Shot"}, "player": {"name": "Morocco Player A"}}
+  ]
+}

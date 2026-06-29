@@ -1,0 +1,31 @@
+name: OmniBet v591-v620 Adapter Samples
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  adapter-samples:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python python_lab/compile_python_sources.py
+      - run: python python_lab/adapter_samples_smoke.py --root . --out reports/ci_v591_v620_adapter_samples.json
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v591-v620-adapter-samples
+          path: |
+            reports/ci_v591_v620_adapter_samples.json
+            reports/normalized_historical_pack_v591_v620.json
+            configs/adapter_samples.v591_v620.json
+            data/source_samples/v591_v620/football_data_sample.csv
+            data/source_samples/v591_v620/openfootball_sample.json
+            data/source_samples/v591_v620/statsbomb_events_sample.json
+            docs/adapter_samples_v591_v620.md
+          if-no-files-found: warn
