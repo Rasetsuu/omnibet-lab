@@ -1,0 +1,11 @@
+{
+  "schema": "omnibet.market_catalog_row_layout_hotfix.v541",
+  "purpose": "Clean glued market catalog rows into label/value/status layout.",
+  "normal_gui_only": true,
+  "changes": [
+    "market-row",
+    "market-label",
+    "market-value",
+    "market-status"
+  ]
+}
