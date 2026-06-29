@@ -1,0 +1,29 @@
+name: OmniBet v543-v552 World Cup Result Ingest
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  world-cup-result-ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python python_lab/compile_python_sources.py
+      - run: python python_lab/world_cup_result_ingest_smoke.py --root . --out reports/ci_v543_v552_world_cup_result_ingest.json
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v543-v552-world-cup-result-ingest
+          path: |
+            reports/ci_v543_v552_world_cup_result_ingest.json
+            reports/world_cup_training_candidates_v543_v552.json
+            configs/world_cup_result_ingest.v543_v552.json
+            data/world_cup/v543_v552/world_cup_results.local.json
+            docs/world_cup_result_ingest_v543_v552.md
+          if-no-files-found: warn
