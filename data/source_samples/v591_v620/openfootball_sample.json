@@ -1,0 +1,26 @@
+{
+  "schema": "omnibet.openfootball_shaped_sample.v591_v620",
+  "matches": [
+    {
+      "date": "2026-06-29",
+      "round": "Round of 32",
+      "team1": "Brazil",
+      "team2": "Japan",
+      "score": {"ft": [2, 1]}
+    },
+    {
+      "date": "2026-06-29",
+      "round": "Round of 32",
+      "team1": "Germany",
+      "team2": "Paraguay",
+      "score": {"ft": [1, 1]}
+    },
+    {
+      "date": "2026-06-30",
+      "round": "Round of 32",
+      "team1": "Netherlands",
+      "team2": "Morocco",
+      "score": {"ft": [0, 1]}
+    }
+  ]
+}
