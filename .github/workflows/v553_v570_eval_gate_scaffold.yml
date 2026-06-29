@@ -1,0 +1,29 @@
+name: OmniBet v553-v570 Eval Gate Scaffold
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  eval-gate-scaffold:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python python_lab/compile_python_sources.py
+      - run: python python_lab/eval_gate_scaffold_smoke.py --root . --out reports/ci_v553_v570_eval_gate_scaffold.json
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v553-v570-eval-gate-scaffold
+          path: |
+            reports/ci_v553_v570_eval_gate_scaffold.json
+            reports/model_status_v553_v570.json
+            reports/feature_family_manifest_v553_v570.json
+            configs/eval_gate_scaffold.v553_v570.json
+            docs/eval_gate_scaffold_v553_v570.md
+          if-no-files-found: warn
