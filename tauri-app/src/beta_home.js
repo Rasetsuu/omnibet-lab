@@ -2,6 +2,33 @@ function esc(value) {
   return String(value ?? '').replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
 }
 
+const FALLBACK_BETA_HOME = {
+  title: 'OmniBet Lab',
+  subtitle: 'Simple match screen. Pick matches and run the local research flow.',
+  primary_actions: [
+    { title: 'Incoming matches', description: 'Open the upcoming match screen.', target_page: 'upcoming', button_id: 'load-upcoming-fixtures' },
+    { title: 'Start demo', description: 'Open bundled sample output.', target_page: 'generated-green', button_id: 'load-generated-green-status-page' },
+    { title: 'Historical files', description: 'Open local file adapter.', target_page: 'historical-file-adapter', button_id: 'load-historical-file-adapter-status-page' },
+    { title: 'Materialization', description: 'Open local materialization status.', target_page: 'historical-materialization', button_id: 'load-historical-materialization-status-page' }
+  ],
+  world_cup_paper_lab: {
+    status: 'local_placeholder',
+    safe_use: 'Next phase should add local World Cup fixtures and one obvious action.',
+    next_step: 'Keep background work internal and keep this screen simple.'
+  },
+  trust: {
+    ready_for_training: false,
+    trust_status: 'sample_only',
+    message: 'Background evaluation stays internal. The visible app stays simple.'
+  },
+  next: [
+    'Replace the debug dashboard with incoming matches.',
+    'Hide internal pages behind advanced mode.',
+    'Add local World Cup fixtures next.',
+    'Use completed matches for background learning only.'
+  ]
+};
+
 function showBetaPage(id) {
   document.querySelectorAll('.page').forEach(page => {
     page.classList.toggle('active-page', page.id === id);
@@ -17,7 +44,7 @@ function ensureBetaHomePage() {
     const button = document.createElement('button');
     button.className = 'nav-button';
     button.dataset.page = 'beta-home';
-    button.textContent = 'Start Here';
+    button.textContent = 'Matches';
     nav.insertBefore(button, nav.firstChild);
   }
 
@@ -28,18 +55,15 @@ function ensureBetaHomePage() {
     section.className = 'page';
     section.dataset.pagePanel = 'beta-home';
     section.innerHTML = `
-      <div id="beta-home-hero" class="card"><div class="muted">Loading beta start page...</div></div>
+      <div id="beta-home-hero" class="card"><div class="muted">Loading...</div></div>
       <div id="beta-home-actions" class="grid"></div>
-      <div id="beta-home-world-cup" class="card"><div class="muted">World Cup paper lab status not loaded.</div></div>
-      <div id="beta-home-trust" class="card"><div class="muted">Trust status not loaded.</div></div>
-      <div id="beta-home-next" class="card"><div class="muted">Next steps not loaded.</div></div>
+      <div id="beta-home-world-cup" class="card"></div>
+      <div id="beta-home-trust" class="card"></div>
+      <div id="beta-home-next" class="card"></div>
     `;
     const firstPage = document.querySelector('.page');
-    if (firstPage) {
-      main.insertBefore(section, firstPage);
-    } else {
-      main.appendChild(section);
-    }
+    if (firstPage) main.insertBefore(section, firstPage);
+    else main.appendChild(section);
   }
 }
 
@@ -51,6 +75,17 @@ async function loadJson(path) {
   return response.json();
 }
 
+async function loadFirstAvailableBetaHome(pathHint) {
+  const candidates = [pathHint, 'beta-home.sample.json', './beta-home.sample.json', 'tauri-app/src/beta-home.sample.json'].filter(Boolean);
+  for (const path of candidates) {
+    try {
+      return await loadJson(path);
+    } catch (_err) {
+    }
+  }
+  return FALLBACK_BETA_HOME;
+}
+
 function actionButton(action) {
   return `<button class="beta-home-action" data-target-page="${esc(action.target_page)}" data-run-button="${esc(action.button_id)}">${esc(action.title)}</button>`;
 }
@@ -59,10 +94,8 @@ function renderHero(payload) {
   const panel = document.getElementById('beta-home-hero');
   if (!panel) return;
   panel.innerHTML = `
-    <h2>${esc(payload.title || 'OmniBet Lab Desktop Beta')}</h2>
-    <p class="warn">PAPER_ONLY beta. Local files and sample reports first. No real-money recommendations.</p>
+    <h2>${esc(payload.title || 'OmniBet Lab')}</h2>
     <p>${esc(payload.subtitle || '')}</p>
-    <p class="muted">Use this page as the simple path. Advanced/debug panels remain in the sidebar.</p>
   `;
 }
 
@@ -93,7 +126,7 @@ function renderWorldCup(payload) {
   if (!panel) return;
   const wc = payload.world_cup_paper_lab || {};
   panel.innerHTML = `
-    <h3>World Cup paper lab</h3>
+    <h3>World Cup lab</h3>
     <p>Status: ${esc(wc.status || 'placeholder')}</p>
     <p>${esc(wc.safe_use || '')}</p>
     <p class="muted">${esc(wc.next_step || '')}</p>
@@ -105,16 +138,9 @@ function renderTrust(payload) {
   if (!panel) return;
   const trust = payload.trust || {};
   panel.innerHTML = `
-    <h3>Trust and training lock</h3>
-    <table>
-      <tr><th>Field</th><th>Value</th></tr>
-      <tr><td>Ready for training</td><td>${esc(trust.ready_for_training)}</td></tr>
-      <tr><td>Trust status</td><td>${esc(trust.trust_status)}</td></tr>
-      <tr><td>Live provider calls</td><td>${esc(trust.live_provider_calls_allowed)}</td></tr>
-      <tr><td>Recommendations</td><td>${esc(trust.recommendation_output_present)}</td></tr>
-      <tr><td>Credentials present</td><td>${esc(trust.credential_values_present)}</td></tr>
-    </table>
-    <p class="warn">${esc(trust.message || 'GUI beta can move fast; prediction/training engine must move slow.')}</p>
+    <h3>Internal status</h3>
+    <p>${esc(trust.message || '')}</p>
+    <p class="muted">Status: ${esc(trust.trust_status)} · Training ready: ${esc(trust.ready_for_training)}</p>
   `;
 }
 
@@ -123,7 +149,7 @@ function renderNext(payload) {
   if (!panel) return;
   const rows = Array.isArray(payload.next) ? payload.next : [];
   panel.innerHTML = `
-    <h3>Next sensible steps</h3>
+    <h3>Next</h3>
     <ol>${rows.map(row => `<li>${esc(row)}</li>`).join('')}</ol>
   `;
 }
@@ -138,13 +164,12 @@ export function renderBetaHome(payload) {
   return payload;
 }
 
-export async function loadAndRenderBetaHome(path = 'tauri-app/src/beta-home.sample.json') {
-  const payload = await loadJson(path);
+export async function loadAndRenderBetaHome(path = 'beta-home.sample.json') {
+  const payload = await loadFirstAvailableBetaHome(path);
   renderBetaHome(payload);
   return payload;
 }
 
-loadAndRenderBetaHome().catch(err => {
-  const panel = document.getElementById('beta-home-hero');
-  if (panel) panel.innerHTML = `<h2>OmniBet Lab Desktop Beta</h2><p class="warn">Failed to load beta home: ${esc(err)}</p>`;
+loadAndRenderBetaHome().catch(_err => {
+  renderBetaHome(FALLBACK_BETA_HOME);
 });
