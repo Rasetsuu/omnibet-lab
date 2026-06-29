@@ -2,6 +2,63 @@ function esc(value) {
   return String(value ?? '').replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
 }
 
+const FALLBACK_BETA_HOME = {
+  schema: 'omnibet.beta_home_embedded_fallback.v491_v500',
+  paper_only: true,
+  title: 'OmniBet Lab Desktop Beta',
+  subtitle: 'Local-first football research GUI. Start with demo data, import historical files, or inspect materialization status.',
+  status: 'embedded_fallback_loaded',
+  primary_actions: [
+    {
+      id: 'open-beta-demo-flow',
+      title: 'Start with demo',
+      description: 'Load safe bundled sample reports and inspect the GUI without connecting to live providers.',
+      target_page: 'generated-green',
+      button_id: 'load-generated-green-status-page'
+    },
+    {
+      id: 'open-historical-file-adapter-flow',
+      title: 'Import historical files',
+      description: 'Preview local CSV fixtures, odds, settlements, and identity maps before materialization.',
+      target_page: 'historical-file-adapter',
+      button_id: 'load-historical-file-adapter-status-page'
+    },
+    {
+      id: 'open-historical-materialization-flow',
+      title: 'View materialization',
+      description: 'Inspect Bronze/Silver/Gold preview layers and generated artifact status.',
+      target_page: 'historical-materialization',
+      button_id: 'load-historical-materialization-status-page'
+    },
+    {
+      id: 'open-world-cup-paper-lab-flow',
+      title: 'World Cup paper lab',
+      description: 'Upcoming/current tournament flow placeholder. Predictions remain paper-only until quality gates pass.',
+      target_page: 'upcoming',
+      button_id: 'load-upcoming-fixtures'
+    }
+  ],
+  world_cup_paper_lab: {
+    status: 'placeholder_not_live_connected',
+    safe_use: 'Use completed historical matches for training/evaluation; use upcoming matches only for pre-kickoff paper evaluation.',
+    next_step: 'Add local World Cup fixture CSV/JSON import before any live provider flow.'
+  },
+  trust: {
+    ready_for_training: false,
+    trust_status: 'sample_only',
+    credential_values_present: false,
+    recommendation_output_present: false,
+    live_provider_calls_allowed: false,
+    message: 'GUI beta can move fast; prediction/training engine must move slow.'
+  },
+  next: [
+    'Make the first screen obvious and calm.',
+    'Keep advanced debug panels available but secondary.',
+    'Add local World Cup paper fixtures next.',
+    'Only train after no-leak historical evaluation gates pass.'
+  ]
+};
+
 function showBetaPage(id) {
   document.querySelectorAll('.page').forEach(page => {
     page.classList.toggle('active-page', page.id === id);
@@ -49,6 +106,18 @@ async function loadJson(path) {
   const response = await fetch(path);
   if (!response.ok) throw new Error(`failed to load ${path}: ${response.status}`);
   return response.json();
+}
+
+async function loadFirstAvailableBetaHome(pathHint) {
+  const candidates = [pathHint, 'beta-home.sample.json', './beta-home.sample.json', 'tauri-app/src/beta-home.sample.json'].filter(Boolean);
+  for (const path of candidates) {
+    try {
+      return await loadJson(path);
+    } catch (_err) {
+      // Try the next packaged path. The embedded fallback below keeps first-run UI usable.
+    }
+  }
+  return FALLBACK_BETA_HOME;
 }
 
 function actionButton(action) {
@@ -138,13 +207,12 @@ export function renderBetaHome(payload) {
   return payload;
 }
 
-export async function loadAndRenderBetaHome(path = 'tauri-app/src/beta-home.sample.json') {
-  const payload = await loadJson(path);
+export async function loadAndRenderBetaHome(path = 'beta-home.sample.json') {
+  const payload = await loadFirstAvailableBetaHome(path);
   renderBetaHome(payload);
   return payload;
 }
 
 loadAndRenderBetaHome().catch(err => {
-  const panel = document.getElementById('beta-home-hero');
-  if (panel) panel.innerHTML = `<h2>OmniBet Lab Desktop Beta</h2><p class="warn">Failed to load beta home: ${esc(err)}</p>`;
+  renderBetaHome({ ...FALLBACK_BETA_HOME, status: 'embedded_fallback_after_error', load_error: String(err) });
 });
