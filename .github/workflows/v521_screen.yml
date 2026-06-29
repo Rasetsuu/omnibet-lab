@@ -1,0 +1,8 @@
+name: v521 screen
+on: [push, pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python python_lab/v521_screen_smoke.py
