@@ -83,6 +83,7 @@ function selectFixture(fixture) {
   if (home) home.value = fixture.home_name;
   if (away) away.value = fixture.away_name;
   renderSelected(fixture);
+  renderIdleResult(fixture);
 }
 
 function renderHero(payload, fixtures) {
@@ -147,22 +148,92 @@ function renderActions() {
   document.getElementById('matches-predict-selected')?.addEventListener('click', async () => {
     await runPredictSelected();
   });
-  document.getElementById('matches-predict-all')?.addEventListener('click', () => {
-    const result = document.getElementById('matches-result');
-    if (result) result.innerHTML = '<h3>Predict all paper</h3><p class="muted">Queued placeholder. Next phase wires batch paper predictions.</p>';
+  document.getElementById('matches-predict-all')?.addEventListener('click', async () => {
+    await runPredictAll();
   });
+}
+
+function scrollResultIntoView() {
+  document.getElementById('matches-result')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function predictionSummary(snapshot) {
+  const prediction = snapshot?.prediction || {};
+  const fixture = snapshot?.fixture || {};
+  return {
+    fixture,
+    ok: prediction.ok ?? snapshot?.ok ?? true,
+    homeTeam: prediction.home_team || fixture.home_name || '',
+    awayTeam: prediction.away_team || fixture.away_name || '',
+    modelTrust: prediction.model_trust ?? prediction.trust ?? 'preview',
+    decisionMode: prediction.decision_mode || prediction.mode || 'PAPER_ONLY',
+    note: prediction.note || snapshot?.policy?.no_recommendation ? 'Paper-only preview. Not a recommendation.' : 'Paper-only preview.',
+  };
+}
+
+function renderPredictionCard(snapshot) {
+  const s = predictionSummary(snapshot);
+  return `
+    <div class="card prediction-card">
+      <h3>${esc(s.homeTeam)} vs ${esc(s.awayTeam)}</h3>
+      <div class="stat-row"><span>Status</span><strong>${esc(s.ok ? 'paper prediction ready' : 'failed')}</strong></div>
+      <div class="stat-row"><span>Mode</span><strong>${esc(s.decisionMode)}</strong></div>
+      <div class="stat-row"><span>Model trust</span><strong>${esc(s.modelTrust)}</strong></div>
+      <p class="warn">${esc(s.note)}</p>
+      <details>
+        <summary>Raw snapshot</summary>
+        <pre>${esc(JSON.stringify(snapshot, null, 2))}</pre>
+      </details>
+    </div>
+  `;
+}
+
+function renderIdleResult(fixture) {
+  const result = document.getElementById('matches-result');
+  if (!result) return;
+  if (!fixture) {
+    result.innerHTML = '<h3>Prediction</h3><p class="muted">Select a match, then press Predict selected.</p>';
+    return;
+  }
+  result.innerHTML = `<h3>Prediction</h3><p class="muted">Ready to predict ${esc(fixture.home_name)} vs ${esc(fixture.away_name)}.</p>`;
 }
 
 async function runPredictSelected() {
   const result = document.getElementById('matches-result');
   try {
     if (result) result.innerHTML = '<h3>Prediction</h3><p class="muted">Running local paper prediction...</p>';
+    scrollResultIntoView();
     const snapshot = await predictSelectedUpcomingFixture();
     if (result) {
-      result.innerHTML = `<h3>Prediction</h3><pre>${esc(JSON.stringify(snapshot, null, 2))}</pre>`;
+      result.innerHTML = `<h3>Prediction result</h3>${renderPredictionCard(snapshot)}`;
+      scrollResultIntoView();
     }
   } catch (err) {
     if (result) result.innerHTML = `<h3>Prediction</h3><p class="warn">${esc(err)}</p>`;
+    scrollResultIntoView();
+  }
+}
+
+async function runPredictAll() {
+  const result = document.getElementById('matches-result');
+  const fixtures = window.__omnibetUpcomingFixtures || [];
+  if (!fixtures.length) {
+    if (result) result.innerHTML = '<h3>Predict all paper</h3><p class="warn">No fixtures loaded.</p>';
+    scrollResultIntoView();
+    return;
+  }
+  const snapshots = [];
+  if (result) result.innerHTML = `<h3>Predict all paper</h3><p class="muted">Running ${esc(fixtures.length)} local paper predictions...</p>`;
+  scrollResultIntoView();
+  for (const fixture of fixtures) {
+    selectFixture(fixture);
+    const snapshot = await predictSelectedUpcomingFixture();
+    snapshots.push(snapshot);
+  }
+  window.__omnibetLastForecastBatch = snapshots;
+  if (result) {
+    result.innerHTML = `<h3>Predict all paper</h3>${snapshots.map(renderPredictionCard).join('')}`;
+    scrollResultIntoView();
   }
 }
 
@@ -175,6 +246,7 @@ export function renderSimpleMatches(payload) {
   renderCards(fixtures);
   renderSelected(null);
   renderActions();
+  renderIdleResult(null);
   showPage('matches');
   return fixtures;
 }
