@@ -1,5 +1,6 @@
 import { fixtureTeams, invokeCommand } from './api.js';
 import { loadAndRenderBetaHome } from './beta_home.js';
+import { loadAndRenderSimpleMatches } from './simple_matches.js';
 import { loadAndRenderDashboard } from './dashboard.js';
 import { loadAndRenderReviews } from './review.js';
 import { loadAndRenderSettings } from './settings.js';
@@ -133,4 +134,5 @@ function bind() {
 
 bind();
 safeRun(() => loadAndRenderBetaHome());
-showPage('beta-home');
+safeRun(() => loadAndRenderSimpleMatches());
+showPage('matches');
