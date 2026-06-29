@@ -1,0 +1,28 @@
+name: OmniBet v501-v510 Simple Matches GUI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  simple-matches-gui:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python python_lab/compile_python_sources.py
+      - run: python python_lab/simple_matches_gui_smoke.py --root . --out reports/ci_v501_v510_simple_matches_gui.json
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v501-v510-simple-matches-gui
+          path: |
+            reports/ci_v501_v510_simple_matches_gui.json
+            configs/simple_matches_gui.v501_v510.json
+            tauri-app/src/world-cup-fixtures.local.json
+            docs/simple_matches_gui_v501_v510.md
+          if-no-files-found: warn
