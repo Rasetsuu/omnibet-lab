@@ -24,6 +24,9 @@ function compactNormalMode() {
   document.querySelectorAll('.topbar-actions').forEach(el => {
     el.style.display = 'none';
   });
+  document.querySelectorAll('.output-panel').forEach(el => {
+    el.style.display = 'none';
+  });
   document.querySelectorAll('.nav-button').forEach(btn => {
     const page = btn.dataset.page;
     const keep = page === 'matches' || page === 'upcoming' || page === 'settings';
@@ -91,7 +94,7 @@ function renderHero(payload, fixtures) {
   if (!panel) return;
   panel.innerHTML = `
     <h2>Matches</h2>
-    <p class="warn">Paper-only beta. Pick a fixture and run a local paper prediction. Internal training/evaluation stays hidden.</p>
+    <p class="warn">Paper-only beta. Pick a fixture and preview a broad football market catalog. Internal training/evaluation stays hidden.</p>
     <p class="muted">Loaded ${esc(fixtures.length)} local fixtures from ${esc(payload.schema || 'local pack')}.</p>
   `;
 }
@@ -140,10 +143,10 @@ function renderActions() {
   const panel = document.getElementById('matches-paper-actions');
   if (!panel) return;
   panel.innerHTML = `
-    <h3>Paper prediction</h3>
-    <button id="matches-predict-selected">Predict selected</button>
-    <button id="matches-predict-all">Predict all paper</button>
-    <p class="muted">Training is not a visible user action. Background model/evaluation status will be added later.</p>
+    <h3>Paper Market Catalog</h3>
+    <button id="matches-predict-selected">Preview selected</button>
+    <button id="matches-predict-all">Preview all paper</button>
+    <p class="muted">This catalog shows what OmniBet can preview now and what is locked until data/training exists.</p>
   `;
   document.getElementById('matches-predict-selected')?.addEventListener('click', async () => {
     await runPredictSelected();
@@ -157,29 +160,168 @@ function scrollResultIntoView() {
   document.getElementById('matches-result')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
+function confidenceLabel(modelTrust) {
+  const trust = Number(modelTrust);
+  if (!Number.isFinite(trust)) return 'LOW preview';
+  if (trust >= 0.65) return 'HIGH preview';
+  if (trust >= 0.4) return 'MEDIUM preview';
+  return 'LOW preview';
+}
+
+function marketStatus(status) {
+  if (status === 'preview') return 'Preview now';
+  if (status === 'placeholder') return 'Placeholder';
+  return 'Locked: needs data';
+}
+
 function predictionSummary(snapshot) {
   const prediction = snapshot?.prediction || {};
   const fixture = snapshot?.fixture || {};
+  const homeTeam = prediction.home_team || fixture.home_name || '';
+  const awayTeam = prediction.away_team || fixture.away_name || '';
+  const paperLean = prediction.paper_lean || prediction.lean || prediction.predicted_team || homeTeam || 'No lean';
+  const side = paperLean === awayTeam ? 'away' : 'home';
+  const opponent = side === 'away' ? homeTeam : awayTeam;
+  const modelTrust = prediction.model_trust ?? prediction.trust ?? 0.25;
   return {
-    fixture,
-    ok: prediction.ok ?? snapshot?.ok ?? true,
-    homeTeam: prediction.home_team || fixture.home_name || '',
-    awayTeam: prediction.away_team || fixture.away_name || '',
-    modelTrust: prediction.model_trust ?? prediction.trust ?? 'preview',
-    decisionMode: prediction.decision_mode || prediction.mode || 'PAPER_ONLY',
-    note: prediction.note || snapshot?.policy?.no_recommendation ? 'Paper-only preview. Not a recommendation.' : 'Paper-only preview.',
+    homeTeam,
+    awayTeam,
+    paperLean,
+    opponent,
+    modelTrust,
+    confidence: confidenceLabel(modelTrust),
+    mode: prediction.decision_mode || prediction.mode || 'PAPER_ONLY',
   };
+}
+
+function line(label, value, status = 'preview') {
+  return `<div class="stat-row"><span>${esc(label)}</span><strong>${esc(value)} · ${esc(marketStatus(status))}</strong></div>`;
+}
+
+function list(items) {
+  return `<ul>${items.map(item => `<li>${esc(item)}</li>`).join('')}</ul>`;
+}
+
+function marketCatalog(snapshot) {
+  const s = predictionSummary(snapshot);
+  const dc = `${s.paperLean} or Draw`;
+  return [
+    {
+      title: 'Result and qualification',
+      rows: [
+        ['Paper lean', s.paperLean, 'preview'],
+        ['Confidence', s.confidence, 'preview'],
+        ['Double chance style', dc, 'placeholder'],
+        ['To qualify', 'Needs knockout/extra-time model', 'locked'],
+        ['Draw no bet', 'Needs calibrated result probability', 'locked'],
+      ],
+    },
+    {
+      title: 'Goals',
+      rows: [
+        ['Over 0.5', 'Plausible preview', 'placeholder'],
+        ['Over 1.5', 'Plausible preview', 'placeholder'],
+        ['Over 2.5', 'Needs trained scoring model', 'locked'],
+        ['Both teams to score', 'Needs trained scoring model', 'locked'],
+        ['Team goals', 'Needs attack/defence model', 'locked'],
+      ],
+    },
+    {
+      title: 'Scorelines and periods',
+      rows: [
+        ['Score bands', sideScoreBands(s).join(', '), 'placeholder'],
+        ['Correct score', 'Needs score distribution model', 'locked'],
+        ['Half-time result', 'Needs period model', 'locked'],
+        ['First team to score', 'Needs time-to-goal model', 'locked'],
+      ],
+    },
+    {
+      title: 'Corners',
+      rows: [
+        ['Total corners', 'Needs corner event history', 'locked'],
+        ['Team corners', 'Needs team crossing/pressure data', 'locked'],
+        ['Corner handicap', 'Needs corner distribution model', 'locked'],
+        ['Corners by half', 'Needs period corner model', 'locked'],
+      ],
+    },
+    {
+      title: 'Cards and discipline',
+      rows: [
+        ['Total cards', 'Needs card/referee history', 'locked'],
+        ['Team cards', 'Needs team discipline model', 'locked'],
+        ['Player carded', 'Needs lineup/player discipline data', 'locked'],
+        ['Red card', 'Needs rare-event model', 'locked'],
+      ],
+    },
+    {
+      title: 'Player attack props',
+      rows: [
+        ['Anytime scorer', 'Needs lineups and player xG', 'locked'],
+        ['First scorer', 'Needs scorer/time model', 'locked'],
+        ['Player shots', 'Needs player shot history', 'locked'],
+        ['Shots on target', 'Needs player SOT history', 'locked'],
+        ['Assists', 'Needs player chance creation data', 'locked'],
+      ],
+    },
+    {
+      title: 'Player work-rate props',
+      rows: [
+        ['Tackles', 'Needs defensive event data', 'locked'],
+        ['Fouls committed', 'Needs player foul history', 'locked'],
+        ['Fouls won', 'Needs player touch/duel data', 'locked'],
+        ['Passes', 'Needs passing and possession model', 'locked'],
+      ],
+    },
+    {
+      title: 'Set pieces and misc events',
+      rows: [
+        ['Free kicks', 'Needs granular event feed', 'locked'],
+        ['Offsides', 'Needs attacking line/style data', 'locked'],
+        ['Throw-ins', 'Needs event feed', 'locked'],
+        ['Penalties awarded', 'Needs rare-event + referee model', 'locked'],
+      ],
+    },
+  ];
+}
+
+function sideScoreBands(s) {
+  if (s.paperLean === s.awayTeam) return ['0-1', '1-2', '1-1 risk'];
+  return ['1-0', '2-1', '1-1 risk'];
+}
+
+function renderMarketSection(section) {
+  return `
+    <div class="card market-catalog-section">
+      <h3>${esc(section.title)}</h3>
+      ${section.rows.map(row => line(row[0], row[1], row[2])).join('')}
+    </div>
+  `;
 }
 
 function renderPredictionCard(snapshot) {
   const s = predictionSummary(snapshot);
+  const sections = marketCatalog(snapshot);
   return `
     <div class="card prediction-card">
       <h3>${esc(s.homeTeam)} vs ${esc(s.awayTeam)}</h3>
-      <div class="stat-row"><span>Status</span><strong>${esc(s.ok ? 'paper prediction ready' : 'failed')}</strong></div>
-      <div class="stat-row"><span>Mode</span><strong>${esc(s.decisionMode)}</strong></div>
-      <div class="stat-row"><span>Model trust</span><strong>${esc(s.modelTrust)}</strong></div>
-      <p class="warn">${esc(s.note)}</p>
+      <div class="card market-builder-main">
+        <h2>Paper lean: ${esc(s.paperLean)}</h2>
+        ${line('Confidence', s.confidence, 'preview')}
+        ${line('Mode', s.mode, 'preview')}
+        ${line('Model trust', s.modelTrust, 'preview')}
+      </div>
+      <div class="grid market-catalog-grid">
+        ${sections.map(renderMarketSection).join('')}
+      </div>
+      <div class="card">
+        <h3>Capability warning</h3>
+        ${list([
+          'Only fixture-level preview is active right now.',
+          'Corners, cards, free kicks, offsides, player props and passes need future data.',
+          'Training/evaluation must happen on completed timestamp-safe rows before confidence is real.',
+          'Paper-only preview; not advice and not staking output.',
+        ])}
+      </div>
       <details>
         <summary>Raw snapshot</summary>
         <pre>${esc(JSON.stringify(snapshot, null, 2))}</pre>
@@ -192,24 +334,24 @@ function renderIdleResult(fixture) {
   const result = document.getElementById('matches-result');
   if (!result) return;
   if (!fixture) {
-    result.innerHTML = '<h3>Prediction</h3><p class="muted">Select a match, then press Predict selected.</p>';
+    result.innerHTML = '<h3>Paper Market Catalog</h3><p class="muted">Select a match, then press Preview selected.</p>';
     return;
   }
-  result.innerHTML = `<h3>Prediction</h3><p class="muted">Ready to predict ${esc(fixture.home_name)} vs ${esc(fixture.away_name)}.</p>`;
+  result.innerHTML = `<h3>Paper Market Catalog</h3><p class="muted">Ready to preview ${esc(fixture.home_name)} vs ${esc(fixture.away_name)}.</p>`;
 }
 
 async function runPredictSelected() {
   const result = document.getElementById('matches-result');
   try {
-    if (result) result.innerHTML = '<h3>Prediction</h3><p class="muted">Running local paper prediction...</p>';
+    if (result) result.innerHTML = '<h3>Paper Market Catalog</h3><p class="muted">Building broad paper market preview...</p>';
     scrollResultIntoView();
     const snapshot = await predictSelectedUpcomingFixture();
     if (result) {
-      result.innerHTML = `<h3>Prediction result</h3>${renderPredictionCard(snapshot)}`;
+      result.innerHTML = `<h3>Paper Market Catalog Preview</h3>${renderPredictionCard(snapshot)}`;
       scrollResultIntoView();
     }
   } catch (err) {
-    if (result) result.innerHTML = `<h3>Prediction</h3><p class="warn">${esc(err)}</p>`;
+    if (result) result.innerHTML = `<h3>Paper Market Catalog</h3><p class="warn">${esc(err)}</p>`;
     scrollResultIntoView();
   }
 }
@@ -218,12 +360,12 @@ async function runPredictAll() {
   const result = document.getElementById('matches-result');
   const fixtures = window.__omnibetUpcomingFixtures || [];
   if (!fixtures.length) {
-    if (result) result.innerHTML = '<h3>Predict all paper</h3><p class="warn">No fixtures loaded.</p>';
+    if (result) result.innerHTML = '<h3>Preview all paper</h3><p class="warn">No fixtures loaded.</p>';
     scrollResultIntoView();
     return;
   }
   const snapshots = [];
-  if (result) result.innerHTML = `<h3>Predict all paper</h3><p class="muted">Running ${esc(fixtures.length)} local paper predictions...</p>`;
+  if (result) result.innerHTML = `<h3>Preview all paper</h3><p class="muted">Building ${esc(fixtures.length)} broad market previews...</p>`;
   scrollResultIntoView();
   for (const fixture of fixtures) {
     selectFixture(fixture);
@@ -232,7 +374,7 @@ async function runPredictAll() {
   }
   window.__omnibetLastForecastBatch = snapshots;
   if (result) {
-    result.innerHTML = `<h3>Predict all paper</h3>${snapshots.map(renderPredictionCard).join('')}`;
+    result.innerHTML = `<h3>Paper Market Catalog Batch</h3>${snapshots.map(renderPredictionCard).join('')}`;
     scrollResultIntoView();
   }
 }
