@@ -1,0 +1,66 @@
+{
+  "schema": "omnibet.eval_gate_scaffold.v553_v570",
+  "milestone": "v553_v570_no_leak_eval_gate_scaffold",
+  "paper_only": true,
+  "local_first": true,
+  "normal_gui_action_allowed": false,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "purpose": "Gate any model-building work behind settled rows, timestamp checks, chronological split rules, and minimum sample thresholds.",
+  "versions": {
+    "v553": "eval_gate_contract",
+    "v554": "candidate_preview_reader",
+    "v555": "minimum_row_gate",
+    "v556": "chronological_split_gate",
+    "v557": "label_timestamp_gate_recheck",
+    "v558": "baseline_preview_metrics",
+    "v559": "artifact_status_writer",
+    "v560": "gui_hidden_status_contract",
+    "v561": "future_feature_family_manifest",
+    "v562": "engine_scale_up_plan",
+    "v563": "rust_migration_pointer",
+    "v564": "ci_eval_gate_smoke",
+    "v565": "docs",
+    "v566": "data_source_expansion_pointer",
+    "v567": "event_market_requirements",
+    "v568": "player_market_requirements",
+    "v569": "confidence_status_rules",
+    "v570": "next_phase_pointer"
+  },
+  "inputs": {
+    "result_ingest_contract": "configs/world_cup_result_ingest.v543_v552.json",
+    "fixture_pack": "tauri-app/src/world-cup-fixtures.local.json",
+    "result_pack": "data/world_cup/v543_v552/world_cup_results.local.json"
+  },
+  "outputs": {
+    "gate_report": "reports/ci_v553_v570_eval_gate_scaffold.json",
+    "model_status": "reports/model_status_v553_v570.json",
+    "feature_manifest": "reports/feature_family_manifest_v553_v570.json"
+  },
+  "thresholds": {
+    "minimum_rows_for_real_model": 200,
+    "minimum_distinct_teams": 20,
+    "minimum_competitions": 3,
+    "minimum_chronological_splits": 3
+  },
+  "market_feature_requirements": {
+    "fixture_result_goals": ["fixtures", "results", "kickoff timestamps", "settled labels"],
+    "corners_cards_set_pieces": ["granular event history", "team event distributions", "referee context when available"],
+    "player_markets": ["lineups", "minutes model", "player event history", "role/position context"]
+  },
+  "acceptance": {
+    "contract_added": true,
+    "candidate_reader_added": true,
+    "minimum_row_gate_added": true,
+    "chronological_split_gate_added": true,
+    "timestamp_recheck_added": true,
+    "baseline_preview_metrics_added": true,
+    "model_status_writer_added": true,
+    "gui_hidden_status_contract_added": true,
+    "feature_manifest_added": true,
+    "engine_scale_up_plan_added": true,
+    "rust_migration_pointer_added": true,
+    "ci_smoke_added": true,
+    "docs_added": true
+  }
+}
