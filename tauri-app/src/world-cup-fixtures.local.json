@@ -1,0 +1,50 @@
+{
+  "schema": "omnibet.world_cup_local_fixture_pack.v501_v510",
+  "generated_at_utc": "2026-06-29T10:35:00Z",
+  "source_notes": [
+    "Local pack for beta GUI testing only.",
+    "Round of 32 runs June 28 through July 3, 2026.",
+    "June 29 reported fixtures: Brazil vs Japan, Germany vs Paraguay, Netherlands vs Morocco."
+  ],
+  "paper_only": true,
+  "live_provider_calls_allowed": false,
+  "training_use": "only_after_settled_result_and_timestamp_safe_ingest",
+  "fixtures": [
+    {
+      "fixture_id": "wc2026-r32-20260629-brazil-japan",
+      "competition_id": "fifa_world_cup_2026",
+      "competition_name": "FIFA World Cup 2026",
+      "round": "Round of 32",
+      "kickoff_utc": "2026-06-29T17:00:00Z",
+      "kickoff_label": "June 29, 2026",
+      "home_name": "Brazil",
+      "away_name": "Japan",
+      "status": "scheduled",
+      "source": "local_world_cup_pack"
+    },
+    {
+      "fixture_id": "wc2026-r32-20260629-germany-paraguay",
+      "competition_id": "fifa_world_cup_2026",
+      "competition_name": "FIFA World Cup 2026",
+      "round": "Round of 32",
+      "kickoff_utc": "2026-06-29T20:30:00Z",
+      "kickoff_label": "June 29, 2026",
+      "home_name": "Germany",
+      "away_name": "Paraguay",
+      "status": "scheduled",
+      "source": "local_world_cup_pack"
+    },
+    {
+      "fixture_id": "wc2026-r32-20260629-netherlands-morocco",
+      "competition_id": "fifa_world_cup_2026",
+      "competition_name": "FIFA World Cup 2026",
+      "round": "Round of 32",
+      "kickoff_utc": "2026-06-30T01:00:00Z",
+      "kickoff_label": "June 29/30, 2026",
+      "home_name": "Netherlands",
+      "away_name": "Morocco",
+      "status": "scheduled",
+      "source": "local_world_cup_pack"
+    }
+  ]
+}

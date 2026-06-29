@@ -1,0 +1,61 @@
+{
+  "schema": "omnibet.simple_matches_gui_contract.v501_v510",
+  "milestone": "v501_v510_simple_matches_gui_world_cup_local_pack",
+  "paper_only": true,
+  "normal_gui_focus": "matches_only",
+  "training_visible_in_normal_gui": false,
+  "advanced_debug_visible_by_default": false,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "recommendation_output_allowed": false,
+  "training_allowed_from_unsettled_matches": false,
+  "depends_on": [
+    "omnibet.beta_open_walk_gui_contract.v491_v500",
+    "docs/beta_vs_model_quality_policy.md"
+  ],
+  "versions": {
+    "v501": "simple_matches_contract",
+    "v502": "normal_mode_matches_page",
+    "v503": "hide_debug_navigation_in_normal_mode",
+    "v504": "hide_topbar_debug_buttons_in_normal_mode",
+    "v505": "world_cup_local_fixture_pack",
+    "v506": "predict_selected_paper_button",
+    "v507": "predict_all_paper_button_placeholder",
+    "v508": "background_training_status_hidden_from_normal_gui",
+    "v509": "ci_simple_matches_gui_smoke",
+    "v510": "simple_matches_gui_docs"
+  },
+  "desktop": {
+    "page_id": "matches",
+    "nav_label": "Matches",
+    "renderer": "tauri-app/src/simple_matches.js",
+    "default_fixture_pack": "tauri-app/src/world-cup-fixtures.local.json",
+    "normal_mode_elements": [
+      "matches-hero",
+      "matches-list",
+      "matches-selected",
+      "matches-paper-actions",
+      "matches-result"
+    ],
+    "hidden_in_normal_mode": [
+      "topbar-actions",
+      "debug nav buttons",
+      "training buttons",
+      "materialization buttons",
+      "import buttons"
+    ]
+  },
+  "acceptance": {
+    "simple_matches_contract_added": true,
+    "normal_mode_matches_page_added": true,
+    "debug_navigation_hidden_in_normal_mode": true,
+    "topbar_debug_buttons_hidden_in_normal_mode": true,
+    "world_cup_local_fixture_pack_added": true,
+    "predict_selected_paper_button_added": true,
+    "predict_all_paper_placeholder_added": true,
+    "background_training_status_not_normal_gui_action": true,
+    "ci_simple_matches_gui_smoke_added": true,
+    "simple_matches_gui_docs_added": true,
+    "unsettled_matches_not_used_for_training": true
+  }
+}

@@ -24,7 +24,7 @@ def main() -> None:
         "sample": sample.get("schema") == "omnibet.beta_home_sample.v491_v500",
         "actions": len(sample.get("primary_actions", [])) == 4,
         "renderer": "ensureBetaHomePage" in renderer and all(panel in renderer for panel in panels),
-        "default_page": "showPage('beta-home')" in app_js,
+        "default_page": "showPage('beta-home')" in app_js or "showPage('matches')" in app_js,
         "docs": "v491-v500 Beta Open-and-Walk GUI" in docs,
         "workflow": "beta_open_walk_gui_smoke.py" in workflow,
     }
