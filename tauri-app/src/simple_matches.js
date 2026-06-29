@@ -174,6 +174,12 @@ function marketStatus(status) {
   return 'Locked: needs data';
 }
 
+function statusClass(status) {
+  if (status === 'preview') return 'status-preview';
+  if (status === 'placeholder') return 'status-placeholder';
+  return 'status-locked';
+}
+
 function predictionSummary(snapshot) {
   const prediction = snapshot?.prediction || {};
   const fixture = snapshot?.fixture || {};
@@ -195,7 +201,13 @@ function predictionSummary(snapshot) {
 }
 
 function line(label, value, status = 'preview') {
-  return `<div class="stat-row"><span>${esc(label)}</span><strong>${esc(value)} · ${esc(marketStatus(status))}</strong></div>`;
+  return `
+    <div class="market-row ${esc(statusClass(status))}">
+      <span class="market-label">${esc(label)}</span>
+      <span class="market-value">${esc(value)}</span>
+      <span class="market-status">${esc(marketStatus(status))}</span>
+    </div>
+  `;
 }
 
 function list(items) {
@@ -293,7 +305,9 @@ function renderMarketSection(section) {
   return `
     <div class="card market-catalog-section">
       <h3>${esc(section.title)}</h3>
-      ${section.rows.map(row => line(row[0], row[1], row[2])).join('')}
+      <div class="market-row-list">
+        ${section.rows.map(row => line(row[0], row[1], row[2])).join('')}
+      </div>
     </div>
   `;
 }
