@@ -1,0 +1,11 @@
+{
+  "schema": "omnibet.do_not_forget_plan.v521",
+  "normal_user_screen": "matches_and_preview_results",
+  "next_steps": [
+    "completed_match_ingest",
+    "safe_background_training_evaluation",
+    "rust_runtime_migration",
+    "visual_design_polish"
+  ],
+  "advanced_tools_hidden_by_default": true
+}
