@@ -1,0 +1,27 @@
+name: OmniBet v521-v530 Paper Market Builder Preview
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  paper-market-builder-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python python_lab/compile_python_sources.py
+      - run: python python_lab/paper_market_builder_preview_smoke.py --root . --out reports/ci_v521_v530_paper_market_builder_preview.json
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v521-v530-paper-market-builder-preview
+          path: |
+            reports/ci_v521_v530_paper_market_builder_preview.json
+            configs/paper_market_builder_preview.v521_v530.json
+            docs/roadmap_after_market_builder_v521_v530.md
+          if-no-files-found: warn
