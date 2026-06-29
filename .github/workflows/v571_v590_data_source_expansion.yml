@@ -1,0 +1,27 @@
+name: OmniBet v571-v590 Data Source Expansion
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  data-source-expansion:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python python_lab/compile_python_sources.py
+      - run: python python_lab/data_source_expansion_smoke.py --root . --out reports/ci_v571_v590_data_source_expansion.json
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v571-v590-data-source-expansion
+          path: |
+            reports/ci_v571_v590_data_source_expansion.json
+            configs/data_source_expansion.v571_v590.json
+            docs/data_source_expansion_v571_v590.md
+          if-no-files-found: warn
