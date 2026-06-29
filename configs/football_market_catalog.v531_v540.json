@@ -1,0 +1,125 @@
+{
+  "schema": "omnibet.football_market_catalog.v531_v540",
+  "milestone": "v531_v540_football_market_catalog_and_capability_map",
+  "paper_only": true,
+  "normal_gui_name": "Paper Market Catalog",
+  "recommendation_output_allowed": false,
+  "staking_output_allowed": false,
+  "live_provider_calls_allowed": false,
+  "purpose": "Define broad football market families and mark what OmniBet can preview now versus what needs future data/training.",
+  "current_predictor_status": {
+    "engine": "fixture_level_preview_fallback",
+    "trained_model_available": false,
+    "runtime_output_now": [
+      "fixture selected",
+      "home team",
+      "away team",
+      "paper mode",
+      "low preview trust",
+      "raw snapshot"
+    ],
+    "safe_visible_now": [
+      "paper lean placeholder",
+      "confidence placeholder",
+      "basic goals placeholder",
+      "basic btts placeholder",
+      "basic score band placeholder",
+      "risk flags"
+    ],
+    "not_supported_yet": [
+      "real probability calibration",
+      "odds value detection",
+      "corner counts",
+      "card counts",
+      "free kick counts",
+      "offside counts",
+      "throw-in counts",
+      "player shots",
+      "player shots on target",
+      "player fouls",
+      "player tackles",
+      "player passes",
+      "player assists",
+      "player bookings",
+      "lineup dependent player markets"
+    ]
+  },
+  "market_families": [
+    {
+      "family_id": "match_result",
+      "label": "Match result",
+      "examples": ["home win", "draw", "away win", "draw no bet", "double chance", "to qualify"],
+      "current_status": "placeholder_preview",
+      "requires": ["historical results", "team strength", "venue/neutral status", "competition context", "calibrated model"]
+    },
+    {
+      "family_id": "goals",
+      "label": "Goals",
+      "examples": ["over/under 0.5", "over/under 1.5", "over/under 2.5", "team total goals", "both teams to score", "exact total goals"],
+      "current_status": "placeholder_preview",
+      "requires": ["historical goal distributions", "team attack/defence features", "pace/style features", "calibration"]
+    },
+    {
+      "family_id": "scorelines",
+      "label": "Scorelines",
+      "examples": ["correct score", "score band", "winning margin", "half-time score", "half-time/full-time"],
+      "current_status": "placeholder_preview",
+      "requires": ["goal distribution model", "period split model", "score calibration"]
+    },
+    {
+      "family_id": "corners",
+      "label": "Corners",
+      "examples": ["total corners", "team corners", "corner handicap", "race to corners", "corners by half"],
+      "current_status": "needs_data",
+      "requires": ["corner event history", "team crossing/pressure proxies", "match state features", "competition style"]
+    },
+    {
+      "family_id": "cards",
+      "label": "Cards and discipline",
+      "examples": ["total cards", "team cards", "player carded", "red card", "cards by half"],
+      "current_status": "needs_data",
+      "requires": ["card event history", "referee tendencies", "rivalry/intensity", "player discipline", "match stakes"]
+    },
+    {
+      "family_id": "attacking_player_props",
+      "label": "Attacking player props",
+      "examples": ["anytime scorer", "first scorer", "shots", "shots on target", "assists", "player goal contributions"],
+      "current_status": "needs_lineups_and_player_data",
+      "requires": ["starting lineups", "minutes model", "player shot history", "role/position", "team chance creation"]
+    },
+    {
+      "family_id": "defensive_player_props",
+      "label": "Defensive player props",
+      "examples": ["tackles", "fouls committed", "fouls won", "interceptions", "blocks", "clearances"],
+      "current_status": "needs_player_event_data",
+      "requires": ["player event data", "opponent style", "role/position", "minutes model"]
+    },
+    {
+      "family_id": "passing_player_props",
+      "label": "Passing player props",
+      "examples": ["passes attempted", "passes completed", "passing accuracy", "key passes", "long passes"],
+      "current_status": "needs_player_event_data",
+      "requires": ["player passing history", "possession model", "lineups", "tactical style"]
+    },
+    {
+      "family_id": "set_pieces_misc",
+      "label": "Set pieces and misc match events",
+      "examples": ["free kicks", "offsides", "throw-ins", "penalties awarded", "VAR decisions", "goal kicks"],
+      "current_status": "needs_granular_event_data",
+      "requires": ["granular event feed", "team style", "referee/VAR context", "match state"]
+    },
+    {
+      "family_id": "period_markets",
+      "label": "Time period markets",
+      "examples": ["first half result", "second half result", "goal in first 10 minutes", "team to score first", "next goal"],
+      "current_status": "needs_time_distribution_model",
+      "requires": ["minute-level goal/event history", "period split model", "match state model"]
+    }
+  ],
+  "gui_policy": {
+    "show_all_market_families": true,
+    "mark_unsupported_as_locked_or_needs_data": true,
+    "raw_json_collapsed": true,
+    "normal_users_do_not_see_training_controls": true
+  }
+}

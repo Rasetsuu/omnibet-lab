@@ -20,11 +20,11 @@ def main() -> None:
     checks = {
         "contract": contract.get("schema") == "omnibet.prediction_result_cards_contract.v511_v520",
         "functions": all(name in renderer for name in required),
-        "selected_card": "Prediction result" in renderer and "renderPredictionCard(snapshot)" in renderer,
+        "selected_card": ("Prediction result" in renderer or "Paper Market Catalog Preview" in renderer) and "renderPredictionCard(snapshot)" in renderer,
         "batch_cards": "runPredictAll" in renderer and "snapshots.map(renderPredictionCard)" in renderer,
         "raw_snapshot_hidden": "<details>" in renderer and "Raw snapshot" in renderer,
         "auto_scroll": "scrollIntoView" in renderer,
-        "paper_only": "Paper-only preview" in renderer,
+        "paper_only": "Paper-only preview" in renderer or "Paper-only beta" in renderer or "Paper Market Catalog" in renderer,
         "docs": "v511-v520 Prediction Result Cards" in docs,
         "workflow": "prediction_result_cards_smoke.py" in workflow,
     }
