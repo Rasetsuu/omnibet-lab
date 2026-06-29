@@ -1,0 +1,111 @@
+{
+  "schema": "omnibet.data_source_expansion_contract.v571_v590",
+  "milestone": "v571_v590_historical_data_source_expansion",
+  "paper_only": true,
+  "local_first": true,
+  "ci_downloads_allowed": false,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "purpose": "Map candidate historical football data sources to market families and adapter readiness before scaling rows.",
+  "versions": {
+    "v571": "source_expansion_contract",
+    "v572": "football_data_csv_source",
+    "v573": "statsbomb_event_source",
+    "v574": "openfootball_json_source",
+    "v575": "elo_rating_source_slot",
+    "v576": "source_capability_matrix",
+    "v577": "market_family_to_source_map",
+    "v578": "legal_and_cache_policy",
+    "v579": "manual_import_first_policy",
+    "v580": "adapter_readiness_status",
+    "v581": "event_data_gap_map",
+    "v582": "player_market_gap_map",
+    "v583": "odds_price_gap_map",
+    "v584": "dataset_priority_order",
+    "v585": "source_expansion_smoke",
+    "v586": "docs",
+    "v587": "future_download_manifest_slot",
+    "v588": "future_rust_adapter_pointer",
+    "v589": "future_gui_data_status_pointer",
+    "v590": "next_phase_pointer"
+  },
+  "sources": [
+    {
+      "source_id": "football_data_csv",
+      "name": "Football-Data historical CSV archive",
+      "site": "football-data.co.uk",
+      "adapter_status": "manual_import_first",
+      "ci_network_allowed": false,
+      "cache_policy": "user_download_or_repo_sample_only",
+      "covers": ["fixtures", "results", "match odds", "opening/closing price fields when available", "basic match statistics for selected leagues when available"],
+      "market_families_unlocked_first": ["match_result", "goals", "basic_odds_value", "closing_line_value_preview"],
+      "gaps": ["corners by all competitions", "cards by all competitions", "player events", "lineups"]
+    },
+    {
+      "source_id": "statsbomb_open_data",
+      "name": "StatsBomb open event data",
+      "site": "github.com/statsbomb/open-data",
+      "adapter_status": "manual_import_first",
+      "ci_network_allowed": false,
+      "cache_policy": "user_download_or_repo_sample_only",
+      "covers": ["events", "shots", "passes", "pressure/carry style event families when present", "lineups in supported competitions"],
+      "market_families_unlocked_first": ["player_shots", "player_passing", "event_driven_features", "score_chance_features"],
+      "gaps": ["not universal coverage", "not all current World Cup rows", "license/terms must be respected"]
+    },
+    {
+      "source_id": "openfootball_json",
+      "name": "openfootball public JSON data",
+      "site": "github.com/openfootball/football.json",
+      "adapter_status": "manual_import_first",
+      "ci_network_allowed": false,
+      "cache_policy": "user_download_or_repo_sample_only",
+      "covers": ["fixtures", "results", "leagues", "seasons"],
+      "market_families_unlocked_first": ["match_result", "goals", "team history features"],
+      "gaps": ["no odds", "no event detail", "no player props"]
+    },
+    {
+      "source_id": "elo_rating_slot",
+      "name": "Elo-style team strength source slot",
+      "site": "source_to_be_selected_or_user_provided",
+      "adapter_status": "planned",
+      "ci_network_allowed": false,
+      "cache_policy": "local_cache_only",
+      "covers": ["team strength prior", "form-independent rating feature"],
+      "market_families_unlocked_first": ["match_result", "double_chance_style", "strength_prior_features"],
+      "gaps": ["must validate source format", "ratings must be timestamp-safe"]
+    }
+  ],
+  "market_family_to_sources": {
+    "match_result": ["football_data_csv", "openfootball_json", "elo_rating_slot"],
+    "goals": ["football_data_csv", "openfootball_json"],
+    "odds_value": ["football_data_csv"],
+    "corners": ["future_event_source"],
+    "cards": ["future_event_source"],
+    "free_kicks_offsides_throw_ins": ["future_granular_event_source"],
+    "player_shots_sot": ["statsbomb_open_data", "future_player_event_source"],
+    "player_passes_tackles_fouls": ["statsbomb_open_data", "future_player_event_source"]
+  },
+  "priority_order": [
+    "football_data_csv",
+    "openfootball_json",
+    "statsbomb_open_data",
+    "elo_rating_slot",
+    "future_event_source",
+    "future_player_event_source"
+  ],
+  "acceptance": {
+    "contract_added": true,
+    "source_catalog_added": true,
+    "capability_matrix_added": true,
+    "market_family_map_added": true,
+    "manual_import_policy_added": true,
+    "ci_downloads_blocked": true,
+    "adapter_readiness_status_added": true,
+    "event_gap_map_added": true,
+    "player_gap_map_added": true,
+    "odds_gap_map_added": true,
+    "priority_order_added": true,
+    "smoke_added": true,
+    "docs_added": true
+  }
+}
