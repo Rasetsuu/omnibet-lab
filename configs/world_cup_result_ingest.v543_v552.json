@@ -1,0 +1,51 @@
+{
+  "schema": "omnibet.world_cup_result_ingest_contract.v543_v552",
+  "milestone": "v543_v552_world_cup_completed_result_ingest",
+  "paper_only": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "credential_values_allowed": false,
+  "normal_gui_training_button_allowed": false,
+  "training_allowed_from_unsettled_matches": false,
+  "purpose": "Ingest completed World Cup results into timestamp-safe settlement rows before any training/evaluation work.",
+  "versions": {
+    "v543": "result_ingest_contract",
+    "v544": "local_world_cup_result_pack",
+    "v545": "settled_vs_pending_gate",
+    "v546": "training_candidate_preview",
+    "v547": "label_timestamp_gate",
+    "v548": "source_note_tracking",
+    "v549": "world_cup_result_ingest_smoke",
+    "v550": "docs",
+    "v551": "future_event_stats_slot",
+    "v552": "next_training_scaffold_pointer"
+  },
+  "inputs": {
+    "fixture_pack": "tauri-app/src/world-cup-fixtures.local.json",
+    "result_pack": "data/world_cup/v543_v552/world_cup_results.local.json"
+  },
+  "outputs": {
+    "ci_report": "reports/ci_v543_v552_world_cup_result_ingest.json",
+    "candidate_preview": "reports/world_cup_training_candidates_v543_v552.json"
+  },
+  "candidate_rules": {
+    "must_have_status": "settled",
+    "must_have_home_score": true,
+    "must_have_away_score": true,
+    "must_have_label_available_after_utc": true,
+    "label_available_after_utc_must_be_after_kickoff_utc": true,
+    "pending_matches_are_not_training_rows": true
+  },
+  "acceptance": {
+    "contract_added": true,
+    "local_result_pack_added": true,
+    "settled_vs_pending_gate_added": true,
+    "candidate_preview_added": true,
+    "label_timestamp_gate_added": true,
+    "source_note_tracking_added": true,
+    "ci_smoke_added": true,
+    "docs_added": true,
+    "future_event_stats_slot_added": true,
+    "next_training_scaffold_pointer_added": true
+  }
+}
