@@ -1,0 +1,46 @@
+{
+  "schema": "omnibet.prediction_result_cards_contract.v511_v520",
+  "milestone": "v511_v520_simple_prediction_result_cards",
+  "paper_only": true,
+  "normal_gui_focus": "match_prediction_results",
+  "raw_json_primary_output_allowed": false,
+  "recommendation_output_allowed": false,
+  "training_visible_in_normal_gui": false,
+  "live_provider_calls_allowed": false,
+  "versions": {
+    "v511": "prediction_result_cards_contract",
+    "v512": "predict_selected_clean_card",
+    "v513": "predict_selected_auto_scroll",
+    "v514": "raw_snapshot_hidden_in_details",
+    "v515": "predict_all_paper_batch_cards",
+    "v516": "batch_prediction_status_message",
+    "v517": "result_card_paper_only_language",
+    "v518": "normal_gui_training_hidden",
+    "v519": "ci_prediction_result_cards_smoke",
+    "v520": "prediction_result_cards_docs"
+  },
+  "desktop": {
+    "renderer": "tauri-app/src/simple_matches.js",
+    "result_panel_id": "matches-result",
+    "selected_button_id": "matches-predict-selected",
+    "batch_button_id": "matches-predict-all",
+    "required_functions": [
+      "renderPredictionCard",
+      "runPredictSelected",
+      "runPredictAll",
+      "scrollResultIntoView"
+    ]
+  },
+  "acceptance": {
+    "prediction_result_contract_added": true,
+    "predict_selected_clean_card_added": true,
+    "predict_selected_auto_scroll_added": true,
+    "raw_snapshot_hidden_in_details": true,
+    "predict_all_paper_batch_cards_added": true,
+    "batch_prediction_status_message_added": true,
+    "paper_only_language_kept": true,
+    "training_not_normal_gui_action": true,
+    "ci_prediction_result_cards_smoke_added": true,
+    "prediction_result_cards_docs_added": true
+  }
+}
