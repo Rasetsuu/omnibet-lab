@@ -1,0 +1,52 @@
+{
+  "schema": "omnibet.world_cup_results_local.v543_v552",
+  "generated_at_utc": "2026-06-30T00:35:00Z",
+  "paper_only": true,
+  "source_notes": [
+    "Local result pack for training/evaluation candidate preview only.",
+    "Brazil 2-1 Japan result recorded from public match report after completion.",
+    "Germany-Paraguay and Netherlands-Morocco are intentionally not marked settled in this pack."
+  ],
+  "settlements": [
+    {
+      "fixture_id": "wc2026-r32-20260629-brazil-japan",
+      "status": "settled",
+      "home_name": "Brazil",
+      "away_name": "Japan",
+      "home_score": 2,
+      "away_score": 1,
+      "result_label": "home_win",
+      "total_goals": 3,
+      "btts_label": true,
+      "over_0_5_label": true,
+      "over_1_5_label": true,
+      "over_2_5_label": true,
+      "label_available_after_utc": "2026-06-29T20:00:00Z",
+      "source": "local_world_cup_result_pack",
+      "source_note": "Brazil beat Japan 2-1 in the last 32 on June 29, 2026."
+    },
+    {
+      "fixture_id": "wc2026-r32-20260629-germany-paraguay",
+      "status": "pending",
+      "home_name": "Germany",
+      "away_name": "Paraguay",
+      "source": "local_world_cup_result_pack",
+      "source_note": "Not settled in local pack yet; must not become a training row."
+    },
+    {
+      "fixture_id": "wc2026-r32-20260629-netherlands-morocco",
+      "status": "pending",
+      "home_name": "Netherlands",
+      "away_name": "Morocco",
+      "source": "local_world_cup_result_pack",
+      "source_note": "Not settled in local pack yet; must not become a training row."
+    }
+  ],
+  "future_event_stats_slot": {
+    "corners": "not_available_yet",
+    "cards": "not_available_yet",
+    "free_kicks": "not_available_yet",
+    "offsides": "not_available_yet",
+    "player_props": "not_available_yet"
+  }
+}
