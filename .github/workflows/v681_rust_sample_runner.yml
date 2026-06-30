@@ -1,0 +1,31 @@
+name: OmniBet v681 Rust Sample Runner
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  v681-rust-sample-runner:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: dtolnay/rust-toolchain@stable
+      - run: python python_lab/compile_python_sources.py
+      - run: python python_lab/v681_rust_sample_runner_check.py
+      - run: cargo test --manifest-path rust-core/Cargo.toml adapter_file_parsers_v651
+      - run: cargo run --manifest-path rust-core/Cargo.toml --bin omnibet-sample-pack-runner
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v681-rust-sample-runner
+          path: |
+            reports/ci_v681_rust_sample_runner_check.json
+            reports/rust_sample_pack_v681_v710.json
+            configs/rust_sample_runner.v681_v710.json
+            docs/v681_rust_sample_runner.md
+          if-no-files-found: warn
