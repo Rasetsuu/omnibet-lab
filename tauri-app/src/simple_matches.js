@@ -55,6 +55,7 @@ function ensureMatchesPage() {
       <div id="matches-hero" class="card"></div>
       <div id="matches-list" class="grid"></div>
       <div id="matches-selected" class="card"></div>
+      <div id="matches-data-status" class="card"></div>
       <div id="matches-paper-actions" class="card"></div>
       <div id="matches-result" class="card"></div>
     `;
@@ -136,6 +137,21 @@ function renderSelected(fixture) {
     <div class="stat-row"><span>Home</span><strong>${esc(fixture.home_name)}</strong></div>
     <div class="stat-row"><span>Away</span><strong>${esc(fixture.away_name)}</strong></div>
     <div class="stat-row"><span>Kickoff</span><strong>${esc(fixture.kickoff_label || fixture.kickoff_utc)}</strong></div>
+  `;
+}
+
+function renderDataStatus() {
+  const panel = document.getElementById('matches-data-status');
+  if (!panel) return;
+  panel.innerHTML = `
+    <h3>Data pipeline</h3>
+    <div class="market-row-list">
+      ${line('Local sample runner', 'Wired in Rust CI', 'preview')}
+      ${line('Normalized sample pack', 'Available from local files', 'preview')}
+      ${line('Real model', 'Locked until enough settled rows', 'locked')}
+      ${line('Network/live calls', 'Off in normal beta flow', 'locked')}
+    </div>
+    <p class="muted">Status only. No training/import controls are exposed in the normal match screen.</p>
   `;
 }
 
@@ -401,6 +417,7 @@ export function renderSimpleMatches(payload) {
   renderHero(payload, fixtures);
   renderCards(fixtures);
   renderSelected(null);
+  renderDataStatus();
   renderActions();
   renderIdleResult(null);
   showPage('matches');
