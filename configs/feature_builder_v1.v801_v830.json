@@ -1,0 +1,39 @@
+{
+  "schema": "omnibet.feature_builder_v1.v801_v830",
+  "milestone": "v801_v830_feature_builder_v1_skeleton",
+  "paper_only": true,
+  "local_first": true,
+  "ci_downloads_allowed": false,
+  "live_provider_calls_allowed": false,
+  "purpose": "Build simple timestamp-safe feature rows from local completed match rows before any baseline work.",
+  "inputs": {
+    "csv_match_sample": "data/source_samples/v591_v620/football_data_sample.csv"
+  },
+  "outputs": {
+    "ci_report": "reports/ci_v801_v830_feature_builder_v1.json",
+    "feature_rows": "reports/feature_rows_v801_v830.json"
+  },
+  "features": [
+    "home_history_matches_before_kickoff",
+    "away_history_matches_before_kickoff",
+    "home_points_per_match_before_kickoff",
+    "away_points_per_match_before_kickoff",
+    "home_goals_for_avg_before_kickoff",
+    "away_goals_for_avg_before_kickoff",
+    "home_goals_against_avg_before_kickoff",
+    "away_goals_against_avg_before_kickoff",
+    "home_field"
+  ],
+  "thresholds": {
+    "minimum_rows_for_feature_smoke": 3,
+    "minimum_rows_for_v1_baseline": 200
+  },
+  "acceptance": {
+    "contract_added": true,
+    "feature_builder_added": true,
+    "feature_rows_written": true,
+    "timestamp_safe_ordering": true,
+    "ci_workflow_added": true,
+    "docs_added": true
+  }
+}
