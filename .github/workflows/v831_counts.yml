@@ -1,0 +1,28 @@
+name: OmniBet v831 Counts
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  v831-counts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python python_lab/compile_python_sources.py
+      - run: python python_lab/v831_counts.py
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v831-counts
+          path: |
+            reports/v831_counts.json
+            reports/ci_v831_counts.json
+            configs/v831_counts.json
+            docs/v831_counts.md
+          if-no-files-found: warn

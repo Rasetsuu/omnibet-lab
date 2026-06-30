@@ -1,0 +1,8 @@
+{
+  "schema": "omnibet.v831_counts",
+  "input_script": "python_lab/v801_rows.py",
+  "input_rows": "reports/feature_rows_v801_v830.json",
+  "output_report": "reports/v831_counts.json",
+  "minimum_rows": 200,
+  "expected_rows_now": 3
+}
