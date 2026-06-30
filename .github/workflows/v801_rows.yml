@@ -1,0 +1,28 @@
+name: OmniBet v801 Rows
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  v801-rows:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python python_lab/compile_python_sources.py
+      - run: python python_lab/v801_rows.py
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v801-rows
+          path: |
+            reports/ci_v801_v830_feature_builder_v1.json
+            reports/feature_rows_v801_v830.json
+            configs/feature_builder_v1.v801_v830.json
+            docs/feature_builder_v1_v801_v830.md
+          if-no-files-found: warn
