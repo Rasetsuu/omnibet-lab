@@ -1,0 +1,27 @@
+{
+  "schema": "omnibet.gui_data_status_panel_contract.v711_v740",
+  "milestone": "v711_v740_gui_data_status_panel",
+  "paper_only": true,
+  "normal_gui_visible": true,
+  "normal_gui_action_button_allowed": false,
+  "live_provider_calls_allowed": false,
+  "purpose": "Show a passive normal-GUI data pipeline status card after Rust sample runner wiring.",
+  "panel_id": "matches-data-status",
+  "required_labels": [
+    "Data pipeline",
+    "Local sample runner",
+    "Normalized sample pack",
+    "Real model",
+    "Network/live calls"
+  ],
+  "acceptance": {
+    "contract_added": true,
+    "matches_data_status_panel_added": true,
+    "passive_only": true,
+    "no_training_button": true,
+    "no_import_button": true,
+    "ci_check_added": true,
+    "workflow_added": true,
+    "docs_added": true
+  }
+}
