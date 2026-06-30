@@ -1,0 +1,27 @@
+{
+  "schema": "omnibet.v1_status.v741_v770",
+  "paper_only_target": true,
+  "paper_v1_progress_estimate": 40,
+  "full_system_progress_estimate": 8,
+  "current_good_training": false,
+  "done_now": [
+    "desktop_gui_beta",
+    "market_catalog_gui",
+    "data_status_panel",
+    "local_row_ingest_start",
+    "gate_scaffold",
+    "source_catalog",
+    "adapter_samples",
+    "rust_rows",
+    "rust_local_parsers",
+    "rust_sample_runner_ci"
+  ],
+  "remaining_to_v1": [
+    "larger_local_row_packs",
+    "feature_builder_v1",
+    "baseline_eval_v1",
+    "gui_eval_report",
+    "release_polish"
+  ],
+  "finish_line": "Desktop app plus local completed-data packs plus gated baseline report plus paper-only preview outputs."
+}
