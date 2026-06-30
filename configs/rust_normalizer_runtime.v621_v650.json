@@ -1,0 +1,34 @@
+{
+  "schema": "omnibet.rust_normalizer_runtime_contract.v621_v650",
+  "milestone": "v621_v650_rust_normalizer_runtime",
+  "paper_only": true,
+  "local_first": true,
+  "live_provider_calls_allowed": false,
+  "ci_downloads_allowed": false,
+  "purpose": "Move the stable adapter sample normalization row shape into Rust while Python remains CI glue.",
+  "rust_module": "rust-core/src/adapter_normalizer_v621.rs",
+  "lib_export": "adapter_normalizer_v621",
+  "required_symbols": [
+    "NormalizedFixtureRowV621",
+    "NormalizedResultRowV621",
+    "NormalizedEventRowV621",
+    "NormalizedHistoricalPackV621",
+    "result_label_v621",
+    "normalize_sample_fixture_v621",
+    "normalize_sample_result_v621",
+    "normalize_sample_event_v621",
+    "build_normalized_historical_pack_v621",
+    "validate_normalized_pack_v621"
+  ],
+  "outputs": {
+    "ci_report": "reports/ci_v621_v650_rust_normalizer_runtime.json"
+  },
+  "acceptance": {
+    "contract_added": true,
+    "rust_module_added": true,
+    "lib_export_added": true,
+    "rust_tests_added": true,
+    "ci_smoke_added": true,
+    "docs_added": true
+  }
+}
