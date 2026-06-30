@@ -1,0 +1,31 @@
+{
+  "schema": "omnibet.rust_sample_runner_contract.v681_v710",
+  "milestone": "v681_v710_rust_file_backed_sample_runner",
+  "paper_only": true,
+  "local_first": true,
+  "ci_downloads_allowed": false,
+  "live_provider_calls_allowed": false,
+  "purpose": "Run the Rust sample parsers against local sample files and write a normalized pack count report.",
+  "binary": "omnibet-sample-pack-runner",
+  "binary_path": "rust-core/src/bin/omnibet-sample-pack-runner.rs",
+  "default_inputs": {
+    "csv": "data/source_samples/v591_v620/football_data_sample.csv",
+    "json_match": "data/source_samples/v591_v620/openfootball_sample.json",
+    "events": "data/source_samples/v591_v620/statsbomb_events_sample.json"
+  },
+  "default_output": "reports/rust_sample_pack_v681_v710.json",
+  "expected_counts": {
+    "fixtures": 6,
+    "results": 6,
+    "events": 4
+  },
+  "acceptance": {
+    "contract_added": true,
+    "rust_runner_added": true,
+    "cargo_bin_registered": true,
+    "local_inputs_used": true,
+    "json_report_written": true,
+    "ci_smoke_added": true,
+    "docs_added": true
+  }
+}
