@@ -1,0 +1,29 @@
+name: OmniBet v621 Rust Rows
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  v621-rust-rows:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: dtolnay/rust-toolchain@stable
+      - run: python python_lab/compile_python_sources.py
+      - run: python python_lab/v621_rust_check.py
+      - run: cargo test --manifest-path rust-core/Cargo.toml adapter_normalizer_v621
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v621-rust-rows
+          path: |
+            reports/ci_v621_rust_check.json
+            configs/rust_normalizer_runtime.v621_v650.json
+            docs/v621_rust_rows.md
+          if-no-files-found: warn
