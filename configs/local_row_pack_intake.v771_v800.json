@@ -1,0 +1,29 @@
+{
+  "schema": "omnibet.local_row_pack_intake.v771_v800",
+  "milestone": "v771_v800_local_historical_row_pack_intake",
+  "paper_only": true,
+  "local_first": true,
+  "ci_downloads_allowed": false,
+  "live_provider_calls_allowed": false,
+  "intake_dir": "data/local_historical",
+  "sample_dirs": [
+    "data/source_samples/v591_v620"
+  ],
+  "outputs": {
+    "ci_report": "reports/ci_v771_v800_local_row_pack_intake.json",
+    "scan_report": "reports/local_row_pack_scan_v771_v800.json"
+  },
+  "thresholds": {
+    "minimum_rows_for_gate_preview": 6,
+    "minimum_rows_for_v1_baseline": 200
+  },
+  "accepted_extensions": [".csv", ".json"],
+  "acceptance": {
+    "contract_added": true,
+    "intake_readme_added": true,
+    "scanner_added": true,
+    "scan_report_written": true,
+    "ci_workflow_added": true,
+    "docs_added": true
+  }
+}
