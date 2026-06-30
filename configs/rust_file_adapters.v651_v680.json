@@ -1,0 +1,34 @@
+{
+  "schema": "omnibet.rust_file_adapters_contract.v651_v680",
+  "milestone": "v651_v680_rust_file_adapters",
+  "paper_only": true,
+  "local_first": true,
+  "ci_downloads_allowed": false,
+  "live_provider_calls_allowed": false,
+  "purpose": "Parse the local adapter sample file shapes in Rust and build the same normalized row pack shape.",
+  "rust_module": "rust-core/src/adapter_file_parsers_v651.rs",
+  "depends_on": [
+    "rust-core/src/adapter_normalizer_v621.rs",
+    "data/source_samples/v591_v620/football_data_sample.csv",
+    "data/source_samples/v591_v620/openfootball_sample.json",
+    "data/source_samples/v591_v620/statsbomb_events_sample.json"
+  ],
+  "required_symbols": [
+    "parse_football_data_csv_v651",
+    "parse_openfootball_json_v651",
+    "parse_statsbomb_events_json_v651",
+    "build_pack_from_sample_contents_v651"
+  ],
+  "acceptance": {
+    "contract_added": true,
+    "rust_file_parser_module_added": true,
+    "lib_export_added": true,
+    "csv_parser_added": true,
+    "json_match_parser_added": true,
+    "json_event_parser_added": true,
+    "pack_builder_added": true,
+    "rust_tests_added": true,
+    "ci_workflow_added": true,
+    "docs_added": true
+  }
+}
