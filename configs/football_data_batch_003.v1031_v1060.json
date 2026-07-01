@@ -1,0 +1,70 @@
+{
+  "schema": "omnibet.football_data_batch_003.v1031_v1060",
+  "milestone": "v1031_v1060_data_pack_30k",
+  "paper_only": true,
+  "local_first": true,
+  "ci_downloads_allowed": false,
+  "live_provider_calls_allowed": false,
+  "commit_raw_csv": false,
+  "manual_download_required": true,
+  "description": "Batch 003 scales to a multi-season Football-Data pack targeting 30k+ eligible completed match rows without committing raw CSVs.",
+  "seasons": ["1516", "1617", "1718", "1819", "1920", "2021", "2122", "2223", "2324", "2425"],
+  "season_ids": {
+    "1516": "2015_2016",
+    "1617": "2016_2017",
+    "1718": "2017_2018",
+    "1819": "2018_2019",
+    "1920": "2019_2020",
+    "2021": "2020_2021",
+    "2122": "2021_2022",
+    "2223": "2022_2023",
+    "2324": "2023_2024",
+    "2425": "2024_2025"
+  },
+  "competitions": [
+    {"code": "E0", "competition_id": "england_premier_league", "country": "England"},
+    {"code": "E1", "competition_id": "england_championship", "country": "England"},
+    {"code": "E2", "competition_id": "england_league_one", "country": "England"},
+    {"code": "D1", "competition_id": "germany_bundesliga", "country": "Germany"},
+    {"code": "D2", "competition_id": "germany_bundesliga_2", "country": "Germany"},
+    {"code": "SP1", "competition_id": "spain_la_liga", "country": "Spain"},
+    {"code": "SP2", "competition_id": "spain_segunda", "country": "Spain"},
+    {"code": "I1", "competition_id": "italy_serie_a", "country": "Italy"},
+    {"code": "I2", "competition_id": "italy_serie_b", "country": "Italy"},
+    {"code": "F1", "competition_id": "france_ligue_1", "country": "France"},
+    {"code": "F2", "competition_id": "france_ligue_2", "country": "France"},
+    {"code": "N1", "competition_id": "netherlands_eredivisie", "country": "Netherlands"},
+    {"code": "B1", "competition_id": "belgium_first_division_a", "country": "Belgium"},
+    {"code": "P1", "competition_id": "portugal_primeira_liga", "country": "Portugal"},
+    {"code": "T1", "competition_id": "turkey_super_lig", "country": "Turkey"},
+    {"code": "G1", "competition_id": "greece_super_league", "country": "Greece"},
+    {"code": "SC0", "competition_id": "scotland_premiership", "country": "Scotland"},
+    {"code": "SC1", "competition_id": "scotland_championship", "country": "Scotland"}
+  ],
+  "url_template": "https://www.football-data.co.uk/mmz4281/{season}/{code}.csv",
+  "raw_path_template": "data/local_historical/football_data/raw/{competition_id}/{season_id}/{code}.csv",
+  "normalized_path_template": "data/local_historical/football_data/normalized/{competition_id}/{season_id}",
+  "batch_targets": {
+    "batch_003_target_min_rows": 30000,
+    "batch_003_target_soft_max_rows": 70000,
+    "minimum_rows_for_v1_baseline": 200,
+    "minimum_rows_for_baseline_eval": 250,
+    "real_model_ready_after_eval": false,
+    "next_after_batch_003": "feature_builder_v2_and_stronger_baselines"
+  },
+  "aggregate_paths": {
+    "normalized_dir": "data/local_historical/football_data/normalized/batch_003_multi_season_30k",
+    "matches_jsonl": "data/local_historical/football_data/normalized/batch_003_multi_season_30k/matches.jsonl",
+    "odds_jsonl": "data/local_historical/football_data/normalized/batch_003_multi_season_30k/odds.jsonl",
+    "source_report": "data/local_historical/football_data/normalized/batch_003_multi_season_30k/source_report.json",
+    "feature_counts_report": "reports/feature_counts.json",
+    "model_eval_report": "reports/model_eval.json",
+    "ci_report": "reports/ci_v1031_v1060_football_data_batch_003.json"
+  },
+  "commands": {
+    "download_all": "bash scripts/download_football_data_batch_003.sh",
+    "run_batch": "bash scripts/run_football_data_batch_003.sh",
+    "manifest_check": "python python_lab/v1031_football_data_batch_003_check.py",
+    "data_check": "python python_lab/v1031_football_data_batch_003_check.py --require-data"
+  }
+}
