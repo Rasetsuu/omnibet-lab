@@ -1,0 +1,36 @@
+name: v961 Rust Baseline Eval Report
+
+on:
+  pull_request:
+    paths:
+      - "rust-core/**"
+      - "python_lab/v961_baseline_eval_report_check.py"
+      - "docs/v961_rust_baseline_eval_report.md"
+      - ".github/workflows/v961_rust_baseline_eval_report.yml"
+      - ".gitignore"
+  workflow_dispatch:
+
+jobs:
+  rust-baseline-eval-report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run v961 Rust baseline eval tests
+        run: cargo test --manifest-path rust-core/Cargo.toml baseline_eval_report_v961 -- --nocapture
+      - name: Run v961 baseline eval report guard
+        run: python python_lab/v961_baseline_eval_report_check.py
+      - name: Upload v961 guard report
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v961-baseline-eval-report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            reports/ci_v961_baseline_eval_report.json
+            docs/v961_rust_baseline_eval_report.md
+          if-no-files-found: warn
