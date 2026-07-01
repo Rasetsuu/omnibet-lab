@@ -1,0 +1,98 @@
+{
+  "schema": "omnibet.football_data_batch_002.v991_v1030",
+  "milestone": "v991_v1030_larger_data_pack",
+  "paper_only": true,
+  "local_first": true,
+  "ci_downloads_allowed": false,
+  "live_provider_calls_allowed": false,
+  "commit_raw_csv": false,
+  "manual_download_required": true,
+  "description": "Batch 002 scales from a single-league smoke batch to a top-five-league one-season pack. It is designed to land around the 1k-3k completed match row target without committing raw CSVs.",
+  "batch_targets": {
+    "batch_002_target_min_rows": 1000,
+    "batch_002_target_max_rows": 3000,
+    "expected_completed_rows_nominal": 1900,
+    "minimum_rows_for_v1_baseline": 200,
+    "minimum_rows_for_baseline_eval": 250,
+    "real_model_ready_after_eval": false,
+    "next_batch_003_target_rows": "10000-30000+"
+  },
+  "sources": [
+    {
+      "provider": "Football-Data.co.uk",
+      "country": "England",
+      "division_code": "E0",
+      "competition_id": "england_premier_league",
+      "season_id": "2024_2025",
+      "source_url": "https://www.football-data.co.uk/mmz4281/2425/E0.csv",
+      "raw_csv": "data/local_historical/football_data/raw/england_premier_league/2024_2025/E0.csv",
+      "normalized_dir": "data/local_historical/football_data/normalized/england_premier_league/2024_2025"
+    },
+    {
+      "provider": "Football-Data.co.uk",
+      "country": "Spain",
+      "division_code": "SP1",
+      "competition_id": "spain_la_liga",
+      "season_id": "2024_2025",
+      "source_url": "https://www.football-data.co.uk/mmz4281/2425/SP1.csv",
+      "raw_csv": "data/local_historical/football_data/raw/spain_la_liga/2024_2025/SP1.csv",
+      "normalized_dir": "data/local_historical/football_data/normalized/spain_la_liga/2024_2025"
+    },
+    {
+      "provider": "Football-Data.co.uk",
+      "country": "Italy",
+      "division_code": "I1",
+      "competition_id": "italy_serie_a",
+      "season_id": "2024_2025",
+      "source_url": "https://www.football-data.co.uk/mmz4281/2425/I1.csv",
+      "raw_csv": "data/local_historical/football_data/raw/italy_serie_a/2024_2025/I1.csv",
+      "normalized_dir": "data/local_historical/football_data/normalized/italy_serie_a/2024_2025"
+    },
+    {
+      "provider": "Football-Data.co.uk",
+      "country": "Germany",
+      "division_code": "D1",
+      "competition_id": "germany_bundesliga",
+      "season_id": "2024_2025",
+      "source_url": "https://www.football-data.co.uk/mmz4281/2425/D1.csv",
+      "raw_csv": "data/local_historical/football_data/raw/germany_bundesliga/2024_2025/D1.csv",
+      "normalized_dir": "data/local_historical/football_data/normalized/germany_bundesliga/2024_2025"
+    },
+    {
+      "provider": "Football-Data.co.uk",
+      "country": "France",
+      "division_code": "F1",
+      "competition_id": "france_ligue_1",
+      "season_id": "2024_2025",
+      "source_url": "https://www.football-data.co.uk/mmz4281/2425/F1.csv",
+      "raw_csv": "data/local_historical/football_data/raw/france_ligue_1/2024_2025/F1.csv",
+      "normalized_dir": "data/local_historical/football_data/normalized/france_ligue_1/2024_2025"
+    }
+  ],
+  "aggregate_paths": {
+    "normalized_dir": "data/local_historical/football_data/normalized/batch_002_top5_2024_2025",
+    "matches_jsonl": "data/local_historical/football_data/normalized/batch_002_top5_2024_2025/matches.jsonl",
+    "odds_jsonl": "data/local_historical/football_data/normalized/batch_002_top5_2024_2025/odds.jsonl",
+    "feature_counts_report": "reports/feature_counts.json",
+    "model_eval_report": "reports/model_eval.json",
+    "ci_report": "reports/ci_v991_v1030_football_data_batch_002.json"
+  },
+  "commands": {
+    "download_all": "bash scripts/download_football_data_batch_002.sh",
+    "run_batch": "bash scripts/run_football_data_batch_002.sh",
+    "manifest_check": "python python_lab/v991_football_data_batch_002_check.py",
+    "data_check": "python python_lab/v991_football_data_batch_002_check.py --require-data"
+  },
+  "acceptance": {
+    "manifest_added": true,
+    "download_helper_added": true,
+    "runner_added": true,
+    "docs_added": true,
+    "ci_manifest_check_added": true,
+    "raw_csv_not_committed_by_default": true,
+    "runner_blocks_when_any_raw_csv_missing": true,
+    "aggregate_matches_written_when_raw_csvs_present": true,
+    "feature_counts_written_when_raw_csvs_present": true,
+    "model_eval_written_when_raw_csvs_present": true
+  }
+}
