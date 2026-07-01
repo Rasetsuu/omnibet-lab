@@ -7,6 +7,9 @@ edition = "2021"
 tauri = { version = "2", features = [] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+# Keep the Tauri desktop dependency graph deterministic enough for CI.
+# cookie 0.18.1 is pulled transitively and currently fails against newer floating time 0.3.x releases.
+time = "=0.3.36"
 
 [build-dependencies]
 tauri-build = { version = "2", features = [] }
