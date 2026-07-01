@@ -1,0 +1,33 @@
+name: v971 GUI Model Eval Status
+
+on:
+  pull_request:
+    paths:
+      - "tauri-app/src/simple_matches.js"
+      - "python_lab/v971_gui_model_eval_status_check.py"
+      - "docs/v971_gui_model_eval_status.md"
+      - ".github/workflows/v971_gui_model_eval_status.yml"
+  workflow_dispatch:
+
+jobs:
+  gui-model-eval-status:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python python_lab/compile_python_sources.py
+      - name: Run v971 GUI model eval status guard
+        run: python python_lab/v971_gui_model_eval_status_check.py
+      - name: Upload v971 GUI model eval status report
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v971-gui-model-eval-status-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            reports/ci_v971_gui_model_eval_status.json
+            docs/v971_gui_model_eval_status.md
+          if-no-files-found: warn
