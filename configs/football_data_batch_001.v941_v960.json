@@ -1,0 +1,53 @@
+{
+  "schema": "omnibet.football_data_batch_001.v941_v960",
+  "milestone": "v941_v960_football_data_batch_001",
+  "paper_only": true,
+  "local_first": true,
+  "ci_downloads_allowed": false,
+  "live_provider_calls_allowed": false,
+  "commit_raw_csv": false,
+  "manual_download_required": true,
+  "source": {
+    "provider": "Football-Data.co.uk",
+    "provider_home": "https://www.football-data.co.uk/data.php",
+    "source_url": "https://www.football-data.co.uk/mmz4281/2425/E0.csv",
+    "notes_url": "https://www.football-data.co.uk/notes.txt",
+    "country": "England",
+    "division_code": "E0",
+    "competition_id": "england_premier_league",
+    "season_id": "2024_2025",
+    "expected_completed_rows_min": 200,
+    "expected_completed_rows_nominal": 380
+  },
+  "paths": {
+    "raw_csv": "data/local_historical/football_data/raw/england_premier_league/2024_2025/E0.csv",
+    "normalized_dir": "data/local_historical/football_data/normalized/england_premier_league/2024_2025",
+    "matches_jsonl": "data/local_historical/football_data/normalized/england_premier_league/2024_2025/matches.jsonl",
+    "odds_jsonl": "data/local_historical/football_data/normalized/england_premier_league/2024_2025/odds.jsonl",
+    "import_report": "data/local_historical/football_data/normalized/england_premier_league/2024_2025/import_report.json",
+    "feature_counts_report": "reports/feature_counts.json",
+    "ci_report": "reports/ci_v941_v960_football_data_batch_001.json"
+  },
+  "gates": {
+    "minimum_rows_for_v1_baseline": 200,
+    "batch_001_target_min_rows": 200,
+    "batch_001_target_max_rows": 500,
+    "real_model_ready_after_count_gate": false,
+    "requires_walk_forward_eval_after_count_gate": true
+  },
+  "commands": {
+    "manual_download": "mkdir -p data/local_historical/football_data/raw/england_premier_league/2024_2025 && curl -L https://www.football-data.co.uk/mmz4281/2425/E0.csv -o data/local_historical/football_data/raw/england_premier_league/2024_2025/E0.csv",
+    "run_batch": "bash scripts/run_football_data_batch_001.sh",
+    "import_only": "cargo run --manifest-path rust-core/Cargo.toml --bin omnibet-football-data-importer -- --input data/local_historical/football_data/raw/england_premier_league/2024_2025/E0.csv --competition england_premier_league --season 2024_2025 --out data/local_historical/football_data/normalized/england_premier_league/2024_2025",
+    "count_gate": "cargo run --manifest-path rust-core/Cargo.toml --bin omnibet-feature-count-gate -- --matches data/local_historical/football_data/normalized/england_premier_league/2024_2025/matches.jsonl --out reports/feature_counts.json --min-rows 200 --source-label football_data_england_premier_league_2024_2025"
+  },
+  "acceptance": {
+    "manifest_added": true,
+    "runner_added": true,
+    "docs_added": true,
+    "ci_manifest_check_added": true,
+    "raw_csv_not_committed_by_default": true,
+    "batch_runner_blocks_when_raw_csv_missing": true,
+    "feature_counts_written_when_raw_csv_present": true
+  }
+}
