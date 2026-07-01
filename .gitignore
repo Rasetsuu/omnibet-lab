@@ -45,3 +45,9 @@ build/desktop_rc_v62/
 # Generated local reports kept out of ad-hoc commits
 reports/local_*.json
 reports/ci_*.json
+reports/feature_counts.json
+
+# Local historical raw/generated data. Commit only deliberate tiny approved samples.
+data/local_historical/football_data/raw/**/*.csv
+data/local_historical/football_data/normalized/**/*.jsonl
+data/local_historical/football_data/normalized/**/import_report.json
