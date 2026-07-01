@@ -148,6 +148,8 @@ function renderDataStatus() {
     <div class="market-row-list">
       ${line('Local sample runner', 'Wired in Rust CI', 'preview')}
       ${line('Normalized sample pack', 'Available from local files', 'preview')}
+      ${line('Completed row count', '3 / 200 required for v1', 'locked')}
+      ${line('V1 readiness', 'Needs more rows', 'locked')}
       ${line('Real model', 'Locked until enough settled rows', 'locked')}
       ${line('Network/live calls', 'Off in normal beta flow', 'locked')}
     </div>
