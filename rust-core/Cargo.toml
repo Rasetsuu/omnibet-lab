@@ -47,6 +47,10 @@ path = "src/bin/omnibet-materialized-storage-hasher.rs"
 name = "omnibet-sample-pack-runner"
 path = "src/bin/omnibet-sample-pack-runner.rs"
 
+[[bin]]
+name = "omnibet-football-data-importer"
+path = "src/bin/omnibet-football-data-importer.rs"
+
 [dependencies]
 flate2 = "1"
 serde = { version = "1", features = ["derive"] }

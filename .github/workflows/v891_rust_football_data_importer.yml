@@ -1,0 +1,18 @@
+name: v891 Rust Football-Data Importer
+
+on:
+  pull_request:
+    paths:
+      - "rust-core/**"
+      - "docs/v891_rust_football_data_importer.md"
+      - ".github/workflows/v891_rust_football_data_importer.yml"
+  workflow_dispatch:
+
+jobs:
+  rust-football-data-importer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Run v891 importer tests
+        run: cargo test --manifest-path rust-core/Cargo.toml football_data_import_v891 -- --nocapture
