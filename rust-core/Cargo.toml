@@ -51,6 +51,10 @@ path = "src/bin/omnibet-sample-pack-runner.rs"
 name = "omnibet-football-data-importer"
 path = "src/bin/omnibet-football-data-importer.rs"
 
+[[bin]]
+name = "omnibet-feature-count-gate"
+path = "src/bin/omnibet-feature-count-gate.rs"
+
 [dependencies]
 flate2 = "1"
 serde = { version = "1", features = ["derive"] }
