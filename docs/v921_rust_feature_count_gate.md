@@ -71,6 +71,36 @@ A row is counted as eligible when it has:
 
 Duplicates are skipped by match id.
 
+## GUI behavior
+
+The Matches data-pipeline card now keeps the existing safe fallback but can upgrade itself when a generated Rust count report is available.
+
+Fallback when no report is found:
+
+```text
+Completed row count: 3 / 200 required for v1
+V1 readiness: Needs more rows
+Real model: Locked until enough settled rows
+```
+
+Generated-report path:
+
+```text
+reports/feature_counts.json
+../reports/feature_counts.json
+./reports/feature_counts.json
+feature_counts.json
+```
+
+When a report is loaded, the GUI shows:
+
+- feature-count source
+- `eligible_feature_rows / min_required_rows`
+- count-gate readiness
+- real model lock/eval status
+
+The GUI still hides training/import controls from the normal match screen.
+
 ## Expected current behavior
 
 With the existing tiny clean path, the product should still show:
