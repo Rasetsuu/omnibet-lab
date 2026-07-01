@@ -1,0 +1,35 @@
+name: v941 Football-Data Batch 001
+
+on:
+  pull_request:
+    paths:
+      - "configs/football_data_batch_001.v941_v960.json"
+      - "scripts/run_football_data_batch_001.sh"
+      - "python_lab/v941_football_data_batch_001_check.py"
+      - "docs/v941_football_data_batch_001.md"
+      - ".github/workflows/v941_football_data_batch_001.yml"
+  workflow_dispatch:
+
+jobs:
+  football-data-batch-001-manifest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python python_lab/compile_python_sources.py
+      - name: Check Batch 001 manifest only
+        run: python python_lab/v941_football_data_batch_001_check.py
+      - name: Upload Batch 001 manifest report
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v941-football-data-batch-001-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            reports/ci_v941_v960_football_data_batch_001.json
+            configs/football_data_batch_001.v941_v960.json
+            docs/v941_football_data_batch_001.md
+          if-no-files-found: warn
