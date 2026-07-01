@@ -1,5 +1,16 @@
 import { predictSelectedUpcomingFixture } from './upcoming.js';
 
+const DEFAULT_FEATURE_COUNT_STATUS = {
+  source: 'static fallback',
+  completedRowText: '3 / 200 required for v1',
+  readinessText: 'Needs more rows',
+  rowStatus: 'locked',
+  readinessStatus: 'locked',
+  realModelText: 'Locked until enough settled rows',
+  realModelStatus: 'locked',
+  notes: ['Status only. No training/import controls are exposed in the normal match screen.'],
+};
+
 function esc(value) {
   return String(value ?? '').replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
 }
@@ -140,21 +151,69 @@ function renderSelected(fixture) {
   `;
 }
 
-function renderDataStatus() {
+function renderDataStatus(status = DEFAULT_FEATURE_COUNT_STATUS) {
   const panel = document.getElementById('matches-data-status');
   if (!panel) return;
+  const notes = Array.isArray(status.notes) && status.notes.length ? status.notes : DEFAULT_FEATURE_COUNT_STATUS.notes;
   panel.innerHTML = `
     <h3>Data pipeline</h3>
     <div class="market-row-list">
       ${line('Local sample runner', 'Wired in Rust CI', 'preview')}
       ${line('Normalized sample pack', 'Available from local files', 'preview')}
-      ${line('Completed row count', '3 / 200 required for v1', 'locked')}
-      ${line('V1 readiness', 'Needs more rows', 'locked')}
-      ${line('Real model', 'Locked until enough settled rows', 'locked')}
+      ${line('Feature-count source', status.source, status.sourceStatus || 'preview')}
+      ${line('Completed row count', status.completedRowText, status.rowStatus)}
+      ${line('V1 readiness', status.readinessText, status.readinessStatus)}
+      ${line('Real model', status.realModelText, status.realModelStatus)}
       ${line('Network/live calls', 'Off in normal beta flow', 'locked')}
     </div>
-    <p class="muted">Status only. No training/import controls are exposed in the normal match screen.</p>
+    <p class="muted">${esc(notes[0])}</p>
   `;
+}
+
+async function loadGeneratedFeatureCountStatus() {
+  const paths = [
+    'reports/feature_counts.json',
+    '../reports/feature_counts.json',
+    './reports/feature_counts.json',
+    'feature_counts.json',
+  ];
+  for (const path of paths) {
+    try {
+      const report = await loadJson(path);
+      return featureCountReportToStatus(report, path);
+    } catch (_err) {
+      // Keep trying fallbacks. The normal beta GUI must stay usable even when reports are absent.
+    }
+  }
+  return null;
+}
+
+async function renderGeneratedFeatureCountStatus() {
+  const status = await loadGeneratedFeatureCountStatus();
+  if (status) renderDataStatus(status);
+}
+
+function featureCountReportToStatus(report, path) {
+  const eligible = Number(report?.eligible_feature_rows ?? report?.completed_match_rows ?? 0);
+  const minRows = Number(report?.min_required_rows ?? 200);
+  const ready = Boolean(report?.ready);
+  const modelReady = Boolean(report?.real_model_ready);
+  const countText = `${Number.isFinite(eligible) ? eligible : 0} / ${Number.isFinite(minRows) ? minRows : 200} required for v1`;
+  const readinessText = ready ? 'Count gate passed; eval required' : 'Needs more rows';
+  const realModelText = modelReady ? 'Evaluation gate passed' : 'Locked until walk-forward eval/calibration';
+  return {
+    source: `Rust feature_counts.json (${path})`,
+    sourceStatus: 'preview',
+    completedRowText: countText,
+    readinessText,
+    rowStatus: ready ? 'preview' : 'locked',
+    readinessStatus: ready ? 'placeholder' : 'locked',
+    realModelText,
+    realModelStatus: modelReady ? 'preview' : 'locked',
+    notes: Array.isArray(report?.notes) && report.notes.length
+      ? report.notes
+      : ['Status only. Generated count report loaded; model trust still requires evaluation.'],
+  };
 }
 
 function renderActions() {
@@ -420,6 +479,7 @@ export function renderSimpleMatches(payload) {
   renderCards(fixtures);
   renderSelected(null);
   renderDataStatus();
+  renderGeneratedFeatureCountStatus();
   renderActions();
   renderIdleResult(null);
   showPage('matches');
