@@ -16,10 +16,16 @@ jobs:
           python-version: "3.12"
       - run: python python_lab/compile_python_sources.py
       - run: python python_lab/gui_data_status_panel_smoke.py
+      - name: Ensure artifact fallback exists
+        if: always()
+        run: |
+          mkdir -p reports
+          test -f reports/ci_v711_v740_gui_data_status_panel.json || printf '{"ok":false,"schema":"omnibet.gui_data_status_panel_artifact_fallback.v711_v740","reason":"primary report missing"}\n' > reports/ci_v711_v740_gui_data_status_panel.json
       - if: always()
+        continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
-          name: omnibet-v711-v740-gui-data-status-panel
+          name: omnibet-v711-v740-gui-data-status-panel-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             reports/ci_v711_v740_gui_data_status_panel.json
             configs/gui_data_status_panel.v711_v740.json
