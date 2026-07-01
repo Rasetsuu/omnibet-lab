@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - "rust-core/**"
+      - "tauri-app/src/simple_matches.js"
+      - "python_lab/v921_gui_feature_count_status_check.py"
       - "docs/v921_rust_feature_count_gate.md"
       - ".github/workflows/v921_rust_feature_count_gate.yml"
   workflow_dispatch:
@@ -16,3 +18,5 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - name: Run v921 feature count gate tests
         run: cargo test --manifest-path rust-core/Cargo.toml feature_count_gate_v921 -- --nocapture
+      - name: Run v921 GUI feature-count status check
+        run: python python_lab/v921_gui_feature_count_status_check.py
