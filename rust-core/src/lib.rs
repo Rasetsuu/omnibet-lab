@@ -1,5 +1,6 @@
 pub mod adapter_file_parsers_v651;
 pub mod adapter_normalizer_v621;
+pub mod baseline_eval_report_v961;
 pub mod baseline_eval_v281;
 pub mod baseline_reports_v331;
 pub mod bronze_cache;
@@ -52,6 +53,7 @@ pub mod walk_forward_v321;
 
 pub use adapter_file_parsers_v651::*;
 pub use adapter_normalizer_v621::*;
+pub use baseline_eval_report_v961::*;
 pub use baseline_eval_v281::*;
 pub use baseline_reports_v331::*;
 pub use bronze_cache::*;

@@ -46,6 +46,7 @@ build/desktop_rc_v62/
 reports/local_*.json
 reports/ci_*.json
 reports/feature_counts.json
+reports/model_eval.json
 
 # Local historical raw/generated data. Commit only deliberate tiny approved samples.
 data/local_historical/football_data/raw/**/*.csv
