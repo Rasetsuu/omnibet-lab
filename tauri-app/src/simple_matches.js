@@ -8,6 +8,11 @@ const DEFAULT_FEATURE_COUNT_STATUS = {
   readinessStatus: 'locked',
   realModelText: 'Locked until enough settled rows',
   realModelStatus: 'locked',
+  modelEvalSource: 'static fallback',
+  modelEvalText: 'No baseline eval report loaded',
+  modelEvalStatus: 'locked',
+  modelEvalMetricsText: 'Unavailable until reports/model_eval.json exists',
+  modelEvalMetricsStatus: 'locked',
   notes: ['Status only. No training/import controls are exposed in the normal match screen.'],
 };
 
@@ -154,20 +159,30 @@ function renderSelected(fixture) {
 function renderDataStatus(status = DEFAULT_FEATURE_COUNT_STATUS) {
   const panel = document.getElementById('matches-data-status');
   if (!panel) return;
-  const notes = Array.isArray(status.notes) && status.notes.length ? status.notes : DEFAULT_FEATURE_COUNT_STATUS.notes;
+  const merged = { ...DEFAULT_FEATURE_COUNT_STATUS, ...status };
+  window.__omnibetDataStatus = merged;
+  const notes = Array.isArray(merged.notes) && merged.notes.length ? merged.notes : DEFAULT_FEATURE_COUNT_STATUS.notes;
   panel.innerHTML = `
     <h3>Data pipeline</h3>
     <div class="market-row-list">
       ${line('Local sample runner', 'Wired in Rust CI', 'preview')}
       ${line('Normalized sample pack', 'Available from local files', 'preview')}
-      ${line('Feature-count source', status.source, status.sourceStatus || 'preview')}
-      ${line('Completed row count', status.completedRowText, status.rowStatus)}
-      ${line('V1 readiness', status.readinessText, status.readinessStatus)}
-      ${line('Real model', status.realModelText, status.realModelStatus)}
+      ${line('Feature-count source', merged.source, merged.sourceStatus || 'preview')}
+      ${line('Completed row count', merged.completedRowText, merged.rowStatus)}
+      ${line('V1 readiness', merged.readinessText, merged.readinessStatus)}
+      ${line('Baseline eval source', merged.modelEvalSource, merged.modelEvalSourceStatus || 'preview')}
+      ${line('Baseline eval', merged.modelEvalText, merged.modelEvalStatus)}
+      ${line('Eval metrics', merged.modelEvalMetricsText, merged.modelEvalMetricsStatus)}
+      ${line('Real model', merged.realModelText, merged.realModelStatus)}
       ${line('Network/live calls', 'Off in normal beta flow', 'locked')}
     </div>
     <p class="muted">${esc(notes[0])}</p>
   `;
+}
+
+function mergeAndRenderDataStatus(partialStatus) {
+  const current = window.__omnibetDataStatus || DEFAULT_FEATURE_COUNT_STATUS;
+  renderDataStatus({ ...current, ...partialStatus });
 }
 
 async function loadGeneratedFeatureCountStatus() {
@@ -190,7 +205,7 @@ async function loadGeneratedFeatureCountStatus() {
 
 async function renderGeneratedFeatureCountStatus() {
   const status = await loadGeneratedFeatureCountStatus();
-  if (status) renderDataStatus(status);
+  if (status) mergeAndRenderDataStatus(status);
 }
 
 function featureCountReportToStatus(report, path) {
@@ -213,6 +228,70 @@ function featureCountReportToStatus(report, path) {
     notes: Array.isArray(report?.notes) && report.notes.length
       ? report.notes
       : ['Status only. Generated count report loaded; model trust still requires evaluation.'],
+  };
+}
+
+async function loadGeneratedModelEvalStatus() {
+  const paths = [
+    'reports/model_eval.json',
+    '../reports/model_eval.json',
+    './reports/model_eval.json',
+    'model_eval.json',
+  ];
+  for (const path of paths) {
+    try {
+      const report = await loadJson(path);
+      return modelEvalReportToStatus(report, path);
+    } catch (_err) {
+      // Keep trying fallbacks. A missing model_eval report is expected before baseline evaluation runs.
+    }
+  }
+  return null;
+}
+
+async function renderGeneratedModelEvalStatus() {
+  const status = await loadGeneratedModelEvalStatus();
+  if (status) mergeAndRenderDataStatus(status);
+}
+
+function fmtPct(value) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return 'n/a';
+  return `${(number * 100).toFixed(1)}%`;
+}
+
+function fmtNum(value) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return 'n/a';
+  return number.toFixed(3);
+}
+
+function modelEvalReportToStatus(report, path) {
+  const ready = Boolean(report?.ready);
+  const realModelReady = Boolean(report?.real_model_ready);
+  const status = String(report?.status || 'unknown');
+  const modelStatus = String(report?.model_status || 'unknown');
+  const metrics = report?.metrics || null;
+  const evalRows = Number(report?.eval_rows ?? metrics?.eval_rows ?? 0);
+  const trainRows = Number(report?.train_rows ?? 0);
+  const modelEvalText = ready
+    ? `Baseline complete: ${trainRows} train / ${evalRows} eval rows`
+    : `Blocked: ${status}`;
+  const metricsText = metrics
+    ? `acc ${fmtPct(metrics.accuracy)} · logloss ${fmtNum(metrics.log_loss)} · brier ${fmtNum(metrics.brier_score)} · ECE ${fmtNum(metrics.calibration_ece)}`
+    : 'Unavailable until baseline eval has enough rows';
+  return {
+    modelEvalSource: `Rust model_eval.json (${path})`,
+    modelEvalSourceStatus: 'preview',
+    modelEvalText,
+    modelEvalStatus: ready ? 'preview' : 'locked',
+    modelEvalMetricsText: metricsText,
+    modelEvalMetricsStatus: metrics ? 'preview' : 'locked',
+    realModelText: realModelReady ? 'Evaluation gate passed' : `Still locked: ${modelStatus}`,
+    realModelStatus: realModelReady ? 'preview' : 'locked',
+    notes: Array.isArray(report?.notes) && report.notes.length
+      ? report.notes
+      : ['Status only. Generated model eval report loaded; this is still paper-only.'],
   };
 }
 
@@ -475,11 +554,13 @@ export function renderSimpleMatches(payload) {
   compactNormalMode();
   const fixtures = normalizeFixtures(payload);
   window.__omnibetUpcomingFixtures = fixtures;
+  window.__omnibetDataStatus = { ...DEFAULT_FEATURE_COUNT_STATUS };
   renderHero(payload, fixtures);
   renderCards(fixtures);
   renderSelected(null);
   renderDataStatus();
   renderGeneratedFeatureCountStatus();
+  renderGeneratedModelEvalStatus();
   renderActions();
   renderIdleResult(null);
   showPage('matches');
