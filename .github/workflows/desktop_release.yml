@@ -92,7 +92,9 @@ jobs:
             "$package_dir/data/historical/v451_v460" \
             "$package_dir/data_packs" \
             "$package_dir/docs" \
+            "$package_dir/python_lab" \
             "$package_dir/reports" \
+            "$package_dir/scripts" \
             "$package_dir/tauri-app/src" \
             "$package_dir/rust-core/target/debug"
 
@@ -110,7 +112,7 @@ jobs:
           cp "$app_src" "$app_dst"
           chmod +x "$app_dst" || true
 
-          for bin in omnibet-pack omnibet-infer omnibet-value omnibet-model omnibet-local-import-runner omnibet-historical-materialization-runner; do
+          for bin in omnibet-pack omnibet-infer omnibet-value omnibet-model omnibet-local-import-runner omnibet-historical-materialization-runner omnibet-football-data-importer omnibet-feature-count-gate omnibet-baseline-eval; do
             src="rust-core/target/release/${bin}${cli_suffix}"
             test -s "$src"
             cp "$src" "$package_dir/${bin}${cli_suffix}"
@@ -151,11 +153,28 @@ jobs:
           cp configs/historical_file_adapter_desktop.v461_v470.json "$package_dir/configs/historical_file_adapter_desktop.v461_v470.json"
           cp configs/historical_materialization_command.v421_v430.json "$package_dir/configs/historical_materialization_command.v421_v430.json"
           cp configs/desktop_beta_release_readiness.v471_v480.json "$package_dir/configs/desktop_beta_release_readiness.v471_v480.json"
+          cp configs/football_data_batch_001.v941_v960.json "$package_dir/configs/football_data_batch_001.v941_v960.json"
+          cp configs/football_data_batch_002.v991_v1030.json "$package_dir/configs/football_data_batch_002.v991_v1030.json"
+          cp configs/football_data_batch_003.v1031_v1060.json "$package_dir/configs/football_data_batch_003.v1031_v1060.json"
+
           cp docs/beta_vs_model_quality_policy.md "$package_dir/docs/beta_vs_model_quality_policy.md"
           cp docs/beta_open_walk_gui_v491_v500.md "$package_dir/docs/beta_open_walk_gui_v491_v500.md"
           cp docs/desktop_beta_release_readiness_v471_v480.md "$package_dir/docs/desktop_beta_release_readiness_v471_v480.md"
+          cp docs/v941_football_data_batch_001.md "$package_dir/docs/v941_football_data_batch_001.md"
+          cp docs/v991_football_data_batch_002.md "$package_dir/docs/v991_football_data_batch_002.md"
+          cp docs/v1031_football_data_batch_003.md "$package_dir/docs/v1031_football_data_batch_003.md"
+
           cp scripts/run-omnibet-lab-linux.sh "$package_dir/run-omnibet-lab-linux.sh"
-          chmod +x "$package_dir/run-omnibet-lab-linux.sh" || true
+          cp scripts/download_football_data_batch_002.sh "$package_dir/scripts/download_football_data_batch_002.sh"
+          cp scripts/run_football_data_batch_002.sh "$package_dir/scripts/run_football_data_batch_002.sh"
+          cp scripts/download_football_data_batch_003.sh "$package_dir/scripts/download_football_data_batch_003.sh"
+          cp scripts/run_football_data_batch_003.sh "$package_dir/scripts/run_football_data_batch_003.sh"
+          chmod +x "$package_dir/run-omnibet-lab-linux.sh" "$package_dir/scripts/"*.sh || true
+
+          cp python_lab/v941_football_data_batch_001_check.py "$package_dir/python_lab/v941_football_data_batch_001_check.py"
+          cp python_lab/v991_football_data_batch_002_check.py "$package_dir/python_lab/v991_football_data_batch_002_check.py"
+          cp python_lab/v1031_football_data_batch_003_check.py "$package_dir/python_lab/v1031_football_data_batch_003_check.py"
+          cp python_lab/v1031_football_data_batch_003_runner.py "$package_dir/python_lab/v1031_football_data_batch_003_runner.py"
 
           cat > "$package_dir/README_RUN.txt" <<'EOF'
           OmniBet Lab desktop beta release package.
@@ -164,6 +183,15 @@ jobs:
           Linux: run ./run-omnibet-lab-linux.sh from this directory.
           Linux fallback: run ./run-omnibet-lab-linux.sh --software if the WebView opens blank on KDE/Wayland/NVIDIA.
           Direct Linux binary: ./omnibet-lab
+
+          Data batch scripts included in this package:
+          - bash scripts/download_football_data_batch_002.sh
+          - bash scripts/run_football_data_batch_002.sh
+          - bash scripts/download_football_data_batch_003.sh
+          - bash scripts/run_football_data_batch_003.sh
+
+          The data scripts write local raw/normalized files under data/local_historical and generated status reports under reports.
+          The normal Matches GUI can read reports/feature_counts.json and reports/model_eval.json.
 
           First screen:
           - Start Here
@@ -283,6 +311,9 @@ jobs:
           - Walk-Forward Evaluator
           - Baseline Reports
           - Calibration / CLV
+
+          Data batch scripts are included under ./scripts in the extracted package.
+          After running them, the Matches GUI can read generated reports/feature_counts.json and reports/model_eval.json.
 
           This release is a research preview. Outputs are not betting recommendations, not staking advice, and not proof of edge.
           GUI beta can move fast; prediction/training engine must move slow.
