@@ -3,7 +3,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
+import sys
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -11,6 +13,7 @@ from typing import Any, Dict, Iterable, List
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG_PATH = ROOT / 'configs/football_data_batch_003.v1031_v1060.json'
+EXE_SUFFIX = '.exe' if os.name == 'nt' else ''
 
 
 def read_json(path: Path) -> Dict[str, Any]:
@@ -43,6 +46,31 @@ def source_rows(cfg: Dict[str, Any]) -> Iterable[Dict[str, str]]:
 def run(cmd: List[str]) -> None:
     print('+ ' + ' '.join(cmd))
     subprocess.run(cmd, cwd=ROOT, check=True)
+
+
+def find_cli(name: str) -> Path | None:
+    candidates = [
+        ROOT / 'bin' / f'{name}{EXE_SUFFIX}',
+        ROOT / f'{name}{EXE_SUFFIX}',
+        ROOT / 'rust-core' / 'target' / 'release' / f'{name}{EXE_SUFFIX}',
+        ROOT / 'rust-core' / 'target' / 'debug' / f'{name}{EXE_SUFFIX}',
+    ]
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return None
+
+
+def run_cli_or_cargo(name: str, args: List[str]) -> None:
+    cli = find_cli(name)
+    if cli is not None:
+        run([str(cli), *args])
+        return
+    run(['cargo', 'run', '--manifest-path', 'rust-core/Cargo.toml', '--bin', name, '--', *args])
+
+
+def python_cmd() -> str:
+    return sys.executable or 'python'
 
 
 def download(cfg: Dict[str, Any]) -> Dict[str, Any]:
@@ -107,8 +135,7 @@ def run_batch(cfg: Dict[str, Any]) -> Dict[str, Any]:
             continue
         out_dir = ROOT / row['normalized_dir']
         out_dir.mkdir(parents=True, exist_ok=True)
-        run([
-            'cargo', 'run', '--manifest-path', 'rust-core/Cargo.toml', '--bin', 'omnibet-football-data-importer', '--',
+        run_cli_or_cargo('omnibet-football-data-importer', [
             '--input', row['raw_csv'],
             '--competition', row['competition_id'],
             '--season', row['season_id'],
@@ -117,7 +144,6 @@ def run_batch(cfg: Dict[str, Any]) -> Dict[str, Any]:
         imported.append(row)
 
     aggregate = cfg['aggregate_paths']
-    agg_dir = ROOT / aggregate['normalized_dir']
     agg_matches = ROOT / aggregate['matches_jsonl']
     agg_odds = ROOT / aggregate['odds_jsonl']
     match_paths = [ROOT / row['normalized_dir'] / 'matches.jsonl' for row in imported]
@@ -138,15 +164,13 @@ def run_batch(cfg: Dict[str, Any]) -> Dict[str, Any]:
     }
     write_json(ROOT / aggregate['source_report'], source_report)
 
-    run([
-        'cargo', 'run', '--manifest-path', 'rust-core/Cargo.toml', '--bin', 'omnibet-feature-count-gate', '--',
+    run_cli_or_cargo('omnibet-feature-count-gate', [
         '--matches', aggregate['matches_jsonl'],
         '--out', aggregate['feature_counts_report'],
         '--min-rows', '200',
         '--source-label', 'football_data_batch_003_multi_season_30k',
     ])
-    run([
-        'cargo', 'run', '--manifest-path', 'rust-core/Cargo.toml', '--bin', 'omnibet-baseline-eval', '--',
+    run_cli_or_cargo('omnibet-baseline-eval', [
         '--matches', aggregate['matches_jsonl'],
         '--out', aggregate['model_eval_report'],
         '--min-train', '200',
@@ -154,7 +178,7 @@ def run_batch(cfg: Dict[str, Any]) -> Dict[str, Any]:
         '--eval-fraction', '0.20',
         '--source-label', 'football_data_batch_003_multi_season_30k',
     ])
-    run(['python', 'python_lab/v1031_football_data_batch_003_check.py', '--require-data'])
+    run([python_cmd(), 'python_lab/v1031_football_data_batch_003_check.py', '--require-data'])
     return source_report
 
 

@@ -1,0 +1,35 @@
+name: v200 Desktop Release Data Batch Packaging
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/desktop_release.yml"
+      - "scripts/run_football_data_batch_002.sh"
+      - "python_lab/v1031_football_data_batch_003_runner.py"
+      - "python_lab/v200_desktop_release_data_batch_packaging_check.py"
+      - "docs/desktop_release_data_batches_v200_followup.md"
+      - ".github/workflows/v200_desktop_release_data_batch_packaging.yml"
+  workflow_dispatch:
+
+jobs:
+  desktop-release-data-batch-packaging:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python python_lab/compile_python_sources.py
+      - name: Check desktop release data-batch packaging
+        run: python python_lab/v200_desktop_release_data_batch_packaging_check.py
+      - name: Upload v200 packaging guard report
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v200-desktop-release-data-batch-packaging-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            reports/ci_v200_desktop_release_data_batch_packaging.json
+            docs/desktop_release_data_batches_v200_followup.md
+          if-no-files-found: warn
