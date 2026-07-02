@@ -4,6 +4,38 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
+EXE_SUFFIX=""
+case "$(uname -s 2>/dev/null || echo unknown)" in
+  MINGW*|MSYS*|CYGWIN*) EXE_SUFFIX=".exe" ;;
+esac
+
+find_cli() {
+  local name="$1"
+  local candidate
+  for candidate in \
+    "$ROOT/bin/${name}${EXE_SUFFIX}" \
+    "$ROOT/${name}${EXE_SUFFIX}" \
+    "$ROOT/rust-core/target/release/${name}${EXE_SUFFIX}" \
+    "$ROOT/rust-core/target/debug/${name}${EXE_SUFFIX}"; do
+    if [[ -f "$candidate" ]]; then
+      echo "$candidate"
+      return 0
+    fi
+  done
+  return 1
+}
+
+run_cli_or_cargo() {
+  local name="$1"
+  shift
+  local cli
+  if cli="$(find_cli "$name")"; then
+    "$cli" "$@"
+  else
+    cargo run --manifest-path rust-core/Cargo.toml --bin "$name" -- "$@"
+  fi
+}
+
 AGG_DIR="data/local_historical/football_data/normalized/batch_002_top5_2024_2025"
 AGG_MATCHES="$AGG_DIR/matches.jsonl"
 AGG_ODDS="$AGG_DIR/odds.jsonl"
@@ -42,7 +74,7 @@ run_import() {
   local season="$3"
   local out="$4"
   mkdir -p "$out"
-  cargo run --manifest-path rust-core/Cargo.toml --bin omnibet-football-data-importer -- \
+  run_cli_or_cargo omnibet-football-data-importer \
     --input "$input" \
     --competition "$competition" \
     --season "$season" \
@@ -69,13 +101,13 @@ cat data/local_historical/football_data/normalized/italy_serie_a/2024_2025/odds.
 cat data/local_historical/football_data/normalized/germany_bundesliga/2024_2025/odds.jsonl >> "$AGG_ODDS"
 cat data/local_historical/football_data/normalized/france_ligue_1/2024_2025/odds.jsonl >> "$AGG_ODDS"
 
-cargo run --manifest-path rust-core/Cargo.toml --bin omnibet-feature-count-gate -- \
+run_cli_or_cargo omnibet-feature-count-gate \
   --matches "$AGG_MATCHES" \
   --out reports/feature_counts.json \
   --min-rows 200 \
   --source-label football_data_batch_002_top5_2024_2025
 
-cargo run --manifest-path rust-core/Cargo.toml --bin omnibet-baseline-eval -- \
+run_cli_or_cargo omnibet-baseline-eval \
   --matches "$AGG_MATCHES" \
   --out reports/model_eval.json \
   --min-train 200 \
