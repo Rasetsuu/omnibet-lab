@@ -219,7 +219,9 @@ jobs:
           mkdir -p build/release-assets
           asset_base="${{ matrix.archive_name }}-${{ inputs.release_tag }}"
           if [ "${{ runner.os }}" = "Windows" ]; then
-            powershell -NoProfile -Command "Compress-Archive -Path build/desktop-release/package/* -DestinationPath build/release-assets/${asset_base}.zip -Force"
+            archive_path="build/release-assets/${asset_base}.zip"
+            powershell -NoProfile -Command "\$ErrorActionPreference = 'Stop'; \$source = 'build/desktop-release/package/*'; \$dest = '${archive_path}'; Compress-Archive -Path \$source -DestinationPath \$dest -Force"
+            test -s "$archive_path"
           else
             tar -C build/desktop-release -czf "build/release-assets/${asset_base}.tar.gz" package
           fi
