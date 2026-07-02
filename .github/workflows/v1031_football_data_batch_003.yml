@@ -1,0 +1,37 @@
+name: v1031 Football-Data Batch 003
+
+on:
+  pull_request:
+    paths:
+      - "configs/football_data_batch_003.v1031_v1060.json"
+      - "python_lab/v1031_football_data_batch_003_check.py"
+      - "python_lab/v1031_football_data_batch_003_runner.py"
+      - "scripts/download_football_data_batch_003.sh"
+      - "scripts/run_football_data_batch_003.sh"
+      - "docs/v1031_football_data_batch_003.md"
+      - ".github/workflows/v1031_football_data_batch_003.yml"
+  workflow_dispatch:
+
+jobs:
+  football-data-batch-003-manifest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python python_lab/compile_python_sources.py
+      - name: Check Batch 003 manifest only
+        run: python python_lab/v1031_football_data_batch_003_check.py
+      - name: Upload Batch 003 manifest report
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: omnibet-v1031-football-data-batch-003-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            reports/ci_v1031_v1060_football_data_batch_003.json
+            configs/football_data_batch_003.v1031_v1060.json
+            docs/v1031_football_data_batch_003.md
+          if-no-files-found: warn
